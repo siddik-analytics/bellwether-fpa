@@ -135,7 +135,16 @@ treating scenario as one dimension carrying actual / budget / forecast.
 |---|---|
 | Balanced Base | Management's operating plan: moderated wholesale growth, CAC recovering to the low $30s, margin stabilising, turns recovering, EBITDA approaching breakeven |
 | Wholesale Acceleration | How much wholesale growth can Northlake finance before incremental revenue creates an unacceptable cash requirement? |
+| Consolidation / Path to Breakeven | Can Northlake reach profitability at all, by pruning the deepest-discount wholesale accounts and the long-tail SKUs rather than growing through the problem? |
 | DTC Recovery / Margin | Can improved DTC economics produce a better cash and EBITDA outcome even with lower headline revenue growth? |
+
+The four scenarios sit on **two axes, not one**: growth versus profitability, and DTC versus
+wholesale. Acceleration and Consolidation are the ends of the first; Recovery and Acceleration the
+ends of the second. Balanced Base is management's plan and sits between them.
+
+**Consolidation is the only scenario that reaches profitability**, on the lowest revenue, and it
+is the only one that never draws the revolver. That is the comparison the board pack exists to
+put in front of a reader: the most profitable plan is the smallest one.
 
 Scenarios are **strategic alternatives, not monotonic bands**. Wholesale Acceleration has higher
 revenue *and* worse cash; any model treating scenarios as ordered upside/downside cannot represent
@@ -921,6 +930,29 @@ shifts to national accounts, turns deteriorate because more inventory is committ
 seasonal programmes, and the DTC share falls, diluting blended margin. Headcount steps faster
 because wholesale coverage is the constraint at scale (§5.9).
 
+**Consolidation / Path to Breakeven** — prune to what is profitable
+
+| Input | FY2026 | FY2027 | FY2028 | Tolerance |
+|---|---|---|---|---|
+| Net revenue growth | 2.0% | 2.0% | 3.0% | ±1.0pt |
+| DTC share of net revenue | 62.0% | 65.0% | 67.0% | ±1.5pt |
+| DTC average order value | $80.40 | $82.80 | $85.20 | ±$1.00 |
+| Paid media CAC | $31 | $29 | $28 | ±$1.00 |
+| Marketing, % of net revenue | 11.8% | 10.5% | 9.5% | ±0.3pt |
+| Fixed cost base | $1.120M | $1.070M | $1.020M | ±$40k |
+| Headcount, year end | 27 | 25 | 24 | ±1 FTE |
+| Inventory turns | 3.2x | 3.5x | 3.7x | ±0.2x |
+| Wholesale DSO | 46 days | 44 days | 43 days | ±2 days |
+| Shrink, % of average inventory | 1.4% | 1.1% | 1.0% | ±0.3pt |
+
+Every driver moves the opposite way to Acceleration, and each for a stated reason rather than as
+a uniform haircut. Wholesale is pruned **to the profitable tier** — the national accounts carry
+the deepest MSRP discounts (48–50%), the slowest collection (60–65 days) and the heaviest
+deductions (5–6%), so cutting them lifts margin, DSO and the dilution reserve at once. The SKU
+count is cut to kill the class-C tail, which §5.5 shows carries MOQ commitments out of all
+proportion to its 15% of revenue, so inventory turns improve materially. Headcount falls because
+wholesale account management and supply-chain complexity are what drove it up (§5.9).
+
 **DTC Recovery / Margin** — limit marginal wholesale, rebuild DTC
 
 | Input | FY2026 | FY2027 | FY2028 | Tolerance |
@@ -954,12 +986,17 @@ on both cash and earnings, which is not the trade-off management is weighing.
 | Net revenue | $12.40M | $14.39M | $16.40M | ±$0.20M |
 | Blended gross margin | 46.1% | 45.4% | 44.8% | ±0.5pt |
 | EBITDA margin | −4.0% | −2.5% | −1.0% | ±0.8pt |
+| **Consolidation / Path to Breakeven** | | | |
+| Net revenue | $10.81M | $11.03M | $11.36M | ±$0.15M |
+| Blended gross margin | 44.9% | 45.6% | 46.1% | ±0.5pt |
+| EBITDA margin | −7.4% | −2.9% | **+0.5%** | ±0.8pt |
 | **DTC Recovery / Margin** | | | | |
 | Net revenue | $11.34M | $12.14M | $13.11M | ±$0.15M |
 | Blended gross margin | 47.8% | 48.6% | 49.5% | ±0.5pt |
 | EBITDA margin | −5.9% | −3.3% | −1.4% | ±0.8pt |
 
-**None of the three reaches positive EBITDA within the horizon.** Wholesale Acceleration has the
+**Only Consolidation reaches positive EBITDA within the horizon**, and it does so on the lowest
+revenue of the four. Of the three growth scenarios, none does. Wholesale Acceleration has the
 best headline EBITDA by FY2028 (−1.0%) on the highest revenue, and is the only scenario that runs
 out of borrowing availability. That inversion is the entire point of modelling them — the scenario
 that looks best on the income statement is the one the balance sheet cannot fund.
@@ -1041,6 +1078,9 @@ The generator is not done until these pass. They run in CI.
     stays there. The model reports the breach month and the additional capital required; it never
     draws beyond the borrowing base to make the balance sheet close.
 25. **DTC Recovery holds with room** — minimum excess availability ≈ **$997k**, never below $500k.
+25a. **Consolidation reaches breakeven and never draws the revolver.** FY2028 EBITDA is positive,
+    TTM EBITDA turns positive in Nov-2028, peak revolver drawn is **$0**, and cumulative
+    FY2026–28 burn is **$(1.07)M** against $(2.4)M–$(2.5)M for the three growth scenarios.
     The scenario with the lowest revenue has the most liquidity, which is the comparison the board
     pack exists to make.
 26. TTM EBITDA is negative in every month of every scenario. No coverage covenant is modelled

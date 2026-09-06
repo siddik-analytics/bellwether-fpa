@@ -123,14 +123,28 @@ equity raise must increase from $3.25M to **$3.50M** for Balanced Base to hold i
 higher inventory consumes more cash than the additional borrowing base provides, because the
 inventory advance rate is 50% against a dollar of cash tied up.
 
-That is also the answer to why a $9.3M brand sitting at breakeven raised $3.50M in FY2024:
-**the raise funds inventory, not losses.** FY2024 EBITDA is approximately zero, so nothing is
-being burned on operations. What the money buys is the working capital to commit inventory three
-to four months ahead of wholesale seasonal programmes — the channel Northlake was deliberately
-expanding into, and the one whose orders must be bought before they are placed. A brand growing
-DTC would not need it; a brand growing wholesale cannot avoid it. The raise is the price of the
-strategy the board approved, which is what makes the FY2025 deterioration a question about that
-strategy rather than about cost control.
+### Why a $9.3M brand at breakeven raised $5.50M
+
+*Sized at $3.50M when first written; ADR 0013 raised it to $5.50M once the generator's margins
+replaced the scratch model's.*
+
+The honest answer has two parts, and the first one alone would be a half-truth.
+
+**Inventory-led working capital.** FY2024 EBITDA is approximately zero, so at the point of the
+raise nothing was being burned on operations. What the money bought was the ability to commit
+inventory three to four months ahead of wholesale seasonal programmes — the channel Northlake was
+deliberately expanding into, and the one whose orders must be paid for before they are placed. A
+brand growing DTC would not need it; a brand growing wholesale cannot avoid it.
+
+**Roughly two years of operating runway.** That is the part the working-capital rationale on its
+own would conceal. At the FY2025 burn of about $1.3M a year, a $5.50M raise is somewhere near
+$2.5-3.0M of working capital and $2.5-3.0M of runway. Some of it funds losses, and pretending
+otherwise would misdescribe both the raise and the board's position — the money was raised on a
+growth story at breakeven, and it is being consumed by a business that is no longer at breakeven.
+
+That combination is what makes the FY2025 deterioration a question about the strategy rather than
+about cost control. The raise was the price of the plan the board approved; the plan has not
+worked yet; and the runway it bought is finite and now partly spent.
 
 The turns *decline* across FY2024 to FY2025 is preserved (2.61x to 2.42x) and is now driven by
 the modelled launch overhang rather than asserted. That decline is smaller in proportional terms

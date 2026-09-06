@@ -325,12 +325,17 @@ def build_versions() -> pd.DataFrame:
 
 def build_scenarios() -> pd.DataFrame:
     """Grain: one row per scenario — contract §3.2."""
-    names = ["Balanced Base", "Wholesale Acceleration", "DTC Recovery / Margin"]
+    names = [
+        "Balanced Base",
+        "Wholesale Acceleration",
+        "Consolidation / Path to Breakeven",
+        "DTC Recovery / Margin",
+    ]
     return pd.DataFrame(
         {
             "scenario_key": np.arange(1, len(names) + 1, dtype="int32"),
             "scenario_name": names,
-            "is_operating_plan": [True, False, False],
+            "is_operating_plan": [True, False, False, False],
         }
     )
 
