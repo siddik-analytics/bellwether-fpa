@@ -1,0 +1,13 @@
+# Normalise to LF everywhere. This repo is authored on Windows and its CI runs on Linux; the
+# pre-commit hooks rewrite the working tree to LF while core.autocrlf would convert it back on
+# checkout. Without this file those two fight on every checkout, and the resulting churn shows
+# up as a dirty tree after a clean clone.
+* text=auto eol=lf
+
+# Keep the shipped artifacts of a release tag out of line-ending conversion.
+*.xlsx binary
+*.xlsm binary
+*.xlsb binary
+*.pbix binary
+*.pdf  binary
+*.png  binary
