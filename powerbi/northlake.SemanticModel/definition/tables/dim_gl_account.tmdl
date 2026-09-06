@@ -1,7 +1,9 @@
 table dim_gl_account
+	lineageTag: table-dim_gl_account
 
 	column 'Account key'
 		dataType: int64
+		isHidden
 		summarizeBy: none
 		sourceColumn: account_key
 		lineageTag: dim_gl_account-account_key
@@ -38,7 +40,7 @@ table dim_gl_account
 
 	column 'Is pl'
 		dataType: boolean
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: is_pl
 		lineageTag: dim_gl_account-is_pl
 

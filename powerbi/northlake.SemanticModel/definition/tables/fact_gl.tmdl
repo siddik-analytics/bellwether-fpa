@@ -1,4 +1,5 @@
 table fact_gl
+	lineageTag: table-fact_gl
 
 	column 'Date'
 		dataType: dateTime
@@ -50,6 +51,7 @@ table fact_gl
 
 	column 'Channel key'
 		dataType: int64
+		isHidden
 		summarizeBy: none
 		sourceColumn: channel_key
 		lineageTag: fact_gl-channel_key

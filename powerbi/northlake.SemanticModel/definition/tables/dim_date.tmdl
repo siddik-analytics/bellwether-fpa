@@ -1,13 +1,17 @@
 table dim_date
+	dataCategory: Time
+	lineageTag: table-dim_date
 
 	column 'Date'
 		dataType: dateTime
+		isKey
 		summarizeBy: none
 		sourceColumn: date
 		lineageTag: dim_date-date
 
 	column 'Date key'
 		dataType: int64
+		isHidden
 		summarizeBy: none
 		sourceColumn: date_key
 		lineageTag: dim_date-date_key
@@ -26,37 +30,37 @@ table dim_date
 
 	column 'Day'
 		dataType: int64
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: day
 		lineageTag: dim_date-day
 
 	column 'Quarter'
 		dataType: int64
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: quarter
 		lineageTag: dim_date-quarter
 
 	column 'Month start'
 		dataType: dateTime
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: month_start
 		lineageTag: dim_date-month_start
 
 	column 'Day of week'
 		dataType: int64
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: day_of_week
 		lineageTag: dim_date-day_of_week
 
 	column 'Is banking day'
 		dataType: boolean
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: is_banking_day
 		lineageTag: dim_date-is_banking_day
 
 	column 'Is actual'
 		dataType: boolean
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: is_actual
 		lineageTag: dim_date-is_actual
 
@@ -68,11 +72,9 @@ table dim_date
 
 	column 'Is promotional'
 		dataType: boolean
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: is_promotional
 		lineageTag: dim_date-is_promotional
-
-	dataCategory: Time
 
 	partition dim_date = m
 		mode: import

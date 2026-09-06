@@ -1,4 +1,5 @@
 table dim_metric
+	lineageTag: table-dim_metric
 
 	column 'Metric'
 		dataType: string
@@ -44,13 +45,13 @@ table dim_metric
 
 	column 'Is cost'
 		dataType: boolean
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: is_cost
 		lineageTag: dim_metric-is_cost
 
 	column 'Is base'
 		dataType: boolean
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: is_base
 		lineageTag: dim_metric-is_base
 

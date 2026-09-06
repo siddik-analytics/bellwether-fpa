@@ -1,7 +1,9 @@
 table dim_scenario
+	lineageTag: table-dim_scenario
 
 	column 'Scenario key'
 		dataType: int64
+		isHidden
 		summarizeBy: none
 		sourceColumn: scenario_key
 		lineageTag: dim_scenario-scenario_key
@@ -14,7 +16,7 @@ table dim_scenario
 
 	column 'Is operating plan'
 		dataType: boolean
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: is_operating_plan
 		lineageTag: dim_scenario-is_operating_plan
 

@@ -1,4 +1,5 @@
 table fact_metric
+	lineageTag: table-fact_metric
 
 	column 'Month'
 		dataType: dateTime

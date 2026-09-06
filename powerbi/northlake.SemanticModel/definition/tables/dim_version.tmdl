@@ -1,7 +1,9 @@
 table dim_version
+	lineageTag: table-dim_version
 
 	column 'Version key'
 		dataType: int64
+		isHidden
 		summarizeBy: none
 		sourceColumn: version_key
 		lineageTag: dim_version-version_key
@@ -14,7 +16,7 @@ table dim_version
 
 	column 'Is frozen'
 		dataType: boolean
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: is_frozen
 		lineageTag: dim_version-is_frozen
 

@@ -1,6 +1,14 @@
 table Measures
+	lineageTag: table-measures
 
 	/// Favourable variance is positive whether the line is revenue or cost. The direction comes from Metric.is_cost in the semantic layer, never from a judgement made here.
+
+	column 'placeholder'
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: placeholder
+		lineageTag: Measures-placeholder
 
 	/// Revenue before contra-revenue deductions
 	measure 'Gross Revenue' = CALCULATE(SUM(fact_metric[Value]), dim_metric[Metric] = "Gross Revenue")
@@ -77,10 +85,9 @@ table Measures
 	/// States that a version and scenario pairing was never approved, rather than
 	/// rendering blank. Budget exists under Balanced Base only.
 	measure 'Selection Status' = IF(ISBLANK([Net Revenue]), "not applicable - this version and scenario combination was never approved", "")
-		formatString: 0
 		displayFolder: Model
 		lineageTag: metric-selection-status
 
 	partition Measures = m
 		mode: import
-		source = let Source = #table({"placeholder"}, {}) in Source
+		source = let Source = #table(type table [placeholder = text], {}) in Source

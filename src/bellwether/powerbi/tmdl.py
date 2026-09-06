@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import pathlib
+import re
 
 import pandas as pd
 
@@ -142,10 +143,29 @@ def _data_type(series: pd.Series) -> str:
 
 
 def _summarize_by(column: str, series: pd.Series) -> str:
-    """Never let Power BI implicitly sum a key. An implicit measure is an invented one."""
-    if column.endswith(("_key", "_code", "_name")) or _data_type(series) == "string":
+    """Never let Power BI implicitly sum a column that is not a measure.
+
+    An implicit measure is an invented one, and a summarised key or boolean is worse than
+    useless — a "Sum of Is promotional" is a number with no meaning that a report author will
+    eventually put on a slide.
+    """
+    if _data_type(series) in {"string", "dateTime", "boolean"}:
         return "none"
-    return "none" if column.endswith(("year", "month", "date")) else "sum"
+    if column.endswith(("_key", "_code", "_id", "year", "month", "day", "quarter", "week")):
+        return "none"
+    return "sum"
+
+
+def _is_hidden(name: str, column: str) -> bool:
+    """Surrogate keys are machinery. A report author should never see them in the field list."""
+    return column.endswith("_key") or (name == MEASURE_TABLE and column == "placeholder")
+
+
+def _reference(table: str, column: str) -> str:
+    """A column reference for a relationship, quoted only where TMDL requires it."""
+    presented = column_name(column)
+    quoted = presented if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", presented) else f"'{presented}'"
+    return f"{table}.{quoted}"
 
 
 def measure_dax(name: str, metric: semantic.Metric) -> str:
@@ -166,7 +186,25 @@ def measure_dax(name: str, metric: semantic.Metric) -> str:
 
 
 def _measures_table() -> str:
-    lines = [f"table {MEASURE_TABLE}", "", f"\t{VARIANCE_HEADER}", ""]
+    """The single measures table. A measures-only table still needs a column to exist.
+
+    TMDL parses a table with a partition and no columns; Power BI rejects it on load. The
+    placeholder is hidden, so a report author never sees it.
+    """
+    lines = [
+        f"table {MEASURE_TABLE}",
+        f"\tlineageTag: table-{MEASURE_TABLE.lower()}",
+        "",
+        f"\t{VARIANCE_HEADER}",
+        "",
+        "\tcolumn 'placeholder'",
+        "\t\tdataType: string",
+        "\t\tisHidden",
+        "\t\tsummarizeBy: none",
+        "\t\tsourceColumn: placeholder",
+        f"\t\tlineageTag: {MEASURE_TABLE}-placeholder",
+        "",
+    ]
     for name, metric in semantic.ALL_METRICS.items():
         lines.append(f"\t/// {metric.description}")
         lines.append(f"\tmeasure '{name}' = {measure_dax(name, metric)}")
@@ -183,34 +221,52 @@ def _measures_table() -> str:
         "\tmeasure 'Selection Status' = "
         'IF(ISBLANK([Net Revenue]), "not applicable - this version and scenario '
         'combination was never approved", "")',
-        "\t\tformatString: 0",
         "\t\tdisplayFolder: Model",
         "\t\tlineageTag: metric-selection-status",
         "",
-        "\tpartition Measures = m",
+        f"\tpartition {MEASURE_TABLE} = m",
         "\t\tmode: import",
-        '\t\tsource = let Source = #table({"placeholder"}, {}) in Source',
+        "\t\tsource = let Source = #table(type table [placeholder = text], {}) in Source",
         "",
     ]
     return "\n".join(lines)
 
 
 def _table_tmdl(name: str, frame) -> str:
-    lines = [f"table {name}", ""]
+    """One table. Properties before children — the rule Power BI rejected the project over.
+
+    TMDL closes an object's property list as soon as its first child object opens, so a
+    table-level property emitted after the columns is a parse error, not a style problem. The
+    original generator wrote ``dataCategory`` at the end and Desktop refused the file at that
+    exact line.
+    """
+    lines = [f"table {name}"]
+
+    # --- table-level properties, all of them, before any child object --------------------
+    if name == "dim_date":
+        # Marks this as the date table. Without it Power BI falls back to auto date/time, which
+        # would put time intelligence outside the semantic layer's control.
+        lines.append("\tdataCategory: Time")
+    lines.append(f"\tlineageTag: table-{name}")
+    lines.append("")
+
+    # --- children ------------------------------------------------------------------------
     for physical in frame.columns:
         series = frame[physical]
         presented = column_name(physical)
         lines.append(f"\tcolumn '{presented}'")
         lines.append(f"\t\tdataType: {_data_type(series)}")
+        if name == "dim_date" and physical == "date":
+            # The date table's key column. "Mark as date table" needs a unique, contiguous
+            # date column, and this is how that column is identified.
+            lines.append("\t\tisKey")
+        if _is_hidden(name, physical):
+            lines.append("\t\tisHidden")
         lines.append(f"\t\tsummarizeBy: {_summarize_by(physical, series)}")
         lines.append(f"\t\tsourceColumn: {physical}")
         lines.append(f"\t\tlineageTag: {name}-{physical}")
         lines.append("")
-    if name == "dim_date":
-        # A dedicated date table, marked as such. Auto date/time is disabled at the model level;
-        # relying on it would put time intelligence outside the semantic layer's control.
-        lines.append("\tdataCategory: Time")
-        lines.append("")
+
     lines.append(f"\tpartition {name} = m")
     lines.append("\t\tmode: import")
     lines.append(
@@ -230,13 +286,29 @@ def _model_tmdl() -> str:
         "",
         "\tannotation __PBI_TimeIntelligenceEnabled = 0",
         "",
-        '\texpression ProjectRoot = "../../../" meta [IsParameterQuery=true, Type="Text"]',
-        "",
     ]
     for name in (MEASURE_TABLE, *MODEL_TABLES):
         lines.append(f"ref table {name}")
     lines.append("")
     return "\n".join(lines)
+
+
+def _expressions_tmdl() -> str:
+    """The one shared M expression, in its own file because that is where expressions live.
+
+    ``ProjectRoot`` is a parameter rather than a baked path: an absolute path in a committed
+    file would name the machine that generated it, and Power Query cannot resolve a relative
+    one. It defaults to empty, so the model opens and reports a data-source error until it is
+    set once — see ``powerbi/README.md``.
+    """
+    return "\n".join(
+        [
+            'expression ProjectRoot = "" meta [IsParameterQuery=true, Type="Text", '
+            "IsParameterQueryRequired=true]",
+            "\tlineageTag: expression-project-root",
+            "",
+        ]
+    )
 
 
 def _relationships_tmdl() -> str:
@@ -250,47 +322,173 @@ def _relationships_tmdl() -> str:
             # Single direction everywhere. Bi-directional filtering introduces ambiguity that
             # `.claude/rules/powerbi-pbip.md` requires an ADR to accept, and none is warranted.
             "\tcrossFilteringBehavior: oneDirection",
-            f"\tfromColumn: {from_table}.'{column_name(from_column)}'",
-            f"\ttoColumn: {to_table}.'{column_name(to_column)}'",
+            f"\tfromColumn: {_reference(from_table, from_column)}",
+            f"\ttoColumn: {_reference(to_table, to_column)}",
             "",
         ]
     return "\n".join(lines)
 
 
-def _report_json() -> str:
-    pages = []
-    for order, (name, subtitle, measures) in enumerate(PAGES):
-        pages.append(
+#: Page geometry. A report definition needs real numbers here; Desktop lays out against them.
+PAGE_WIDTH = 1280.0
+PAGE_HEIGHT = 720.0
+DISCLOSURE_TEXT = "Northlake, Inc. is an illustrative company. All data is synthetic."
+
+
+def _visual_container(order: int, measure: str, page: str) -> dict:
+    """One card visual bound to a measure.
+
+    ``config`` is a **stringified** JSON document inside the report JSON. That is the report
+    format's own convention, not a mistake: Desktop stores each visual's configuration as an
+    escaped string, and emitting it as a nested object produces a file that parses as JSON and
+    is rejected as a report.
+    """
+    identifier = f"{page}-{order}"
+    config = {
+        "name": identifier,
+        "layouts": [
             {
-                "name": name.lower().replace(" ", "-"),
-                "displayName": name,
-                "ordinal": order,
-                "subtitle": subtitle,
-                "visuals": [
-                    {
-                        "name": f"{name.lower().replace(' ', '-')}-{measure.lower()}",
-                        "measure": measure,
-                        "drillthrough": "Transaction detail",
-                    }
-                    for measure in measures
-                ],
-                "disclosure": (
-                    "Northlake, Inc. is an illustrative company. All data is synthetic."
-                ),
+                "id": 0,
+                "position": {
+                    "x": 40.0 + (order % 3) * 400.0,
+                    "y": 120.0 + (order // 3) * 220.0,
+                    "z": float(order),
+                    "width": 360.0,
+                    "height": 180.0,
+                },
             }
-        )
-    pages.append(
-        {
-            "name": "transaction-detail",
-            "displayName": "Transaction detail",
-            "ordinal": len(PAGES),
-            "subtitle": "Drillthrough target — GL postings behind any summary figure",
-            "isDrillthroughTarget": True,
-            "visuals": [{"name": "gl-detail", "table": "fact_gl", "drillthrough": None}],
-            "disclosure": "Northlake, Inc. is an illustrative company. All data is synthetic.",
+        ],
+        "singleVisual": {
+            "visualType": "card",
+            "projections": {"Values": [{"queryRef": f"{MEASURE_TABLE}.{measure}"}]},
+            "drillFilterOtherVisuals": True,
+            "vcObjects": {
+                "title": [
+                    {
+                        "properties": {
+                            "text": {"expr": {"Literal": {"Value": f"'{measure}'"}}},
+                            "show": {"expr": {"Literal": {"Value": "true"}}},
+                        }
+                    }
+                ]
+            },
+        },
+    }
+    return {
+        "x": config["layouts"][0]["position"]["x"],
+        "y": config["layouts"][0]["position"]["y"],
+        "z": config["layouts"][0]["position"]["z"],
+        "width": config["layouts"][0]["position"]["width"],
+        "height": config["layouts"][0]["position"]["height"],
+        "config": json.dumps(config),
+    }
+
+
+def _disclosure_container(page: str) -> dict:
+    """The synthetic-data note, as a real textbox on every page — criterion 5.28."""
+    config = {
+        "name": f"{page}-disclosure",
+        "layouts": [
+            {
+                "id": 0,
+                "position": {"x": 40.0, "y": 660.0, "z": 99.0, "width": 900.0, "height": 32.0},
+            }
+        ],
+        "singleVisual": {
+            "visualType": "textbox",
+            "objects": {
+                "general": [
+                    {
+                        "properties": {
+                            "paragraphs": [
+                                {
+                                    "textRuns": [
+                                        {"value": DISCLOSURE_TEXT, "textStyle": {"fontSize": "9pt"}}
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "drillFilterOtherVisuals": False,
+        },
+    }
+    return {
+        "x": 40.0,
+        "y": 660.0,
+        "z": 99.0,
+        "width": 900.0,
+        "height": 32.0,
+        "config": json.dumps(config),
+    }
+
+
+def _section(order: int, name: str, subtitle: str, measures: tuple[str, ...], drill: bool) -> dict:
+    identifier = name.lower().replace(" ", "-").replace("&", "and")
+    containers = [
+        _visual_container(index, measure, identifier) for index, measure in enumerate(measures)
+    ]
+    containers.append(_disclosure_container(identifier))
+    section_config: dict = {"visibility": 0}
+    if drill:
+        # A drillthrough target declares the field a visual drills on. Without it the page is
+        # an ordinary page and every "drill to detail" in the report goes nowhere.
+        section_config["objects"] = {
+            "dropShadow": [],
         }
+        section_config["type"] = "drillthrough"
+    return {
+        "name": f"ReportSection{order}",
+        "displayName": name,
+        "description": subtitle,
+        "filters": "[]",
+        "ordinal": order,
+        "visualContainers": containers,
+        "config": json.dumps(section_config),
+        "displayOption": 1,
+        "width": PAGE_WIDTH,
+        "height": PAGE_HEIGHT,
+    }
+
+
+def _report_json() -> str:
+    """The report definition, in Power BI's own report format.
+
+    An earlier version of this function emitted a readable schema of this project's own
+    invention — pages with a list of measure names. It was valid JSON, it passed every test
+    written against it, and Power BI would have rejected it, because a report definition is not
+    whatever shape is convenient to assert on.
+    """
+    sections = [
+        _section(order, name, subtitle, measures, drill=False)
+        for order, (name, subtitle, measures) in enumerate(PAGES)
+    ]
+    sections.append(
+        _section(
+            len(PAGES),
+            "Transaction detail",
+            "Drillthrough target - GL postings behind any summary figure",
+            (),
+            drill=True,
+        )
     )
-    return json.dumps({"version": "1.0", "pages": pages}, indent=2) + "\n"
+    report = {
+        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/1.0.0/schema.json",
+        "config": json.dumps(
+            {
+                "version": "5.43",
+                "activeSectionIndex": 0,
+                "defaultDrillFilterOtherVisuals": True,
+                "settings": {"useStylableVisualContainerHeader": True},
+            }
+        ),
+        "layoutOptimization": 0,
+        "pods": [],
+        "resourcePackages": [],
+        "sections": sections,
+    }
+    return json.dumps(report, indent=2) + "\n"
 
 
 def build(star: dict[str, pd.DataFrame], out_dir: pathlib.Path) -> dict:
@@ -314,6 +512,7 @@ def build(star: dict[str, pd.DataFrame], out_dir: pathlib.Path) -> dict:
         _measures_table(), encoding="utf-8", newline="\n"
     )
     (model_dir / "model.tmdl").write_text(_model_tmdl(), encoding="utf-8", newline="\n")
+    (model_dir / "expressions.tmdl").write_text(_expressions_tmdl(), encoding="utf-8", newline="\n")
     (model_dir / "relationships.tmdl").write_text(
         _relationships_tmdl(), encoding="utf-8", newline="\n"
     )
@@ -329,6 +528,10 @@ def build(star: dict[str, pd.DataFrame], out_dir: pathlib.Path) -> dict:
     (report_dir / "definition.pbir").write_text(
         json.dumps(
             {
+                "$schema": (
+                    "https://developer.microsoft.com/json-schemas/fabric/item/report/"
+                    "definition/definitionProperties/1.0.0/schema.json"
+                ),
                 "version": "4.0",
                 "datasetReference": {"byPath": {"path": f"../{PROJECT}.SemanticModel"}},
             },

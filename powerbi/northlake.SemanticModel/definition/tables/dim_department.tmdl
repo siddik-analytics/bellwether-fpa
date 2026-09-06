@@ -1,7 +1,9 @@
 table dim_department
+	lineageTag: table-dim_department
 
 	column 'Department key'
 		dataType: int64
+		isHidden
 		summarizeBy: none
 		sourceColumn: department_key
 		lineageTag: dim_department-department_key
@@ -14,7 +16,7 @@ table dim_department
 
 	column 'Is corporate'
 		dataType: boolean
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: is_corporate
 		lineageTag: dim_department-is_corporate
 

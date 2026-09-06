@@ -2,64 +2,64 @@ relationship fact_metric-month-dim_date
 	fromCardinality: many
 	toCardinality: one
 	crossFilteringBehavior: oneDirection
-	fromColumn: fact_metric.'Month'
-	toColumn: dim_date.'Date'
+	fromColumn: fact_metric.Month
+	toColumn: dim_date.Date
 
 relationship fact_metric-metric_name-dim_metric
 	fromCardinality: many
 	toCardinality: one
 	crossFilteringBehavior: oneDirection
-	fromColumn: fact_metric.'Metric'
-	toColumn: dim_metric.'Metric'
+	fromColumn: fact_metric.Metric
+	toColumn: dim_metric.Metric
 
 relationship fact_metric-version_name-dim_version
 	fromCardinality: many
 	toCardinality: one
 	crossFilteringBehavior: oneDirection
-	fromColumn: fact_metric.'Version'
-	toColumn: dim_version.'Version'
+	fromColumn: fact_metric.Version
+	toColumn: dim_version.Version
 
 relationship fact_metric-scenario_name-dim_scenario
 	fromCardinality: many
 	toCardinality: one
 	crossFilteringBehavior: oneDirection
-	fromColumn: fact_metric.'Scenario'
-	toColumn: dim_scenario.'Scenario'
+	fromColumn: fact_metric.Scenario
+	toColumn: dim_scenario.Scenario
 
 relationship fact_metric-channel_allocation-dim_channel
 	fromCardinality: many
 	toCardinality: one
 	crossFilteringBehavior: oneDirection
-	fromColumn: fact_metric.'Channel'
-	toColumn: dim_channel.'Channel'
+	fromColumn: fact_metric.Channel
+	toColumn: dim_channel.Channel
 
 relationship fact_gl-date-dim_date
 	fromCardinality: many
 	toCardinality: one
 	crossFilteringBehavior: oneDirection
-	fromColumn: fact_gl.'Date'
-	toColumn: dim_date.'Date'
+	fromColumn: fact_gl.Date
+	toColumn: dim_date.Date
 
 relationship fact_gl-version_name-dim_version
 	fromCardinality: many
 	toCardinality: one
 	crossFilteringBehavior: oneDirection
-	fromColumn: fact_gl.'Version'
-	toColumn: dim_version.'Version'
+	fromColumn: fact_gl.Version
+	toColumn: dim_version.Version
 
 relationship fact_gl-scenario_name-dim_scenario
 	fromCardinality: many
 	toCardinality: one
 	crossFilteringBehavior: oneDirection
-	fromColumn: fact_gl.'Scenario'
-	toColumn: dim_scenario.'Scenario'
+	fromColumn: fact_gl.Scenario
+	toColumn: dim_scenario.Scenario
 
 relationship fact_gl-channel_allocation-dim_channel
 	fromCardinality: many
 	toCardinality: one
 	crossFilteringBehavior: oneDirection
-	fromColumn: fact_gl.'Channel'
-	toColumn: dim_channel.'Channel'
+	fromColumn: fact_gl.Channel
+	toColumn: dim_channel.Channel
 
 relationship fact_gl-account_code-dim_gl_account
 	fromCardinality: many

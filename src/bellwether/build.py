@@ -51,7 +51,7 @@ def main(argv: list[str] | None = None) -> int:
         len(star_counts),
     )
 
-    from bellwether.powerbi import tmdl
+    from bellwether.powerbi import tmdl, validate
     from bellwether.workbook import model
 
     workbook_path = BUILD_DIR / "northlake-model.xlsx"
@@ -62,7 +62,19 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     pbip = tmdl.build(star, POWERBI_DIR)
-    log.info("  [x] generate the Power BI project (PBIP text)")
+
+    # A structural check, not a semantic one. It cannot prove the DAX evaluates; it proves the
+    # file is TMDL rather than text that looks like TMDL, which is the class of defect that sent
+    # the first generated project back from Power BI Desktop unopened.
+    problems = validate.validate_project(
+        POWERBI_DIR / f"{tmdl.PROJECT}.SemanticModel" / "definition"
+    )
+    if problems:
+        log.error("  [ ] generate the Power BI project - %d structural errors", len(problems))
+        for problem in problems:
+            log.error("      %s", problem)
+        return 1
+    log.info("  [x] generate the Power BI project (PBIP text, structurally validated)")
     log.info(
         "      %d tables, %d measures, %d relationships, %d pages",
         len(pbip["tables"]),

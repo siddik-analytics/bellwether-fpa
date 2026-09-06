@@ -1,7 +1,9 @@
 table dim_channel
+	lineageTag: table-dim_channel
 
 	column 'Channel key'
 		dataType: int64
+		isHidden
 		summarizeBy: none
 		sourceColumn: channel_key
 		lineageTag: dim_channel-channel_key
@@ -14,7 +16,7 @@ table dim_channel
 
 	column 'Is revenue channel'
 		dataType: boolean
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: is_revenue_channel
 		lineageTag: dim_channel-is_revenue_channel
 

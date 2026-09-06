@@ -158,8 +158,12 @@ def test_version_and_scenario_are_two_dimensions(built) -> None:
     relationships = (
         built["dir"] / f"{tmdl.PROJECT}.SemanticModel" / "definition" / "relationships.tmdl"
     ).read_text(encoding="utf-8")
-    assert "toColumn: dim_version.'Version'" in relationships
-    assert "toColumn: dim_scenario.'Scenario'" in relationships
+    # Unquoted: TMDL only quotes an identifier that needs it, and these do not.
+    assert "toColumn: dim_version.Version" in relationships
+    assert "toColumn: dim_scenario.Scenario" in relationships
+    assert "toColumn: dim_gl_account.'Account code'" in relationships, (
+        "a name with a space must be quoted"
+    )
 
 
 def test_the_date_table_is_marked_and_auto_date_time_is_off(built) -> None:
@@ -229,10 +233,8 @@ def test_format_strings_come_from_the_metric(built) -> None:
         block = text.split(f"measure '{name}' =")[1].split("measure ")[0]
         assert f"formatString: {metric.format_string}" in block, name
 
-    report = json.loads(
-        (built["dir"] / f"{tmdl.PROJECT}.Report" / "report.json").read_text(encoding="utf-8")
-    )
-    assert "formatString" not in json.dumps(report)
+    report = (built["dir"] / f"{tmdl.PROJECT}.Report" / "report.json").read_text(encoding="utf-8")
+    assert "formatString" not in report, "a format string on a visual overrides the measure"
 
 
 def test_the_variance_convention_is_stated_once(built) -> None:
@@ -259,11 +261,11 @@ def test_scenarios_are_not_ordered_as_upside_base_downside(built) -> None:
     scenario_block = text.split("table dim_scenario")[1].split("table ")[0]
     assert "sortByColumn" not in scenario_block, "an ordinal on scenario implies a ranking"
 
-    report = json.dumps(
-        json.loads(
-            (built["dir"] / f"{tmdl.PROJECT}.Report" / "report.json").read_text(encoding="utf-8")
-        )
-    ).lower()
+    report = (
+        (built["dir"] / f"{tmdl.PROJECT}.Report" / "report.json")
+        .read_text(encoding="utf-8")
+        .lower()
+    )
     for banned in ("upside", "downside", "base case", "diverging"):
         assert banned not in report, banned
 
@@ -280,53 +282,100 @@ def test_an_unapproved_combination_states_itself(built) -> None:
     assert set(budget["scenario_name"].unique()) == {"Balanced Base"}
 
 
-# --- 5.26 to 5.28 the report ----------------------------------------------------------------------
+# --- 5.26 to 5.28 the report ----------------------------------------------------------------
+
+
+def _report(directory) -> dict:
+    return json.loads(
+        (directory / f"{tmdl.PROJECT}.Report" / "report.json").read_text(encoding="utf-8")
+    )
+
+
+def _visual_configs(section) -> list[dict]:
+    return [json.loads(container["config"]) for container in section["visualContainers"]]
+
+
+def test_the_report_is_in_power_bis_own_format(built) -> None:
+    """The failure that made this test necessary.
+
+    An earlier generator emitted a readable schema of this project's own invention. It was valid
+    JSON, every test written against it passed, and Power BI would have rejected it. A report
+    definition is not whatever shape is convenient to assert on, so the assertions now follow the
+    format: stringified ``config``, ``sections`` rather than pages, and geometry on every visual.
+    """
+    report = _report(built["dir"])
+    assert "sections" in report and "pages" not in report
+    assert isinstance(report["config"], str), "report config is a stringified JSON document"
+    for section in report["sections"]:
+        assert isinstance(section["config"], str)
+        assert isinstance(section["filters"], str)
+        assert section["width"] > 0 and section["height"] > 0
+        for container in section["visualContainers"]:
+            assert set(container) == {"x", "y", "z", "width", "height", "config"}
+            config = json.loads(container["config"])
+            assert "singleVisual" in config
+            assert config["singleVisual"]["visualType"]
 
 
 def test_four_pages_in_the_order_the_rules_fix(built) -> None:
     """5.26 — plus the drillthrough target, which is not one of the four."""
-    report = json.loads(
-        (built["dir"] / f"{tmdl.PROJECT}.Report" / "report.json").read_text(encoding="utf-8")
-    )
-    named = [
-        page["displayName"] for page in report["pages"] if not page.get("isDrillthroughTarget")
-    ]
+    sections = _report(built["dir"])["sections"]
+    named = [s["displayName"] for s in sections if "drillthrough" not in s["config"]]
     assert named == [
         "Executive summary",
         "P&L detail",
         "Cash and working capital",
         "Unit economics",
     ]
+    assert [s["ordinal"] for s in sections] == list(range(len(sections)))
 
 
 def test_every_summary_visual_drills_through_to_transactions(built) -> None:
     """5.27 — through the GL bridge phase 3 built."""
-    report = json.loads(
-        (built["dir"] / f"{tmdl.PROJECT}.Report" / "report.json").read_text(encoding="utf-8")
-    )
-    targets = [p for p in report["pages"] if p.get("isDrillthroughTarget")]
-    assert len(targets) == 1
-    for page in report["pages"]:
-        if page.get("isDrillthroughTarget"):
+    sections = _report(built["dir"])["sections"]
+    targets = [s for s in sections if "drillthrough" in s["config"]]
+    assert len(targets) == 1, [s["displayName"] for s in targets]
+    assert targets[0]["displayName"] == "Transaction detail"
+
+    for section in sections:
+        if section in targets:
             continue
-        for visual in page["visuals"]:
-            assert visual["drillthrough"] == targets[0]["displayName"], visual
+        measures = [
+            c for c in _visual_configs(section) if c["singleVisual"]["visualType"] == "card"
+        ]
+        assert measures, section["displayName"]
+        for config in measures:
+            assert config["singleVisual"]["drillFilterOtherVisuals"] is True
+
+
+def test_every_measure_a_visual_binds_to_exists(built) -> None:
+    """A queryRef naming a measure that is not in the model is a broken visual."""
+    known = set(_measures(built["dir"]))
+    for section in _report(built["dir"])["sections"]:
+        for config in _visual_configs(section):
+            for projections in config["singleVisual"].get("projections", {}).values():
+                for projection in projections:
+                    table, _, measure = projection["queryRef"].partition(".")
+                    assert table == tmdl.MEASURE_TABLE, projection
+                    assert measure in known, measure
 
 
 def test_every_page_carries_the_disclosure(built) -> None:
-    """5.28 — synthetic data, said on every page a reader can land on."""
-    report = json.loads(
-        (built["dir"] / f"{tmdl.PROJECT}.Report" / "report.json").read_text(encoding="utf-8")
-    )
-    for page in report["pages"]:
-        assert "illustrative company" in page["disclosure"]
-        assert "synthetic" in page["disclosure"]
+    """5.28 — synthetic data, said on every page a reader can land on, as a real textbox."""
+    for section in _report(built["dir"])["sections"]:
+        textboxes = [
+            c for c in _visual_configs(section) if c["singleVisual"]["visualType"] == "textbox"
+        ]
+        assert textboxes, section["displayName"]
+        text = json.dumps(textboxes)
+        assert "illustrative company" in text
+        assert "synthetic" in text
 
 
 def test_no_absolute_path_is_committed(built) -> None:
     """A generated project must not embed the machine that generated it."""
     text = _all_tmdl(built["dir"])
-    assert "C:/" not in text and "C:\\\\" not in text
+    assert "C:/" not in text and "C:\\" not in text
     assert "ProjectRoot" in text
 
 

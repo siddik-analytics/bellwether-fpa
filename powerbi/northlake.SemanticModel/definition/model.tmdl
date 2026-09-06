@@ -5,8 +5,6 @@ model Model
 
 	annotation __PBI_TimeIntelligenceEnabled = 0
 
-	expression ProjectRoot = "../../../" meta [IsParameterQuery=true, Type="Text"]
-
 ref table Measures
 ref table fact_metric
 ref table fact_gl
