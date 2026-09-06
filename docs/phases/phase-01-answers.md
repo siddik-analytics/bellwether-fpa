@@ -2215,6 +2215,11 @@ availability; minimum availability / covenant status.
 The **~$650k FY2025 revolver draw** stands as the opening forecast balance, subject to
 reconciliation against the final generated borrowing base.
 
+> **Superseded.** That reconciliation was performed and the answer changed. With the $3.25M FY2024
+> equity raise in place, Northlake funds the FY2025 loss and working capital build from the raise
+> and never draws the revolver during FY2025. The opening forecast position at 1 January 2026 is
+> **revolver drawn $0, cash $1.54M**. See `docs/data-contract.md` §6.10.
+
 **Scenario 2 must not use debt as an unlimited balancing plug.** Where borrowing-base capacity is
 exhausted, the model surfaces the **first funding-gap month and the additional capital required**.
 

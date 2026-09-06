@@ -111,6 +111,33 @@ reporting?* They judge the output, and they judge it fast.
 8. **The synthetic-data disclosure is present and does not undermine the work.** Every
    artifact carries the note. It should read as professional care, not as a caveat.
 
+## A deliberate feature of the model
+
+**Northlake does not reach profitability within the 36-month forecast horizon under any of the
+three scenarios.** Balanced Base reaches −1.8% EBITDA by FY2028, Wholesale Acceleration −1.0%, and
+DTC Recovery −1.4%. Trailing-twelve-month EBITDA is negative in every month of every scenario.
+
+This is a deliberate choice, not an oversight or a modelling failure, and it is stated here so that
+nobody — reviewer, client, or a future contributor — reads it as one.
+
+Three things follow from it, and each is worth more than a profitable forecast would have been:
+
+1. **The board question is real.** A plan that turns profitable inside the horizon answers itself.
+   This one forces the actual decision — whether to keep funding wholesale-led growth, and with
+   whose money.
+2. **The financing constraint does the work.** Because earnings never cover the cash requirement,
+   the borrowing base is what determines feasibility. Wholesale Acceleration has the *best* FY2028
+   EBITDA of the three and is the only scenario that runs out of availability. A model where the
+   most profitable-looking plan is the unfundable one is more interesting, and more like real
+   FP&A, than one where the rankings agree.
+3. **It is honest about the company described.** A DTC brand whose gross margin fell four points
+   on channel mix, whose CAC rose 17%, and which absorbed $720k into working capital in one year
+   does not recover to profit in three years without something changing. Forcing a profitable
+   forecast would have required assumptions the interview does not support.
+
+See `docs/data-contract.md` §7.6 for the scenario drivers and ADR 0008 for why this makes the
+covenant structure what it is.
+
 ## Non-negotiables
 
 These are restated from `CLAUDE.md` because they are the ones most likely to erode under

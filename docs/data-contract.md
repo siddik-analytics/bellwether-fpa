@@ -7,8 +7,12 @@
 > *Northlake* is the modelled business. *Bellwether* is this project. The two are never
 > interchangeable.
 
-**Status:** draft, awaiting approval. Derived from `docs/phases/phase-01-answers.md`.
-**Phase:** 1. The generator is not to be built until this document is approved.
+**Status:** **Approved**, 2026-09-05. Derived from `docs/phases/phase-01-answers.md`.
+**Phase:** 1. This document is now binding on every phase that follows.
+
+Changes from here are amendments, not edits: a change to a grain, a convention or a calibration
+target is a documented decision with an ADR where a real alternative is rejected, and the
+validation suite is updated in the same commit.
 
 Everything downstream inherits from this document. Getting a grain wrong means rebuilding the
 oracle, the workbook and the Power BI model, so a change here is a documented decision rather than
