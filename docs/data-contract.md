@@ -57,8 +57,46 @@ plan it funded has not yet worked, and the question is whether to keep going or 
 
 Wholesale growth is real but structurally dilutive and working-capital intensive. Wholesale
 realises ~55% of the DTC net price per unit, and the channel mix shift is therefore the dominant
-term in the consolidated gross margin bridge. At the same time DTC's own economics have weakened:
-paid CAC rose 17% and the non-paid share of new customers fell eight points over three years.
+term in the consolidated gross margin bridge — blended margin fell from 53.0% to 43.6%. At the
+same time DTC's own economics have weakened: paid CAC rose 17% and the non-paid share of new
+customers fell eight points over three years.
+
+**But neither channel is why Northlake loses money, and saying otherwise points a reader at the
+wrong culprit.** Both are contribution-positive:
+
+| FY2025 | Net revenue | Gross margin | Contribution |
+|---|---|---|---|
+| DTC | $6.22M | 57.1% | **+$774k** |
+| Wholesale | $4.38M | 24.4% | **+$732k** |
+| Unallocated corporate | — | — | **−$2,810k** |
+
+Wholesale contributes almost as much as DTC on 30% less revenue. The entire $1.30M loss is a
+$2.81M corporate block carried on $10.6M of revenue.
+
+**The two facts connect, and the connection is the argument.** The overhead is not generically
+excessive — it was built *for wholesale*. Supply Chain is the largest corporate department at
+$654k, serving a channel that commits inventory three to four months ahead of orders. Wholesale
+Sales costs $365k directly. Finance at $624k carries the deduction reconciliation and account
+management that 38 wholesale accounts generate and a DTC order does not.
+
+So the tension is not "wholesale is unprofitable" and not "costs are too high". It is that
+**the mix shift imposed a cost base the channel's own margin cannot carry**. Wholesale earns
+24.4% gross margin and requires the most expensive support function in the company.
+
+The evidence is directional rather than proportional, and is stated that way:
+
+| | FY2023 | FY2024 | FY2025 |
+|---|---|---|---|
+| Wholesale share of revenue | 29.7% | 34.2% | 41.3% |
+| Corporate block | $1.81M | $2.18M | $2.81M |
+| Corporate as % of revenue | 22.3% | 23.5% | **26.5%** |
+| Wholesale revenue, indexed | 1.00x | 1.32x | 1.82x |
+| Corporate cost, indexed | 1.00x | 1.20x | **1.55x** |
+
+Corporate cost grows faster than revenue — 22.3% to 26.5% of it — and in the same direction as
+wholesale, but **not one for one**: 1.55x against wholesale's 1.82x. The cost base was built for
+the channel and is now partly fixed against it, which is a weaker claim than proportionality and
+the one the numbers support.
 
 The forward plan is judged on four linked outcomes — **revenue growth, gross margin, inventory
 productivity, and operating cash flow**. A plan that delivers revenue and misses materially on any
@@ -985,12 +1023,24 @@ because wholesale coverage is the constraint at scale (§5.9).
 | Shrink, % of average inventory | 1.4% | 1.1% | 1.0% | ±0.3pt |
 
 Every driver moves the opposite way to Acceleration, and each for a stated reason rather than as
-a uniform haircut. Wholesale is pruned **to the profitable tier** — the national accounts carry
-the deepest MSRP discounts (48–50%), the slowest collection (60–65 days) and the heaviest
-deductions (5–6%), so cutting them lifts margin, DSO and the dilution reserve at once. The SKU
-count is cut to kill the class-C tail, which §5.5 shows carries MOQ commitments out of all
-proportion to its 15% of revenue, so inventory turns improve materially. Headcount falls because
-wholesale account management and supply-chain complexity are what drove it up (§5.9).
+a uniform haircut.
+
+**The primary mechanism is the cost base, not the margin.** Margin is not the binding constraint —
+§1.2 shows both channels already contribute positively and the loss is a $2.81M corporate block.
+Consolidation reaches breakeven mainly because headcount falls from 28 to 24 and the fixed base
+from $1.163M to $1.020M, releasing overhead that was built to support a wholesale operation the
+scenario no longer runs. Describing it as a margin story understates it and makes it look like a
+weaker DTC Recovery, which is the scenario it beats.
+
+The margin improvements are real and secondary. Wholesale is pruned **to the profitable tier** —
+the national accounts carry the deepest MSRP discounts (48–50%), the slowest collection (60–65
+days) and the heaviest deductions (5–6%), so cutting them lifts margin, DSO and the dilution
+reserve at once. The SKU count is cut to kill the class-C tail, which §5.5 shows carries MOQ
+commitments out of all proportion to its 15% of revenue, so inventory turns improve materially.
+
+The two move together by construction: headcount falls **because** wholesale account management
+and supply-chain complexity are what drove it up (§5.9), so pruning the channel is what makes the
+overhead reduction available rather than merely asserted.
 
 **DTC Recovery / Margin** — limit marginal wholesale, rebuild DTC
 
@@ -1115,12 +1165,12 @@ The generator is not done until these pass. They run in CI.
 **Financing**
 
 23. **Balanced Base holds the covenant in every forecast month**, with minimum excess
-    availability ≈ **$693k**. Computed from ledger balances, not scenario drivers (ADR 0014).
+    availability ≈ **$746k**. Computed from ledger balances, not scenario drivers (ADR 0014).
 24. **Wholesale Acceleration breaches in May-2028, and the breach is structural.** Extending the
     horizon twelve months gives an identical first breach and availability that oscillates
     $569k → $355k → $64k → $0 → $583k → $0 — it fails at every seasonal peak thereafter rather
     than declining terminally, so it is not a horizon artifact.
-25. **DTC Recovery holds** — minimum excess availability ≈ **$1,128k**.
+25. **DTC Recovery holds** — minimum excess availability ≈ **$1,181k**.
 25a. **Consolidation holds at every raise level tested, including $5.5M**, and never draws the
     revolver.
 25a. **Consolidation reaches breakeven and never draws the revolver.** FY2028 EBITDA is positive,
