@@ -49,9 +49,10 @@ from the statement into the borrowing base and out into the covenant headroom. T
 shares no line with the facility documentation at all.
 
 That matters more here than in most models, because the covenant is what makes the scenarios
-discriminate. Wholesale Acceleration breaches while showing the best EBITDA of the four, and the
-explanation is entirely in receivables and inventory. A statement that does not show those
-movements cannot explain the model's central result.
+discriminate. Wholesale Acceleration reaches the highest revenue of the four and the best EBITDA
+of the three that grow, and it is the one that breaches. The explanation is entirely in
+receivables and inventory. A statement that does not show those movements cannot explain the
+model's central result.
 
 **Working capital is also the story.** A channel shift consumed cash faster than it produced
 earnings — $720k absorbed into inventory and receivables in FY2025 against a $1.3M loss. The

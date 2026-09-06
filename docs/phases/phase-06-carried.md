@@ -84,9 +84,10 @@ Wholesale Acceleration.
 
 **Why it earns a slide.** It is the only exhibit that explains the model's central result, and the
 result is counter-intuitive enough that assertion will not carry it: **Wholesale Acceleration
-shows the best EBITDA of the four scenarios and is the one that breaches.** Balanced Base holds
-$746k of minimum excess availability, DTC Recovery holds $1,181k, Consolidation reaches breakeven
-and never draws at all, and the scenario with the strongest earnings runs out of room in May-2028.
+reaches the highest revenue of the four and the best EBITDA of the three that grow, and it is the
+one that breaches.** Balanced Base holds $746k of minimum excess availability, DTC Recovery holds
+$1,181k, Consolidation reaches breakeven and never draws at all, and the growth scenario with the
+strongest earnings runs out of room in May-2028.
 
 The explanation is entirely in working capital, and the indirect cash flow method was chosen so
 that it would be legible on the face of the statement rather than derived by the reader (ADR

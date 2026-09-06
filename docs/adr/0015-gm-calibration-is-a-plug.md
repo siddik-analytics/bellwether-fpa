@@ -1,6 +1,6 @@
-# ADR 0015 — `GM_CALIBRATION` is a plug (known defect, owned by phase 3)
+# ADR 0015 — `GM_CALIBRATION` is a plug (resolved in phase 3)
 
-- **Status:** Accepted as a known defect
+- **Status:** Resolved in phase 3
 - **Date:** 2026-09-06
 - **Phase:** raised in 2 (generator), **owned by phase 3 (transformation layer)**
 
@@ -65,3 +65,11 @@ narrower in the model than it should be.
 That is worth stating plainly because it understates the case Consolidation makes. The scenario
 comparison is therefore conservative rather than flattering, which is the better direction for
 an error to run, but it is still an error and it is not left implicit.
+
+
+## Resolution
+
+Closed in phase 3, as owned. The near-term forecast derives cost of sales from units at the
+standard landed cost rather than from a tuned constant, and the plug is gone from the forecast
+path entirely - `tests/transform/test_transform.py::test_gm_calibration_is_gone_from_the_forecast_path`
+asserts the symbol cannot come back.

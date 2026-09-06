@@ -1187,9 +1187,6 @@ The generator is not done until these pass. They run in CI.
 6a. Balance sheet balances every period: assets less contra-assets = liabilities + equity
 6b. Cash flow closing cash equals balance sheet cash every period, both derived from the ledger
 7. Gross-to-net ladders reconstructable from ledger accounts alone, both channels
-   *(Actual periods only until phase 3 — the forecast ledger does not yet
-   balance. This is a known defect with a named owner, not a narrowing of the check: see
-   ADR 0014.)*
 8. Inventory roll-forward ties: opening + receipts − shipments + returns − write-offs = closing,
    every SKU, every day
 
@@ -1274,8 +1271,8 @@ Confirmed excluded, consistent with `docs/charter.md`:
 | 0011 | Inventory turns relaxed to the achievable service frontier |
 | 0012 | Category return rates normalised to the headline 7% |
 | 0013 | Gross margin and EBITDA amended to the generated figures |
-| 0014 | Forecast ledger does not balance — known defect, owned by phase 3 |
-| 0015 | `GM_CALIBRATION` is a plug — known defect, owned by phase 3 |
+| 0014 | Forecast ledger does not balance — raised in phase 2, resolved in phase 3 |
+| 0015 | `GM_CALIBRATION` is a plug — raised in phase 2, resolved in phase 3 |
 | 0016 | Actual periods carry the operating plan scenario, not "Not applicable" |
 | 0017 | The returns reserve and its unwind are separate accounts |
 | 0018 | Cash flow uses the indirect method, starting from EBITDA |

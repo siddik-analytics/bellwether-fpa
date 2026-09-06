@@ -113,9 +113,15 @@ reporting?* They judge the output, and they judge it fast.
 
 ## A deliberate feature of the model
 
-**Northlake does not reach profitability within the 36-month forecast horizon under any of the
-three scenarios.** Balanced Base reaches −1.8% EBITDA by FY2028, Wholesale Acceleration −1.0%, and
-DTC Recovery −1.4%. Trailing-twelve-month EBITDA is negative in every month of every scenario.
+**No scenario that keeps growing reaches profitability within the 36-month forecast horizon.**
+On the generated figures, FY2028 EBITDA margin is −4.9% under Balanced Base, −4.1% under Wholesale
+Acceleration and −4.5% under DTC Recovery, and trailing-twelve-month EBITDA is negative in every
+month of all three. Only Consolidation crosses, at **+0.5% on the lowest revenue of the four**, and
+only in the last two months of the horizon.
+
+*(The percentages above were restated from the scratch model to the generated figures, on the
+same principle as ADR 0013. The fourth scenario was added after this section was first written;
+the conclusion it reached is unchanged, and sharper for having a counter-example.)*
 
 This is a deliberate choice, not an oversight or a modelling failure, and it is stated here so that
 nobody — reviewer, client, or a future contributor — reads it as one.
@@ -126,10 +132,10 @@ Three things follow from it, and each is worth more than a profitable forecast w
    This one forces the actual decision — whether to keep funding wholesale-led growth, and with
    whose money.
 2. **The financing constraint does the work.** Because earnings never cover the cash requirement,
-   the borrowing base is what determines feasibility. Wholesale Acceleration has the *best* FY2028
-   EBITDA of the three and is the only scenario that runs out of availability. A model where the
-   most profitable-looking plan is the unfundable one is more interesting, and more like real
-   FP&A, than one where the rankings agree.
+   the borrowing base is what determines feasibility. Wholesale Acceleration reaches the highest
+   revenue of the four and the best FY2028 EBITDA of the three that grow, and it is the only
+   scenario that runs out of availability. A model where the most profitable-looking plan is the
+   unfundable one is more interesting, and more like real FP&A, than one where the rankings agree.
 3. **It is honest about the company described.** A DTC brand whose gross margin fell four points
    on channel mix, whose CAC rose 17%, and which absorbed $720k into working capital in one year
    does not recover to profit in three years without something changing. Forcing a profitable

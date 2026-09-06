@@ -1,6 +1,6 @@
-# ADR 0014 — The forecast ledger does not balance (known defect, owned by phase 3)
+# ADR 0014 — The forecast ledger does not balance (resolved in phase 3)
 
-- **Status:** Accepted as a known defect
+- **Status:** Resolved in phase 3
 - **Date:** 2026-09-06
 - **Phase:** raised in 2 (generator), **owned by phase 3 (transformation layer)**
 
@@ -101,3 +101,12 @@ base, and this is stated where it matters rather than left to be discovered:
 The covenant results in §7.6 and the four-way scenario comparison are unaffected: they are
 computed from the financing schedule, which is internally consistent. What is missing is that
 the ledger cannot independently reproduce them.
+
+
+## Resolution
+
+Closed in phase 3, as owned. `transform/forecast_ledger.py` posts the forecast through the same
+double-entry journal as the actuals, including an opening balance sheet, and check 11 was never
+narrowed. `tests/transform/test_transform.py::test_forecast_ledger_balances_every_version_and_scenario`
+holds it shut for all ten version and scenario combinations, and the balance sheet ties to
+$0.000000 across all 360 rows.
