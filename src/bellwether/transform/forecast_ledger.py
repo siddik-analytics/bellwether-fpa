@@ -113,12 +113,21 @@ def post(plan: pd.DataFrame, version: str, scenario: str) -> pd.DataFrame:
         )
 
         # Operating costs settle in cash.
+        # Bad debt provisions against the allowance, it does not pay cash — which is how the
+        # actuals post it. Posting it to cash here made the forecast and the actuals two
+        # different statements and left the cash flow unable to tie in either.
+        if r.bad_debt:
+            j.post(
+                month,
+                [("6400", "Finance", r.bad_debt), ("1180", "Finance", -r.bad_debt)],
+                "Forecast bad debt",
+            )
+
         for amount, account, department in (
             (r.payment_processing, "6200", "Marketing / Ecommerce"),
             (r.marketing, "6100", "Marketing / Ecommerce"),
             (r.payroll, "6000", CORP),
             (r.fixed_costs, "6350", CORP),
-            (r.bad_debt, "6400", "Finance"),
         ):
             if amount:
                 j.post(

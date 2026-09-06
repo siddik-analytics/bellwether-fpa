@@ -19,9 +19,8 @@ log = logging.getLogger("bellwether.build")
 
 #: Build stages in dependency order, with the phase that implements each.
 STAGES: tuple[tuple[str, str], ...] = (
-    ("build star schema", "phase 3"),
-    ("compute the model", "phase 4"),
-    ("write the workbook", "phase 4"),
+    ("recalculate and package with Excel", "phase 5"),
+    ("board pack and variance commentary", "phase 5"),
 )
 
 
@@ -37,7 +36,19 @@ def main(argv: list[str] | None = None) -> int:
 
     log.info("  [x] generate synthetic source data")
     counts = generate.run(DATA_DIR)
+    tables = generate.generate()
     log.info("      %s rows across %d tables", f"{sum(counts.values()):,}", len(counts))
+
+    log.info("  [x] build star schema and semantic layer")
+
+    from bellwether.workbook import model
+
+    workbook_path = BUILD_DIR / "northlake-model.xlsx"
+    summary = model.build(tables, workbook_path)
+    log.info("  [x] write the workbook")
+    log.info(
+        "      %s, %d sheets, %d months", workbook_path.name, summary["sheets"], summary["months"]
+    )
 
     for stage, phase in STAGES:
         log.info("  [ ] %s - not yet implemented (%s)", stage, phase)

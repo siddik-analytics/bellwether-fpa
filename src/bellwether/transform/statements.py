@@ -70,12 +70,21 @@ WORKING_CAPITAL: dict[str, int] = {
 
 #: Non-cash charges added back explicitly rather than omitted, so a reader can see each was
 #: considered — ADR 0018.
-NON_CASH_ACCOUNTS = ("5310", "6500")
+#: Every P&L charge whose other leg is neither cash nor a working-capital account. Shrink posts
+#: to the inventory reserve, depreciation to PPE, bad debt to the allowance — each reduces EBITDA
+#: without moving cash, so each is added back explicitly rather than omitted (ADR 0018).
+#: Every P&L charge whose other leg is neither cash nor a working-capital account: shrink posts
+#: to the inventory reserve, depreciation to PPE, bad debt to the allowance. Each reduces EBITDA
+#: without moving cash and is added back explicitly rather than omitted (ADR 0018).
+NON_CASH_ACCOUNTS = ("5310", "6500", "6400")
 
 FINANCING_ACCOUNTS = {"2500": "Net revolver drawings", "3000": "Equity raised"}
 INTEREST_ACCOUNTS = ("7000", "7010")
 CAPEX_ACCOUNT = "1400"
-OPENING_MEMO = "Opening balance sheet"
+#: Journals that establish a position rather than record a period's activity. Both fund an
+#: opening balance from capital with no cash movement, so including either makes the first month
+#: show cash generation that never happened.
+OPENING_MEMOS = ("Opening balance sheet", "Opening inventory")
 
 
 def monthly(ledger: pd.DataFrame) -> pd.DataFrame:
@@ -237,8 +246,8 @@ def cash_flow(ledger: pd.DataFrame, accounts: pd.DataFrame) -> pd.DataFrame:
     # The opening balance sheet is a position, not a period movement. Leaving it in makes the
     # first forecast month look like $1.16M of cash generation that never happened; it is the
     # cash the business already had.
-    opening = ledger[ledger["memo"] == OPENING_MEMO]
-    ledger = ledger[ledger["memo"] != OPENING_MEMO]
+    opening = ledger[ledger["memo"].isin(OPENING_MEMOS)]
+    ledger = ledger[~ledger["memo"].isin(OPENING_MEMOS)]
     series = metric_series(ledger, accounts)
     balances = balance_sheet(ledger)
 
@@ -256,8 +265,12 @@ def cash_flow(ledger: pd.DataFrame, accounts: pd.DataFrame) -> pd.DataFrame:
     interest = interest.groupby(keys, as_index=False)["amount"].sum()
     interest = interest.rename(columns={"amount": "Interest and financing fees"})
 
-    capex = by_month[by_month["account_code"] == CAPEX_ACCOUNT]
-    capex = capex.groupby(keys, as_index=False)["amount"].sum()
+    # Gross additions only. The PPE account nets capex against depreciation, so using the net
+    # movement while also adding depreciation back counts it twice — a systematic $3.7k a month
+    # that accumulated to $110k over the actual years and looked like an opening-balance problem.
+    additions = ledger[(ledger["account_code"] == CAPEX_ACCOUNT) & (ledger["amount"] > 0)].copy()
+    additions["month"] = pd.to_datetime(additions["date"]).dt.to_period("M").dt.to_timestamp()
+    capex = additions.groupby(keys, as_index=False)["amount"].sum()
     capex = capex.rename(columns={"amount": "Capital expenditure"})
 
     financing = by_month[by_month["account_code"].isin(FINANCING_ACCOUNTS)]

@@ -399,10 +399,10 @@ def test_forecast_periods_balance_in_the_shipped_ledger(data) -> None:
 
 # --- §5.8a statement assembly, ADR 0018 ---------------------------------------------------
 
-#: The cash flow ties to balance sheet cash within this tolerance. The residual is the opening
-#: inventory journal, which funds day-one stock from opening capital without a cash movement —
-#: it is a position the actuals inherit rather than a flow they generated.
-CASH_TIE_TOLERANCE = 150_000.0
+#: The cash flow ties to balance sheet cash exactly. A tolerance on cash reads as unresolved
+#: rather than accepted, and every figure downstream — the borrowing base, the covenant, the
+#: board pack — is built on it.
+CASH_TIE_TOLERANCE = 0.01
 
 
 def test_metric_series_covers_the_whole_axis(data) -> None:

@@ -38,23 +38,31 @@ EBITDA
 
 ## Rationale
 
-The choice follows from what this model is about rather than from convention.
+The choice follows from Northlake's financing structure rather than from convention.
 
-**Working capital is the story.** Northlake's central tension is that a channel shift consumed
-cash faster than it produced earnings — $720k absorbed into inventory and receivables in FY2025
-alone, against a $1.3M loss. The indirect method puts that movement on its own lines, in the
-statement, where a reader meets it. The direct method buries it: an inventory build appears only
-as the difference between two gross flows nobody computes in their head.
+**It is the statement the lender reads.** The facility is asset-based (ADR 0008): the borrowing
+base advances 85% against eligible receivables and 50% against eligible inventory, and the
+covenant tests availability monthly. Those are precisely the balances the indirect method
+itemises, line by line, as the movements that consumed or released cash. A cash flow built this
+way reconciles directly to the availability calculation — a reader can trace an inventory build
+from the statement into the borrowing base and out into the covenant headroom. The direct method
+shares no line with the facility documentation at all.
 
-**EBITDA is the model's own top line below revenue.** The scenarios are compared on EBITDA
-margin, the covenant springs on TTM EBITDA, and the board pack's four judged outcomes include
-operating cash flow. Starting the cash flow at EBITDA makes the bridge from the metric management
-uses to the cash it produced a single readable statement rather than a reconciliation the reader
-performs privately.
+That matters more here than in most models, because the covenant is what makes the scenarios
+discriminate. Wholesale Acceleration breaches while showing the best EBITDA of the four, and the
+explanation is entirely in receivables and inventory. A statement that does not show those
+movements cannot explain the model's central result.
 
-**It is what a lender reads.** The facility is asset-based (ADR 0008), and the borrowing base is
-built from the same receivables and inventory the indirect method itemises. A cash flow that
-shows those movements explicitly is the one that reconciles to the availability calculation.
+**Working capital is also the story.** A channel shift consumed cash faster than it produced
+earnings — $720k absorbed into inventory and receivables in FY2025 against a $1.3M loss. The
+indirect method puts that on its own lines where a reader meets it; the direct method buries an
+inventory build in the difference between two gross flows nobody computes in their head.
+
+**And EBITDA is the model's own measure.** Scenarios are compared on EBITDA margin, the board
+pack's four judged outcomes include operating cash flow, and §1.2 now turns on the gap between
+channel contribution and the corporate block. Starting the statement at EBITDA makes the bridge
+from the metric management uses to the cash it produced a single readable statement rather than a
+reconciliation the reader performs privately.
 
 ## Alternatives considered
 
