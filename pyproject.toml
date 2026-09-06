@@ -10,7 +10,11 @@ readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = { text = "MIT" }
 authors = [{ name = "siddik-analytics" }]
-dependencies = []
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.2",
+  "pyarrow>=16.0",
+]
 
 [project.optional-dependencies]
 dev = [
@@ -30,6 +34,11 @@ line-length = 100
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+# The docs and docstrings deliberately use en dashes and the multiplication sign, because grain
+# is written the way the data contract writes it ("SKU x location x day" reads worse, and the
+# docstrings are the contract's counterpart in code). Ambiguous-character linting fights that
+# for no benefit inside prose; it stays enabled for identifiers and string literals.
+ignore = ["RUF002"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
