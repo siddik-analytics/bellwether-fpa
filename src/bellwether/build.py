@@ -19,10 +19,9 @@ log = logging.getLogger("bellwether.build")
 
 #: Build stages in dependency order, with the phase that implements each.
 STAGES: tuple[tuple[str, str], ...] = (
-    ("generate synthetic source data", "phase 1"),
-    ("build star schema", "phase 2"),
-    ("compute the model", "phase 3"),
-    ("write the workbook", "phase 3"),
+    ("build star schema", "phase 3"),
+    ("compute the model", "phase 4"),
+    ("write the workbook", "phase 4"),
 )
 
 
@@ -34,10 +33,14 @@ def main(argv: list[str] | None = None) -> int:
     log.info("data:  %s", DATA_DIR)
     log.info("build: %s", BUILD_DIR)
 
+    from bellwether.data import generate
+
+    log.info("  [x] generate synthetic source data")
+    counts = generate.run(DATA_DIR)
+    log.info("      %s rows across %d tables", f"{sum(counts.values()):,}", len(counts))
+
     for stage, phase in STAGES:
         log.info("  [ ] %s - not yet implemented (%s)", stage, phase)
-
-    log.info("nothing to build yet; scaffold is in place")
     return 0
 
 
