@@ -50,8 +50,9 @@ it belongs in the contract, decided deliberately.
 
 - Currency: single reporting currency, minor units stored as integers where precision matters
 - Rounding applied at presentation, never in intermediate calculation
-- Scenario is a dimension value (actual / budget / forecast), never a separate table or column
-  suffix
+- Version (actual / budget / prior forecast / latest forecast) and Scenario (the strategic
+  alternatives) are two separate dimensions, never a separate table or column suffix, and never
+  collapsed into one dimension — see ADR 0007
 - Periods are closed-open date ranges; document the convention once and hold to it
 
 ## Validation suite

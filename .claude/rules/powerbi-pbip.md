@@ -31,7 +31,11 @@ first, and Power BI follows.
 - Single-direction filters. Bi-directional filtering requires an ADR explaining the
   ambiguity it introduces and why it is acceptable.
 - Prefer a measure to a calculated column. A calculated column needs a stated reason.
-- Scenario (actual / budget / forecast) is a dimension, not three parallel fact tables.
+- Version (actual / budget / prior forecast / latest forecast) and Scenario (the strategic
+  alternatives) are **two separate dimensions**, never parallel fact tables and never one
+  combined dimension. See ADR 0007 — a single dimension cannot express forecast revision.
+- Scenario members are not monotonic. Wholesale Acceleration carries higher revenue and worse
+  cash than the base case, so never order or colour scenarios as upside / base / downside.
 
 ## DAX conventions
 
