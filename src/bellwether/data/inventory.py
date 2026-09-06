@@ -30,6 +30,40 @@ def landed_cost_series(products: pd.DataFrame, dates: pd.DatetimeIndex) -> np.nd
     return np.outer(base, products["cost_index"].to_numpy())
 
 
+class LandedCost:
+    """Effective-dated landed cost, addressable only per (date, SKU).
+
+    There is deliberately **no scalar accessor** — no mean, no default, no ``__float__``. Three
+    separate defects in this project came from an aggregate standing in for a per-SKU lookup:
+    returns and purchase orders valued at a flat mean of $13.91 against a portfolio average of
+    $15.00; the replenishment window using the longest lead time for every SKU, so 90-day items
+    planned from a window starting 45 days after the demand they had to cover; and purchase-order
+    receipts valued at a flat $15 while cost of sales was relieved per SKU, which put the
+    inventory control account $1.7M away from its subledger.
+
+    Finding those individually was not working. Removing the scalar path is the structural fix:
+    a caller that wants a cost has to say which SKU and which date, and the type system stops
+    the fourth instance rather than a reviewer catching it.
+    """
+
+    def __init__(self, products: pd.DataFrame, dates: pd.DatetimeIndex) -> None:
+        self._matrix = landed_cost_series(products, dates)
+        self._row = {d: i for i, d in enumerate(dates)}
+        self._col = {k: i for i, k in enumerate(products["product_key"].to_numpy())}
+
+    def for_rows(self, dates: pd.Series, product_keys: pd.Series) -> np.ndarray:
+        """Cost for each (date, SKU) pair. Unknown pairs raise rather than defaulting."""
+        rows = pd.to_datetime(dates).map(self._row)
+        cols = pd.Series(product_keys).map(self._col)
+        if rows.isna().any() or cols.isna().any():
+            raise KeyError("landed cost requested for a date or SKU outside the spine")
+        return self._matrix[rows.to_numpy().astype(int), cols.to_numpy().astype(int)]
+
+    def value(self, dates: pd.Series, product_keys: pd.Series, units: pd.Series) -> np.ndarray:
+        """Landed value of ``units`` of each SKU on each date."""
+        return self.for_rows(dates, product_keys) * np.asarray(units, dtype=float)
+
+
 def daily_demand(
     dtc: pd.DataFrame, ws: pd.DataFrame, products: pd.DataFrame, dates: pd.DatetimeIndex
 ) -> np.ndarray:

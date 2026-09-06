@@ -45,6 +45,41 @@ means the forecast needs the same movement-level structure the actuals already h
 That structure is what the phase 3 transformation layer builds. Doing it now would mean writing
 a second, throwaway version of it inside `forecast.py`, then deleting that in phase 3.
 
+## What integrating actually caught
+
+Recorded because it is the evidence that this decision was right, and because "we integrated and
+it immediately found something" is a weaker claim when made in the abstract than when made with
+the number attached.
+
+Balancing the forecast meant deriving working capital from the ledger rather than from scenario
+drivers. The first attempt to do that surfaced a defect that had been latent since phase 2:
+
+| | |
+|---|---|
+| Inventory control account (GL 1200) | $7.578M |
+| Inventory subledger (fact table) | $5.899M |
+| Difference | **$1.679M** |
+
+Two causes. Purchase-order receipts were valued at a flat $15 per unit while cost of sales was
+relieved at effective-dated per-SKU cost, so every receipt posted at the wrong amount. And the
+simulation seeds day-one stock that the ledger never received, so the control account was short
+by the value of the opening position.
+
+**Neither was detectable while the forecast did not read the ledger.** Nothing else consumed the
+inventory control account: the actuals' trial balance still netted to zero, because the error was
+in the *amount* of a balanced pair rather than in the pairing. The covenant results looked
+right because they came from `financing.py`, which never touched the ledger at all. A second
+source of truth does not disagree with the first until something forces them to meet.
+
+That is the argument for the decision, made concrete. Had check 11 been narrowed to actuals
+instead — the cheap option this ADR rejected — the forecast would have kept computing a
+borrowing base from drivers, the control account would have stayed $1.7M wrong, and the first
+symptom would have appeared in phase 5 with a board pack attached to it.
+
+The fix also produced a structural change rather than a third patch. This was the third instance
+of the same bug shape — an aggregate standing in for a per-SKU lookup — so the lookup now has no
+scalar path at all (`inventory.LandedCost`), and a caller has to say which SKU and which date.
+
 ## Scope of the fix
 
 1. Forecast posts full double entry, including balance-sheet movements, per version and scenario.

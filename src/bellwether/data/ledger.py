@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 
 from bellwether.data import config as C
+from bellwether.data.inventory import LandedCost
 
 CASH = "1000"
 AR = "1100"
@@ -72,7 +73,28 @@ def build(
 ) -> pd.DataFrame:
     """Post every actual transaction. Returns the ledger fact at daily grain."""
     j = Journal()
+    cost = LandedCost(products, dates)
     day = pd.Grouper(key="order_date", freq="D")
+
+    # --- Opening balance sheet ---------------------------------------------------------
+    # The simulation seeds day-one stock so the first quarter is not artificially starved. That
+    # inventory is real and has to enter the ledger, funded by opening capital — without it the
+    # control account sits below its subledger by the value of the seed, which is exactly the
+    # kind of difference a subledger reconciliation exists to surface.
+    opening = inv[inv["date"] == dates[0]]
+    if not opening.empty:
+        opening_value = float(
+            cost.value(opening["date"], opening["product_key"], opening["opening_units"]).sum()
+        )
+        if opening_value:
+            j.post(
+                dates[0],
+                [
+                    (INVENTORY, "Supply Chain / Operations", opening_value),
+                    (EQUITY, CORP, -opening_value),
+                ],
+                "Opening inventory",
+            )
 
     # --- DTC revenue, daily -----------------------------------------------------------
     d = dtc.groupby(day)[
@@ -203,18 +225,27 @@ def build(
                 "Returns reserve",
             )
 
-    # Unit-weighted, not a flat mean across SKUs. A flat mean is $13.91 against a portfolio
-    # average of $15.00, because the catalogue has many cheap accessories and few expensive
-    # hero SKUs — so crediting returns at the flat mean understates them by 7%.
-    weights = products["revenue_weight"].to_numpy()
-    cost_per_unit = float((landed[-1] * weights).sum() / weights.sum())
     returns = returns.copy()
     returns["_dtc_refund"] = returns["refund_amount"].where(returns["source"] == "DTC", 0.0)
+    # Valued per SKU, then aggregated to the day. Valuing the day's aggregate at one rate is
+    # what put the inventory control account $1.7M away from its subledger.
+    in_window = pd.to_datetime(returns["return_receipt_date"]).isin(dates)
+    returns.loc[in_window, "_rec_value"] = cost.value(
+        returns.loc[in_window, "return_receipt_date"],
+        returns.loc[in_window, "product_key"],
+        returns.loc[in_window, "recoverable_quantity"],
+    )
+    returns.loc[in_window, "_scrap_value"] = cost.value(
+        returns.loc[in_window, "return_receipt_date"],
+        returns.loc[in_window, "product_key"],
+        returns.loc[in_window, "non_sellable_quantity"],
+    )
+    returns[["_rec_value", "_scrap_value"]] = returns[["_rec_value", "_scrap_value"]].fillna(0.0)
     by_receipt = returns.groupby(pd.Grouper(key="return_receipt_date", freq="D")).agg(
         refund=("refund_amount", "sum"),
         dtc_refund=("_dtc_refund", "sum"),
-        rec=("recoverable_quantity", "sum"),
-        scrap=("non_sellable_quantity", "sum"),
+        rec_value=("_rec_value", "sum"),
+        scrap_value=("_scrap_value", "sum"),
     )
     for date, r in by_receipt.iterrows():
         if date > dates[-1]:
@@ -240,7 +271,7 @@ def build(
         # Non-recoverable units are already expensed through COGS on that shipment, so the only
         # entry they need is a reclassification into the return write-off account, which the
         # contract requires to be reported separately from shrink (§6.5).
-        rec_val, scrap_val = r["rec"] * cost_per_unit, r["scrap"] * cost_per_unit
+        rec_val, scrap_val = r["rec_value"], r["scrap_value"]
         j.post(
             date,
             [
@@ -261,7 +292,8 @@ def build(
     # --- Purchasing: deposit, receipt, balance payment (§5.6) ---------------------------
     if len(pos):
         pos = pos.copy()
-        pos["value"] = pos["quantity"] * cost_per_unit
+        receipt = pd.to_datetime(pos["actual_receipt_date"]).clip(upper=dates[-1])
+        pos["value"] = cost.value(receipt, pos["product_key"], pos["quantity"])
         for date, r in (
             pos.groupby(pd.Grouper(key="deposit_date", freq="D"))
             .apply(
