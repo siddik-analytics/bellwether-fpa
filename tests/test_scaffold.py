@@ -35,7 +35,7 @@ FORBIDDEN_FILES = [
 
 #: Files that must pass unobstructed. A guardrail that blocks ordinary work gets disabled.
 PERMITTED_FILES = [
-    "src/bellwether/oracle/statements.py",
+    "src/bellwether/transform/statements.py",
     "powerbi/bellwether.SemanticModel/definition/model.tmdl",
     "powerbi/bellwether.Report/report.json",
     "docs/adr/0001-beginning-balance-interest.md",

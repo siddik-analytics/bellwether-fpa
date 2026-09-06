@@ -12,8 +12,9 @@ oracle, and exports distribution artifacts.
 
 ## The boundary
 
-This stage **never originates a financial value**. If a number appears here that
-`src/bellwether/oracle/` did not compute, that is a defect regardless of whether it is correct.
+This stage **never originates a financial value**. If a number appears here that Python did not
+compute, that is a defect regardless of whether it is correct. The oracle is a property rather
+than a package — `docs/architecture.md` lists the modules that constitute it.
 
 Permitted here:
 

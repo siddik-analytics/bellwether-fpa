@@ -197,9 +197,14 @@ bugs.
 
 ```
 src/bellwether/
-  data/          seeded synthetic transaction and master data generator
-  transform/     star schema, semantic definitions, statement assembly
-                 — the oracle: every financial value originates here
+  data/          seeded generator: transactions, master data, financing,
+                 forecast — all posted through a double-entry ledger
+  transform/     star schema, semantic definitions, statements, sensitivity
+
+                 data/ and transform/ together are the oracle. It is a property
+                 of the system, not a package: any module that computes a
+                 financial value belongs to it. docs/architecture.md lists them.
+
   workbook/      xlsxwriter generation; content, structure and skin kept separate
   excel_stage/   COM: recalc, data tables, PDF, PNG — Windows only, additive only
 powerbi/         PBIP project, text format (phase 5)

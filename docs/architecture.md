@@ -8,40 +8,87 @@ A one-way pipeline. Each layer consumes the one above it and never writes back.
 
 ```
    src/bellwether/data/          seeded synthetic generator
-              |                  transaction ledger + master data
-              v
-   src/bellwether/transform/     star schema, semantic metric definitions
-              |                  facts, dimensions, date spine
-              v
-   src/bellwether/oracle/        THE MODEL - every financial value originates here
+              |                  transactions, master data, financing, forecast
+              v                  every value posted through a double-entry ledger
+   src/bellwether/transform/     star schema, semantic definitions, statements
+              |                  sensitivity grids, channel allocation
+              |
+              |    data/ + transform/ = THE ORACLE
+              |    every financial value in the project originates in one of them
               |
       +-------+--------+------------------+
       |                |                  |
       v                v                  v
   workbook/        powerbi/           board pack
-  (xlsxwriter)     (PBIP/TMDL)        (phase 5)
+  (xlsxwriter)     (PBIP/TMDL)        (phase 6)
       |
       v
   excel_stage/     COM: recalculate, verify, package  [Windows only, additive only]
 ```
 
 Cycles are the failure mode this shape exists to prevent. Power BI does not define a metric
-the transform layer does not have; the workbook does not compute a figure the oracle did not
+the semantic layer does not have; the workbook does not compute a figure the oracle did not
 produce; the Excel stage does not write a value at all.
 
 ## The oracle rule
 
-`src/bellwether/oracle/` is the single source of truth for every financial value in the
-project. It is pure Python, deterministic, and depends on nothing but the warehouse.
+**Python originates every number, Excel reproduces it, and the reconciliation test proves the
+two agree.**
 
-Everything downstream is a *consumer*. The workbook renders oracle output into cells. Power
-BI aggregates warehouse facts using definitions the transform layer owns, and its key
-measures are reconciled back to the oracle by test. The board pack is composed from oracle
-output.
+### The oracle is a property, not a package
 
-The practical test: if a number appears anywhere in a deliverable and you cannot point at the
-oracle function that produced it, that is a defect — regardless of whether the number happens
-to be correct. Correct-by-accident does not survive a change.
+This project originally reserved a directory, `src/bellwether/oracle/`, for "the model". It was
+never populated, and the reason is worth recording rather than quietly deleting: **the model is
+not separable from the thing that generates it.** A double-entry ledger that posts a returns
+reserve is already computing a financial value. So is a borrowing-base calculation, a
+landed-cost standard, a forecast plan. Extracting "just the model" from those would have meant
+either a package that re-derived what the generator already knew, or a generator demoted to a
+data dump with the accounting pulled out of it. Both are worse than the system that emerged.
+
+So the oracle is defined by *what a module does*, not where it sits. These modules originate
+financial values, and together they are the oracle:
+
+| Module | What it originates |
+|---|---|
+| `data/dimensions.py` | master data: salaries, discount rates, payment terms, MSRP |
+| `data/actuals.py` | transactions: order lines, invoice lines, returns |
+| `data/inventory.py` | landed cost standards, purchase orders, stock positions |
+| `data/stockouts.py` | suppressed demand — revenue that did not happen |
+| `data/forecast.py` | the 36-month plan, across four scenarios |
+| `data/financing.py` | revolver drawings, borrowing base, covenant headroom |
+| `data/ledger.py` | the double-entry journal every value above is posted through |
+| `transform/near_term.py` | near-term cost of sales, derived from units |
+| `transform/forecast_ledger.py` | the forecast, posted through the same journal |
+| `transform/allocation.py` | the channel mapping behind contribution reporting |
+| `transform/semantic.py` | the metric ladder, channel contribution, variance |
+| `transform/statements.py` | the three statements, and the ties between them |
+| `transform/sensitivity.py` | driver sensitivity grids |
+
+`transform/star.py` is the exception inside those two packages: it assigns keys, conforms
+dimensions and joins. It restructures values, it does not originate them.
+
+Everything else is a *consumer*. `workbook/` renders oracle output into cells. Power BI
+aggregates warehouse facts using definitions the semantic layer owns, and its key measures are
+reconciled back by test. `excel_stage/` verifies and packages. The board pack is composed from
+oracle output.
+
+### What makes the rule testable
+
+Not the directory structure — a rule enforced only by where files live is enforced by nothing.
+What makes it testable is that **a second implementation exists to disagree with it**. The
+workbook carries every reported figure twice: as an Excel formula a reader can trace, and as
+the oracle's value, stored in the same cell as its cached result. The headless build writes
+both. Excel recalculation then either reproduces the cached value or it does not, and the
+`requires_excel` tests assert agreement to 0.01.
+
+The practical test for a human: if a number appears anywhere in a deliverable and you cannot
+point at the Python that produced it, that is a defect — regardless of whether the number
+happens to be correct. Correct-by-accident does not survive a change.
+
+A sensitivity grid is the easiest place to break this by accident, because it looks like
+presentation. It is not: every cell is a modelled EBITDA outcome. `transform/sensitivity.py`
+computes the grids, and the Excel stage lays a native Data Table over the same range — so the
+reader gets a live table over numbers Excel did not originate.
 
 ### Why this direction
 
@@ -154,12 +201,12 @@ guarantee above.
 src/bellwether/
   paths.py        absolute path constants - COM does not resolve relative paths
   build.py        headless build entry point
-  data/           seeded synthetic generator                    phase 1
-  transform/      star schema, semantic definitions             phase 2
-  oracle/         model logic - source of truth                 phase 3
-  workbook/       xlsxwriter generation, cross-platform         phase 3
-  excel_stage/    COM: recalc, tables, PDF, PNG (Windows)       phases 3, 5, 6
-powerbi/          PBIP project - TMDL + report JSON             phase 4
+  data/           seeded synthetic generator                    phase 2
+  transform/      star schema, semantic definitions,            phase 3
+                  statements, sensitivity
+  workbook/       xlsxwriter generation, cross-platform         phase 4
+  excel_stage/    COM: recalc, tables, PDF, PNG (Windows)       phases 5, 6
+powerbi/          PBIP project - TMDL + report JSON             phase 5
 docs/             charter, architecture, data contract, ADRs, phase specs
 tests/            acceptance assertions; Excel ones marked requires_excel
 data/             generated - gitignored

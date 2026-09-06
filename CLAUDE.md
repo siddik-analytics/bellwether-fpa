@@ -23,9 +23,20 @@ imported here — read them on demand.
 
 ## Non-negotiable rules
 
-1. **The oracle originates every number.** `src/bellwether/oracle/` computes all financial
-   values in pure Python. The workbook, the Power BI model and the board pack consume those
-   values. The Excel/COM stage verifies and packages. COM never originates a value.
+1. **The oracle rule.** Python originates every number, Excel reproduces it, and the
+   reconciliation test proves the two agree.
+
+   The oracle is a **property of the system, not a directory**. Any Python module that computes
+   a financial value is part of it — the generator, the ledger, the financing model, the
+   forecast, the semantic layer, the statements, the sensitivity grids. What makes the rule
+   testable is not where the code sits but that a second implementation exists to disagree with
+   it: the workbook carries the same figures as Excel formulas, and `requires_excel` tests
+   recalculate and assert agreement to 0.01.
+
+   Everything downstream is a *consumer*. The workbook, the Power BI model and the board pack
+   render values Python computed. The Excel/COM stage verifies and packages, and never
+   originates a value. If a number appears in a deliverable and you cannot point at the Python
+   that produced it, that is a defect regardless of whether the number is correct.
 
 2. **Headless build parity.** `python -m bellwether.build` must produce a complete, correct
    workbook on Linux with no Excel installed. The Excel stage only ever *adds* — native data
@@ -68,10 +79,12 @@ Do not introduce `make`. It is not reliably available on Windows and would break
 ```
 src/bellwether/
   data/         synthetic transaction + master data generator (seeded, deterministic)
-  transform/    star schema build, semantic definitions
-  oracle/       model logic — SOURCE OF TRUTH for every financial value
+  transform/    star schema, semantic definitions, statements, sensitivity
   workbook/     xlsxwriter generation, cross-platform
   excel_stage/  COM: recalc, data tables, PDF, PNG — Windows only, additive only
+
+  data/ and transform/ together are the oracle — see docs/architecture.md for
+  which modules originate values and which only restructure them.
 powerbi/        PBIP project (TMDL + report JSON)
 docs/           charter, architecture, data contract, ADRs, phase specs
 tests/          acceptance assertions; Excel-dependent ones marked requires_excel
