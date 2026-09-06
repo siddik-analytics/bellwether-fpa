@@ -161,41 +161,41 @@ The generated-not-authored assertions in CI, and the local `requires_powerbi` nu
 | # | Criterion | How it is checked |
 |---|---|---|
 | **Carried from phase 4** | | |
-| 5.1 | Excel recalculation reproduces **every** formula cell within 0.01 — not a sample, not the totals | `tests/excel/test_reconciliation.py`, `requires_excel` |
-| 5.2 | A native Data Table covers each sensitivity grid range | `tests/excel/test_data_table.py`, `requires_excel` |
-| 5.3 | After the Data Table is attached and the book recalculates, every grid value still equals the oracle within 0.01 | `tests/excel/test_reconciliation.py`, `requires_excel` |
-| 5.4 | The workbook opens through COM with no repair warning | `tests/excel/test_open.py`, `requires_excel` |
-| 5.5 | The COM stage writes no financial value — it only recalculates, formats, attaches and exports | Import and call-graph assertion over `excel_stage/` |
+| 5.1 | Excel recalculation reproduces **every** formula cell within 0.01 — not a sample, not the totals | `tests/excel/test_reconciliation.py`, `requires_excel` — **1,879 of 1,879 cells, 0 differences** |
+| 5.2 | A native Data Table covers each sensitivity grid range | `tests/excel/test_reconciliation.py`, `requires_excel` — 3 tables, `HasArray` asserted |
+| 5.3 | After the Data Table is attached and the book recalculates, every grid value still equals the oracle within 0.01 | `tests/excel/test_reconciliation.py`, `requires_excel` — 16 grid cells, 0 differences |
+| 5.4 | The workbook opens through COM with no repair warning | `tests/excel/test_reconciliation.py`, `requires_excel` — `Workbook.Saved` on open |
+| 5.5 | The COM stage writes no financial value — it only recalculates, formats, attaches and exports | `tests/excel/test_reconciliation.py` — source assertion over `excel_stage/` |
 | **Headless parity** | | |
-| 5.6 | With `excel_stage/` absent, `python -m bellwether.build` produces the same workbook, byte for byte | `tests/test_headless_parity.py` — build in a tree with the package removed |
-| 5.7 | No module outside `excel_stage/` imports `bellwether.excel_stage` | Import-graph assertion |
-| 5.8 | Every phase 4 statement and tie assertion passes against the headless workbook, with no Excel installed | CI on ubuntu |
-| 5.9 | The COM stage is idempotent: running it twice leaves the workbook in the same state | `requires_excel` |
+| 5.6 | With `excel_stage/` absent, `python -m bellwether.build` produces the same workbook, byte for byte | `tests/test_headless_parity.py` — SHA-256 against a fresh headless build, twice |
+| 5.7 | No module outside `excel_stage/` imports `bellwether.excel_stage` | `tests/test_headless_parity.py` — import-graph assertion |
+| 5.8 | Every phase 4 statement and tie assertion passes against the headless workbook, with no Excel installed | CI on ubuntu, with `pywin32` unresolvable |
+| 5.9 | The COM stage is idempotent: running it twice leaves the workbook in the same state | `tests/excel/test_reconciliation.py`, `requires_excel` — second run attaches nothing |
 | **Power BI is a thin consumer** | | |
 | 5.10 | Every measure in the TMDL is generated from a `Metric` in `transform/semantic.py`; regeneration reproduces the committed file byte for byte | `tests/powerbi/test_generated.py` |
 | 5.11 | Every `Metric` in `ALL_METRICS` appears as a measure, and every measure traces to a `Metric` — the mapping is total in both directions | `tests/powerbi/test_generated.py` |
-| 5.12 | No DAX expression references an account code, account type, department, allocation rule or hardcoded rate | Grep assertion over the generated TMDL |
-| 5.13 | No metric is defined in DAX that does not exist in the semantic layer | Implied by 5.11, asserted separately so the failure message names the metric |
-| 5.14 | Channel contribution in Power BI resolves through the same allocation mapping table, with no DAX conditional deciding which cost belongs where | `tests/powerbi/test_generated.py` |
-| 5.15 | Key measures reconcile to the oracle within 0.01 | `tests/powerbi/test_reconciliation.py`, `requires_powerbi`, local only — **not claimed as a CI guarantee** |
+| 5.12 | No DAX expression references an account code, account type, department, allocation rule or hardcoded rate | `tests/powerbi/test_generated.py` — greps every account code, type and department |
+| 5.13 | No metric is defined in DAX that does not exist in the semantic layer | `tests/powerbi/test_generated.py` |
+| 5.14 | Channel contribution in Power BI resolves through the same allocation mapping table, with no DAX conditional deciding which cost belongs where | `tests/powerbi/test_generated.py` + `tests/transform/test_star_boundary.py` — ADR 0020 |
+| 5.15 | Key measures reconcile to the oracle within 0.01 | `tests/powerbi/test_generated.py`, `requires_powerbi`, local only — **not claimed as CI**. Not yet run; needs Power BI Desktop |
 | **Model conventions** | | |
-| 5.16 | PBIP text format only; no `.pbix` or `.pbit` anywhere in the tree | Pre-commit hook, extended from the existing binary rejection |
-| 5.17 | Version and Scenario are two separate dimensions, never combined and never parallel fact tables — ADR 0007 | `tests/powerbi/test_model.py` |
-| 5.18 | A dedicated date table, marked as the date table; auto date/time disabled | `tests/powerbi/test_model.py` |
-| 5.19 | All measures live in one measures table, organised into display folders from `Metric.display_folder` | `tests/powerbi/test_model.py` |
-| 5.20 | All relationships are single-direction | `tests/powerbi/test_model.py` |
-| 5.21 | No calculated columns without a stated reason in the TMDL comment | `tests/powerbi/test_model.py` |
-| 5.22 | Format strings come from `Metric.format_string`, set on the measure and never on a visual | `tests/powerbi/test_model.py` |
-| 5.23 | Favourable variance is positive for both revenue and cost lines, and the convention is stated once at the top of the measures file | `tests/powerbi/test_model.py` |
-| 5.24 | Scenarios carry no ordinal sort column and no diverging colour ramp — they are not upside/base/downside | `tests/powerbi/test_report.py` |
-| 5.25 | Budget under a non-Balanced-Base scenario renders as an explicit "not applicable", never as blank or zero | `tests/powerbi/test_model.py` |
+| 5.16 | PBIP text format only; no `.pbix` or `.pbit` anywhere in the tree | `tests/powerbi/test_generated.py` and the existing pre-commit hook |
+| 5.17 | Version and Scenario are two separate dimensions, never combined and never parallel fact tables — ADR 0007 | `tests/powerbi/test_generated.py` |
+| 5.18 | A dedicated date table, marked as the date table; auto date/time disabled | `tests/powerbi/test_generated.py` |
+| 5.19 | All measures live in one measures table, organised into display folders from `Metric.display_folder` | `tests/powerbi/test_generated.py` |
+| 5.20 | All relationships are single-direction | `tests/powerbi/test_generated.py` |
+| 5.21 | No calculated columns without a stated reason in the TMDL comment | `tests/powerbi/test_generated.py` |
+| 5.22 | Format strings come from `Metric.format_string`, set on the measure and never on a visual | `tests/powerbi/test_generated.py` |
+| 5.23 | Favourable variance is positive for both revenue and cost lines, and the convention is stated once at the top of the measures file | `tests/powerbi/test_generated.py` |
+| 5.24 | Scenarios carry no ordinal sort column and no diverging colour ramp — they are not upside/base/downside | `tests/powerbi/test_generated.py` |
+| 5.25 | Budget under a non-Balanced-Base scenario renders as an explicit "not applicable", never as blank or zero | `tests/powerbi/test_generated.py` |
 | **Report** | | |
-| 5.26 | Four pages, in the order the rules file fixes | `tests/powerbi/test_report.py` |
-| 5.27 | Every summary visual has drillthrough to transaction level, through the phase 3 GL bridge | `tests/powerbi/test_report.py` |
-| 5.28 | Every page carries the "illustrative company, synthetic data" note | `tests/powerbi/test_report.py` |
+| 5.26 | Four pages, in the order the rules file fixes | `tests/powerbi/test_generated.py` |
+| 5.27 | Every summary visual has drillthrough to transaction level, through the phase 3 GL bridge | `tests/powerbi/test_generated.py` |
+| 5.28 | Every page carries the "illustrative company, synthetic data" note | `tests/powerbi/test_generated.py` |
 | **Build** | | |
-| 5.29 | `python -m bellwether.build` regenerates the TMDL; a hand-edited measure fails the build | CI — regenerate and diff |
-| 5.30 | The PBIP project is valid enough to open in Power BI Desktop without error | Manual, at the phase gate, recorded in the phase notes |
+| 5.29 | `python -m bellwether.build` regenerates the TMDL; a hand-edited measure fails the build | `tests/powerbi/test_generated.py` + the CI clean-tree step |
+| 5.30 | The PBIP project is valid enough to open in Power BI Desktop without error | **Not done** — needs Power BI Desktop; see the phase report |
 
 ---
 

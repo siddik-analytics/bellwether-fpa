@@ -65,7 +65,22 @@ financial values, and together they are the oracle:
 | `transform/sensitivity.py` | driver sensitivity grids |
 
 `transform/star.py` is the exception inside those two packages: it assigns keys, conforms
-dimensions and joins. It restructures values, it does not originate them.
+dimensions and joins. It restructures values, it does not originate them — with one deliberate
+addition in phase 5: it **materialises** the §6.7 channel allocation, so a consumer groups rather
+than allocates (ADR 0020). Materialising an allocation the mapping table already decided is not
+originating a value; re-deciding it downstream would be.
+
+### The star is the boundary
+
+Everything downstream reads `data/star/` and nothing else. It holds **dollars** — cents are a
+storage decision about the write path, and `data/parquet/` keeps them — and it holds allocations
+already resolved. The rule, from ADR 0020: *if a consumer would otherwise have to compute it, the
+star computes it first.*
+
+That is what makes "thin consumer" testable rather than aspirational. Power BI's measures are
+generated from `Metric` definitions, and criterion 5.12 greps the generated DAX for any account
+code, account type or department. If the star had left the channel split unresolved, no amount of
+discipline would have kept that grep clean.
 
 Everything else is a *consumer*. `workbook/` renders oracle output into cells. Power BI
 aggregates warehouse facts using definitions the semantic layer owns, and its key measures are
@@ -169,12 +184,32 @@ Three independent checks, in increasing strength:
 2. **Model invariants** (CI). Balance sheet balances every period; cash flow closing cash
    equals balance sheet cash; disaggregated revenue sums to total at every grain.
 3. **Cross-implementation reconciliation** (local Windows only, marked `requires_excel`).
-   Open the generated workbook, force a full rebuild, read the values back, and assert
+   Open the generated workbook, force a full rebuild, read every formula cell back, and assert
    agreement with the oracle to 0.01.
 
 The third is the one that carries weight. It is two independent implementations of the same
 specification disagreeing loudly when either drifts, which no amount of single-implementation
 testing gives you.
+
+**It only carries weight if it has been seen to fail.** The first implementation of this harness
+compared values read through COM before recalculating and again after. Excel evaluates formulas
+as it opens a workbook, so the "before" read was already Excel's own answer: the comparison was a
+value against itself, and it reported zero differences on a workbook containing a deliberately
+wrong cached value. The oracle's number is read out of the file's `<v>` elements now, and a
+negative control with a planted discrepancy is a permanent test. A reconciliation nobody has
+watched fail is not evidence of agreement.
+
+### Power BI is verified differently, and more weakly
+
+There is no supported way to evaluate a DAX measure from a script, so the third tier does not
+exist for Power BI. Its guarantee is **structural**: every measure is generated from a `Metric`,
+regeneration is byte-identical, and the mapping between measures and metrics is total in both
+directions. That makes redefinition impossible by construction, and it proves nothing about
+whether the DAX evaluates correctly — a translation bug would be reproduced faithfully by both
+the generator and the test.
+
+The numeric reconciliation for Power BI is `requires_powerbi`: local, manual, run at the phase
+gate. It is not claimed as CI anywhere, and the gap is named rather than papered over.
 
 ## Determinism
 
@@ -205,8 +240,10 @@ src/bellwether/
   transform/      star schema, semantic definitions,            phase 3
                   statements, sensitivity
   workbook/       xlsxwriter generation, cross-platform         phase 4
+  powerbi/        TMDL and report JSON generation                phase 5
   excel_stage/    COM: recalc, tables, PDF, PNG (Windows)       phases 5, 6
-powerbi/          PBIP project - TMDL + report JSON             phase 5
+powerbi/          PBIP project - generated text, committed      phase 5
+data/star/        the consumer boundary - dollars, resolved     phase 5
 docs/             charter, architecture, data contract, ADRs, phase specs
 tests/            acceptance assertions; Excel ones marked requires_excel
 data/             generated - gitignored
