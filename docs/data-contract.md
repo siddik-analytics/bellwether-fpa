@@ -158,7 +158,8 @@ sell-through below plan, DSO extending to 60 days, further cost or freight incre
 
 Variance reporting must decompose into three distinct things:
 
-1. **Performance variance** — Actual vs Budget, same scenario
+1. **Performance variance** — Actual vs Budget, same scenario. Actuals carry the operating
+   plan scenario so this comparison is same-scenario by construction (ADR 0016).
 2. **Forecast revision** — Latest Forecast vs Prior Forecast, same scenario
 3. **Scenario difference** — Balanced Base vs Wholesale Acceleration, same version
 
@@ -1130,3 +1131,5 @@ Confirmed excluded, consistent with `docs/charter.md`:
 | 0013 | Gross margin and EBITDA amended to the generated figures |
 | 0014 | Forecast ledger does not balance — known defect, owned by phase 3 |
 | 0015 | `GM_CALIBRATION` is a plug — known defect, owned by phase 3 |
+| 0016 | Actual periods carry the operating plan scenario, not "Not applicable" |
+| 0017 | The returns reserve and its unwind are separate accounts |

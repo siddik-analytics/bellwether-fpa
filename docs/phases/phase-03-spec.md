@@ -100,7 +100,9 @@ every version and scenario.
 | 3.4 | Covenant results after D-1 match the phase 2 figures within tolerance, or the difference is explained and the contract amended | `tests/transform/test_covenants.py` |
 | 3.5 | `GM_CALIBRATION` no longer exists anywhere in the source | grep assertion in `tests/transform/test_single_source.py` |
 | 3.6 | Forecast COGS is derived from units × effective-dated landed cost, through the same definition the actuals use | `tests/transform/test_semantic.py` |
-| 3.7 | Blended gross margin has no step at the FY2025/FY2026 boundary beyond what the change in channel mix accounts for | `tests/transform/test_continuity.py` — the assertion that would have caught D-2 |
+| 3.7 | **Product margin is continuous across the FY2025/FY2026 boundary at product-family × channel grain — all eight series, each within tolerance.** A uniform plug moves every series by the same amount; a genuine mix effect moves none of them, because mix is a reweighting across series rather than a shift within them. This is the assertion that would have caught D-2. | `tests/transform/test_continuity.py` |
+| 3.7a | The delivery layer is continuous per DTC order and per wholesale unit — parcel, pick-and-pack and freight are per order or per unit, so they cannot be tested at product grain and are tested at theirs | `tests/transform/test_continuity.py` |
+| 3.7b | Blended reported gross margin is continuous, and any step is explained by the mix change between the two periods | `tests/transform/test_continuity.py` |
 | **Star schema** | | |
 | 3.8 | A bus matrix exists in `docs/architecture.md` listing every fact against every conformed dimension | Read; and a test asserts the matrix matches the built schema |
 | 3.9 | Every foreign key in every fact resolves to a dimension member. **Zero nulls in any key column.** | `tests/transform/test_conformance.py` |
@@ -212,13 +214,29 @@ roll-forward will silently disagree.
 
 ## Decisions needed before code
 
-| # | Decision | Why it cannot be defaulted |
+All five are **resolved**. Each is a deliverable of this phase rather than an open question.
+
+| # | Problem | Decision |
 |---|---|---|
-| D-a | P-1: "Not applicable" members, or actuals mapped to the operating plan scenario | Changes whether performance variance is a same-scenario comparison |
-| D-b | P-3: the GL account × department → channel allocation mapping | It is a financial convention, and ADR 0010 deliberately left the principle without the detail |
-| D-c | P-4: extra keys on the ledger fact, or a bridge table | A size and complexity trade-off, and it decides whether phase 5 can drill |
-| D-d | P-5: give the near-term forecast product and account grain, or amend the Consolidation description | One is work in this phase; the other is a contract amendment |
-| D-e | P-6: whether "returns" in the ladder means reserve booked or reserve released | A convention, and the two differ by the return lag |
+| D-a | P-1 · actuals have no scenario | **Actuals carry `Balanced Base`**, the operating plan — not a "Not applicable" member, which would make every performance variance a cross-scenario comparison and break §3.3. `dim_customer` and `dim_product` do get N/A members, because there the absence is real. **ADR 0016.** |
+| D-b | P-3 · channel allocation | **A mapping table, as data.** Power BI needs the same mapping, and expressing it as code guarantees the two drift. This forces §6.7 to name which accounts and departments sit in unallocated corporate — vagueness that would otherwise have surfaced in phase 5, with a board pack attached. |
+| D-c | P-4 · drill path | **A bridge table**, not extra keys on `fact_gl`. Widening the ledger breaks its declared grain, and most postings have no single product: a payroll journal, a fixed-cost accrual and an interest charge all have none. |
+| D-d | P-5 · forecast grain | **Months 1–6 gain product and account grain.** §8 already commissions SKU-level inventory planning and known POs in that band, so monthly aggregates were under-delivery rather than a scoping choice. It also resolves P-5: Consolidation's SKU pruning becomes visible, and a scenario the board pack argues for whose mechanism cannot be shown is a claim rather than a model. |
+| D-e | P-6 · returns ambiguity | **Reserve booked at sale**, per ADR 0002. The accounts are split — 4110/4120 contra-revenue for the reserve, 4111/4121 for the balance-sheet unwind — so the ladder reconstructs from ledger accounts alone. **ADR 0017.** |
+
+### What D-b requires of the contract
+
+§6.7 states the allocation principle and never the mapping. Producing the table means deciding,
+explicitly, which GL accounts and departments are directly attributable and which are corporate.
+The expected shape, to be confirmed against §6.7 when written:
+
+| Attributable to DTC | Attributable to Wholesale | Unallocated corporate |
+|---|---|---|
+| Marketing / Ecommerce payroll and programme spend, payment processing, DTC parcel and pick-and-pack | Wholesale Sales payroll, wholesale freight and fulfilment, deductions, bad debt | Executive, Finance, People, Technology, Supply Chain / Operations |
+
+Supply Chain sitting in corporate is the one worth arguing about: it serves both channels and
+is large. ADR 0010 put it there deliberately, because splitting it needs a driver and every
+candidate driver is contestable.
 
 ---
 
