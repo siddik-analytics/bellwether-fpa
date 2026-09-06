@@ -16,6 +16,8 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+from bellwether.transform import allocation, semantic
+
 NOT_APPLICABLE = "Not applicable"
 NA_KEY = 0
 
@@ -175,3 +177,113 @@ def bus_matrix_frame() -> pd.DataFrame:
         row.update({d: ("x" if d in dims else "") for d in dimensions})
         rows.append(row)
     return pd.DataFrame(rows)
+
+
+#: Cost of goods both channels consume, split by the units each shipped. Materialised here
+#: rather than applied downstream — ADR 0020. A consumer that had to re-implement this would be
+#: a second definition of the §6.7 mapping, which is the failure ADR 0010 exists to prevent.
+SPLIT_MARKER = "BY_UNITS"
+
+
+def units_by_channel_month(tables: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    """Units shipped per channel per month — the basis the §6.7 split is measured on.
+
+    Measured, not chosen: DTC order quantities and wholesale shipped units, from the transaction
+    facts themselves. Those facts cover actual periods only, so the forecast has no measured
+    basis and the split cannot be made there — see ``materialise_channel_split``.
+    """
+    frames = []
+    for name, date_column, unit_column, channel in (
+        ("fact_dtc_order_line", "order_date", "quantity", "DTC"),
+        ("fact_wholesale_invoice_line", "shipment_date", "units", "Wholesale"),
+    ):
+        frame = tables.get(name)
+        if frame is None or frame.empty:
+            continue
+        piece = pd.DataFrame(
+            {
+                "month": pd.to_datetime(frame[date_column]).dt.to_period("M").dt.to_timestamp(),
+                "units": frame[unit_column].astype("float64"),
+                "channel_name": channel,
+            }
+        )
+        frames.append(piece)
+    if not frames:
+        return pd.DataFrame(columns=["month", "channel_name", "units"])
+    out = pd.concat(frames, ignore_index=True)
+    return out.groupby(["month", "channel_name"], as_index=False)["units"].sum()
+
+
+def materialise_channel_split(
+    ledger: pd.DataFrame, channels: pd.DataFrame, units: pd.DataFrame
+) -> pd.DataFrame:
+    """Split shared cost of goods into channel rows, in the star — ADR 0020, §6.7.
+
+    Every row the mapping sends to ``BY_UNITS`` becomes one row per channel, pro-rated by the
+    units that channel shipped in that month. Totals are preserved exactly: the split
+    redistributes an amount, it never changes one.
+
+    Rows in a month with **no measured units** keep the corporate member and are flagged
+    ``split_basis = "none"``. That is every forecast period, because units are measured from
+    transaction facts and the forecast has none. Leaving them unallocated is the honest answer;
+    inventing a forecast basis would be choosing an allocation while §6.7 says the split is
+    measured.
+    """
+    lookup = channels.set_index("channel_name")["channel_key"].to_dict()
+    out = ledger.copy()
+    out["month"] = pd.to_datetime(out["date"]).dt.to_period("M").dt.to_timestamp()
+    out["split_basis"] = "direct"
+
+    shared = out[out["channel_allocation"] == SPLIT_MARKER]
+    if shared.empty:
+        return out.drop(columns=["month"])
+
+    weights = units.pivot_table(
+        index="month", columns="channel_name", values="units", aggfunc="sum"
+    ).fillna(0.0)
+    weights = weights.div(weights.sum(axis=1).replace(0.0, pd.NA), axis=0)
+
+    pieces = []
+    for channel in weights.columns:
+        share = shared["month"].map(weights[channel])
+        piece = shared.copy()
+        piece["amount"] = piece["amount"] * share.fillna(0.0)
+        piece["channel_allocation"] = channel
+        piece["channel_key"] = lookup[channel]
+        piece["split_basis"] = "units shipped"
+        pieces.append(piece)
+
+    # A month with no measured units keeps the whole amount on corporate rather than losing it.
+    # BY_UNITS is an internal marker in the mapping, not a channel; it must not survive into the
+    # star, where a consumer would render it as a third channel beside DTC and wholesale.
+    corporate = "Unallocated corporate"
+    unmeasured = shared[~shared["month"].isin(weights.dropna(how="all").index)].copy()
+    unmeasured["channel_allocation"] = corporate
+    unmeasured["channel_key"] = lookup[corporate]
+    unmeasured["split_basis"] = "none"
+    pieces.append(unmeasured)
+
+    rebuilt = pd.concat(
+        [out[out["channel_allocation"] != SPLIT_MARKER], *pieces], ignore_index=True
+    )
+    return rebuilt[rebuilt["amount"] != 0.0].drop(columns=["month"])
+
+
+def build_star(tables: dict[str, pd.DataFrame]) -> dict[str, pd.DataFrame]:
+    """The dimensional model consumers read — dollars, allocations resolved.
+
+    This is the boundary ADR 0020 draws. Everything upstream is the generator's business;
+    everything downstream reads this and nothing else, so anything a consumer would otherwise
+    have to compute for itself is computed here.
+    """
+    conformed = conform_dimensions(tables)
+    mapping = allocation.build_mapping(tables["dim_gl_account"], tables["dim_department"])
+    ledger = channel_key_for_ledger(tables["fact_gl"], mapping, conformed["dim_channel"])
+    units = units_by_channel_month(tables)
+    ledger = materialise_channel_split(ledger, conformed["dim_channel"], units)
+
+    star = dict(conformed)
+    star["fact_gl"] = ledger
+    star["bridge_channel_allocation"] = mapping
+    star["dim_metric"] = semantic.definitions_frame()
+    return star

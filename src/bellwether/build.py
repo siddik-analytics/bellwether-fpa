@@ -39,7 +39,17 @@ def main(argv: list[str] | None = None) -> int:
     tables = generate.generate()
     log.info("      %s rows across %d tables", f"{sum(counts.values()):,}", len(counts))
 
+    from bellwether.data import writer
+    from bellwether.transform import star as star_mod
+
+    star = star_mod.build_star(tables)
+    star_counts = writer.write_star(star, DATA_DIR)
     log.info("  [x] build star schema and semantic layer")
+    log.info(
+        "      %s rows across %d star tables, in dollars",
+        f"{sum(star_counts.values()):,}",
+        len(star_counts),
+    )
 
     from bellwether.workbook import model
 

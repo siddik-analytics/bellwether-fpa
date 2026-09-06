@@ -87,3 +87,21 @@ def write(
         sample.to_csv(sample_dir / f"{name}.csv", index=False, lineterminator=chr(10))
         counts[name] = len(frame)
     return counts
+
+
+def write_star(star: dict[str, pd.DataFrame], data_dir: pathlib.Path) -> dict[str, int]:
+    """Persist the star schema for consumers — dollars, not cents (ADR 0020).
+
+    ``data/parquet/`` is the generator's own output and stores money as integer minor units per
+    §2.1. ``data/star/`` is what the workbook, Power BI and the board pack read, and it stores
+    dollars, because a consumer that has to know which of the two it is holding will eventually
+    get it wrong. The msrp_discount defect was exactly that mistake made once already.
+    """
+    star_dir = data_dir / "star"
+    star_dir.mkdir(parents=True, exist_ok=True)
+    counts: dict[str, int] = {}
+    for name in sorted(star):
+        frame = star[name]
+        frame.to_parquet(star_dir / f"{name}.parquet", index=False)
+        counts[name] = len(frame)
+    return counts

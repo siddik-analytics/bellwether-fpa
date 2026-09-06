@@ -15,10 +15,10 @@ The obvious reading is that wholesale margin does not cover its costs. The model
 
 | | Net revenue | Contribution margin | Contribution |
 |---|---:|---:|---:|
-| DTC | $6.22M | 57.1% | **+$774k** |
-| Wholesale | $4.38M | 24.4% | **+$732k** |
+| DTC | $6.22M | 57.1% | **+$767k** |
+| Wholesale | $4.38M | 24.4% | **+$734k** |
 | Unallocated corporate | — | — | **−$2,810k** |
-| **FY2025 total** | **$10.60M** | | **−$1,304k** |
+| **FY2025 total** | **$10.60M** | | **−$1,309k** |
 
 **Both channels are contribution-positive. Neither is the loss.** The entire loss is a $2.81M
 corporate block carried on $10.6M of revenue — and no defensible reallocation of it changes that

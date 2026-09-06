@@ -66,11 +66,11 @@ wrong culprit.** Both are contribution-positive:
 
 | FY2025 | Net revenue | Gross margin | Contribution |
 |---|---|---|---|
-| DTC | $6.22M | 57.1% | **+$774k** |
-| Wholesale | $4.38M | 24.4% | **+$732k** |
+| DTC | $6.22M | 57.1% | **+$767k** |
+| Wholesale | $4.38M | 24.4% | **+$734k** |
 | Unallocated corporate | — | — | **−$2,810k** |
 
-Wholesale contributes almost as much as DTC on 30% less revenue. The entire $1.30M loss is a
+Wholesale contributes almost as much as DTC on 30% less revenue. The entire $1.31M loss is a
 $2.81M corporate block carried on $10.6M of revenue.
 
 **The two facts connect, and the connection is the argument.** The overhead is not generically
@@ -125,6 +125,10 @@ arriving after demand weakness becomes visible in April–June.
   movement, captured by purchase price variance. There is no rate dimension and no revaluation.
 - Monetary values are stored as **integer minor units (cents)** in fact tables. Rates and
   percentages are stored as decimals.
+- Cents are a **storage** decision, not a modelling one. The generator's own output
+  (`data/parquet/`) holds minor units; the **star schema** (`data/star/`) is what the workbook,
+  Power BI and the board pack read, and it exposes **dollars** — ADR 0020. A consumer that has
+  to know which of the two it is holding will eventually get it wrong.
 - **Rounding is applied at presentation only, never in intermediate calculation.**
 
 ### 2.2 Dates and periods
@@ -695,6 +699,23 @@ Supply Chain serves both; Wholesale Sales is a department while Wholesale is a c
 
 Allocation is **data, not code** — a resolved table of (GL account, department) → channel that
 both the semantic layer and Power BI consume, so the two cannot drift.
+
+**The split is materialised in the star** (ADR 0020). Every row the mapping sends to *split by
+units shipped* becomes one row per channel in `fact_gl`, pro-rated by the units that channel
+shipped **in that month**, and each GL row carries a `split_basis` of `direct`, `units shipped`
+or `none`. Channel contribution is therefore a group-by for every consumer, not a calculation
+any of them performs. A consumer re-implementing the allocation would be a second definition of
+this mapping, which is precisely what ADR 0010 exists to prevent.
+
+The basis is **monthly**, not annual: the DTC share of units shipped ranges from 17% to 62%
+across the months of FY2025, so an annual ratio applied to a monthly grain would be an averaging
+error of the same kind as a flat landed cost.
+
+**Channel contribution is an actuals-only report.** Units are measured from transaction facts,
+and those cover actual periods only. Forecast shared costs keep the corporate member and carry
+`split_basis = "none"` rather than being allocated on a chosen basis — the argument for splitting
+by units is that units are *measured rather than chosen*, and that argument does not survive
+being applied to a period where nothing was measured.
 
 | Directly attributable to DTC | Directly attributable to Wholesale | Split by units shipped | Unallocated corporate |
 |---|---|---|---|
@@ -1276,3 +1297,5 @@ Confirmed excluded, consistent with `docs/charter.md`:
 | 0016 | Actual periods carry the operating plan scenario, not "Not applicable" |
 | 0017 | The returns reserve and its unwind are separate accounts |
 | 0018 | Cash flow uses the indirect method, starting from EBITDA |
+| 0019 | A metric's derivation is data; every consumer generates from it |
+| 0020 | The star is the consumer boundary: dollars, allocations resolved |

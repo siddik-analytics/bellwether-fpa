@@ -48,10 +48,10 @@ block rather than pushed into the channels.
 
 | | Net revenue | Contribution margin | Contribution |
 |---|---|---|---|
-| DTC | $6.22M | 57.1% | **+$774k** |
-| Wholesale | $4.38M | 24.4% | **+$732k** |
+| DTC | $6.22M | 57.1% | **+$767k** |
+| Wholesale | $4.38M | 24.4% | **+$734k** |
 | Unallocated corporate | - | - | **-$2,810k** |
-| | | | **-$1,304k** |
+| | | | **-$1,309k** |
 
 **Why it earns a slide.** It reverses the conclusion the reader arrives with. A brand that shifted
 toward wholesale and posted a loss looks like a brand whose wholesale margin does not cover its
