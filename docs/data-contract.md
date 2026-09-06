@@ -1300,3 +1300,4 @@ Confirmed excluded, consistent with `docs/charter.md`:
 | 0019 | A metric's derivation is data; every consumer generates from it |
 | 0020 | The star is the consumer boundary: dollars, allocations resolved |
 | 0021 | The COM stage is optional at import time, and uses raw win32com |
+| 0022 | A test whose oracle is derived from the thing under test cannot fail |

@@ -211,6 +211,20 @@ the generator and the test.
 The numeric reconciliation for Power BI is `requires_powerbi`: local, manual, run at the phase
 gate. It is not claimed as CI anywhere, and the gap is named rather than papered over.
 
+### One external authority per generated artifact
+
+Three phase 5 tests passed while verifying nothing, and each needed a real tool to expose: the
+COM harness compared Excel's answer to Excel's own answer, the byte-identical TMDL test compared
+a Power-BI-rejected file to itself, and the report was tested against a schema this project had
+invented. **A test whose expected value is derived from the thing under test cannot fail** — it
+measures internal consistency and reports it as correctness.
+
+So every generated artifact carries at least one check whose verdict comes from outside the
+project: Excel recalculates the workbook, Power BI Desktop parses the model and renders the
+report, `pyarrow` round-trips the star. Where that authority cannot be automated it is a
+**manual** gate, named as manual, and never replaced by a proxy described as though it were the
+real thing. ADR 0022 has the full account and the countermeasures.
+
 ## Determinism
 
 The generator is seeded; the seed lives in config, not at a call site. No `datetime.now()`,
