@@ -723,10 +723,15 @@ distortion and makes monthly gross margin non-comparable).
 |---|---|---|---|
 | DTC | $6.25M | ~$46.00 | ~136,000 |
 | Wholesale | $4.35M | ~$25.10 | ~173,000 |
-| **Total** | **$10.60M** | | **~309,000** |
+| **Total** | **$10.60M** | | **~315,000 shipped** |
 
-COGS at $15/unit is ~$4.64M, giving a blended product gross margin of **56.2%** — which
-reconciles to the figure given. The economics close.
+Restated after the post-return review: **141,723 DTC units and 173,307 wholesale units shipped,
+~315,000 in total**. Of these, 12,521 are returned and 9,237 recovered to inventory, so landed COGS
+is $15 × (315,030 − 9,237) = **$4.587M**, a blended *product* gross margin of **56.7%**.
+
+Product gross margin is not reported gross margin. It excludes outbound shipping and variable
+fulfilment, which the COGS boundary at Q12 places in cost of sales. Reported blended gross margin is
+**47.0% before shrink, 46.7% after** — see Q12b and Q20a as restated.
 
 Note that **wholesale moves more units than DTC on less revenue** (173k vs 136k). That is the
 quantitative form of the "wholesale improves inventory throughput" claim in Q5, and it means
@@ -861,7 +866,11 @@ the ~27 points implied by product cost alone.
 
 **Verification** (derived; the stated economics reconcile):
 
-| Per DTC order | | Per wholesale unit | |
+*Superseded — the table below is stated **pre-returns** and does not reconcile to the P&L. It is
+retained because it is what the answer as given implies, and because the gap between the two
+versions is itself the finding. The corrected post-return figures follow.*
+
+| Per DTC order (pre-return) | | Per wholesale unit (pre-return) | |
 |---|---|---|---|
 | Merchandise revenue | $78.00 | Net revenue | $25.10 |
 | Shipping revenue | $2.43 | | |
@@ -872,7 +881,25 @@ the ~27 points implied by product cost alone.
 | **Gross profit** | **$44.43** | **Gross profit** | **$9.20** |
 | **Gross margin** | **55.2%** | **Gross margin** | **36.7%** |
 
-Channel gap **18.5 points**, at the top of the stated 16–18 range.
+Pre-return channel gap 18.5 points, at the top of the stated 16–18 range.
+
+**Corrected, post-return** — returns reduce revenue *and* restore recoverable units to inventory at
+cost, so both sides of the margin move:
+
+| Per DTC order | | Per wholesale unit shipped | |
+|---|---|---|---|
+| Merchandise revenue, net of discount | $78.00 | Gross billings | $26.26 |
+| Less returns | ($5.46) | Less deductions (3.0% of gross) | ($0.79) |
+| Plus shipping revenue | $2.43 | Less returns (1.5% of net) | ($0.38) |
+| **Net revenue** | **$74.97** | **Net revenue** | **$25.10** |
+| Product cost, net of recoveries | ($24.07) | Product cost, net of recoveries | ($14.89) |
+| Outbound parcel | ($7.25) | Outbound freight | ($0.45) |
+| Variable fulfilment | ($3.25) | Variable fulfilment | ($0.45) |
+| **Gross profit** | **$40.40** | **Gross profit** | **$9.31** |
+| **Gross margin** | **53.9%** | **Gross margin** | **37.1%** |
+
+**Channel gap 16.8 points**, inside the stated 16–18 range rather than at the top of it. Blended
+gross margin **47.0% before shrink, 46.7% after**.
 
 **Downstream consequences:**
 
@@ -1080,10 +1107,18 @@ ordering in the contract rather than left to implementation.
 > Management's objective is not simply to minimise inventory. The operating goal is to improve
 > inventory turns **without materially increasing stockouts on hero SKUs**.
 
-**Verification** (derived): ~305,000 net units at $15 landed gives FY2025 landed COGS of
-~$4.58M. At 3.3x turns, average inventory is **~$1.39M** (111 days on hand). FY2024 at ~4.1x on
-~$4.0M landed COGS implies **~$0.98M** (89 days). The **~$400k inventory build** is the working
-capital half of the Q5 tension, and it is large relative to the business's cash generation.
+**Verification** (derived, re-checked post-return): 315,030 units shipped less 9,237 recovered to
+inventory gives 305,793 units charged to COGS at $15 landed, or **$4.587M**. At 3.3x turns, average
+inventory is **~$1.390M** (111 days on hand). FY2024 at ~4.1x on ~$4.0M landed COGS implies
+**~$0.98M** (89 days). The **~$400k inventory build** is the working capital half of the Q5 tension,
+and it is large relative to the business's cash generation. **This figure is unchanged by the
+post-return restatement** — turns are computed on landed cost, which the restatement does not move.
+
+**Return write-offs are separate from shrink.** Non-recoverable returned units are 1,984 DTC and
+1,300 wholesale, **$49.3k at landed cost — 3.5% of average inventory**, which already exceeds the
+2.5% FY2025 shrink rate on its own. The 1% / 2.5% rates therefore cannot be inclusive of return
+write-offs; the two are separate charges to COGS, driven by inventory held and by return volume
+respectively.
 
 **Downstream consequences:**
 
@@ -1299,7 +1334,9 @@ position is worse still, since the entire balance is paid before shipment.
 
 Indicative working capital at FY2025 levels: inventory ~$1.39M, receivables ~$0.67M, supplier
 advances ~$0.37M, accounts payable ~$0.29M — roughly **$2.1M of net working capital on $10.6M of
-revenue**, about 20% of revenue.
+revenue**, about 20% of revenue. (The processor receivable is $55k rather than the $51k first
+derived, once DTC gross customer payments are taken as merchandise plus shipping. Immaterial to the
+total.)
 
 **Downstream consequences:**
 
@@ -1590,7 +1627,7 @@ single unknown, so it was put as options rather than defaulted.
 | FY2025 | $M |
 |---|---|
 | Net revenue | 10.60 |
-| Gross profit @ 47.6% blended | 5.05 |
+| Gross profit @ 47.6% blended *(pre-return basis — superseded, see below)* | 5.05 |
 | Payment processing (2.9% of DTC gross payments) | (0.19) |
 | Marketing | (1.45) |
 | Fixed cost base | (1.16) |
@@ -1601,7 +1638,29 @@ single unknown, so it was put as options rather than defaulted.
 
 Anchored at a payroll cost of **~$2.98M**:
 
-- **FY2025 EBITDA ~$(750)k, −7.1% of net revenue**
+- **FY2025 EBITDA ~$(859)k, −8.1% of net revenue** *(restated)*
+
+*The bridge above used a pre-return gross margin of 47.6%, which does not reconcile to a P&L stated
+net of returns. On the corrected post-return basis blended gross margin is 47.0% before shrink and
+46.7% after, giving:*
+
+| FY2025, restated | $M |
+|---|---|
+| Net revenue | 10.600 |
+| Gross profit before shrink @ 47.0% | 4.981 |
+| Shrink and obsolescence (2.5% of average inventory) | (0.035) |
+| **Gross profit @ 46.7%** | **4.947** |
+| Payment processing | (0.194) |
+| Marketing | (1.450) |
+| Payroll | (2.981) |
+| Fixed cost base | (1.163) |
+| Bad debt | (0.017) |
+| **EBITDA** | **(0.859)** |
+| **EBITDA margin** | **(8.1%)** |
+
+*This sits marginally outside the −6% to −8% band described when the option was chosen, though
+comfortably inside the $(600)k–$(900)k dollar range. The payroll anchor, headcount, cost base and
+revenue are all unchanged; only the margin basis was wrong.*
 
 *(The headcount this is spread across was revised from 31 to 28 FTE at F2, holding the payroll
 anchor constant. Average fully-loaded compensation is therefore **~$106,500**, not the ~$96,000
@@ -1983,7 +2042,8 @@ means channel comparisons in the board pack are defensible without an allocation
 
 ### D4. Prior-year profitability — profitable FY2023, breakeven FY2024, loss FY2025
 
-**Chosen:** approximately +2–3% EBITDA in FY2023, near zero in FY2024, −7.1% in FY2025.
+**Chosen:** approximately +2–3% EBITDA in FY2023, near zero in FY2024, −8.1% in FY2025
+(restated from −7.1% — see Q20a).
 
 Rejected: loss-making throughout (reads as a business that never found its economics, making the
 board question existential rather than strategic); and breakeven across FY2023–24 (less
@@ -2038,8 +2098,23 @@ FY2025 therefore:
 | Measure | FY2025 | Definition |
 |---|---|---|
 | Paid media CAC | ~$34 | Performance media spend ÷ paid-acquired new customers |
-| Blended media CAC | ~$24 | Total media spend ÷ all new customers |
+| Blended acquisition CAC | ~$24 | **Performance** media spend ÷ all new customers |
 | Fully loaded acquisition CAC | ~$32–$34 target | Adds acquisition-attributable payroll, agencies, creative and tools |
+
+*Corrected: the second measure was first defined as total media spend ÷ all new customers, which is
+$1,450k ÷ 41,400 = $35.02, not $24. The $24 figure is performance media spend ÷ all new customers
+($986k ÷ 41,400 = $23.82). The definition was wrong, not the figure.*
+
+Reported alongside these, and **explicitly not a CAC**:
+
+| Measure | FY2025 | Definition |
+|---|---|---|
+| Total marketing spend per new customer | ~$35 | Total marketing spend ÷ all new customers |
+
+All three CAC measures share the same numerator base — performance media spend of $986k. Total
+marketing spend includes brand, retention and owned-channel programme costs, which acquire no
+customers; dividing them across new customers gives a marketing-intensity ratio, not an acquisition
+cost.
 
 **Do not allocate all marketing payroll or all brand/retention spend to acquisition.** The fully
 loaded measure includes only the acquisition-attributable portion; retention, brand and
@@ -2056,7 +2131,8 @@ what the Scenario 3 "DTC Recovery" case is trying to reverse.
 ### F2. Headcount — 28 FTE, superseding the 31 FTE at Q19
 
 FY2025 year-end headcount is **28 FTE**, not 31. The fully loaded payroll anchor of **$2.981M** is
-preserved, so FY2025 EBITDA of ~$(750)k is unchanged.
+preserved, so FY2025 EBITDA is unaffected by the headcount change (it was separately restated
+to ~$(859)k on the corrected post-return margin basis — see Q20a).
 
 | Cost centre | FTE | Fully loaded $k |
 |---|---|---|
@@ -2122,9 +2198,16 @@ weak-liquidation-value inventory.
 
 **Liquidity requirements:**
 
-- Internal minimum cash: **$500k**
-- **Springing FCCR test** when excess availability falls below **$300k**
-- FCCR minimum **1.10x**, trailing twelve months
+- Internal minimum cash: **$500k** — a management policy, not a covenant
+- **Minimum excess availability of $250k**, tested monthly — the live financial covenant
+- **FCCR minimum 1.10x** trailing twelve months, **springing: applicable only once TTM EBITDA is
+  positive**
+
+*Corrected from the first draft, which sprang the FCCR when excess availability fell below $300k.
+With FY2025 EBITDA of −$859k a coverage ratio cannot reach 1.10x, so a continuously applicable test
+would fail in month one of every scenario and every version — decorative rather than binding.
+Availability is what actually constrains a borrower in this position, and it is what the model
+tests until profitability arrives. See ADR 0008.*
 
 **Five separately reported lines:** facility commitment; borrowing base; revolver drawn; excess
 availability; minimum availability / covenant status.
@@ -2166,7 +2249,7 @@ already exists from phase 0 and is unaffected, though D1 makes it load-bearing.
 | 0003 | Standard landed cost with PPV / freight / duty variances, rather than actual costing | Q11 |
 | 0004 | COGS boundary: outbound shipping and variable fulfilment in COGS, payment processing in opex | Q12 |
 | 0005 | Marketing as a constrained driver with a CAC response curve, not % of revenue or fixed ROAS | Q18 |
-| 0006 | Three explicit CAC definitions: paid media, blended media, fully loaded acquisition | F1 |
+| 0006 | Three explicit CAC definitions: paid media, blended acquisition, fully loaded acquisition | F1 |
 | 0007 | Version and Scenario as two separate dimensions | Q22 |
 | 0008 | ABL revolver with a borrowing base, treated as a binding constraint that surfaces a funding gap | D1, F3 |
 | 0009 | Supplier contracts denominated in USD; FX out of scope, charter unamended | D2 |

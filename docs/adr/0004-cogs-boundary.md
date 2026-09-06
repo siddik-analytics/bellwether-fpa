@@ -70,9 +70,14 @@ to the customer, which flatters DTC in exactly the comparison the model exists t
 
 ## Consequences
 
-Blended gross margin is 47.6% rather than the 56.2% product margin, and the channel gap is 18.5
-points rather than 27. Both figures are stated in the data contract so the difference is never
-mistaken for an error.
+Blended gross margin is **47.0% before shrink and 46.7% after**, rather than the **56.7% product
+margin**, and the channel gap is **16.8 points rather than 27.2**. Both bases are stated in the data
+contract so the difference is never mistaken for an error.
+
+All four figures are post-return. An earlier draft compared them on a pre-return basis, which
+overstated both channel margins and put the gap at 18.5 points — returns reduce revenue *and*
+restore recoverable units to inventory at cost, so a pre-return unit economic cannot reconcile to a
+P&L stated net of returns.
 
 Contribution Profit becomes the tier at which channels are actually comparable, because it is where
 marketing and payment processing land. Wholesale's contribution margin is far closer to DTC's than

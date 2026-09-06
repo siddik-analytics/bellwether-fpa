@@ -35,8 +35,44 @@ weak-liquidation-value stock.
 **Pricing:** SOFR + 3.50%, with a 0.50% unused-line fee. **SOFR is an explicit monthly model
 input**, never an embedded all-in rate.
 
-**Liquidity:** internal minimum cash of $500k; a **springing fixed charge coverage test** when
-excess availability falls below $300k; FCCR minimum 1.10x on a trailing-twelve-month basis.
+**Covenants — two, with different applicability:**
+
+1. **Minimum excess availability of $250k**, tested monthly. The live financial covenant throughout
+   the forecast horizon.
+2. **Fixed charge coverage ratio of 1.10x** trailing twelve months, **springing: applicable only
+   once TTM EBITDA is positive**.
+
+Internal minimum cash of $500k is retained as a **management policy, not a covenant**.
+
+### Why the FCCR springs on profitability rather than on availability
+
+The first draft of this decision made the FCCR spring when excess availability fell below $300k,
+which is the conventional structure and is wrong for this company at this point in its life.
+
+Northlake's FY2025 EBITDA is **negative $859k**. A fixed charge coverage ratio compares EBITDA less
+unfinanced capital expenditure and cash taxes against fixed charges — interest, scheduled principal,
+and in most formulations distributions. With a negative numerator the ratio is negative, and no
+denominator makes it reach 1.10x. The test therefore fails **in month one of the forecast, in every
+scenario and every version**, and continues failing until the business turns profitable.
+
+That is not a constraint. A covenant breached from inception forces one of two modelling
+distortions: a permanent waiver assumption, which makes the covenant decorative, or a model in
+which every scenario reports an event of default from the start, which destroys the covenant's
+value as a signal precisely when the reader most needs one. Either way the FCCR stops discriminating
+between good and bad outcomes, which is the only reason to model a covenant at all.
+
+Making applicability conditional on TTM EBITDA turning positive resolves this and is also what a
+lender would actually document for a borrower in this position. Coverage covenants are set against
+a business that has fixed charges it can plausibly cover; before that point, the lender protects
+itself through the borrowing base and an availability floor, not through a coverage ratio.
+
+The availability covenant does the work in the meantime, and does it well: it is tested against the
+borrowing base, which already contracts as inventory ages and receivables stretch.
+
+**Consequence for the model:** the month the FCCR first becomes applicable is a reported output,
+not an assumption. Under Balanced Base it is the first month TTM EBITDA turns positive, expected
+within FY2027, and it is asserted as a frozen regression value once the model is built. From that
+month onward the 1.10x test binds normally.
 
 **Five separately reported lines:** facility commitment, borrowing base, revolver drawn, excess
 availability, and minimum availability / covenant status.
@@ -88,5 +124,14 @@ The funding gap is a reported output with a **date**. "Northlake runs out of ava
 14 of the acceleration case and needs $X" is a board-grade sentence that the model produces rather
 than a human asserting.
 
-Covenant status must be computed and reported even when comfortably met, because the springing test
-means the covenant only matters in the states where it is most likely to be breached.
+Covenant status must be computed and reported even when comfortably met, because a springing test
+only matters in the states where it is most likely to be breached.
+
+Two covenants means two reported statuses, and they are not interchangeable. Availability binds
+throughout; the FCCR binds only after profitability, and reporting it as "passing" during the loss
+years would be misleading — it is *not applicable*, which is a different statement and must be
+presented as one.
+
+That the FCCR only becomes live once EBITDA turns positive has a slightly counter-intuitive
+consequence worth stating in the board pack: recovering to profitability *introduces* a covenant
+rather than removing one. The plan should not be surprised by it.

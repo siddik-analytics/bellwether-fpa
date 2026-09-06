@@ -32,7 +32,7 @@ entity, single currency, fiscal year ending 31 December.
 | Wholesale share | 28% | 34% | 41% |
 | DTC net revenue | $5.83M | $6.14M | $6.25M |
 | Wholesale net revenue | $2.27M | $3.16M | $4.35M |
-| EBITDA margin | +2% to +3% | ~0% | −7.1% |
+| EBITDA margin | +2% to +3% | ~0% | −8.1% |
 | Inventory turns | — | 4.1x | 3.3x |
 | Paid CAC | — | $29 | $34 |
 | Non-paid share of new customers | 38% | 34% | 30% |
@@ -542,6 +542,13 @@ Ageing buckets and indicative reserve rates:
 Inventory is written down when net realisable value falls below landed cost. Shrink, damage and
 obsolescence run at **~1% of average inventory cost** normally; **~2.5% in FY2025**.
 
+**These rates exclude return-related write-offs, which are a separate charge.** The separation is
+forced by arithmetic, not preference: non-recoverable returned units are 1,984 DTC and 1,300
+wholesale, or **$49.3k at landed cost — 3.5% of average inventory**, which already exceeds the 2.5%
+FY2025 shrink rate on its own. A shrink rate stated as inclusive of return write-offs would be
+unsatisfiable. Both charges hit cost of goods sold and both are reported, but they are driven
+separately: shrink by inventory held, return write-offs by return volume and recovery rate.
+
 ### 6.6 Stockouts
 
 Stockouts are modelled as a **suppression layer over underlying demand**, not as weak demand.
@@ -568,13 +575,30 @@ Supply Chain serves both; Wholesale Sales is a department while Wholesale is a c
 
 | Measure | FY2025 | Definition |
 |---|---|---|
-| Paid media CAC | $34 | Performance media spend ÷ paid-acquired new customers |
-| Blended media CAC | $24 | Total media spend ÷ all new customers |
-| Fully loaded acquisition CAC | $32–$34 target | Adds acquisition-attributable payroll, agencies, creative and tools |
+| Paid media CAC | $34 | Performance media spend ÷ **paid-acquired** new customers |
+| Blended acquisition CAC | $24 | Performance media spend ÷ **all** new customers |
+| Fully loaded acquisition CAC | $32–$34 target | Blended acquisition CAC plus acquisition-attributable payroll, agencies, creative and tools |
+
+All three use **performance media spend** as the numerator base — $986k, being 68% of the $1.45M
+total marketing spend. What varies is the denominator and, for the third, what else is added.
+
+Reported alongside them, and **explicitly not a CAC**:
+
+| Measure | FY2025 | Definition |
+|---|---|---|
+| Total marketing spend per new customer | $35 | Total marketing spend ÷ all new customers |
+
+Total marketing spend includes brand, retention and owned-channel programme costs. Those acquire no
+customers, so dividing them across new customers does not produce an acquisition cost. The measure
+is useful as a marketing-intensity ratio and is reported as one; labelling it CAC would overstate
+acquisition cost by 46% and penalise exactly the shift toward owned channels that management is
+trying to make.
 
 **Not all marketing payroll and not all brand/retention spend is allocated to acquisition.**
 
 FY2025 new customers: ~29,000 paid-acquired, ~12,400 organic / referral / owned, **~41,400 total**.
+
+Arithmetic: $986k ÷ 29,000 = **$34.00**; $986k ÷ 41,400 = **$23.82**; $1,450k ÷ 41,400 = **$35.02**.
 
 ### 6.9 Marketing as a driver — ADR 0005
 
@@ -614,8 +638,21 @@ weak-liquidation-value stock.
 Pricing: **SOFR + 3.50%**, 0.50% unused-line fee. **SOFR is an explicit monthly model input**, not
 an embedded all-in rate.
 
-Liquidity: internal minimum cash **$500k**; **springing FCCR test** when excess availability falls
-below **$300k**; FCCR minimum **1.10x** trailing twelve months.
+**Covenants — two, with different applicability:**
+
+1. **Minimum excess availability of $250k**, tested monthly. This is the live financial covenant
+   throughout the forecast horizon.
+2. **Fixed charge coverage ratio of 1.10x**, trailing twelve months — **springing, and applicable
+   only once TTM EBITDA is positive**.
+
+The FCCR is deliberately not evaluated while TTM EBITDA is negative. FY2025 EBITDA is −$859k, so a
+continuously applicable 1.10x test fails in month one of every scenario and every version. A
+covenant breached from inception is not a constraint; it forces either a permanent waiver assumption
+or a model in which every scenario reports a default, and both destroy the covenant's value as a
+signal. An availability-based covenant is what actually binds a borrower at this stage, and it is
+what the model tests.
+
+Internal minimum cash of **$500k** is retained as a **management policy, not a covenant**.
 
 **Five separately reported lines:** facility commitment; borrowing base; revolver drawn; excess
 availability; minimum availability / covenant status.
@@ -660,18 +697,44 @@ reconciled during the interview.
 
 ### 7.1 Unit economics
 
-| Per DTC order | | Per wholesale unit | |
-|---|---|---|---|
-| Merchandise revenue | $78.00 | Net revenue | $25.10 |
-| Shipping revenue | $2.43 | | |
-| **Total revenue** | **$80.43** | **Total revenue** | **$25.10** |
-| Landed cost (1.7 × $15) | $25.50 | Landed cost | $15.00 |
-| Outbound parcel | $7.25 | Outbound freight (1.8%) | $0.45 |
-| Variable fulfilment | $3.25 | Variable fulfilment | $0.45 |
-| **Gross profit** | **$44.43** | **Gross profit** | **$9.20** |
-| **Gross margin** | **55.2%** | **Gross margin** | **36.7%** |
+Stated on a **post-return basis**, consistent with §7.2. Returns reduce revenue (§6.1) *and*
+restore recoverable units to inventory at cost, so both sides of the margin move. A pre-return unit
+economic overstates margin in both channels and will not reconcile to the P&L.
 
-Channel gross margin gap **18.5 points**. Blended gross margin **47.6%**.
+**DTC, per order** — 83,367 orders, 141,723 units shipped, 9,921 returned, 7,937 recovered to
+inventory, 1,984 written off:
+
+| | $ |
+|---|---|
+| Merchandise revenue, net of discount | 78.00 |
+| Less returns (7% of net merchandise) | (5.46) |
+| Plus shipping revenue | 2.43 |
+| **Net revenue** | **74.97** |
+| Product cost, net of units recovered | (24.07) |
+| Outbound parcel | (7.25) |
+| Variable fulfilment | (3.25) |
+| **Gross profit** | **40.40** |
+| **Gross margin** | **53.9%** |
+
+**Wholesale, per unit shipped** — 173,307 units, 2,600 returned, 1,300 recovered, 1,300 written
+off:
+
+| | $ |
+|---|---|
+| Gross billings | 26.26 |
+| Less deductions (3.0% of gross) | (0.79) |
+| Less returns (1.5% of net) | (0.38) |
+| **Net revenue** | **25.10** |
+| Product cost, net of units recovered | (14.89) |
+| Outbound freight (1.8% of net) | (0.45) |
+| Variable fulfilment | (0.45) |
+| **Gross profit** | **9.31** |
+| **Gross margin** | **37.1%** |
+
+Channel gross margin gap **16.8 points** — not the 18.5 points implied by a pre-return comparison.
+
+Blended gross margin **47.0% before shrink**, **46.7% after** shrink and obsolescence at 2.5% of
+average inventory (§6.5).
 
 Cost rates: DTC parcel $7.25/order base ($7.60–7.90 peak, $7.00 long-term target); DTC fulfilment
 $3.25/order (pick-pack $2.20, packaging $0.70, handling $0.35); wholesale fulfilment $4.25/carton
@@ -685,15 +748,17 @@ falls materially during BFCM and holiday.
 
 | FY2025 | $M |
 |---|---|
-| Net revenue | 10.60 |
-| Gross profit @ 47.6% | 5.05 |
-| Payment processing | (0.19) |
-| Marketing | (1.45) |
-| Payroll | (2.98) |
-| Fixed cost base | (1.16) |
-| Bad debt | (0.02) |
-| **EBITDA** | **(0.75)** |
-| **EBITDA margin** | **(7.1%)** |
+| Net revenue | 10.600 |
+| Gross profit before shrink @ 47.0% | 4.981 |
+| Shrink and obsolescence (2.5% of average inventory) | (0.035) |
+| **Gross profit @ 46.7%** | **4.947** |
+| Payment processing (2.9% of DTC gross customer payments) | (0.194) |
+| Marketing | (1.450) |
+| Payroll | (2.981) |
+| Fixed cost base | (1.163) |
+| Bad debt (0.4% of wholesale net revenue) | (0.017) |
+| **EBITDA** | **(0.859)** |
+| **EBITDA margin** | **(8.1%)** |
 
 Fixed cost base: 3PL fixed $228k ($19k/month); office $150k; software $280k ($225k fixed, $55k
 usage-based); professional fees $210k; insurance $95k; other corporate ~$200k.
@@ -704,7 +769,7 @@ usage-based); professional fees $210k; insurance $95k; other corporate ~$200k.
 |---|---|
 | Inventory (average, at landed cost) | ~$1.39M |
 | Wholesale receivables | ~$620k |
-| Processor receivable | ~$51k |
+| Processor receivable | ~$55k |
 | Supplier advances | ~$370k |
 | Accounts payable | ~$290k |
 | **Net working capital** | **~$2.1M (20% of revenue)** |
@@ -726,6 +791,31 @@ shipping revenue down, outbound freight up.
 
 Promotion targeting is driven by inventory state — weeks of supply, colour variant age — which
 links the promotional calendar to the inventory module rather than leaving it exogenous.
+
+### 7.5 FY2023 and FY2024 implied cost constraints
+
+The prior-year EBITDA targets in §1.1 are not free parameters once FY2025 is fixed. Landed cost
+before the April 2025 supplier increase is **$14.12** (the rise hit product cost only, 78% of
+landed), which gives blended gross margin of ~51.5% in FY2023 and ~50.6% in FY2024 at the stated
+channel mixes. With payroll set by headcount and payment processing by DTC volume, the targets
+determine what is left for marketing and fixed costs:
+
+| | FY2023 (+2.5%) | FY2024 (0%) | FY2025 (actual) |
+|---|---|---|---|
+| Blended gross margin | ~51.5% | ~50.6% | 46.7% |
+| Payroll | ~$2.17M (22 FTE) | ~$2.56M (25 FTE) | $2.98M (28 FTE) |
+| Marketing, % of revenue | **11–12%** | **12–13%** | 13.7% |
+| Fixed cost base | **~$0.64–0.72M** | **~$0.73–0.83M** | $1.16M |
+
+Both targets are achievable, but only inside those ranges. Marketing intensity must rise across the
+three years — which is consistent with the independent evidence that paid CAC rose from $29 to $34
+and the non-paid share of new customers fell from 38% to 30%.
+
+The fixed cost base steps ~50% between FY2024 and FY2025. That step is large and must be
+deliberate rather than incidental: it is where software moves into higher pricing tiers, insurance
+steps with wholesale exposure and insured inventory, and professional fees rise with the deduction
+and inventory accounting complexity that wholesale at 41% of revenue creates. The generator should
+place the step at identifiable events, not spread it evenly.
 
 ---
 
@@ -770,8 +860,9 @@ The generator is not done until these pass. They run in CI.
 
 9. FY2023/24/25 net revenue within tolerance of $8.10M / $9.30M / $10.60M
 10. Channel mix within tolerance of 72/28, 66/34, 59/41
-11. Blended gross margin 47.6% ±0.5pt for FY2025; channel gap 18.5pt ±1pt
-12. FY2025 EBITDA −7.1% ±0.5pt; FY2023 positive; FY2024 within ±1pt of zero
+11. Blended gross margin **46.7% ±0.5pt** for FY2025 (47.0% before shrink); DTC **53.9% ±0.5pt**;
+    wholesale **37.1% ±0.5pt**; channel gap **16.8pt ±1pt**. All post-return.
+12. FY2025 EBITDA **−8.1% ±0.5pt**; FY2023 positive; FY2024 within ±1pt of zero
 13. Inventory turns 4.1x FY2024, 3.3x FY2025, each ±0.2x
 14. Wholesale DSO 52 days ±3
 15. SKU concentration: top 5 ≈ 38%, top 10 ≈ 55% of revenue, each ±2pt
@@ -788,10 +879,23 @@ The generator is not done until these pass. They run in CI.
 22. The February 2025 launch cohort shows sell-through materially below the core range, and
     inventory ageing into the H2 2025 buckets
 
+**Financing**
+
+23. Excess availability is **≥ $250k in every month of every scenario**, or a funding gap is
+    reported naming the month it first occurs. The revolver never draws beyond the borrowing base.
+24. The FCCR is **not evaluated in any month where TTM EBITDA ≤ 0**. Asserting this directly is the
+    point: a continuously applicable test would fail from month one.
+25. Under **Balanced Base**, TTM EBITDA first turns positive in a determinate month, and the FCCR
+    becomes applicable that month. The test asserts (a) that month as a frozen regression value —
+    pinned from the first model run in phase 3, expected within FY2027 — and (b) that FCCR ≥ 1.10x
+    in that month and every subsequent month of the horizon.
+26. Return write-offs and shrink are **separately reported and never netted**; FY2025 return
+    write-offs ≈ $49k and shrink ≈ $35k (§6.5)
+
 **Sign and range**
 
-23. Value ranges and sign conventions plausible per column, not merely non-null
-24. Favourable variance is positive regardless of whether the line is revenue or cost
+27. Value ranges and sign conventions plausible per column, not merely non-null
+28. Favourable variance is positive regardless of whether the line is revenue or cost
 
 ---
 
