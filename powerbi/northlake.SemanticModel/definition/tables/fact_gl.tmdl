@@ -1,0 +1,65 @@
+table fact_gl
+
+	column 'Date'
+		dataType: dateTime
+		summarizeBy: none
+		sourceColumn: date
+		lineageTag: fact_gl-date
+
+	column 'Account code'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: account_code
+		lineageTag: fact_gl-account_code
+
+	column 'Department'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: department_name
+		lineageTag: fact_gl-department_name
+
+	column 'Memo'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: memo
+		lineageTag: fact_gl-memo
+
+	column 'Amount'
+		dataType: double
+		summarizeBy: sum
+		sourceColumn: amount
+		lineageTag: fact_gl-amount
+
+	column 'Version'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: version_name
+		lineageTag: fact_gl-version_name
+
+	column 'Scenario'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: scenario_name
+		lineageTag: fact_gl-scenario_name
+
+	column 'Channel'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: channel_allocation
+		lineageTag: fact_gl-channel_allocation
+
+	column 'Channel key'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: channel_key
+		lineageTag: fact_gl-channel_key
+
+	column 'Attribution basis'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: split_basis
+		lineageTag: fact_gl-split_basis
+
+	partition fact_gl = m
+		mode: import
+		source = let Source = Parquet.Document(File.Contents(Text.Combine({ProjectRoot, "data/star/fact_gl.parquet"}))) in Source

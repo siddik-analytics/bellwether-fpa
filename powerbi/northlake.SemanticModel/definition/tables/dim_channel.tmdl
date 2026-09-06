@@ -1,0 +1,23 @@
+table dim_channel
+
+	column 'Channel key'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: channel_key
+		lineageTag: dim_channel-channel_key
+
+	column 'Channel'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: channel_name
+		lineageTag: dim_channel-channel_name
+
+	column 'Is revenue channel'
+		dataType: boolean
+		summarizeBy: sum
+		sourceColumn: is_revenue_channel
+		lineageTag: dim_channel-is_revenue_channel
+
+	partition dim_channel = m
+		mode: import
+		source = let Source = Parquet.Document(File.Contents(Text.Combine({ProjectRoot, "data/star/dim_channel.parquet"}))) in Source

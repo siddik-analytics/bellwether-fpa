@@ -1,0 +1,41 @@
+table fact_metric
+
+	column 'Month'
+		dataType: dateTime
+		summarizeBy: none
+		sourceColumn: month
+		lineageTag: fact_metric-month
+
+	column 'Version'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: version_name
+		lineageTag: fact_metric-version_name
+
+	column 'Scenario'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: scenario_name
+		lineageTag: fact_metric-scenario_name
+
+	column 'Channel'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: channel_allocation
+		lineageTag: fact_metric-channel_allocation
+
+	column 'Metric'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: metric_name
+		lineageTag: fact_metric-metric_name
+
+	column 'Value'
+		dataType: double
+		summarizeBy: sum
+		sourceColumn: value
+		lineageTag: fact_metric-value
+
+	partition fact_metric = m
+		mode: import
+		source = let Source = Parquet.Document(File.Contents(Text.Combine({ProjectRoot, "data/star/fact_metric.parquet"}))) in Source

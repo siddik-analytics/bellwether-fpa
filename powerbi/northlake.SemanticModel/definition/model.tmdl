@@ -1,0 +1,19 @@
+model Model
+	culture: en-GB
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+
+	annotation __PBI_TimeIntelligenceEnabled = 0
+
+	expression ProjectRoot = "../../../" meta [IsParameterQuery=true, Type="Text"]
+
+ref table Measures
+ref table fact_metric
+ref table fact_gl
+ref table dim_date
+ref table dim_version
+ref table dim_scenario
+ref table dim_channel
+ref table dim_gl_account
+ref table dim_department
+ref table dim_metric

@@ -1,0 +1,47 @@
+table dim_gl_account
+
+	column 'Account key'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: account_key
+		lineageTag: dim_gl_account-account_key
+
+	column 'Account code'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: account_code
+		lineageTag: dim_gl_account-account_code
+
+	column 'Account'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: account_name
+		lineageTag: dim_gl_account-account_name
+
+	column 'Statement'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: statement
+		lineageTag: dim_gl_account-statement
+
+	column 'Account type'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: account_type
+		lineageTag: dim_gl_account-account_type
+
+	column 'Cost behaviour'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: cost_behaviour
+		lineageTag: dim_gl_account-cost_behaviour
+
+	column 'Is pl'
+		dataType: boolean
+		summarizeBy: sum
+		sourceColumn: is_pl
+		lineageTag: dim_gl_account-is_pl
+
+	partition dim_gl_account = m
+		mode: import
+		source = let Source = Parquet.Document(File.Contents(Text.Combine({ProjectRoot, "data/star/dim_gl_account.parquet"}))) in Source

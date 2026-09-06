@@ -1,0 +1,23 @@
+table dim_version
+
+	column 'Version key'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: version_key
+		lineageTag: dim_version-version_key
+
+	column 'Version'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: version_name
+		lineageTag: dim_version-version_name
+
+	column 'Is frozen'
+		dataType: boolean
+		summarizeBy: sum
+		sourceColumn: is_frozen
+		lineageTag: dim_version-is_frozen
+
+	partition dim_version = m
+		mode: import
+		source = let Source = Parquet.Document(File.Contents(Text.Combine({ProjectRoot, "data/star/dim_version.parquet"}))) in Source

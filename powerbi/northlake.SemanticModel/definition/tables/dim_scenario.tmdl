@@ -1,0 +1,23 @@
+table dim_scenario
+
+	column 'Scenario key'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: scenario_key
+		lineageTag: dim_scenario-scenario_key
+
+	column 'Scenario'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: scenario_name
+		lineageTag: dim_scenario-scenario_name
+
+	column 'Is operating plan'
+		dataType: boolean
+		summarizeBy: sum
+		sourceColumn: is_operating_plan
+		lineageTag: dim_scenario-is_operating_plan
+
+	partition dim_scenario = m
+		mode: import
+		source = let Source = Parquet.Document(File.Contents(Text.Combine({ProjectRoot, "data/star/dim_scenario.parquet"}))) in Source

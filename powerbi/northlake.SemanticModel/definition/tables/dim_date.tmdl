@@ -1,0 +1,79 @@
+table dim_date
+
+	column 'Date'
+		dataType: dateTime
+		summarizeBy: none
+		sourceColumn: date
+		lineageTag: dim_date-date
+
+	column 'Date key'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: date_key
+		lineageTag: dim_date-date_key
+
+	column 'Year'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: year
+		lineageTag: dim_date-year
+
+	column 'Month'
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: month
+		lineageTag: dim_date-month
+
+	column 'Day'
+		dataType: int64
+		summarizeBy: sum
+		sourceColumn: day
+		lineageTag: dim_date-day
+
+	column 'Quarter'
+		dataType: int64
+		summarizeBy: sum
+		sourceColumn: quarter
+		lineageTag: dim_date-quarter
+
+	column 'Month start'
+		dataType: dateTime
+		summarizeBy: sum
+		sourceColumn: month_start
+		lineageTag: dim_date-month_start
+
+	column 'Day of week'
+		dataType: int64
+		summarizeBy: sum
+		sourceColumn: day_of_week
+		lineageTag: dim_date-day_of_week
+
+	column 'Is banking day'
+		dataType: boolean
+		summarizeBy: sum
+		sourceColumn: is_banking_day
+		lineageTag: dim_date-is_banking_day
+
+	column 'Is actual'
+		dataType: boolean
+		summarizeBy: sum
+		sourceColumn: is_actual
+		lineageTag: dim_date-is_actual
+
+	column 'Promotion'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: promotion
+		lineageTag: dim_date-promotion
+
+	column 'Is promotional'
+		dataType: boolean
+		summarizeBy: sum
+		sourceColumn: is_promotional
+		lineageTag: dim_date-is_promotional
+
+	dataCategory: Time
+
+	partition dim_date = m
+		mode: import
+		source = let Source = Parquet.Document(File.Contents(Text.Combine({ProjectRoot, "data/star/dim_date.parquet"}))) in Source

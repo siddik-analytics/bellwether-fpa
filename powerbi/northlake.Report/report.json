@@ -1,0 +1,116 @@
+{
+  "version": "1.0",
+  "pages": [
+    {
+      "name": "executive-summary",
+      "displayName": "Executive summary",
+      "ordinal": 0,
+      "subtitle": "Where the business is, and which plan is fundable",
+      "visuals": [
+        {
+          "name": "executive-summary-net revenue",
+          "measure": "Net Revenue",
+          "drillthrough": "Transaction detail"
+        },
+        {
+          "name": "executive-summary-ebitda",
+          "measure": "EBITDA",
+          "drillthrough": "Transaction detail"
+        },
+        {
+          "name": "executive-summary-ebitda margin %",
+          "measure": "EBITDA Margin %",
+          "drillthrough": "Transaction detail"
+        }
+      ],
+      "disclosure": "Northlake, Inc. is an illustrative company. All data is synthetic."
+    },
+    {
+      "name": "p&l-detail",
+      "displayName": "P&L detail",
+      "ordinal": 1,
+      "subtitle": "The gross-to-net ladder, by month and version",
+      "visuals": [
+        {
+          "name": "p&l-detail-gross revenue",
+          "measure": "Gross Revenue",
+          "drillthrough": "Transaction detail"
+        },
+        {
+          "name": "p&l-detail-contra revenue",
+          "measure": "Contra Revenue",
+          "drillthrough": "Transaction detail"
+        },
+        {
+          "name": "p&l-detail-net revenue",
+          "measure": "Net Revenue",
+          "drillthrough": "Transaction detail"
+        },
+        {
+          "name": "p&l-detail-cost of sales",
+          "measure": "Cost of Sales",
+          "drillthrough": "Transaction detail"
+        },
+        {
+          "name": "p&l-detail-gross profit",
+          "measure": "Gross Profit",
+          "drillthrough": "Transaction detail"
+        }
+      ],
+      "disclosure": "Northlake, Inc. is an illustrative company. All data is synthetic."
+    },
+    {
+      "name": "cash-and-working-capital",
+      "displayName": "Cash and working capital",
+      "ordinal": 2,
+      "subtitle": "Where the cash went, and what the facility advances against",
+      "visuals": [
+        {
+          "name": "cash-and-working-capital-ebitda",
+          "measure": "EBITDA",
+          "drillthrough": "Transaction detail"
+        },
+        {
+          "name": "cash-and-working-capital-net income",
+          "measure": "Net Income",
+          "drillthrough": "Transaction detail"
+        }
+      ],
+      "disclosure": "Northlake, Inc. is an illustrative company. All data is synthetic."
+    },
+    {
+      "name": "unit-economics",
+      "displayName": "Unit economics",
+      "ordinal": 3,
+      "subtitle": "Contribution by channel, with corporate shown once and undivided",
+      "visuals": [
+        {
+          "name": "unit-economics-contribution profit",
+          "measure": "Contribution Profit",
+          "drillthrough": "Transaction detail"
+        },
+        {
+          "name": "unit-economics-gross margin %",
+          "measure": "Gross Margin %",
+          "drillthrough": "Transaction detail"
+        }
+      ],
+      "disclosure": "Northlake, Inc. is an illustrative company. All data is synthetic."
+    },
+    {
+      "name": "transaction-detail",
+      "displayName": "Transaction detail",
+      "ordinal": 4,
+      "subtitle": "Drillthrough target \u2014 GL postings behind any summary figure",
+      "isDrillthroughTarget": true,
+      "visuals": [
+        {
+          "name": "gl-detail",
+          "table": "fact_gl",
+          "drillthrough": null
+        }
+      ],
+      "disclosure": "Northlake, Inc. is an illustrative company. All data is synthetic."
+    }
+  ]
+}

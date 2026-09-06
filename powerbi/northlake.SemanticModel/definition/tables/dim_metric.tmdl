@@ -1,0 +1,59 @@
+table dim_metric
+
+	column 'Metric'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: name
+		lineageTag: dim_metric-name
+
+	column 'Description'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: description
+		lineageTag: dim_metric-description
+
+	column 'Format string'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: format_string
+		lineageTag: dim_metric-format_string
+
+	column 'Grain'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: grain
+		lineageTag: dim_metric-grain
+
+	column 'Display folder'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: display_folder
+		lineageTag: dim_metric-display_folder
+
+	column 'Depends on'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: depends_on
+		lineageTag: dim_metric-depends_on
+
+	column 'Derivation'
+		dataType: string
+		summarizeBy: none
+		sourceColumn: derivation
+		lineageTag: dim_metric-derivation
+
+	column 'Is cost'
+		dataType: boolean
+		summarizeBy: sum
+		sourceColumn: is_cost
+		lineageTag: dim_metric-is_cost
+
+	column 'Is base'
+		dataType: boolean
+		summarizeBy: sum
+		sourceColumn: is_base
+		lineageTag: dim_metric-is_base
+
+	partition dim_metric = m
+		mode: import
+		source = let Source = Parquet.Document(File.Contents(Text.Combine({ProjectRoot, "data/star/dim_metric.parquet"}))) in Source

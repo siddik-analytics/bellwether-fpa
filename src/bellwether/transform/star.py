@@ -286,4 +286,37 @@ def build_star(tables: dict[str, pd.DataFrame]) -> dict[str, pd.DataFrame]:
     star["fact_gl"] = ledger
     star["bridge_channel_allocation"] = mapping
     star["dim_metric"] = semantic.definitions_frame()
+    star["fact_metric"] = metric_facts(ledger, tables["dim_gl_account"])
     return star
+
+
+def metric_facts(ledger: pd.DataFrame, accounts: pd.DataFrame) -> pd.DataFrame:
+    """Base metric values by month, version, scenario and channel — the BI fact table.
+
+    Only **base** metrics are materialised. Derived metrics are not rows here because they are
+    generated as measures from their own derivations (ADR 0019), and a Net Revenue row alongside
+    a Net Revenue measure would be two answers to one question.
+
+    Channel is part of the grain, so channel contribution in any consumer is a group-by over a
+    fact whose allocation was already resolved (ADR 0020) rather than a calculation the consumer
+    performs.
+    """
+    frame = ledger.copy()
+    frame["month"] = pd.to_datetime(frame["date"]).dt.to_period("M").dt.to_timestamp()
+    types = accounts.set_index("account_code")["account_type"]
+    frame["account_type"] = frame["account_code"].map(types)
+
+    keys = ["month", "version_name", "scenario_name", "channel_allocation"]
+    pieces = []
+    for name, metric in semantic.BASE.items():
+        subset = frame[frame["account_type"].isin(metric.account_types)]
+        if subset.empty:
+            continue
+        grouped = subset.groupby(keys, as_index=False)["amount"].sum()
+        grouped["value"] = grouped["amount"] * metric.sign
+        grouped["metric_name"] = name
+        pieces.append(grouped[[*keys, "metric_name", "value"]])
+
+    if not pieces:
+        return pd.DataFrame(columns=[*keys, "metric_name", "value"])
+    return pd.concat(pieces, ignore_index=True)

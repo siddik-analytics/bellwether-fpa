@@ -13,14 +13,14 @@ import logging
 import sys
 
 from bellwether import __version__
-from bellwether.paths import BUILD_DIR, DATA_DIR, ensure_output_dirs
+from bellwether.paths import BUILD_DIR, DATA_DIR, POWERBI_DIR, ensure_output_dirs
 
 log = logging.getLogger("bellwether.build")
 
 #: Build stages in dependency order, with the phase that implements each.
 STAGES: tuple[tuple[str, str], ...] = (
-    ("recalculate and package with Excel", "phase 5"),
-    ("board pack and variance commentary", "phase 5"),
+    ("board pack and variance commentary", "phase 6"),
+    ("case study, video and distribution assets", "phase 7"),
 )
 
 
@@ -51,6 +51,7 @@ def main(argv: list[str] | None = None) -> int:
         len(star_counts),
     )
 
+    from bellwether.powerbi import tmdl
     from bellwether.workbook import model
 
     workbook_path = BUILD_DIR / "northlake-model.xlsx"
@@ -58,6 +59,16 @@ def main(argv: list[str] | None = None) -> int:
     log.info("  [x] write the workbook")
     log.info(
         "      %s, %d sheets, %d months", workbook_path.name, summary["sheets"], summary["months"]
+    )
+
+    pbip = tmdl.build(star, POWERBI_DIR)
+    log.info("  [x] generate the Power BI project (PBIP text)")
+    log.info(
+        "      %d tables, %d measures, %d relationships, %d pages",
+        len(pbip["tables"]),
+        pbip["measures"],
+        pbip["relationships"],
+        pbip["pages"],
     )
 
     for stage, phase in STAGES:

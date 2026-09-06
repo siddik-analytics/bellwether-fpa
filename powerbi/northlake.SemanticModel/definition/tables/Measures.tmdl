@@ -1,0 +1,86 @@
+table Measures
+
+	/// Favourable variance is positive whether the line is revenue or cost. The direction comes from Metric.is_cost in the semantic layer, never from a judgement made here.
+
+	/// Revenue before contra-revenue deductions
+	measure 'Gross Revenue' = CALCULATE(SUM(fact_metric[Value]), dim_metric[Metric] = "Gross Revenue")
+		formatString: $#,##0
+		displayFolder: P&L
+		lineageTag: metric-gross-revenue
+
+	/// Discounts, returns reserves and wholesale deductions. Returns means the reserve booked at sale, never the utilisation that unwinds it — ADR 0017.
+	measure 'Contra Revenue' = CALCULATE(SUM(fact_metric[Value]), dim_metric[Metric] = "Contra Revenue")
+		formatString: $#,##0
+		displayFolder: P&L
+		lineageTag: metric-contra-revenue
+
+	/// Landed cost, outbound shipping and variable fulfilment. Payment processing is excluded and sits below gross profit — ADR 0004.
+	measure 'Cost of Sales' = CALCULATE(SUM(fact_metric[Value]), dim_metric[Metric] = "Cost of Sales")
+		formatString: $#,##0
+		displayFolder: P&L
+		lineageTag: metric-cost-of-sales
+
+	/// Opex including payment processing
+	measure 'Operating Expense' = CALCULATE(SUM(fact_metric[Value]), dim_metric[Metric] = "Operating Expense")
+		formatString: $#,##0
+		displayFolder: P&L
+		lineageTag: metric-operating-expense
+
+	/// Interest, financing fees and other non-operating items — everything between EBITDA and net income.
+	measure 'Other Income and Expense' = CALCULATE(SUM(fact_metric[Value]), dim_metric[Metric] = "Other Income and Expense")
+		formatString: $#,##0
+		displayFolder: Below the line
+		lineageTag: metric-other-income-and-expense
+
+	/// Gross revenue less contra revenue — the §6.2 gross-to-net ladder
+	measure 'Net Revenue' = [Gross Revenue] - [Contra Revenue]
+		formatString: $#,##0
+		displayFolder: P&L
+		lineageTag: metric-net-revenue
+
+	/// Net revenue less cost of sales
+	measure 'Gross Profit' = [Net Revenue] - [Cost of Sales]
+		formatString: $#,##0
+		displayFolder: P&L
+		lineageTag: metric-gross-profit
+
+	/// Gross profit over net revenue
+	measure 'Gross Margin %' = DIVIDE([Gross Profit], [Net Revenue])
+		formatString: 0.0%
+		displayFolder: P&L
+		lineageTag: metric-gross-margin-pct
+
+	/// Gross profit less channel-attributable operating cost. The same arithmetic as EBITDA, evaluated inside a channel filter: corporate cost is excluded by the §6.7 allocation mapping, not by a filter written here.
+	measure 'Contribution Profit' = [Gross Profit] - [Operating Expense]
+		formatString: $#,##0
+		displayFolder: Channel
+		lineageTag: metric-contribution-profit
+
+	/// Net revenue less cost of sales and operating expense, before interest and financing
+	measure 'EBITDA' = [Gross Profit] - [Operating Expense]
+		formatString: $#,##0
+		displayFolder: P&L
+		lineageTag: metric-ebitda
+
+	/// EBITDA over net revenue
+	measure 'EBITDA Margin %' = DIVIDE([EBITDA], [Net Revenue])
+		formatString: 0.0%
+		displayFolder: P&L
+		lineageTag: metric-ebitda-margin-pct
+
+	/// EBITDA less interest, financing fees and other non-operating items
+	measure 'Net Income' = [EBITDA] - [Other Income and Expense]
+		formatString: $#,##0
+		displayFolder: Below the line
+		lineageTag: metric-net-income
+
+	/// States that a version and scenario pairing was never approved, rather than
+	/// rendering blank. Budget exists under Balanced Base only.
+	measure 'Selection Status' = IF(ISBLANK([Net Revenue]), "not applicable - this version and scenario combination was never approved", "")
+		formatString: 0
+		displayFolder: Model
+		lineageTag: metric-selection-status
+
+	partition Measures = m
+		mode: import
+		source = let Source = #table({"placeholder"}, {}) in Source
