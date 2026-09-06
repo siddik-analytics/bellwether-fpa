@@ -1,6 +1,8 @@
-# Generated data and build artifacts — never committed outside a release tag
-data/
-build/
+# Generated data and build artifacts — never committed outside a release tag.
+# Anchored to the repo root: unanchored, `data/` also matches src/bellwether/data/ and
+# silently excludes the generator package from every commit.
+/data/
+/build/
 
 # Excel
 *.xlsx
