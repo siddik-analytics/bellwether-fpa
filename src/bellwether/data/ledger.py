@@ -308,7 +308,8 @@ def build(
                 "Supplier deposit",
             )
 
-        recv = pos.groupby(pd.Grouper(key="actual_receipt_date", freq="D")).apply(
+        received = pos[pos.get("received_in_window", True)]
+        recv = received.groupby(pd.Grouper(key="actual_receipt_date", freq="D")).apply(
             lambda g: pd.Series(
                 {"val": g["value"].sum(), "dep": (g["value"] * g["deposit_pct"]).sum()}
             ),
@@ -327,7 +328,7 @@ def build(
                 "Inventory receipt",
             )
 
-        bal = pos.groupby(pd.Grouper(key="balance_due_date", freq="D")).apply(
+        bal = received.groupby(pd.Grouper(key="balance_due_date", freq="D")).apply(
             lambda g: pd.Series({"bal": (g["value"] * (1 - g["deposit_pct"])).sum()}),
             include_groups=False,
         )

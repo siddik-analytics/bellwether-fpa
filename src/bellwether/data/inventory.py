@@ -13,6 +13,9 @@ import pandas as pd
 
 from bellwether.data import config as C
 
+#: A forward horizon shorter than this is not a forecast, it is the edge of the window.
+MIN_FORECAST_WINDOW_DAYS = 21
+
 
 def landed_cost_series(products: pd.DataFrame, dates: pd.DatetimeIndex) -> np.ndarray:
     """Effective-dated landed cost per SKU per day — ADR 0003.
@@ -202,7 +205,14 @@ def simulate(
                 grp = lead == lead_days
                 h0 = min(day + int(lead_days), n_days - 1)
                 h1 = min(h0 + int(cycle_days), n_days)
-                forward[grp] = demand[h0:h1, grp].mean(axis=0) if h1 > h0 else trailing[grp]
+                # Near the end of the simulated window the forward horizon collapses to a
+                # handful of days, and a two-day mean used as the daily rate for twenty weeks
+                # of cover produces an order two orders of magnitude too large. That is a window
+                # artifact, not a planning behaviour: a real planner in October forecasts
+                # January, and the simulation simply has no January. Fall back to trailing
+                # demand when the horizon is too short to be a forecast.
+                usable = h1 - h0 >= MIN_FORECAST_WINDOW_DAYS
+                forward[grp] = demand[h0:h1, grp].mean(axis=0) if usable else trailing[grp]
             forward = forward * rng.normal(1.0, 0.15, size=n_sku).clip(0.6, 1.5)
             weekly = np.maximum(forward, trailing * 0.4) * 7
             pipeline = in_transit[day + 1 : day + 1 + int(lead.max())].sum(axis=0)
@@ -225,7 +235,7 @@ def simulate(
             if dates[day].month in C.SEASONAL_BUY_MONTHS:
                 s0 = min(day + int(lead.max()), n_days - 1)
                 s1 = min(s0 + C.SEASONAL_RUN_DAYS, n_days)
-                if s1 > s0:
+                if s1 - s0 >= MIN_FORECAST_WINDOW_DAYS:
                     season_demand = demand[s0:s1].sum(axis=0)
                     season_demand = season_demand * rng.normal(1.0, 0.15, n_sku).clip(0.6, 1.5)
                     # The February 2025 launch was bought to plan, and plan was 35% above what
@@ -255,6 +265,12 @@ def simulate(
                         order_date=dates[day],
                         quantity=int(order_units[col]),
                         expected_receipt_date=dates[min(arrive, n_days - 1)],
+                        # A PO arriving past the simulated window is still committed and still
+                        # consumes cash, but it never becomes inventory inside the period. The
+                        # ledger must not post a receipt the subledger never saw — clamping the
+                        # date without this flag put $315k of phantom stock in the control
+                        # account.
+                        received_in_window=arrive < n_days,
                         shipment_mode="Air" if is_launch[col] and rng.random() < 0.25 else "Ocean",
                         is_launch_order=bool(is_launch[col]),
                     )
