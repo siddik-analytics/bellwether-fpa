@@ -41,6 +41,70 @@ No new work beyond presentation.
 
 ---
 
+## C-2 · Both channels contribute; the loss is the corporate block
+
+**Exhibit:** channel contribution for FY2025 with the unallocated corporate cost shown as its own
+block rather than pushed into the channels.
+
+| | Net revenue | Contribution margin | Contribution |
+|---|---|---|---|
+| DTC | $6.22M | 57.1% | **+$774k** |
+| Wholesale | $4.38M | 24.4% | **+$732k** |
+| Unallocated corporate | - | - | **-$2,810k** |
+| | | | **-$1,304k** |
+
+**Why it earns a slide.** It reverses the conclusion the reader arrives with. A brand that shifted
+toward wholesale and posted a loss looks like a brand whose wholesale margin does not cover its
+costs. Both channels are contribution-positive; neither is the loss. The entire loss is a $2.81M
+corporate block carried on $10.6M of revenue, and no plausible reallocation of it changes that,
+which is exactly what C-1 demonstrates.
+
+The pack should carry the second table with it, because without it the first invites the wrong
+remedy - cut the corporate block - when the actual finding is narrower:
+
+| | FY2023 | FY2024 | FY2025 |
+|---|---|---|---|
+| Corporate block | $1.81M | $2.18M | $2.81M |
+| as % of revenue | 22.3% | 23.5% | **26.5%** |
+| Wholesale revenue, indexed | 1.00x | 1.32x | 1.82x |
+| Corporate cost, indexed | 1.00x | 1.20x | **1.55x** |
+
+The cost base was built for wholesale and grew with it, **directionally but not proportionally**.
+Stating it that precisely is the point: the weaker claim is the one the data supports, and a board
+that is told the stronger one will discover the difference itself.
+
+**Data:** `transform.allocation`, built and tested in phase 3. Contract section 1.2.
+
+---
+
+## C-3 · The cash flow, the borrowing base and the covenant, as one trace
+
+**Exhibit:** a single page running EBITDA down to covenant headroom, for Balanced Base against
+Wholesale Acceleration.
+
+**Why it earns a slide.** It is the only exhibit that explains the model's central result, and the
+result is counter-intuitive enough that assertion will not carry it: **Wholesale Acceleration
+shows the best EBITDA of the four scenarios and is the one that breaches.** Balanced Base holds
+$746k of minimum excess availability, DTC Recovery holds $1,181k, Consolidation reaches breakeven
+and never draws at all, and the scenario with the strongest earnings runs out of room in May-2028.
+
+The explanation is entirely in working capital, and the indirect cash flow method was chosen so
+that it would be legible on the face of the statement rather than derived by the reader (ADR
+0018). The same receivables and inventory balances the statement itemises as movements are the
+balances the facility advances against - 85% and 50% respectively (ADR 0008). One page can
+therefore run: EBITDA, less the inventory and receivable build, to cash; the same two balances
+into the borrowing base; the base less the drawn balance to availability; availability against
+the covenant floor. Every number on it already exists and ties.
+
+That trace is also the answer to the raise. $7.5M is not sized to fund losses, it is sized to fund
+the working capital the growth scenario consumes, and the page shows why the scenario with the
+best P&L needs the most of it.
+
+**Data:** `transform.statements.cash_flow` and the covenant probe, phases 3 and 4. Contract
+sections 6.10 and 9.
+
+---
+
 ## How to use this file
 
 Add an entry when building an earlier phase surfaces something the board pack should carry.
