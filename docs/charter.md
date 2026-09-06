@@ -1,7 +1,12 @@
 # Charter
 
-> Bellwether is an illustrative company. All data in this project is synthetic. No real
+> **Northlake, Inc. is an illustrative company.** All data in this project is synthetic. No real
 > company, no real people, no scraped or proprietary data.
+>
+> **Naming convention.** *Northlake* is the modelled business — the brand, and "Northlake, Inc."
+> as the reporting entity. *Bellwether* is this project: the repository, the Python package and
+> the build tooling. The two are never interchangeable, and no artifact should use Bellwether as
+> a company name.
 
 ## Why this project exists
 

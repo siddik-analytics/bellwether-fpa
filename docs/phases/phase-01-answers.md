@@ -11,9 +11,11 @@ is noted alongside it.
 - **Reporting entity:** Northlake, Inc.
 - **Interview started:** 2026-09-05
 
-**Naming.** Several answers refer to the company as "Bellwether". Bellwether is the name of
-this project; the company is Northlake, Inc., as established at the start of the interview.
-Answers are recorded with that one substitution applied and are otherwise verbatim.
+**Naming convention.** *Northlake* is the modelled business — the brand, and "Northlake, Inc." as
+the reporting entity. *Bellwether* is this project: the repository, the Python package and the
+build tooling. The two are never interchangeable, and no artifact uses Bellwether as a company
+name. Several answers as given used "Bellwether" for the company; they are recorded here with that
+single substitution applied and are otherwise verbatim.
 
 ---
 
@@ -1422,6 +1424,10 @@ expansion is defensible rather than merely convenient.
 
 ### Q19. Headcount by function and scaling behaviour
 
+> **Superseded in part by F2.** Year-end FY2025 headcount is **28 FTE**, not 31, and the history
+> rebases to 22 / 25 / 28. The functional structure, hiring triggers and planning convention below
+> stand unchanged. The answer is retained as given.
+
 > Northlake had approximately **31 full-time employees at the end of FY2025**. Historical:
 > FY2023 ~**25 FTE**; FY2024 ~**28 FTE**; FY2025 ~**31 FTE**.
 >
@@ -1593,10 +1599,13 @@ single unknown, so it was put as options rather than defaulted.
 
 **Chosen: loss-making, approximately $(600)k to $(900)k, or −6% to −8% of revenue.**
 
-Anchored at **~$96,000 average fully-loaded compensation** across 31 FTE:
+Anchored at a payroll cost of **~$2.98M**:
 
-- Payroll ~**$2.98M**
 - **FY2025 EBITDA ~$(750)k, −7.1% of net revenue**
+
+*(The headcount this is spread across was revised from 31 to 28 FTE at F2, holding the payroll
+anchor constant. Average fully-loaded compensation is therefore **~$106,500**, not the ~$96,000
+first derived here. EBITDA is unaffected.)*
 
 Rejected: breakeven (~$71–78k loaded comp — plausible but a weaker story), and modestly
 profitable (~$58–61k loaded comp — low for a team carrying a CEO, COO, Controller and three
@@ -1918,24 +1927,251 @@ external financing, which:
 
 **Interview complete — all 23 scripted questions answered, 2026-09-05.**
 
-## Open items to resolve before the data contract is drafted
+## Post-interview decisions
 
-| Item | Raised at |
+Four items were unresolved after the scripted questions. Three arose because the script does not
+cover them; one was a direct conflict between an answer and `docs/charter.md`. All were put as
+options with their consequences rather than defaulted.
+
+### D1. Capital structure — ABL revolver plus equity already raised
+
+**Chosen:** an asset-based revolver with a borrowing base on eligible accounts receivable and
+inventory, alongside seed / founder equity already on the balance sheet.
+
+Rejected: a term loan or venture debt (fixed amortisation, but debt capacity disconnected from
+working capital, losing the feedback loop); and equity-only funding (leaves ADR 0001 academic and
+removes any financing constraint on Scenario 2).
+
+**Why this matters.** The borrowing base contracts exactly when the business needs it most —
+ageing inventory becomes ineligible, and stretched receivables reduce availability. That gives
+Scenario 2 (Wholesale Acceleration) a hard funding ceiling rather than an arbitrary one, and it
+makes the Q22 question "how much wholesale growth can Northlake finance" answerable from the
+model rather than by assertion.
+
+It also makes **ADR 0001 load-bearing**: interest accrues on a real, moving revolver balance, so
+the beginning-of-period convention has genuine consequences rather than being a technicality on
+an empty debt line.
+
+Still to specify in the data contract: advance rates on AR and inventory, ineligibility rules
+(aged inventory, past-due AR, concentration limits), the interest rate, and any covenants.
+
+### D2. FX — supplier contracts denominated in USD, no FX machinery
+
+**Chosen:** supplier contracts are denominated in USD. Foreign exchange surfaces only as supplier
+price movement, which the purchase price variance from Q11 already captures.
+
+Rejected: modelling FX explicitly on PO lines with rate tables and payables revaluation.
+
+This resolves the conflict between Q21 (which asked that FX exposure be retained) and
+`docs/charter.md` (which puts multi-currency out of scope) **in favour of the charter, unamended**.
+The `currency` field on the PO line at Q23 is retained as USD-only for shape, not as a live
+dimension. The April 2025 supplier cost increase works exactly as described without it.
+
+### D3. Channel allocation — contribution only, corporate unallocated
+
+**Chosen:** allocate only directly attributable costs to channel — marketing to DTC, account
+management to wholesale, fulfilment and freight by actual activity. Supply chain, finance,
+executive and technology remain in a single unallocated corporate block below channel
+contribution.
+
+Rejected: a hybrid pushing shared operations down on stated drivers (fuller channel P&L, but an
+allocation policy a reviewer can argue with); and full absorption (arbitrary by construction, and
+it would make wholesale look worse purely as a function of the allocation basis chosen).
+
+This matches the Gross Profit → Contribution Profit → EBITDA hierarchy established at Q12, and it
+means channel comparisons in the board pack are defensible without an allocation debate.
+
+### D4. Prior-year profitability — profitable FY2023, breakeven FY2024, loss FY2025
+
+**Chosen:** approximately +2–3% EBITDA in FY2023, near zero in FY2024, −7.1% in FY2025.
+
+Rejected: loss-making throughout (reads as a business that never found its economics, making the
+board question existential rather than strategic); and breakeven across FY2023–24 (less
+explanatory power).
+
+**Why this matters.** It makes the deterioration attributable. The business worked at a 72% DTC
+mix; the wholesale shift, the April 2025 supplier increase and CAC rising from $29 to $34
+progressively broke it. That is a "what changed" argument the variance commentary can actually
+construct from the data, and it makes the three scenarios a recovery question rather than a
+survival question.
+
+### D5. Gross-to-net ordering — resolved arithmetically, no choice required
+
+Listed as an open item at Q12c, but the stated bases resolve it without a decision. Q9 defines
+wholesale deductions as a percentage of **gross invoiced sales**; Q10 defines wholesale returns as
+a percentage of **net wholesale sales**. Each therefore has its own declared base and the two do
+not compound ambiguously:
+
+| Wholesale FY2025 | $M |
 |---|---|
-| Ordering of returns vs wholesale deductions in the gross-to-net ladder | Q12c |
-| **FX scope conflict.** Q21 asks that FX exposure be retained on purchasing and landed cost, but `docs/charter.md` puts multi-currency explicitly out of scope. Either supplier costs are contracted in USD (FX appears only as supplier price movement, no new machinery), or the charter is amended. Needs a decision, not a silent resolution | Q21 |
-| Channel allocation rules for shared costs — Q21 requires explicit rules but does not state them. These are a financial convention and must be documented before channel contribution can be computed | Q21 |
-| Split of new customers between paid-acquired and organic / referral / owned — Q18 implies ~29,000 paid, but total new customers is unstated and repeat rate varies by acquisition channel (Q7) | Q18 |
-| Salary levels / total payroll cost — resolved at Q20a (~$96k avg loaded, ~$2.98M), but per-function salary bands still needed for the position roster | Q19 / Q20a |
-| **Capital structure and financing** — not covered by the interview script. A ~$1.5M FY2025 cash consumption requires a revolver, term debt and/or equity. Needed before the three-statement model can close, and ADR 0001 depends on it | Q20a |
-| FY2023 and FY2024 profitability — whether the business was profitable and deteriorated, or has been loss-making throughout. Changes what the board pack argues | Q20a |
+| Gross billings | 4.552 |
+| Less deductions (3.0% of gross) | (0.137) |
+| Less returns (1.5% of net) | (0.065) |
+| **Net wholesale revenue** | **4.350** |
 
-## Running list of ADRs this interview has generated
+The ladder is fixed in the contract in this form so the ordering is explicit in code rather than
+implicit in an implementation detail.
+
+---
+
+## Final conventions
+
+Confirmed after the post-interview decisions, closing the remaining open items. Where these
+conflict with an earlier answer, **these supersede it**.
+
+### F1. Customer acquisition mix and CAC definitions
+
+Non-paid share of new customers, by year:
+
+| | FY2023 | FY2024 | FY2025 |
+|---|---|---|---|
+| Non-paid share of new customers | ~38% | ~34% | ~30% |
+
+FY2025 therefore:
+
+- Paid-acquired new customers: **~29,000**
+- Organic / referral / owned new customers: **~12,400**
+- **Total new customers: ~41,400**
+
+**Three CAC definitions, used explicitly and never interchangeably:**
+
+| Measure | FY2025 | Definition |
+|---|---|---|
+| Paid media CAC | ~$34 | Performance media spend ÷ paid-acquired new customers |
+| Blended media CAC | ~$24 | Total media spend ÷ all new customers |
+| Fully loaded acquisition CAC | ~$32–$34 target | Adds acquisition-attributable payroll, agencies, creative and tools |
+
+**Do not allocate all marketing payroll or all brand/retention spend to acquisition.** The fully
+loaded measure includes only the acquisition-attributable portion; retention, brand and
+owned-channel programme costs are excluded from it by design.
+
+The declining non-paid share (38% → 30%) is itself a finding: the business has become *more*
+dependent on paid acquisition over the three years, at the same time as paid CAC rose from $29 to
+$34. That is the DTC deterioration stated in customer terms rather than in spend terms, and it is
+what the Scenario 3 "DTC Recovery" case is trying to reverse.
+
+> **ADR required.** CAC definitions, and the rejected alternative of a single blended CAC or a
+> fully loaded measure that absorbs all marketing cost.
+
+### F2. Headcount — 28 FTE, superseding the 31 FTE at Q19
+
+FY2025 year-end headcount is **28 FTE**, not 31. The fully loaded payroll anchor of **$2.981M** is
+preserved, so FY2025 EBITDA of ~$(750)k is unchanged.
+
+| Cost centre | FTE | Fully loaded $k |
+|---|---|---|
+| Executive / Corporate | 2 | 395 |
+| People / Administration | 1 | 80 |
+| Finance | 3 | 350 |
+| Supply Chain / Operations | 4 | 420 |
+| Product / Merchandising | 5 | 480 |
+| Marketing / Ecommerce | 7 | 701 |
+| Wholesale Sales | 3 | 365 |
+| Customer Experience | 3 | 190 |
+| **Total** | **28** | **2,981** |
+
+Finance explicitly contains **Controller / Head of Finance, Senior Accountant, FP&A Manager**.
+
+**The employee fact must carry:** hire date, departure date, department, role, salary,
+benefits / payroll burden, bonus eligibility, and planned-hire status — so headcount steps
+through the forecast rather than scaling as a percentage of revenue.
+
+**Consequential revisions** (derived, applied for internal consistency):
+
+- Q19's named roles must be trimmed to fit the revised counts. Supply Chain / Operations goes from
+  six roles to four — Head of Supply Chain, demand / inventory planner, procurement / supplier
+  manager, logistics coordinator — with the operations analyst and quality / product operations
+  roles absorbed. Wholesale Sales goes from four to three: Head of Wholesale plus two key /
+  regional account managers, with sales operations absorbed.
+- Q19's headcount history (25 / 28 / 31) is rebased to **22 / 25 / 28** for FY2023 / FY2024 /
+  FY2025, preserving the stated +3 per year progression to the confirmed FY2025 endpoint.
+- Revenue per FTE becomes $368k / $372k / $379k across the three years — still modest operating
+  leverage, consistent with outsourced manufacturing and warehousing.
+- Q21's ninth cost centre, Technology / Shared Services, carries **no headcount**. It exists to
+  hold software and shared technology cost, which is legitimate but must be explicit so a
+  zero-FTE cost centre is not read as a data error.
+- All Q19 hiring triggers stand unchanged.
+
+### F3. ABL revolver — $2.0M committed facility
+
+**Facility:** $2.0M committed asset-based revolver.
+
+**Borrowing base:**
+
+- 85% of eligible wholesale accounts receivable
+- 50% of eligible finished-goods inventory
+- **$1.0M inventory advance sublimit**
+- less lender reserves
+
+**AR eligibility:**
+
+- Over 90 days past due is ineligible
+- **25% individual account concentration cap**
+- Specific disputed amounts and known credits are ineligible
+- General **dilution reserve of ~2%** of otherwise eligible AR, able to increase if trailing
+  dilution deteriorates
+
+**Inventory eligibility** excludes or reserves against obsolete, damaged, aged, and
+weak-liquidation-value inventory.
+
+**Pricing:**
+
+- SOFR + 3.50%
+- 0.50% unused-line fee
+- **SOFR is an explicit monthly model input**, not an embedded all-in rate
+
+**Liquidity requirements:**
+
+- Internal minimum cash: **$500k**
+- **Springing FCCR test** when excess availability falls below **$300k**
+- FCCR minimum **1.10x**, trailing twelve months
+
+**Five separately reported lines:** facility commitment; borrowing base; revolver drawn; excess
+availability; minimum availability / covenant status.
+
+The **~$650k FY2025 revolver draw** stands as the opening forecast balance, subject to
+reconciliation against the final generated borrowing base.
+
+**Scenario 2 must not use debt as an unlimited balancing plug.** Where borrowing-base capacity is
+exhausted, the model surfaces the **first funding-gap month and the additional capital required**.
+
+**Why this is the sharpest part of the model.** The borrowing base is built from the same AR and
+inventory that the Q5 tension degrades. Ageing inventory becomes ineligible; stretched receivables
+and the 25% concentration cap reduce availability; the dilution reserve rises with deductions.
+Availability therefore contracts precisely when the business most needs it, and the largest
+account at 24% of wholesale sits immediately below the concentration cap — so growth in that
+account starts consuming availability rather than creating it.
+
+That converts the Q22 question "how much wholesale growth can Northlake finance" from a rhetorical
+framing into a computed answer with a date attached.
+
+> **ADR required.** Revolver capacity as a binding constraint that surfaces a funding gap, rather
+> than debt as a balancing plug.
+
+---
+
+## Open items
+
+**None.** All items raised during the interview were closed by the post-interview decisions (D1–D5)
+and the final conventions (F1–F3).
+
+## ADRs to be written
+
+Numbered here so the contract and the ADR files agree. ADR 0001 (beginning-balance interest)
+already exists from phase 0 and is unaffected, though D1 makes it load-bearing.
 
 | # | Decision | Source |
 |---|---|---|
-| — | Returns recognised on an ASC 606 basis: refund liability + return asset | Q10a |
-| — | Standard landed cost with PPV / freight / duty variances, rather than actual costing | Q11 |
-| — | COGS boundary: outbound shipping and variable fulfilment in COGS, payment processing in opex | Q12 |
-| — | Marketing modelled as a constrained driver with a CAC response curve, not % of revenue or fixed ROAS | Q18 |
-| — | Version and Scenario as two separate dimensions, superseding the single-scenario-dimension rule in `CLAUDE.md` and `.claude/rules/powerbi-pbip.md` | Q22 |
+| 0002 | Returns recognised on an ASC 606 basis: refund liability and right-of-return asset | Q10a |
+| 0003 | Standard landed cost with PPV / freight / duty variances, rather than actual costing | Q11 |
+| 0004 | COGS boundary: outbound shipping and variable fulfilment in COGS, payment processing in opex | Q12 |
+| 0005 | Marketing as a constrained driver with a CAC response curve, not % of revenue or fixed ROAS | Q18 |
+| 0006 | Three explicit CAC definitions: paid media, blended media, fully loaded acquisition | F1 |
+| 0007 | Version and Scenario as two separate dimensions | Q22 |
+| 0008 | ABL revolver with a borrowing base, treated as a binding constraint that surfaces a funding gap | D1, F3 |
+| 0009 | Supplier contracts denominated in USD; FX out of scope, charter unamended | D2 |
+| 0010 | Channel contribution reporting with corporate costs unallocated | D3 |
+
+ADR 0007 additionally requires updating the standing rule in `CLAUDE.md` and
+`.claude/rules/powerbi-pbip.md`, both of which currently describe scenario as a single dimension
+carrying actual / budget / forecast.
