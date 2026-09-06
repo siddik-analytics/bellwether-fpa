@@ -39,6 +39,28 @@ def borrowing_base(
     }
 
 
+def run_from_ledger(
+    ledger_balances: pd.DataFrame, ebitda: pd.DataFrame, opening_cash: float, opening_drawn: float
+) -> pd.DataFrame:
+    """Roll the revolver using balances **posted to the ledger** — criterion 3.3.
+
+    This is what removes the second source of truth. ``ledger_balances`` comes from
+    ``transform.forecast_ledger.working_capital_from_ledger``; no working-capital figure here is
+    computed from a scenario driver. The facility rules — advance rates, eligibility, the
+    covenant test — remain this module's responsibility, and are all it is responsible for.
+    """
+    frame = ledger_balances.merge(ebitda, on="month", how="left").fillna(0.0)
+    frame["working_capital"] = (
+        frame["inventory"]
+        + frame["receivables"]
+        + frame["processor_receivable"]
+        + frame["supplier_advances"]
+        - frame["accounts_payable"]
+    )
+    frame["capex"] = C.CAPEX_PER_YEAR / 12
+    return run(frame, opening_cash, opening_drawn)
+
+
 def run(monthly: pd.DataFrame, opening_cash: float, opening_drawn: float) -> pd.DataFrame:
     """Roll the revolver forward month by month.
 

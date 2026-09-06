@@ -41,13 +41,13 @@ entity, single currency, fiscal year ending 31 December.
 | Paid CAC | — | $29 | $34 |
 | Non-paid share of new customers | 38% | 34% | 30% |
 | Headcount (year end) | 22 | 25 | 28 |
-| Equity raised | — | **$5.50M** | — |
+| Equity raised | — | **$7.50M** | — |
 
 DTC grows at a 3.5% CAGR in dollar terms while wholesale grows at 38.4%. Substantially all
 incremental revenue is wholesale.
 
 **The FY2024 equity raise is the fact that makes the position interesting.** Northlake raised
-$5.50M in June 2024, at roughly breakeven, on a growth story. FY2025 then consumed a large part of
+$7.50M in June 2024, at roughly breakeven, on a growth story. FY2025 then consumed a large part of
 it — $859k of EBITDA loss and $720k of working capital build — leaving the company entering the
 forecast with cash but no earnings, and a shareholder base that funded expansion rather than
 recovery. That is the position the board pack has to address: the money is already spent, the
@@ -143,8 +143,13 @@ wholesale. Acceleration and Consolidation are the ends of the first; Recovery an
 ends of the second. Balanced Base is management's plan and sits between them.
 
 **Consolidation is the only scenario that reaches profitability**, on the lowest revenue, and it
-is the only one that never draws the revolver. That is the comparison the board pack exists to
-put in front of a reader: the most profitable plan is the smallest one.
+is the only one that never draws the revolver.
+
+It is also the only scenario that **holds its covenant at every raise level tested, including
+$5.5M** — two million below what the other three require. Northlake raised $7.5M on a growth
+plan, and the plan that does not need the money is the one that works. That is the sharpest
+fact in the model and the comparison the board pack exists to put in front of a reader: the most
+profitable plan is the smallest one, and it would have been financeable without the round.
 
 Scenarios are **strategic alternatives, not monotonic bands**. Wholesale Acceleration has higher
 revenue *and* worse cash; any model treating scenarios as ordered upside/downside cannot represent
@@ -679,7 +684,7 @@ a balancing plug.
 Interest accrues on the **beginning-of-period** debt balance, so the model is acyclic and
 iterative calculation stays off (ADR 0001).
 
-**$2.0M committed ABL revolver**, alongside a **$5.50M equity raise in June 2024**.
+**$2.0M committed ABL revolver**, alongside a **$7.50M equity raise in June 2024**.
 
 Borrowing base:
 
@@ -1109,12 +1114,15 @@ The generator is not done until these pass. They run in CI.
 
 **Financing**
 
-23. **Balanced Base holds the covenant in every forecast month.** Minimum excess availability
-    ≈ **$741k in Jul-2028**, never below the $250k floor, and no funding gap.
-24. **Wholesale Acceleration breaches.** Excess availability falls below $250k in **Apr-2028** and
-    stays there. The model reports the breach month and the additional capital required; it never
-    draws beyond the borrowing base to make the balance sheet close.
-25. **DTC Recovery holds with room** — minimum excess availability ≈ **$997k**, never below $500k.
+23. **Balanced Base holds the covenant in every forecast month**, with minimum excess
+    availability ≈ **$693k**. Computed from ledger balances, not scenario drivers (ADR 0014).
+24. **Wholesale Acceleration breaches in May-2028, and the breach is structural.** Extending the
+    horizon twelve months gives an identical first breach and availability that oscillates
+    $569k → $355k → $64k → $0 → $583k → $0 — it fails at every seasonal peak thereafter rather
+    than declining terminally, so it is not a horizon artifact.
+25. **DTC Recovery holds** — minimum excess availability ≈ **$1,128k**.
+25a. **Consolidation holds at every raise level tested, including $5.5M**, and never draws the
+    revolver.
 25a. **Consolidation reaches breakeven and never draws the revolver.** FY2028 EBITDA is positive,
     TTM EBITDA turns positive in Nov-2028, peak revolver drawn is **$0**, and cumulative
     FY2026–28 burn is **$(1.07)M** against $(2.4)M–$(2.5)M for the three growth scenarios.

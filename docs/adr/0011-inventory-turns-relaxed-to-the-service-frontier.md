@@ -123,28 +123,40 @@ equity raise must increase from $3.25M to **$3.50M** for Balanced Base to hold i
 higher inventory consumes more cash than the additional borrowing base provides, because the
 inventory advance rate is 50% against a dollar of cash tied up.
 
-### Why a $9.3M brand at breakeven raised $5.50M
+### Why a $9.3M brand at breakeven raised $7.5M
 
-*Sized at $3.50M when first written; ADR 0013 raised it to $5.50M once the generator's margins
-replaced the scratch model's.*
+*Sized at $3.25M when first written, then $3.50M, then $5.50M as the generator replaced the
+scratch model's assumptions, and finally $7.5M once the covenant test was computed from the
+ledger rather than from scenario drivers. The rationale below replaces the earlier
+"inventory-led working capital" framing, which stopped being accurate two revisions ago and was
+becoming a story told about a number rather than a reading of it.*
 
-The honest answer has two parts, and the first one alone would be a half-truth.
+**Northlake raised a large round on a wholesale growth story, and the growth arrived while the
+economics did not.**
 
-**Inventory-led working capital.** FY2024 EBITDA is approximately zero, so at the point of the
-raise nothing was being burned on operations. What the money bought was the ability to commit
-inventory three to four months ahead of wholesale seasonal programmes — the channel Northlake was
-deliberately expanding into, and the one whose orders must be paid for before they are placed. A
-brand growing DTC would not need it; a brand growing wholesale cannot avoid it.
+That is the whole of it. The FY2024 raise was made at breakeven, against a plan to expand into
+wholesale — a channel that requires inventory to be committed three to four months ahead of
+orders and paid for before those orders are placed. The expansion worked on its own terms:
+wholesale grew from 28% of revenue to 41%, and revenue grew 14% a year through it.
 
-**Roughly two years of operating runway.** That is the part the working-capital rationale on its
-own would conceal. At the FY2025 burn of about $1.3M a year, a $5.50M raise is somewhere near
-$2.5-3.0M of working capital and $2.5-3.0M of runway. Some of it funds losses, and pretending
-otherwise would misdescribe both the raise and the board's position — the money was raised on a
-growth story at breakeven, and it is being consumed by a business that is no longer at breakeven.
+What did not work was the economics underneath. Wholesale realises $25.10 a unit against DTC's
+$46, so a mix shift that looks modest in revenue is large in units and larger still in the cost
+of carrying them. Blended gross margin fell from 53.0% to 43.6%. Paid CAC rose from $29 to $34
+while the non-paid share of new customers fell from 38% to 30%, so the channel being de-
+emphasised got more expensive at the same time. FY2025 closed at −12.35% EBITDA.
 
-That combination is what makes the FY2025 deterioration a question about the strategy rather than
-about cost control. The raise was the price of the plan the board approved; the plan has not
-worked yet; and the runway it bought is finite and now partly spent.
+$7.5M is 81% of FY2024 revenue raised in a single round. At the FY2025 burn it is a little over
+two years of runway, and it is being consumed by a business that is no longer at breakeven. It
+is the common outcome for a brand funding a channel shift, and stating it plainly is worth more
+than a working-capital rationale that describes only the part of the money that bought
+inventory.
+
+**This is what makes Consolidation decisive rather than merely available.** The company raised
+$7.5M on a growth plan, and the only scenario that reaches breakeven is the one that shrinks —
+on the lowest revenue of the four. Consolidation holds its covenant at **every raise level
+tested, including $5.5M**, and never draws the revolver at all. The plan that does not need the
+money is the plan that works, which is the sharpest fact the model contains and the one the
+board pack should open with.
 
 The turns *decline* across FY2024 to FY2025 is preserved (2.61x to 2.42x) and is now driven by
 the modelled launch overhang rather than asserted. That decline is smaller in proportional terms
