@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import hashlib
 import re
+import time
 import zipfile
 
 import pandas as pd
@@ -11,7 +13,7 @@ import pytest
 from bellwether.data import config as C
 from bellwether.data import generate
 from bellwether.paths import REPO_ROOT
-from bellwether.transform import statements
+from bellwether.transform import allocation, semantic, star, statements
 from bellwether.workbook import model
 from bellwether.workbook import theme as theme_mod
 
@@ -206,16 +208,25 @@ def test_every_sheet_carries_the_disclosure(built) -> None:
 # --- 4.21 to 4.23 build ----------------------------------------------------------------------
 
 
-def test_workbook_is_deterministic(tables, tmp_path) -> None:
-    """4.23 — two runs, one seed, identical values."""
+def test_workbook_is_byte_identical_across_runs(tables, tmp_path) -> None:
+    """4.23 - two runs, one seed, the same bytes.
+
+    Equal values would be the weaker claim and would pass while a timestamp or a dict ordering
+    drifted underneath. xlsxwriter can be made reproducible, so the criterion is byte-identity.
+    """
     first, second = tmp_path / "a.xlsx", tmp_path / "b.xlsx"
     model.build(tables, first)
     model.build(tables, second)
+    assert hashlib.sha256(first.read_bytes()).hexdigest() == (
+        hashlib.sha256(second.read_bytes()).hexdigest()
+    )
 
-    def values(path):
-        return {n: re.findall(r"<v>([^<]*)</v>", x) for n, x in _sheet_xml(path).items()}
 
-    assert values(first) == values(second)
+def test_generation_is_well_inside_the_time_budget(tables, tmp_path) -> None:
+    """4.22 - sixty seconds. The margin matters: this runs on every commit."""
+    started = time.perf_counter()
+    model.build(tables, tmp_path / "timed.xlsx")
+    assert time.perf_counter() - started < 60.0
 
 
 def test_workbook_has_the_expected_sheets(built) -> None:
@@ -239,3 +250,67 @@ def test_actual_forecast_boundary_is_marked(built) -> None:
     path, _ = built
     styles = zipfile.ZipFile(path).read("xl/styles.xml").decode("utf-8")
     assert theme_mod.Theme().boundary.replace("#", "").upper() in styles.upper()
+
+
+# --- 4.8 to 4.10 the statements tie to the semantic layer, not to each other -------------------
+
+
+def test_net_income_flows_to_retained_earnings(tables) -> None:
+    """4.8 - the roll-forward ties.
+
+    The ledger never closes the P&L to equity, so the balance sheet only balances because the
+    accumulated result is added back. That makes this the join the balance is standing on, and a
+    sign error here would show up as a balanced sheet with the wrong equity.
+    """
+    keys = ["month", "version_name", "scenario_name"]
+    accumulated = statements.retained_earnings(tables["fact_gl"], tables["dim_gl_account"])
+    series = statements.metric_series(tables["fact_gl"], tables["dim_gl_account"])
+    merged = accumulated.merge(series[[*keys, "Net Income"]], on=keys).sort_values("month")
+    merged["cumulative"] = merged.groupby(["version_name", "scenario_name"])["Net Income"].cumsum()
+    # Accounts carry credits negative, so the accumulated result is the cumulative net income
+    # with the opposite sign. Asserting the sum is zero catches a sign flip that asserting
+    # equality of magnitudes would not.
+    assert (merged["accumulated_result"] + merged["cumulative"]).abs().max() < 0.01
+    assert len(merged) == 360
+
+
+def test_channel_revenue_sums_to_the_total_the_workbook_reports(built, tables) -> None:
+    """4.9 - disaggregation sums to the whole, checked against the figure the workbook prints."""
+    ledger = tables["fact_gl"]
+    ledger = ledger[ledger["version_name"] == "Actual"].copy()
+    mapping = allocation.build_mapping(tables["dim_gl_account"], tables["dim_department"])
+    ledger = star.channel_key_for_ledger(ledger, mapping, tables["dim_channel"])
+    ledger["year"] = pd.to_datetime(ledger["date"]).dt.year
+    ledger = ledger[ledger["year"] == max(C.ACTUAL_YEARS)]
+
+    dtc, wholesale = tables["fact_dtc_order_line"], tables["fact_wholesale_invoice_line"]
+    year = max(C.ACTUAL_YEARS)
+    units = {
+        "DTC": float(dtc[dtc["fiscal_year"] == year]["quantity"].sum()),
+        "Wholesale": float(wholesale[wholesale["fiscal_year"] == year]["units"].sum()),
+    }
+    by_channel = semantic.channel_contribution(ledger, tables["dim_gl_account"], units)
+    channel_total = float(by_channel["Net Revenue"].sum())
+
+    series = statements.metric_series(tables["fact_gl"], tables["dim_gl_account"])
+    reported = float(
+        series[
+            (series["version_name"] == "Actual") & (pd.to_datetime(series["month"]).dt.year == year)
+        ]["Net Revenue"].sum()
+    )
+    assert abs(channel_total - reported) < 1.0
+
+    # And that same total is a number the workbook actually contains, not one only the test knows.
+    path, _ = built
+    cached = {
+        round(float(re.sub(r"</?v>", "", value)), 2)
+        for xml in _sheet_xml(path).values()
+        for _, _, value in CELL_WITH_FORMULA.findall(xml)
+        if value
+    }
+    monthly_net = series[
+        (series["version_name"] == "Actual") & (series["scenario_name"] == "Balanced Base")
+    ].sort_values("month")["Net Revenue"]
+    assert any(any(abs(v - float(m)) < 0.01 for v in cached) for m in monthly_net.head(3)), (
+        "the workbook does not carry the net revenue the disaggregation ties to"
+    )

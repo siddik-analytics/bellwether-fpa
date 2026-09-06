@@ -11,6 +11,7 @@ module writes one, and it requires the value.
 
 from __future__ import annotations
 
+import datetime as dt
 from dataclasses import dataclass
 
 import pandas as pd
@@ -417,7 +418,15 @@ def build(tables: dict[str, pd.DataFrame], path, theme: theme_mod.Theme | None =
 
     workbook = xlsxwriter.Workbook(str(path), {"default_date_format": theme_mod.DATE_MONTH})
     workbook.set_properties(
-        {"title": "Northlake, Inc. - three-statement model", "comments": DISCLOSURE}
+        {
+            "title": "Northlake, Inc. - three-statement model",
+            "comments": DISCLOSURE,
+            # Pinned so two builds of the same data are byte-identical (4.23). This is the
+            # model's as-of date, not the moment the file was written; provenance belongs to the
+            # commit that produced it, and a wall clock in the file would only make a
+            # reproducibility check unrunnable.
+            "created": dt.datetime(min(C.FORECAST_YEARS), 1, 1),
+        }
     )
     formats = theme_mod.resolve(workbook, theme)
 
