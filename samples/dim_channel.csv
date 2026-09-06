@@ -1,0 +1,4 @@
+channel_key,channel_name,is_revenue_channel
+1,DTC,True
+2,Wholesale,True
+3,Unallocated corporate,False

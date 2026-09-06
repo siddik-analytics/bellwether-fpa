@@ -1,1001 +1,1001 @@
 date,account_code,department_name,memo,amount,version_name,scenario_name
-2023-01-01,1000,Finance,DTC delivery cost,-1785.0,Actual,
-2023-01-01,1000,Finance,Fixed operating costs,-49833.333333,Actual,
-2023-01-01,1000,Finance,Marketing,-62214.609116,Actual,
-2023-01-01,1000,Finance,Payment processing,-12800.201834,Actual,
-2023-01-01,1000,Finance,Payroll,-180583.333333,Actual,
-2023-01-01,1000,Finance,Supplier deposit,-402329.18016,Actual,
-2023-01-01,1150,Marketing / Ecommerce,DTC sale,12990.28527,Actual,
-2023-01-01,1180,Finance,Bad debt,-496.804342,Actual,
-2023-01-01,1200,Supply Chain / Operations,COGS on shipment,-3607.9267,Actual,
-2023-01-01,1200,Supply Chain / Operations,Shrink and damage,-181.757652,Actual,
-2023-01-01,1300,Supply Chain / Operations,Supplier deposit,402329.18016,Actual,
-2023-01-01,1400,Executive / Corporate,Depreciation,-4166.666667,Actual,
-2023-01-01,2200,Finance,Returns reserve,-1142.693713,Actual,
-2023-01-01,4000,Marketing / Ecommerce,DTC sale,-12612.182282,Actual,
-2023-01-01,4020,Marketing / Ecommerce,DTC sale,-378.102988,Actual,
-2023-01-01,4110,Marketing / Ecommerce,Returns reserve,1142.693713,Actual,
-2023-01-01,5000,Supply Chain / Operations,COGS on shipment,2814.182826,Actual,
-2023-01-01,5010,Supply Chain / Operations,COGS on shipment,432.951204,Actual,
-2023-01-01,5020,Supply Chain / Operations,COGS on shipment,360.79267,Actual,
-2023-01-01,5100,Supply Chain / Operations,DTC delivery cost,1232.5,Actual,
-2023-01-01,5200,Supply Chain / Operations,DTC delivery cost,552.5,Actual,
-2023-01-01,5310,Supply Chain / Operations,Shrink and damage,181.757652,Actual,
-2023-01-01,6000,Customer Experience,Payroll,19348.214286,Actual,
-2023-01-01,6000,Executive / Corporate,Payroll,12898.809524,Actual,
-2023-01-01,6000,Finance,Payroll,19348.214286,Actual,
-2023-01-01,6000,Marketing / Ecommerce,Payroll,45145.833333,Actual,
-2023-01-01,6000,People / Administration,Payroll,6449.404762,Actual,
-2023-01-01,6000,Product / Merchandising,Payroll,32247.02381,Actual,
-2023-01-01,6000,Supply Chain / Operations,Payroll,25797.619048,Actual,
-2023-01-01,6000,Wholesale Sales,Payroll,19348.214286,Actual,
-2023-01-01,6100,Marketing / Ecommerce,Marketing,42305.934199,Actual,
-2023-01-01,6110,Marketing / Ecommerce,Marketing,19908.674917,Actual,
-2023-01-01,6200,Marketing / Ecommerce,Payment processing,12800.201834,Actual,
-2023-01-01,6300,Supply Chain / Operations,Fixed operating costs,9769.561479,Actual,
-2023-01-01,6310,People / Administration,Fixed operating costs,6427.343078,Actual,
-2023-01-01,6320,Technology / Shared Services,Fixed operating costs,11997.707079,Actual,
-2023-01-01,6330,Finance,Fixed operating costs,8998.28031,Actual,
-2023-01-01,6340,Finance,Fixed operating costs,4070.650616,Actual,
-2023-01-01,6350,Executive / Corporate,Fixed operating costs,8569.790771,Actual,
-2023-01-01,6400,Finance,Bad debt,496.804342,Actual,
-2023-01-01,6500,Executive / Corporate,Depreciation,4166.666667,Actual,
-2023-01-02,1000,Finance,DTC delivery cost,-1995.0,Actual,
-2023-01-02,1000,Finance,Wholesale delivery cost,-177.80934,Actual,
-2023-01-02,1100,Wholesale Sales,Wholesale sale,4553.296661,Actual,
-2023-01-02,1150,Marketing / Ecommerce,DTC sale,14852.628342,Actual,
-2023-01-02,1200,Supply Chain / Operations,COGS on shipment,-6773.981379,Actual,
-2023-01-02,2200,Finance,Returns reserve,-866.960883,Actual,
-2023-01-02,4000,Marketing / Ecommerce,DTC sale,-14417.237023,Actual,
-2023-01-02,4010,Wholesale Sales,Wholesale sale,-4609.555448,Actual,
-2023-01-02,4020,Marketing / Ecommerce,DTC sale,-435.391319,Actual,
-2023-01-02,4110,Marketing / Ecommerce,Returns reserve,866.960883,Actual,
-2023-01-02,4130,Wholesale Sales,Wholesale sale,25.316454,Actual,
-2023-01-02,4140,Wholesale Sales,Wholesale sale,16.877636,Actual,
-2023-01-02,4150,Wholesale Sales,Wholesale sale,14.064697,Actual,
-2023-01-02,5000,Supply Chain / Operations,COGS on shipment,5283.705475,Actual,
-2023-01-02,5010,Supply Chain / Operations,COGS on shipment,812.877765,Actual,
-2023-01-02,5020,Supply Chain / Operations,COGS on shipment,677.398138,Actual,
-2023-01-02,5100,Supply Chain / Operations,DTC delivery cost,1377.5,Actual,
-2023-01-02,5110,Supply Chain / Operations,Wholesale delivery cost,81.95934,Actual,
-2023-01-02,5200,Supply Chain / Operations,DTC delivery cost,617.5,Actual,
-2023-01-02,5210,Supply Chain / Operations,Wholesale delivery cost,95.85,Actual,
-2023-01-03,1000,Finance,DTC delivery cost,-1617.0,Actual,
-2023-01-03,1000,Finance,Refund paid,-48.203573,Actual,
-2023-01-03,1000,Finance,Wholesale delivery cost,-46.72388,Actual,
-2023-01-03,1100,Wholesale Sales,Wholesale sale,1070.771086,Actual,
-2023-01-03,1150,Marketing / Ecommerce,DTC sale,12329.414839,Actual,
-2023-01-03,1200,Supply Chain / Operations,COGS on shipment,-4075.430314,Actual,
-2023-01-03,1200,Supply Chain / Operations,Return to stock,15.001088,Actual,
-2023-01-03,2200,Finance,Refund paid,48.203573,Actual,
-2023-01-03,2200,Finance,Returns reserve,-766.592307,Actual,
-2023-01-03,4000,Marketing / Ecommerce,DTC sale,-11957.040684,Actual,
-2023-01-03,4010,Wholesale Sales,Wholesale sale,-1084.199356,Actual,
-2023-01-03,4020,Marketing / Ecommerce,DTC sale,-372.374154,Actual,
-2023-01-03,4110,Marketing / Ecommerce,Returns reserve,766.592307,Actual,
-2023-01-03,4130,Wholesale Sales,Wholesale sale,6.042722,Actual,
-2023-01-03,4140,Wholesale Sales,Wholesale sale,4.028481,Actual,
-2023-01-03,4150,Wholesale Sales,Wholesale sale,3.357068,Actual,
-2023-01-03,5000,Supply Chain / Operations,COGS on shipment,3178.835645,Actual,
-2023-01-03,5000,Supply Chain / Operations,Return to stock,-15.001088,Actual,
-2023-01-03,5010,Supply Chain / Operations,COGS on shipment,489.051638,Actual,
-2023-01-03,5020,Supply Chain / Operations,COGS on shipment,407.543031,Actual,
-2023-01-03,5100,Supply Chain / Operations,DTC delivery cost,1116.5,Actual,
-2023-01-03,5110,Supply Chain / Operations,Wholesale delivery cost,19.27388,Actual,
-2023-01-03,5200,Supply Chain / Operations,DTC delivery cost,500.5,Actual,
-2023-01-03,5210,Supply Chain / Operations,Wholesale delivery cost,27.45,Actual,
-2023-01-04,1000,Finance,DTC delivery cost,-1669.5,Actual,
-2023-01-04,1000,Finance,Processor settlement,12990.28527,Actual,
-2023-01-04,1150,Marketing / Ecommerce,DTC sale,13390.343025,Actual,
-2023-01-04,1150,Marketing / Ecommerce,Processor settlement,-12990.28527,Actual,
-2023-01-04,1200,Supply Chain / Operations,COGS on shipment,-3618.563346,Actual,
-2023-01-04,2200,Finance,Returns reserve,-957.604827,Actual,
-2023-01-04,4000,Marketing / Ecommerce,DTC sale,-13006.511204,Actual,
-2023-01-04,4020,Marketing / Ecommerce,DTC sale,-383.831821,Actual,
-2023-01-04,4110,Marketing / Ecommerce,Returns reserve,957.604827,Actual,
-2023-01-04,5000,Supply Chain / Operations,COGS on shipment,2822.47941,Actual,
-2023-01-04,5010,Supply Chain / Operations,COGS on shipment,434.227602,Actual,
-2023-01-04,5020,Supply Chain / Operations,COGS on shipment,361.856335,Actual,
-2023-01-04,5100,Supply Chain / Operations,DTC delivery cost,1152.75,Actual,
-2023-01-04,5200,Supply Chain / Operations,DTC delivery cost,516.75,Actual,
-2023-01-05,1000,Finance,DTC delivery cost,-2257.5,Actual,
-2023-01-05,1000,Finance,Processor settlement,14852.628342,Actual,
-2023-01-05,1150,Marketing / Ecommerce,DTC sale,17352.151689,Actual,
-2023-01-05,1150,Marketing / Ecommerce,Processor settlement,-14852.628342,Actual,
-2023-01-05,1200,Supply Chain / Operations,COGS on shipment,-4804.826951,Actual,
-2023-01-05,2200,Finance,Returns reserve,-1744.497922,Actual,
-2023-01-05,4000,Marketing / Ecommerce,DTC sale,-16870.929705,Actual,
-2023-01-05,4020,Marketing / Ecommerce,DTC sale,-481.221984,Actual,
-2023-01-05,4110,Marketing / Ecommerce,Returns reserve,1744.497922,Actual,
-2023-01-05,5000,Supply Chain / Operations,COGS on shipment,3747.765022,Actual,
-2023-01-05,5010,Supply Chain / Operations,COGS on shipment,576.579234,Actual,
-2023-01-05,5020,Supply Chain / Operations,COGS on shipment,480.482695,Actual,
-2023-01-05,5100,Supply Chain / Operations,DTC delivery cost,1558.75,Actual,
-2023-01-05,5200,Supply Chain / Operations,DTC delivery cost,698.75,Actual,
-2023-01-06,1000,Finance,DTC delivery cost,-1974.0,Actual,
-2023-01-06,1000,Finance,Processor settlement,12329.414839,Actual,
-2023-01-06,1000,Finance,Wholesale delivery cost,-1897.572613,Actual,
-2023-01-06,1100,Wholesale Sales,Wholesale sale,40645.700718,Actual,
-2023-01-06,1150,Marketing / Ecommerce,DTC sale,15698.543602,Actual,
-2023-01-06,1150,Marketing / Ecommerce,Processor settlement,-12329.414839,Actual,
-2023-01-06,1200,Supply Chain / Operations,COGS on shipment,-34933.654869,Actual,
-2023-01-06,2200,Finance,Returns reserve,-831.542487,Actual,
-2023-01-06,4000,Marketing / Ecommerce,DTC sale,-15245.965784,Actual,
-2023-01-06,4010,Wholesale Sales,Wholesale sale,-43203.693882,Actual,
-2023-01-06,4020,Marketing / Ecommerce,DTC sale,-452.577819,Actual,
-2023-01-06,4110,Marketing / Ecommerce,Returns reserve,831.542487,Actual,
-2023-01-06,4130,Wholesale Sales,Wholesale sale,1151.096924,Actual,
-2023-01-06,4140,Wholesale Sales,Wholesale sale,767.397949,Actual,
-2023-01-06,4150,Wholesale Sales,Wholesale sale,639.498291,Actual,
-2023-01-06,5000,Supply Chain / Operations,COGS on shipment,27248.250798,Actual,
-2023-01-06,5010,Supply Chain / Operations,COGS on shipment,4192.038584,Actual,
-2023-01-06,5020,Supply Chain / Operations,COGS on shipment,3493.365487,Actual,
-2023-01-06,5100,Supply Chain / Operations,DTC delivery cost,1363.0,Actual,
-2023-01-06,5110,Supply Chain / Operations,Wholesale delivery cost,731.622613,Actual,
-2023-01-06,5200,Supply Chain / Operations,DTC delivery cost,611.0,Actual,
-2023-01-06,5210,Supply Chain / Operations,Wholesale delivery cost,1165.95,Actual,
-2023-01-07,1000,Finance,DTC delivery cost,-1701.0,Actual,
-2023-01-07,1000,Finance,Processor settlement,13390.343025,Actual,
-2023-01-07,1000,Finance,Refund paid,-44.674074,Actual,
-2023-01-07,1150,Marketing / Ecommerce,DTC sale,12712.716299,Actual,
-2023-01-07,1150,Marketing / Ecommerce,Processor settlement,-13390.343025,Actual,
-2023-01-07,1200,Supply Chain / Operations,COGS on shipment,-3532.43877,Actual,
-2023-01-07,1200,Supply Chain / Operations,Return to stock,15.001088,Actual,
-2023-01-07,2200,Finance,Refund paid,44.674074,Actual,
-2023-01-07,2200,Finance,Returns reserve,-680.415771,Actual,
-2023-01-07,4000,Marketing / Ecommerce,DTC sale,-12328.884478,Actual,
-2023-01-07,4020,Marketing / Ecommerce,DTC sale,-383.831821,Actual,
-2023-01-07,4110,Marketing / Ecommerce,Returns reserve,680.415771,Actual,
-2023-01-07,5000,Supply Chain / Operations,COGS on shipment,2755.302241,Actual,
-2023-01-07,5000,Supply Chain / Operations,Return to stock,-15.001088,Actual,
-2023-01-07,5010,Supply Chain / Operations,COGS on shipment,423.892652,Actual,
-2023-01-07,5020,Supply Chain / Operations,COGS on shipment,353.243877,Actual,
-2023-01-07,5100,Supply Chain / Operations,DTC delivery cost,1174.5,Actual,
-2023-01-07,5200,Supply Chain / Operations,DTC delivery cost,526.5,Actual,
-2023-01-08,1000,Finance,DTC delivery cost,-2016.0,Actual,
-2023-01-08,1000,Finance,Processor settlement,17352.151689,Actual,
-2023-01-08,1000,Finance,Refund paid,-163.763803,Actual,
-2023-01-08,1150,Marketing / Ecommerce,DTC sale,15576.562522,Actual,
-2023-01-08,1150,Marketing / Ecommerce,Processor settlement,-17352.151689,Actual,
-2023-01-08,1200,Supply Chain / Operations,COGS on shipment,-4266.776233,Actual,
-2023-01-08,1200,Supply Chain / Operations,Return to stock,45.003264,Actual,
-2023-01-08,2200,Finance,Refund paid,163.763803,Actual,
-2023-01-08,2200,Finance,Returns reserve,-1040.350592,Actual,
-2023-01-08,4000,Marketing / Ecommerce,DTC sale,-15158.357703,Actual,
-2023-01-08,4020,Marketing / Ecommerce,DTC sale,-418.20482,Actual,
-2023-01-08,4110,Marketing / Ecommerce,Returns reserve,1040.350592,Actual,
-2023-01-08,5000,Supply Chain / Operations,COGS on shipment,3328.085462,Actual,
-2023-01-08,5000,Supply Chain / Operations,Return to stock,-45.003264,Actual,
-2023-01-08,5010,Supply Chain / Operations,COGS on shipment,512.013148,Actual,
-2023-01-08,5020,Supply Chain / Operations,COGS on shipment,426.677623,Actual,
-2023-01-08,5100,Supply Chain / Operations,DTC delivery cost,1392.0,Actual,
-2023-01-08,5200,Supply Chain / Operations,DTC delivery cost,624.0,Actual,
-2023-01-09,1000,Finance,DTC delivery cost,-1512.0,Actual,
-2023-01-09,1000,Finance,Processor settlement,15698.543602,Actual,
-2023-01-09,1000,Finance,Wholesale delivery cost,-42.063595,Actual,
-2023-01-09,1100,Wholesale Sales,Wholesale sale,1086.866408,Actual,
-2023-01-09,1150,Marketing / Ecommerce,DTC sale,11274.862519,Actual,
-2023-01-09,1150,Marketing / Ecommerce,Processor settlement,-15698.543602,Actual,
-2023-01-09,1200,Supply Chain / Operations,COGS on shipment,-3751.159653,Actual,
-2023-01-09,2200,Finance,Returns reserve,-576.233855,Actual,
-2023-01-09,4000,Marketing / Ecommerce,DTC sale,-10896.759531,Actual,
-2023-01-09,4010,Wholesale Sales,Wholesale sale,-1100.496526,Actual,
-2023-01-09,4020,Marketing / Ecommerce,DTC sale,-378.102988,Actual,
-2023-01-09,4110,Marketing / Ecommerce,Returns reserve,576.233855,Actual,
-2023-01-09,4130,Wholesale Sales,Wholesale sale,6.133553,Actual,
-2023-01-09,4140,Wholesale Sales,Wholesale sale,4.089035,Actual,
-2023-01-09,4150,Wholesale Sales,Wholesale sale,3.407529,Actual,
-2023-01-09,5000,Supply Chain / Operations,COGS on shipment,2925.90453,Actual,
-2023-01-09,5010,Supply Chain / Operations,COGS on shipment,450.139158,Actual,
-2023-01-09,5020,Supply Chain / Operations,COGS on shipment,375.115965,Actual,
-2023-01-09,5100,Supply Chain / Operations,DTC delivery cost,1044.0,Actual,
-2023-01-09,5110,Supply Chain / Operations,Wholesale delivery cost,19.563595,Actual,
-2023-01-09,5200,Supply Chain / Operations,DTC delivery cost,468.0,Actual,
-2023-01-09,5210,Supply Chain / Operations,Wholesale delivery cost,22.5,Actual,
-2023-01-10,1000,Finance,DTC delivery cost,-2257.5,Actual,
-2023-01-10,1000,Finance,Processor settlement,12712.716299,Actual,
-2023-01-10,1000,Finance,Refund paid,-44.674074,Actual,
-2023-01-10,1150,Marketing / Ecommerce,DTC sale,17380.991456,Actual,
-2023-01-10,1150,Marketing / Ecommerce,Processor settlement,-12712.716299,Actual,
-2023-01-10,1200,Supply Chain / Operations,COGS on shipment,-4809.88329,Actual,
-2023-01-10,1200,Supply Chain / Operations,Return to stock,15.001088,Actual,
-2023-01-10,2200,Finance,Refund paid,44.674074,Actual,
-2023-01-10,2200,Finance,Returns reserve,-1154.331186,Actual,
-2023-01-10,4000,Marketing / Ecommerce,DTC sale,-16928.413638,Actual,
-2023-01-10,4020,Marketing / Ecommerce,DTC sale,-452.577819,Actual,
-2023-01-10,4110,Marketing / Ecommerce,Returns reserve,1154.331186,Actual,
-2023-01-10,5000,Supply Chain / Operations,COGS on shipment,3751.708966,Actual,
-2023-01-10,5000,Supply Chain / Operations,Return to stock,-15.001088,Actual,
-2023-01-10,5010,Supply Chain / Operations,COGS on shipment,577.185995,Actual,
-2023-01-10,5020,Supply Chain / Operations,COGS on shipment,480.988329,Actual,
-2023-01-10,5100,Supply Chain / Operations,DTC delivery cost,1558.75,Actual,
-2023-01-10,5200,Supply Chain / Operations,DTC delivery cost,698.75,Actual,
-2023-01-11,1000,Finance,DTC delivery cost,-1974.0,Actual,
-2023-01-11,1000,Finance,Processor settlement,15576.562522,Actual,
-2023-01-11,1000,Finance,Refund paid,-336.437739,Actual,
-2023-01-11,1150,Marketing / Ecommerce,DTC sale,15130.020034,Actual,
-2023-01-11,1150,Marketing / Ecommerce,Processor settlement,-15576.562522,Actual,
-2023-01-11,1200,Supply Chain / Operations,COGS on shipment,-4166.315434,Actual,
-2023-01-11,1200,Supply Chain / Operations,Return to stock,105.007616,Actual,
-2023-01-11,2200,Finance,Refund paid,336.437739,Actual,
-2023-01-11,2200,Finance,Returns reserve,-1214.974391,Actual,
-2023-01-11,4000,Marketing / Ecommerce,DTC sale,-14763.374713,Actual,
-2023-01-11,4020,Marketing / Ecommerce,DTC sale,-366.645321,Actual,
-2023-01-11,4110,Marketing / Ecommerce,Returns reserve,1214.974391,Actual,
-2023-01-11,5000,Supply Chain / Operations,COGS on shipment,3249.726038,Actual,
-2023-01-11,5000,Supply Chain / Operations,Return to stock,-105.007616,Actual,
-2023-01-11,5010,Supply Chain / Operations,COGS on shipment,499.957852,Actual,
-2023-01-11,5020,Supply Chain / Operations,COGS on shipment,416.631543,Actual,
-2023-01-11,5100,Supply Chain / Operations,DTC delivery cost,1363.0,Actual,
-2023-01-11,5200,Supply Chain / Operations,DTC delivery cost,611.0,Actual,
-2023-01-12,1000,Finance,DTC delivery cost,-1827.0,Actual,
-2023-01-12,1000,Finance,Processor settlement,11274.862519,Actual,
-2023-01-12,1000,Finance,Refund paid,-147.103582,Actual,
-2023-01-12,1150,Marketing / Ecommerce,DTC sale,13679.368862,Actual,
-2023-01-12,1150,Marketing / Ecommerce,Processor settlement,-11274.862519,Actual,
-2023-01-12,1200,Supply Chain / Operations,COGS on shipment,-3832.920572,Actual,
-2023-01-12,1200,Supply Chain / Operations,Return to stock,45.003264,Actual,
-2023-01-12,2200,Finance,Refund paid,147.103582,Actual,
-2023-01-12,2200,Finance,Returns reserve,-966.10771,Actual,
-2023-01-12,4000,Marketing / Ecommerce,DTC sale,-13238.24871,Actual,
-2023-01-12,4020,Marketing / Ecommerce,DTC sale,-441.120152,Actual,
-2023-01-12,4110,Marketing / Ecommerce,Returns reserve,966.10771,Actual,
-2023-01-12,5000,Supply Chain / Operations,COGS on shipment,2989.678046,Actual,
-2023-01-12,5000,Supply Chain / Operations,Return to stock,-45.003264,Actual,
-2023-01-12,5010,Supply Chain / Operations,COGS on shipment,459.950469,Actual,
-2023-01-12,5020,Supply Chain / Operations,COGS on shipment,383.292057,Actual,
-2023-01-12,5100,Supply Chain / Operations,DTC delivery cost,1261.5,Actual,
-2023-01-12,5200,Supply Chain / Operations,DTC delivery cost,565.5,Actual,
-2023-01-13,1000,Finance,DTC delivery cost,-1638.0,Actual,
-2023-01-13,1000,Finance,Processor settlement,17380.991456,Actual,
-2023-01-13,1000,Finance,Refund paid,-245.695068,Actual,
-2023-01-13,1000,Finance,Wholesale delivery cost,-448.10165,Actual,
-2023-01-13,1100,Wholesale Sales,Wholesale sale,10944.536084,Actual,
-2023-01-13,1150,Marketing / Ecommerce,DTC sale,12665.552015,Actual,
-2023-01-13,1150,Marketing / Ecommerce,Processor settlement,-17380.991456,Actual,
-2023-01-13,1200,Supply Chain / Operations,COGS on shipment,-10431.047334,Actual,
-2023-01-13,1200,Supply Chain / Operations,Return to stock,75.00544,Actual,
-2023-01-13,2200,Finance,Refund paid,245.695068,Actual,
-2023-01-13,2200,Finance,Returns reserve,-861.345772,Actual,
-2023-01-13,4000,Marketing / Ecommerce,DTC sale,-12275.991361,Actual,
-2023-01-13,4010,Wholesale Sales,Wholesale sale,-11251.885652,Actual,
-2023-01-13,4020,Marketing / Ecommerce,DTC sale,-389.560654,Actual,
-2023-01-13,4110,Marketing / Ecommerce,Returns reserve,861.345772,Actual,
-2023-01-13,4130,Wholesale Sales,Wholesale sale,138.307305,Actual,
-2023-01-13,4140,Wholesale Sales,Wholesale sale,92.20487,Actual,
-2023-01-13,4150,Wholesale Sales,Wholesale sale,76.837392,Actual,
-2023-01-13,5000,Supply Chain / Operations,COGS on shipment,8136.21692,Actual,
-2023-01-13,5000,Supply Chain / Operations,Return to stock,-75.00544,Actual,
-2023-01-13,5010,Supply Chain / Operations,COGS on shipment,1251.72568,Actual,
-2023-01-13,5020,Supply Chain / Operations,COGS on shipment,1043.104733,Actual,
-2023-01-13,5100,Supply Chain / Operations,DTC delivery cost,1131.0,Actual,
-2023-01-13,5110,Supply Chain / Operations,Wholesale delivery cost,197.00165,Actual,
-2023-01-13,5200,Supply Chain / Operations,DTC delivery cost,507.0,Actual,
-2023-01-13,5210,Supply Chain / Operations,Wholesale delivery cost,251.1,Actual,
-2023-01-14,1000,Finance,DTC delivery cost,-1501.5,Actual,
-2023-01-14,1000,Finance,Processor settlement,15130.020034,Actual,
-2023-01-14,1000,Finance,Refund paid,-151.682057,Actual,
-2023-01-14,1150,Marketing / Ecommerce,DTC sale,11494.920222,Actual,
-2023-01-14,1150,Marketing / Ecommerce,Processor settlement,-15130.020034,Actual,
-2023-01-14,1200,Supply Chain / Operations,COGS on shipment,-3149.610854,Actual,
-2023-01-14,1200,Supply Chain / Operations,Return to stock,60.004352,Actual,
-2023-01-14,2200,Finance,Refund paid,151.682057,Actual,
-2023-01-14,2200,Finance,Returns reserve,-618.205271,Actual,
-2023-01-14,4000,Marketing / Ecommerce,DTC sale,-11128.2749,Actual,
-2023-01-14,4020,Marketing / Ecommerce,DTC sale,-366.645321,Actual,
-2023-01-14,4110,Marketing / Ecommerce,Returns reserve,618.205271,Actual,
-2023-01-14,5000,Supply Chain / Operations,COGS on shipment,2456.696466,Actual,
-2023-01-14,5000,Supply Chain / Operations,Return to stock,-60.004352,Actual,
-2023-01-14,5010,Supply Chain / Operations,COGS on shipment,377.953302,Actual,
-2023-01-14,5020,Supply Chain / Operations,COGS on shipment,314.961085,Actual,
-2023-01-14,5100,Supply Chain / Operations,DTC delivery cost,1036.75,Actual,
-2023-01-14,5200,Supply Chain / Operations,DTC delivery cost,464.75,Actual,
-2023-01-15,1000,Finance,DTC delivery cost,-2068.5,Actual,
-2023-01-15,1000,Finance,Processor settlement,13679.368862,Actual,
-2023-01-15,1000,Finance,Refund paid,-578.566286,Actual,
-2023-01-15,1000,Finance,Wholesale delivery cost,-339.870197,Actual,
-2023-01-15,1100,Wholesale Sales,Wholesale sale,8931.677592,Actual,
-2023-01-15,1150,Marketing / Ecommerce,DTC sale,16506.754746,Actual,
-2023-01-15,1150,Marketing / Ecommerce,Processor settlement,-13679.368862,Actual,
-2023-01-15,1200,Supply Chain / Operations,COGS on shipment,-9648.037,Actual,
-2023-01-15,1200,Supply Chain / Operations,Return to stock,165.011968,Actual,
-2023-01-15,2200,Finance,Refund paid,578.566286,Actual,
-2023-01-15,2200,Finance,Returns reserve,-2438.942791,Actual,
-2023-01-15,4000,Marketing / Ecommerce,DTC sale,-16042.719262,Actual,
-2023-01-15,4010,Wholesale Sales,Wholesale sale,-9071.161614,Actual,
-2023-01-15,4020,Marketing / Ecommerce,DTC sale,-464.035485,Actual,
-2023-01-15,4110,Marketing / Ecommerce,Returns reserve,1731.478268,Actual,
-2023-01-15,4120,Wholesale Sales,Returns reserve,707.464523,Actual,
-2023-01-15,4130,Wholesale Sales,Wholesale sale,62.76781,Actual,
-2023-01-15,4140,Wholesale Sales,Wholesale sale,41.845206,Actual,
-2023-01-15,4150,Wholesale Sales,Wholesale sale,34.871005,Actual,
-2023-01-15,5000,Supply Chain / Operations,COGS on shipment,7525.46886,Actual,
-2023-01-15,5000,Supply Chain / Operations,Return to stock,-165.011968,Actual,
-2023-01-15,5010,Supply Chain / Operations,COGS on shipment,1157.76444,Actual,
-2023-01-15,5020,Supply Chain / Operations,COGS on shipment,964.8037,Actual,
-2023-01-15,5100,Supply Chain / Operations,DTC delivery cost,1428.25,Actual,
-2023-01-15,5110,Supply Chain / Operations,Wholesale delivery cost,160.770197,Actual,
-2023-01-15,5200,Supply Chain / Operations,DTC delivery cost,640.25,Actual,
-2023-01-15,5210,Supply Chain / Operations,Wholesale delivery cost,179.1,Actual,
-2023-01-16,1000,Finance,DTC delivery cost,-1680.0,Actual,
-2023-01-16,1000,Finance,Processor settlement,12665.552015,Actual,
-2023-01-16,1000,Finance,Refund paid,-521.032989,Actual,
-2023-01-16,1000,Finance,Wholesale delivery cost,-335.869652,Actual,
-2023-01-16,1100,Wholesale Sales,Wholesale sale,8734.425099,Actual,
-2023-01-16,1150,Marketing / Ecommerce,DTC sale,14593.416278,Actual,
-2023-01-16,1150,Marketing / Ecommerce,Processor settlement,-12665.552015,Actual,
-2023-01-16,1200,Supply Chain / Operations,COGS on shipment,-9566.144806,Actual,
-2023-01-16,1200,Supply Chain / Operations,Return to stock,165.011968,Actual,
-2023-01-16,2200,Finance,Refund paid,521.032989,Actual,
-2023-01-16,2200,Finance,Returns reserve,-1031.654335,Actual,
-2023-01-16,4000,Marketing / Ecommerce,DTC sale,-14272.601622,Actual,
-2023-01-16,4010,Wholesale Sales,Wholesale sale,-8931.036718,Actual,
-2023-01-16,4020,Marketing / Ecommerce,DTC sale,-320.814656,Actual,
-2023-01-16,4110,Marketing / Ecommerce,Returns reserve,939.044107,Actual,
-2023-01-16,4120,Wholesale Sales,Returns reserve,92.610229,Actual,
-2023-01-16,4130,Wholesale Sales,Wholesale sale,88.475228,Actual,
-2023-01-16,4140,Wholesale Sales,Wholesale sale,58.983486,Actual,
-2023-01-16,4150,Wholesale Sales,Wholesale sale,49.152905,Actual,
-2023-01-16,5000,Supply Chain / Operations,COGS on shipment,7461.592949,Actual,
-2023-01-16,5000,Supply Chain / Operations,Return to stock,-165.011968,Actual,
-2023-01-16,5010,Supply Chain / Operations,COGS on shipment,1147.937377,Actual,
-2023-01-16,5020,Supply Chain / Operations,COGS on shipment,956.614481,Actual,
-2023-01-16,5100,Supply Chain / Operations,DTC delivery cost,1160.0,Actual,
-2023-01-16,5110,Supply Chain / Operations,Wholesale delivery cost,157.219652,Actual,
-2023-01-16,5200,Supply Chain / Operations,DTC delivery cost,520.0,Actual,
-2023-01-16,5210,Supply Chain / Operations,Wholesale delivery cost,178.65,Actual,
-2023-01-17,1000,Finance,DTC delivery cost,-1942.5,Actual,
-2023-01-17,1000,Finance,Processor settlement,11494.920222,Actual,
-2023-01-17,1000,Finance,Refund paid,-293.812255,Actual,
-2023-01-17,1000,Finance,Wholesale delivery cost,-666.909033,Actual,
-2023-01-17,1100,Wholesale Sales,Wholesale sale,16225.501813,Actual,
-2023-01-17,1150,Marketing / Ecommerce,DTC sale,14257.035188,Actual,
-2023-01-17,1150,Marketing / Ecommerce,Processor settlement,-11494.920222,Actual,
-2023-01-17,1200,Supply Chain / Operations,COGS on shipment,-16063.23178,Actual,
-2023-01-17,1200,Supply Chain / Operations,Return to stock,90.006528,Actual,
-2023-01-17,2200,Finance,Refund paid,293.812255,Actual,
-2023-01-17,2200,Finance,Returns reserve,-1344.331752,Actual,
-2023-01-17,4000,Marketing / Ecommerce,DTC sale,-13787.27087,Actual,
-2023-01-17,4010,Wholesale Sales,Wholesale sale,-17122.521461,Actual,
-2023-01-17,4020,Marketing / Ecommerce,DTC sale,-469.764318,Actual,
-2023-01-17,4110,Marketing / Ecommerce,Returns reserve,1344.331752,Actual,
-2023-01-17,4130,Wholesale Sales,Wholesale sale,403.658841,Actual,
-2023-01-17,4140,Wholesale Sales,Wholesale sale,269.105894,Actual,
-2023-01-17,4150,Wholesale Sales,Wholesale sale,224.254912,Actual,
-2023-01-17,5000,Supply Chain / Operations,COGS on shipment,12529.320788,Actual,
-2023-01-17,5000,Supply Chain / Operations,Return to stock,-90.006528,Actual,
-2023-01-17,5010,Supply Chain / Operations,COGS on shipment,1927.587814,Actual,
-2023-01-17,5020,Supply Chain / Operations,COGS on shipment,1606.323178,Actual,
-2023-01-17,5100,Supply Chain / Operations,DTC delivery cost,1341.25,Actual,
-2023-01-17,5110,Supply Chain / Operations,Wholesale delivery cost,292.059033,Actual,
-2023-01-17,5200,Supply Chain / Operations,DTC delivery cost,601.25,Actual,
-2023-01-17,5210,Supply Chain / Operations,Wholesale delivery cost,374.85,Actual,
-2023-01-18,1000,Finance,DTC delivery cost,-2016.0,Actual,
-2023-01-18,1000,Finance,Processor settlement,16506.754746,Actual,
-2023-01-18,1000,Finance,Refund paid,-340.448533,Actual,
-2023-01-18,1150,Marketing / Ecommerce,DTC sale,15661.693662,Actual,
-2023-01-18,1150,Marketing / Ecommerce,Processor settlement,-16506.754746,Actual,
-2023-01-18,1200,Supply Chain / Operations,COGS on shipment,-4316.245323,Actual,
-2023-01-18,1200,Supply Chain / Operations,Return to stock,105.007616,Actual,
-2023-01-18,2200,Finance,Refund paid,340.448533,Actual,
-2023-01-18,2200,Finance,Returns reserve,-574.506128,Actual,
-2023-01-18,4000,Marketing / Ecommerce,DTC sale,-15209.115843,Actual,
-2023-01-18,4020,Marketing / Ecommerce,DTC sale,-452.577819,Actual,
-2023-01-18,4110,Marketing / Ecommerce,Returns reserve,574.506128,Actual,
-2023-01-18,5000,Supply Chain / Operations,COGS on shipment,3366.671352,Actual,
-2023-01-18,5000,Supply Chain / Operations,Return to stock,-105.007616,Actual,
-2023-01-18,5010,Supply Chain / Operations,COGS on shipment,517.949439,Actual,
-2023-01-18,5020,Supply Chain / Operations,COGS on shipment,431.624532,Actual,
-2023-01-18,5100,Supply Chain / Operations,DTC delivery cost,1392.0,Actual,
-2023-01-18,5200,Supply Chain / Operations,DTC delivery cost,624.0,Actual,
-2023-01-19,1000,Finance,DTC delivery cost,-2026.5,Actual,
-2023-01-19,1000,Finance,Processor settlement,14593.416278,Actual,
-2023-01-19,1000,Finance,Refund paid,-459.37783,Actual,
-2023-01-19,1000,Finance,Wholesale delivery cost,-247.804337,Actual,
-2023-01-19,1100,Wholesale Sales,Wholesale sale,6016.907617,Actual,
-2023-01-19,1150,Marketing / Ecommerce,DTC sale,15139.302247,Actual,
-2023-01-19,1150,Marketing / Ecommerce,Processor settlement,-14593.416278,Actual,
-2023-01-19,1200,Supply Chain / Operations,COGS on shipment,-7974.711399,Actual,
-2023-01-19,1200,Supply Chain / Operations,Return to stock,150.01088,Actual,
-2023-01-19,2200,Finance,Refund paid,459.37783,Actual,
-2023-01-19,2200,Finance,Returns reserve,-807.127747,Actual,
-2023-01-19,4000,Marketing / Ecommerce,DTC sale,-14715.368594,Actual,
-2023-01-19,4010,Wholesale Sales,Wholesale sale,-6193.449766,Actual,
-2023-01-19,4020,Marketing / Ecommerce,DTC sale,-423.933653,Actual,
-2023-01-19,4110,Marketing / Ecommerce,Returns reserve,715.155417,Actual,
-2023-01-19,4120,Wholesale Sales,Returns reserve,91.97233,Actual,
-2023-01-19,4130,Wholesale Sales,Wholesale sale,79.443967,Actual,
-2023-01-19,4140,Wholesale Sales,Wholesale sale,52.962645,Actual,
-2023-01-19,4150,Wholesale Sales,Wholesale sale,44.135537,Actual,
-2023-01-19,5000,Supply Chain / Operations,COGS on shipment,6220.274891,Actual,
-2023-01-19,5000,Supply Chain / Operations,Return to stock,-150.01088,Actual,
-2023-01-19,5010,Supply Chain / Operations,COGS on shipment,956.965368,Actual,
-2023-01-19,5020,Supply Chain / Operations,COGS on shipment,797.47114,Actual,
-2023-01-19,5100,Supply Chain / Operations,DTC delivery cost,1399.25,Actual,
-2023-01-19,5110,Supply Chain / Operations,Wholesale delivery cost,108.304337,Actual,
-2023-01-19,5200,Supply Chain / Operations,DTC delivery cost,627.25,Actual,
-2023-01-19,5210,Supply Chain / Operations,Wholesale delivery cost,139.5,Actual,
-2023-01-20,1000,Finance,DTC delivery cost,-2268.0,Actual,
-2023-01-20,1000,Finance,Processor settlement,14257.035188,Actual,
-2023-01-20,1000,Finance,Refund paid,-515.380855,Actual,
-2023-01-20,1000,Finance,Wholesale delivery cost,-490.992271,Actual,
-2023-01-20,1100,Wholesale Sales,Wholesale sale,11852.348402,Actual,
-2023-01-20,1150,Marketing / Ecommerce,DTC sale,17156.990097,Actual,
-2023-01-20,1150,Marketing / Ecommerce,Processor settlement,-14257.035188,Actual,
-2023-01-20,1200,Supply Chain / Operations,COGS on shipment,-13103.2728,Actual,
-2023-01-20,1200,Supply Chain / Operations,Return to stock,180.013056,Actual,
-2023-01-20,2200,Finance,Refund paid,515.380855,Actual,
-2023-01-20,2200,Finance,Returns reserve,-928.838179,Actual,
-2023-01-20,4000,Marketing / Ecommerce,DTC sale,-16601.293282,Actual,
-2023-01-20,4010,Wholesale Sales,Wholesale sale,-12582.188763,Actual,
-2023-01-20,4020,Marketing / Ecommerce,DTC sale,-555.696815,Actual,
-2023-01-20,4110,Marketing / Ecommerce,Returns reserve,928.838179,Actual,
-2023-01-20,4130,Wholesale Sales,Wholesale sale,328.428162,Actual,
-2023-01-20,4140,Wholesale Sales,Wholesale sale,218.952108,Actual,
-2023-01-20,4150,Wholesale Sales,Wholesale sale,182.46009,Actual,
-2023-01-20,5000,Supply Chain / Operations,COGS on shipment,10220.552784,Actual,
-2023-01-20,5000,Supply Chain / Operations,Return to stock,-180.013056,Actual,
-2023-01-20,5010,Supply Chain / Operations,COGS on shipment,1572.392736,Actual,
-2023-01-20,5020,Supply Chain / Operations,COGS on shipment,1310.32728,Actual,
-2023-01-20,5100,Supply Chain / Operations,DTC delivery cost,1566.0,Actual,
-2023-01-20,5110,Supply Chain / Operations,Wholesale delivery cost,213.342271,Actual,
-2023-01-20,5200,Supply Chain / Operations,DTC delivery cost,702.0,Actual,
-2023-01-20,5210,Supply Chain / Operations,Wholesale delivery cost,277.65,Actual,
-2023-01-21,1000,Finance,DTC delivery cost,-1879.5,Actual,
-2023-01-21,1000,Finance,Processor settlement,15661.693662,Actual,
-2023-01-21,1000,Finance,Refund paid,-773.688327,Actual,
-2023-01-21,1000,Finance,Wholesale delivery cost,-330.498897,Actual,
-2023-01-21,1100,Wholesale Sales,Wholesale sale,8761.049846,Actual,
-2023-01-21,1150,Marketing / Ecommerce,DTC sale,13970.085277,Actual,
-2023-01-21,1150,Marketing / Ecommerce,Processor settlement,-15661.693662,Actual,
-2023-01-21,1200,Supply Chain / Operations,COGS on shipment,-8886.850089,Actual,
-2023-01-21,1200,Supply Chain / Operations,Return to stock,225.01632,Actual,
-2023-01-21,2200,Finance,Refund paid,773.688327,Actual,
-2023-01-21,2200,Finance,Returns reserve,-951.002443,Actual,
-2023-01-21,4000,Marketing / Ecommerce,DTC sale,-13551.880457,Actual,
-2023-01-21,4010,Wholesale Sales,Wholesale sale,-8868.286782,Actual,
-2023-01-21,4020,Marketing / Ecommerce,DTC sale,-418.20482,Actual,
-2023-01-21,4110,Marketing / Ecommerce,Returns reserve,951.002443,Actual,
-2023-01-21,4130,Wholesale Sales,Wholesale sale,48.256621,Actual,
-2023-01-21,4140,Wholesale Sales,Wholesale sale,32.171081,Actual,
-2023-01-21,4150,Wholesale Sales,Wholesale sale,26.809234,Actual,
-2023-01-21,5000,Supply Chain / Operations,COGS on shipment,6931.74307,Actual,
-2023-01-21,5000,Supply Chain / Operations,Return to stock,-225.01632,Actual,
-2023-01-21,5010,Supply Chain / Operations,COGS on shipment,1066.422011,Actual,
-2023-01-21,5020,Supply Chain / Operations,COGS on shipment,888.685009,Actual,
-2023-01-21,5100,Supply Chain / Operations,DTC delivery cost,1297.75,Actual,
-2023-01-21,5110,Supply Chain / Operations,Wholesale delivery cost,157.698897,Actual,
-2023-01-21,5200,Supply Chain / Operations,DTC delivery cost,581.75,Actual,
-2023-01-21,5210,Supply Chain / Operations,Wholesale delivery cost,172.8,Actual,
-2023-01-22,1000,Finance,DTC delivery cost,-1648.5,Actual,
-2023-01-22,1000,Finance,Processor settlement,15139.302247,Actual,
-2023-01-22,1000,Finance,Refund paid,-579.71399,Actual,
-2023-01-22,1150,Marketing / Ecommerce,DTC sale,12368.626273,Actual,
-2023-01-22,1150,Marketing / Ecommerce,Processor settlement,-15139.302247,Actual,
-2023-01-22,1200,Supply Chain / Operations,COGS on shipment,-3414.883257,Actual,
-2023-01-22,1200,Supply Chain / Operations,Return to stock,180.013056,Actual,
-2023-01-22,2200,Finance,Refund paid,579.71399,Actual,
-2023-01-22,2200,Finance,Returns reserve,-1362.670336,Actual,
-2023-01-22,4000,Marketing / Ecommerce,DTC sale,-12013.438618,Actual,
-2023-01-22,4020,Marketing / Ecommerce,DTC sale,-355.187655,Actual,
-2023-01-22,4110,Marketing / Ecommerce,Returns reserve,1362.670336,Actual,
-2023-01-22,5000,Supply Chain / Operations,COGS on shipment,2663.60894,Actual,
-2023-01-22,5000,Supply Chain / Operations,Return to stock,-180.013056,Actual,
-2023-01-22,5010,Supply Chain / Operations,COGS on shipment,409.785991,Actual,
-2023-01-22,5020,Supply Chain / Operations,COGS on shipment,341.488326,Actual,
-2023-01-22,5100,Supply Chain / Operations,DTC delivery cost,1138.25,Actual,
-2023-01-22,5200,Supply Chain / Operations,DTC delivery cost,510.25,Actual,
-2023-01-23,1000,Finance,DTC delivery cost,-2268.0,Actual,
-2023-01-23,1000,Finance,Processor settlement,17156.990097,Actual,
-2023-01-23,1000,Finance,Refund paid,-607.098457,Actual,
-2023-01-23,1000,Finance,Wholesale delivery cost,-128.718448,Actual,
-2023-01-23,1100,Wholesale Sales,Wholesale sale,3351.024868,Actual,
-2023-01-23,1150,Marketing / Ecommerce,DTC sale,16765.495077,Actual,
-2023-01-23,1150,Marketing / Ecommerce,Processor settlement,-17156.990097,Actual,
-2023-01-23,1200,Supply Chain / Operations,COGS on shipment,-6608.619651,Actual,
-2023-01-23,1200,Supply Chain / Operations,Return to stock,225.01632,Actual,
-2023-01-23,2200,Finance,Refund paid,607.098457,Actual,
-2023-01-23,2200,Finance,Returns reserve,-1508.574101,Actual,
-2023-01-23,4000,Marketing / Ecommerce,DTC sale,-16272.815426,Actual,
-2023-01-23,4010,Wholesale Sales,Wholesale sale,-3392.983,Actual,
-2023-01-23,4020,Marketing / Ecommerce,DTC sale,-492.679651,Actual,
-2023-01-23,4110,Marketing / Ecommerce,Returns reserve,1352.550794,Actual,
-2023-01-23,4120,Wholesale Sales,Returns reserve,156.023307,Actual,
-2023-01-23,4130,Wholesale Sales,Wholesale sale,18.881159,Actual,
-2023-01-23,4140,Wholesale Sales,Wholesale sale,12.58744,Actual,
-2023-01-23,4150,Wholesale Sales,Wholesale sale,10.489533,Actual,
-2023-01-23,5000,Supply Chain / Operations,COGS on shipment,5154.723328,Actual,
-2023-01-23,5000,Supply Chain / Operations,Return to stock,-225.01632,Actual,
-2023-01-23,5010,Supply Chain / Operations,COGS on shipment,793.034358,Actual,
-2023-01-23,5020,Supply Chain / Operations,COGS on shipment,660.861965,Actual,
-2023-01-23,5100,Supply Chain / Operations,DTC delivery cost,1566.0,Actual,
-2023-01-23,5110,Supply Chain / Operations,Wholesale delivery cost,60.318448,Actual,
-2023-01-23,5200,Supply Chain / Operations,DTC delivery cost,702.0,Actual,
-2023-01-23,5210,Supply Chain / Operations,Wholesale delivery cost,68.4,Actual,
-2023-01-24,1000,Finance,DTC delivery cost,-1491.0,Actual,
-2023-01-24,1000,Finance,Processor settlement,13970.085277,Actual,
-2023-01-24,1000,Finance,Refund paid,-489.563682,Actual,
-2023-01-24,1150,Marketing / Ecommerce,DTC sale,10699.126681,Actual,
-2023-01-24,1150,Marketing / Ecommerce,Processor settlement,-13970.085277,Actual,
-2023-01-24,1200,Supply Chain / Operations,COGS on shipment,-2960.912857,Actual,
-2023-01-24,1200,Supply Chain / Operations,Return to stock,165.011968,Actual,
-2023-01-24,2200,Finance,Refund paid,489.563682,Actual,
-2023-01-24,2200,Finance,Returns reserve,-857.520091,Actual,
-2023-01-24,4000,Marketing / Ecommerce,DTC sale,-10338.210193,Actual,
-2023-01-24,4020,Marketing / Ecommerce,DTC sale,-360.916488,Actual,
-2023-01-24,4110,Marketing / Ecommerce,Returns reserve,857.520091,Actual,
-2023-01-24,5000,Supply Chain / Operations,COGS on shipment,2309.512028,Actual,
-2023-01-24,5000,Supply Chain / Operations,Return to stock,-165.011968,Actual,
-2023-01-24,5010,Supply Chain / Operations,COGS on shipment,355.309543,Actual,
-2023-01-24,5020,Supply Chain / Operations,COGS on shipment,296.091286,Actual,
-2023-01-24,5100,Supply Chain / Operations,DTC delivery cost,1029.5,Actual,
-2023-01-24,5200,Supply Chain / Operations,DTC delivery cost,461.5,Actual,
-2023-01-25,1000,Finance,DTC delivery cost,-2068.5,Actual,
-2023-01-25,1000,Finance,Processor settlement,12368.626273,Actual,
-2023-01-25,1000,Finance,Refund paid,-792.199684,Actual,
-2023-01-25,1000,Finance,Wholesale delivery cost,-83.285627,Actual,
-2023-01-25,1100,Wholesale Sales,Wholesale sale,2026.979273,Actual,
-2023-01-25,1150,Marketing / Ecommerce,DTC sale,16005.431108,Actual,
-2023-01-25,1150,Marketing / Ecommerce,Processor settlement,-12368.626273,Actual,
-2023-01-25,1200,Supply Chain / Operations,COGS on shipment,-5580.752103,Actual,
-2023-01-25,1200,Supply Chain / Operations,Return to stock,255.018496,Actual,
-2023-01-25,2200,Finance,Refund paid,792.199684,Actual,
-2023-01-25,2200,Finance,Returns reserve,-1228.734499,Actual,
-2023-01-25,4000,Marketing / Ecommerce,DTC sale,-15512.751458,Actual,
-2023-01-25,4010,Wholesale Sales,Wholesale sale,-2048.111588,Actual,
-2023-01-25,4020,Marketing / Ecommerce,DTC sale,-492.679651,Actual,
-2023-01-25,4110,Marketing / Ecommerce,Returns reserve,1228.734499,Actual,
-2023-01-25,4130,Wholesale Sales,Wholesale sale,9.509542,Actual,
-2023-01-25,4140,Wholesale Sales,Wholesale sale,6.339695,Actual,
-2023-01-25,4150,Wholesale Sales,Wholesale sale,5.283079,Actual,
-2023-01-25,5000,Supply Chain / Operations,COGS on shipment,4352.98664,Actual,
-2023-01-25,5000,Supply Chain / Operations,Return to stock,-255.018496,Actual,
-2023-01-25,5010,Supply Chain / Operations,COGS on shipment,669.690252,Actual,
-2023-01-25,5020,Supply Chain / Operations,COGS on shipment,558.07521,Actual,
-2023-01-25,5100,Supply Chain / Operations,DTC delivery cost,1428.25,Actual,
-2023-01-25,5110,Supply Chain / Operations,Wholesale delivery cost,36.485627,Actual,
-2023-01-25,5200,Supply Chain / Operations,DTC delivery cost,640.25,Actual,
-2023-01-25,5210,Supply Chain / Operations,Wholesale delivery cost,46.8,Actual,
-2023-01-26,1000,Finance,DTC delivery cost,-1995.0,Actual,
-2023-01-26,1000,Finance,Processor settlement,16765.495077,Actual,
-2023-01-26,1000,Finance,Refund paid,-647.811101,Actual,
-2023-01-26,1150,Marketing / Ecommerce,DTC sale,16212.316685,Actual,
-2023-01-26,1150,Marketing / Ecommerce,Processor settlement,-16765.495077,Actual,
-2023-01-26,1200,Supply Chain / Operations,COGS on shipment,-4439.74194,Actual,
-2023-01-26,1200,Supply Chain / Operations,Return to stock,270.019584,Actual,
-2023-01-26,2200,Finance,Refund paid,647.811101,Actual,
-2023-01-26,2200,Finance,Returns reserve,-914.559752,Actual,
-2023-01-26,4000,Marketing / Ecommerce,DTC sale,-15713.908202,Actual,
-2023-01-26,4020,Marketing / Ecommerce,DTC sale,-498.408484,Actual,
-2023-01-26,4110,Marketing / Ecommerce,Returns reserve,914.559752,Actual,
-2023-01-26,5000,Supply Chain / Operations,COGS on shipment,3462.998713,Actual,
-2023-01-26,5000,Supply Chain / Operations,Return to stock,-270.019584,Actual,
-2023-01-26,5010,Supply Chain / Operations,COGS on shipment,532.769033,Actual,
-2023-01-26,5020,Supply Chain / Operations,COGS on shipment,443.974194,Actual,
-2023-01-26,5100,Supply Chain / Operations,DTC delivery cost,1377.5,Actual,
-2023-01-26,5200,Supply Chain / Operations,DTC delivery cost,617.5,Actual,
-2023-01-27,1000,Finance,DTC delivery cost,-1617.0,Actual,
-2023-01-27,1000,Finance,Processor settlement,10699.126681,Actual,
-2023-01-27,1000,Finance,Refund paid,-736.134955,Actual,
-2023-01-27,1150,Marketing / Ecommerce,DTC sale,12265.376959,Actual,
-2023-01-27,1150,Marketing / Ecommerce,Processor settlement,-10699.126681,Actual,
-2023-01-27,1200,Supply Chain / Operations,COGS on shipment,-3485.185035,Actual,
-2023-01-27,1200,Supply Chain / Operations,Return to stock,255.018496,Actual,
-2023-01-27,2200,Finance,Refund paid,736.134955,Actual,
-2023-01-27,2200,Finance,Returns reserve,-437.102497,Actual,
-2023-01-27,4000,Marketing / Ecommerce,DTC sale,-11921.64697,Actual,
-2023-01-27,4020,Marketing / Ecommerce,DTC sale,-343.729989,Actual,
-2023-01-27,4110,Marketing / Ecommerce,Returns reserve,437.102497,Actual,
-2023-01-27,5000,Supply Chain / Operations,COGS on shipment,2718.444327,Actual,
-2023-01-27,5000,Supply Chain / Operations,Return to stock,-255.018496,Actual,
-2023-01-27,5010,Supply Chain / Operations,COGS on shipment,418.222204,Actual,
-2023-01-27,5020,Supply Chain / Operations,COGS on shipment,348.518503,Actual,
-2023-01-27,5100,Supply Chain / Operations,DTC delivery cost,1116.5,Actual,
-2023-01-27,5200,Supply Chain / Operations,DTC delivery cost,500.5,Actual,
-2023-01-28,1000,Finance,DTC delivery cost,-1449.0,Actual,
-2023-01-28,1000,Finance,Processor settlement,16005.431108,Actual,
-2023-01-28,1000,Finance,Refund paid,-696.903219,Actual,
-2023-01-28,1150,Marketing / Ecommerce,DTC sale,9823.273312,Actual,
-2023-01-28,1150,Marketing / Ecommerce,Processor settlement,-16005.431108,Actual,
-2023-01-28,1200,Supply Chain / Operations,COGS on shipment,-2695.032901,Actual,
-2023-01-28,1200,Supply Chain / Operations,Return to stock,210.015232,Actual,
-2023-01-28,2200,Finance,Refund paid,696.903219,Actual,
-2023-01-28,2200,Finance,Returns reserve,-625.6962,Actual,
-2023-01-28,4000,Marketing / Ecommerce,DTC sale,-9450.899158,Actual,
-2023-01-28,4020,Marketing / Ecommerce,DTC sale,-372.374154,Actual,
-2023-01-28,4110,Marketing / Ecommerce,Returns reserve,625.6962,Actual,
-2023-01-28,5000,Supply Chain / Operations,COGS on shipment,2102.125663,Actual,
-2023-01-28,5000,Supply Chain / Operations,Return to stock,-210.015232,Actual,
-2023-01-28,5010,Supply Chain / Operations,COGS on shipment,323.403948,Actual,
-2023-01-28,5020,Supply Chain / Operations,COGS on shipment,269.50329,Actual,
-2023-01-28,5100,Supply Chain / Operations,DTC delivery cost,1000.5,Actual,
-2023-01-28,5200,Supply Chain / Operations,DTC delivery cost,448.5,Actual,
-2023-01-29,1000,Finance,DTC delivery cost,-1522.5,Actual,
-2023-01-29,1000,Finance,Processor settlement,16212.316685,Actual,
-2023-01-29,1000,Finance,Refund paid,-1001.600152,Actual,
-2023-01-29,1150,Marketing / Ecommerce,DTC sale,10748.54935,Actual,
-2023-01-29,1150,Marketing / Ecommerce,Processor settlement,-16212.316685,Actual,
-2023-01-29,1200,Supply Chain / Operations,COGS on shipment,-2962.037666,Actual,
-2023-01-29,1200,Supply Chain / Operations,Return to stock,330.023936,Actual,
-2023-01-29,2200,Finance,Refund paid,1001.600152,Actual,
-2023-01-29,2200,Finance,Returns reserve,-838.26828,Actual,
-2023-01-29,4000,Marketing / Ecommerce,DTC sale,-10393.361695,Actual,
-2023-01-29,4020,Marketing / Ecommerce,DTC sale,-355.187655,Actual,
-2023-01-29,4110,Marketing / Ecommerce,Returns reserve,838.26828,Actual,
-2023-01-29,5000,Supply Chain / Operations,COGS on shipment,2310.38938,Actual,
-2023-01-29,5000,Supply Chain / Operations,Return to stock,-330.023936,Actual,
-2023-01-29,5010,Supply Chain / Operations,COGS on shipment,355.44452,Actual,
-2023-01-29,5020,Supply Chain / Operations,COGS on shipment,296.203767,Actual,
-2023-01-29,5100,Supply Chain / Operations,DTC delivery cost,1051.25,Actual,
-2023-01-29,5200,Supply Chain / Operations,DTC delivery cost,471.25,Actual,
-2023-01-30,1000,Finance,DTC delivery cost,-2058.0,Actual,
-2023-01-30,1000,Finance,Processor settlement,12265.376959,Actual,
-2023-01-30,1000,Finance,Refund paid,-1069.721945,Actual,
-2023-01-30,1150,Marketing / Ecommerce,DTC sale,16751.774519,Actual,
-2023-01-30,1150,Marketing / Ecommerce,Processor settlement,-12265.376959,Actual,
-2023-01-30,1200,Supply Chain / Operations,COGS on shipment,-4671.673347,Actual,
-2023-01-30,1200,Supply Chain / Operations,Return to stock,360.026112,Actual,
-2023-01-30,2200,Finance,Refund paid,1069.721945,Actual,
-2023-01-30,2200,Finance,Returns reserve,-1046.274226,Actual,
-2023-01-30,4000,Marketing / Ecommerce,DTC sale,-16333.569699,Actual,
-2023-01-30,4020,Marketing / Ecommerce,DTC sale,-418.20482,Actual,
-2023-01-30,4110,Marketing / Ecommerce,Returns reserve,1046.274226,Actual,
-2023-01-30,5000,Supply Chain / Operations,COGS on shipment,3643.905211,Actual,
-2023-01-30,5000,Supply Chain / Operations,Return to stock,-360.026112,Actual,
-2023-01-30,5010,Supply Chain / Operations,COGS on shipment,560.600802,Actual,
-2023-01-30,5020,Supply Chain / Operations,COGS on shipment,467.167335,Actual,
-2023-01-30,5100,Supply Chain / Operations,DTC delivery cost,1421.0,Actual,
-2023-01-30,5200,Supply Chain / Operations,DTC delivery cost,637.0,Actual,
-2023-01-31,1000,Finance,DTC delivery cost,-2026.5,Actual,
-2023-01-31,1000,Finance,Processor settlement,9823.273312,Actual,
-2023-01-31,1000,Finance,Refund paid,-1300.052587,Actual,
-2023-01-31,1150,Marketing / Ecommerce,DTC sale,15932.661976,Actual,
-2023-01-31,1150,Marketing / Ecommerce,Processor settlement,-9823.273312,Actual,
-2023-01-31,1200,Supply Chain / Operations,COGS on shipment,-4462.488561,Actual,
-2023-01-31,1200,Supply Chain / Operations,Return to stock,405.029376,Actual,
-2023-01-31,2200,Finance,Refund paid,1300.052587,Actual,
-2023-01-31,2200,Finance,Returns reserve,-1537.047317,Actual,
-2023-01-31,4000,Marketing / Ecommerce,DTC sale,-15508.728323,Actual,
-2023-01-31,4020,Marketing / Ecommerce,DTC sale,-423.933653,Actual,
-2023-01-31,4110,Marketing / Ecommerce,Returns reserve,1537.047317,Actual,
-2023-01-31,5000,Supply Chain / Operations,COGS on shipment,3480.741077,Actual,
-2023-01-31,5000,Supply Chain / Operations,Return to stock,-405.029376,Actual,
-2023-01-31,5010,Supply Chain / Operations,COGS on shipment,535.498627,Actual,
-2023-01-31,5020,Supply Chain / Operations,COGS on shipment,446.248856,Actual,
-2023-01-31,5100,Supply Chain / Operations,DTC delivery cost,1399.25,Actual,
-2023-01-31,5200,Supply Chain / Operations,DTC delivery cost,627.25,Actual,
-2023-02-01,1000,Finance,DTC delivery cost,-1638.0,Actual,
-2023-02-01,1000,Finance,Fixed operating costs,-49833.333333,Actual,
-2023-02-01,1000,Finance,Marketing,-32642.280944,Actual,
-2023-02-01,1000,Finance,Payment processing,-4503.913617,Actual,
-2023-02-01,1000,Finance,Payroll,-180583.333333,Actual,
-2023-02-01,1000,Finance,Processor settlement,10748.54935,Actual,
-2023-02-01,1000,Finance,Refund paid,-1075.806011,Actual,
-2023-02-01,1000,Finance,Supplier deposit,-34652.51328,Actual,
-2023-02-01,1000,Finance,Wholesale delivery cost,-323.889737,Actual,
-2023-02-01,1100,Wholesale Sales,Wholesale sale,7593.874287,Actual,
-2023-02-01,1150,Marketing / Ecommerce,DTC sale,12297.336447,Actual,
-2023-02-01,1150,Marketing / Ecommerce,Processor settlement,-10748.54935,Actual,
-2023-02-01,1180,Finance,Bad debt,-565.76257,Actual,
-2023-02-01,1200,Supply Chain / Operations,COGS on shipment,-8610.960006,Actual,
-2023-02-01,1200,Supply Chain / Operations,Return to stock,330.023936,Actual,
-2023-02-01,1200,Supply Chain / Operations,Shrink and damage,-51.8863,Actual,
-2023-02-01,1300,Supply Chain / Operations,Supplier deposit,34652.51328,Actual,
-2023-02-01,1400,Executive / Corporate,Depreciation,-4166.666667,Actual,
-2023-02-01,2200,Finance,Refund paid,1075.806011,Actual,
-2023-02-01,2200,Finance,Returns reserve,-957.765259,Actual,
-2023-02-01,4000,Marketing / Ecommerce,DTC sale,-11907.775793,Actual,
-2023-02-01,4010,Wholesale Sales,Wholesale sale,-7807.129007,Actual,
-2023-02-01,4020,Marketing / Ecommerce,DTC sale,-389.560654,Actual,
-2023-02-01,4110,Marketing / Ecommerce,Returns reserve,957.765259,Actual,
-2023-02-01,4130,Wholesale Sales,Wholesale sale,95.964624,Actual,
-2023-02-01,4140,Wholesale Sales,Wholesale sale,63.976416,Actual,
-2023-02-01,4150,Wholesale Sales,Wholesale sale,53.31368,Actual,
-2023-02-01,5000,Supply Chain / Operations,COGS on shipment,6716.548805,Actual,
-2023-02-01,5000,Supply Chain / Operations,Return to stock,-330.023936,Actual,
-2023-02-01,5010,Supply Chain / Operations,COGS on shipment,1033.315201,Actual,
-2023-02-01,5020,Supply Chain / Operations,COGS on shipment,861.096001,Actual,
-2023-02-01,5100,Supply Chain / Operations,DTC delivery cost,1131.0,Actual,
-2023-02-01,5110,Supply Chain / Operations,Wholesale delivery cost,136.689737,Actual,
-2023-02-01,5200,Supply Chain / Operations,DTC delivery cost,507.0,Actual,
-2023-02-01,5210,Supply Chain / Operations,Wholesale delivery cost,187.2,Actual,
-2023-02-01,5310,Supply Chain / Operations,Shrink and damage,51.8863,Actual,
-2023-02-01,6000,Customer Experience,Payroll,19348.214286,Actual,
-2023-02-01,6000,Executive / Corporate,Payroll,12898.809524,Actual,
-2023-02-01,6000,Finance,Payroll,19348.214286,Actual,
-2023-02-01,6000,Marketing / Ecommerce,Payroll,45145.833333,Actual,
-2023-02-01,6000,People / Administration,Payroll,6449.404762,Actual,
-2023-02-01,6000,Product / Merchandising,Payroll,32247.02381,Actual,
-2023-02-01,6000,Supply Chain / Operations,Payroll,25797.619048,Actual,
-2023-02-01,6000,Wholesale Sales,Payroll,19348.214286,Actual,
-2023-02-01,6100,Marketing / Ecommerce,Marketing,22196.751042,Actual,
-2023-02-01,6110,Marketing / Ecommerce,Marketing,10445.529902,Actual,
-2023-02-01,6200,Marketing / Ecommerce,Payment processing,4503.913617,Actual,
-2023-02-01,6300,Supply Chain / Operations,Fixed operating costs,9769.561479,Actual,
-2023-02-01,6310,People / Administration,Fixed operating costs,6427.343078,Actual,
-2023-02-01,6320,Technology / Shared Services,Fixed operating costs,11997.707079,Actual,
-2023-02-01,6330,Finance,Fixed operating costs,8998.28031,Actual,
-2023-02-01,6340,Finance,Fixed operating costs,4070.650616,Actual,
-2023-02-01,6350,Executive / Corporate,Fixed operating costs,8569.790771,Actual,
-2023-02-01,6400,Finance,Bad debt,565.76257,Actual,
-2023-02-01,6500,Executive / Corporate,Depreciation,4166.666667,Actual,
-2023-02-02,1000,Finance,DTC delivery cost,-1869.0,Actual,
-2023-02-02,1000,Finance,Processor settlement,16751.774519,Actual,
-2023-02-02,1000,Finance,Refund paid,-1109.49668,Actual,
-2023-02-02,1000,Finance,Wholesale collection,4553.296661,Actual,
-2023-02-02,1000,Finance,Wholesale delivery cost,-84.664071,Actual,
-2023-02-02,1100,Wholesale Sales,Wholesale collection,-4553.296661,Actual,
-2023-02-02,1100,Wholesale Sales,Wholesale sale,1778.559518,Actual,
-2023-02-02,1150,Marketing / Ecommerce,DTC sale,14277.24681,Actual,
-2023-02-02,1150,Marketing / Ecommerce,Processor settlement,-16751.774519,Actual,
-2023-02-02,1200,Supply Chain / Operations,COGS on shipment,-5040.745529,Actual,
-2023-02-02,1200,Supply Chain / Operations,Return to stock,375.0272,Actual,
-2023-02-02,2200,Finance,Refund paid,1109.49668,Actual,
-2023-02-02,2200,Finance,Returns reserve,-1390.770576,Actual,
-2023-02-02,4000,Marketing / Ecommerce,DTC sale,-13893.41499,Actual,
-2023-02-02,4010,Wholesale Sales,Wholesale sale,-1800.625102,Actual,
-2023-02-02,4020,Marketing / Ecommerce,DTC sale,-383.831821,Actual,
-2023-02-02,4110,Marketing / Ecommerce,Returns reserve,1390.770576,Actual,
-2023-02-02,4130,Wholesale Sales,Wholesale sale,9.929513,Actual,
-2023-02-02,4140,Wholesale Sales,Wholesale sale,6.619675,Actual,
-2023-02-02,4150,Wholesale Sales,Wholesale sale,5.516396,Actual,
-2023-02-02,5000,Supply Chain / Operations,COGS on shipment,3931.781513,Actual,
-2023-02-02,5000,Supply Chain / Operations,Return to stock,-375.0272,Actual,
-2023-02-02,5010,Supply Chain / Operations,COGS on shipment,604.889463,Actual,
-2023-02-02,5020,Supply Chain / Operations,COGS on shipment,504.074553,Actual,
-2023-02-02,5100,Supply Chain / Operations,DTC delivery cost,1290.5,Actual,
-2023-02-02,5110,Supply Chain / Operations,Wholesale delivery cost,32.014071,Actual,
-2023-02-02,5200,Supply Chain / Operations,DTC delivery cost,578.5,Actual,
-2023-02-02,5210,Supply Chain / Operations,Wholesale delivery cost,52.65,Actual,
-2023-02-03,1000,Finance,DTC delivery cost,-2142.0,Actual,
-2023-02-03,1000,Finance,Processor settlement,15932.661976,Actual,
-2023-02-03,1000,Finance,Refund paid,-1299.213405,Actual,
-2023-02-03,1000,Finance,Wholesale collection,1070.771086,Actual,
-2023-02-03,1100,Wholesale Sales,Wholesale collection,-1070.771086,Actual,
-2023-02-03,1150,Marketing / Ecommerce,DTC sale,15949.620231,Actual,
-2023-02-03,1150,Marketing / Ecommerce,Processor settlement,-15932.661976,Actual,
-2023-02-03,1200,Supply Chain / Operations,COGS on shipment,-4424.290825,Actual,
-2023-02-03,1200,Supply Chain / Operations,Return to stock,435.031552,Actual,
-2023-02-03,2200,Finance,Refund paid,1299.213405,Actual,
-2023-02-03,2200,Finance,Returns reserve,-976.60982,Actual,
-2023-02-03,4000,Marketing / Ecommerce,DTC sale,-15468.398247,Actual,
-2023-02-03,4020,Marketing / Ecommerce,DTC sale,-481.221984,Actual,
-2023-02-03,4110,Marketing / Ecommerce,Returns reserve,976.60982,Actual,
-2023-02-03,5000,Supply Chain / Operations,COGS on shipment,3450.946843,Actual,
-2023-02-03,5000,Supply Chain / Operations,Return to stock,-435.031552,Actual,
-2023-02-03,5010,Supply Chain / Operations,COGS on shipment,530.914899,Actual,
-2023-02-03,5020,Supply Chain / Operations,COGS on shipment,442.429082,Actual,
-2023-02-03,5100,Supply Chain / Operations,DTC delivery cost,1479.0,Actual,
-2023-02-03,5200,Supply Chain / Operations,DTC delivery cost,663.0,Actual,
-2023-02-04,1000,Finance,DTC delivery cost,-1333.5,Actual,
-2023-02-04,1000,Finance,Processor settlement,12297.336447,Actual,
-2023-02-04,1000,Finance,Refund paid,-554.402795,Actual,
-2023-02-04,1000,Finance,Wholesale delivery cost,-786.005185,Actual,
-2023-02-04,1100,Wholesale Sales,Wholesale sale,17616.954741,Actual,
-2023-02-04,1150,Marketing / Ecommerce,DTC sale,8907.346443,Actual,
-2023-02-04,1150,Marketing / Ecommerce,Processor settlement,-12297.336447,Actual,
-2023-02-04,1200,Supply Chain / Operations,COGS on shipment,-13922.354476,Actual,
-2023-02-04,1200,Supply Chain / Operations,Return to stock,165.011968,Actual,
-2023-02-04,2200,Finance,Refund paid,554.402795,Actual,
-2023-02-04,2200,Finance,Returns reserve,-1000.073353,Actual,
-2023-02-04,4000,Marketing / Ecommerce,DTC sale,-8635.486233,Actual,
-2023-02-04,4010,Wholesale Sales,Wholesale sale,-18454.179659,Actual,
-2023-02-04,4020,Marketing / Ecommerce,DTC sale,-271.860211,Actual,
-2023-02-04,4110,Marketing / Ecommerce,Returns reserve,480.616527,Actual,
-2023-02-04,4120,Wholesale Sales,Returns reserve,519.456827,Actual,
-2023-02-04,4130,Wholesale Sales,Wholesale sale,376.751213,Actual,
-2023-02-04,4140,Wholesale Sales,Wholesale sale,251.167475,Actual,
-2023-02-04,4150,Wholesale Sales,Wholesale sale,209.306229,Actual,
-2023-02-04,5000,Supply Chain / Operations,COGS on shipment,10859.436491,Actual,
-2023-02-04,5000,Supply Chain / Operations,Return to stock,-165.011968,Actual,
-2023-02-04,5010,Supply Chain / Operations,COGS on shipment,1670.682537,Actual,
-2023-02-04,5020,Supply Chain / Operations,COGS on shipment,1392.235448,Actual,
-2023-02-04,5100,Supply Chain / Operations,DTC delivery cost,920.75,Actual,
-2023-02-04,5110,Supply Chain / Operations,Wholesale delivery cost,317.105185,Actual,
-2023-02-04,5200,Supply Chain / Operations,DTC delivery cost,412.75,Actual,
-2023-02-04,5210,Supply Chain / Operations,Wholesale delivery cost,468.9,Actual,
-2023-02-05,1000,Finance,DTC delivery cost,-1711.5,Actual,
-2023-02-05,1000,Finance,Processor settlement,14277.24681,Actual,
-2023-02-05,1000,Finance,Refund paid,-950.015171,Actual,
-2023-02-05,1000,Finance,Wholesale delivery cost,-285.566455,Actual,
-2023-02-05,1100,Wholesale Sales,Wholesale sale,6964.803045,Actual,
-2023-02-05,1150,Marketing / Ecommerce,DTC sale,12902.932359,Actual,
-2023-02-05,1150,Marketing / Ecommerce,Processor settlement,-14277.24681,Actual,
-2023-02-05,1200,Supply Chain / Operations,COGS on shipment,-7799.648493,Actual,
-2023-02-05,1200,Supply Chain / Operations,Return to stock,330.023936,Actual,
-2023-02-05,2200,Finance,Refund paid,950.015171,Actual,
-2023-02-05,2200,Finance,Returns reserve,-928.71477,Actual,
-2023-02-05,4000,Marketing / Ecommerce,DTC sale,-12532.509403,Actual,
-2023-02-05,4010,Wholesale Sales,Wholesale sale,-7085.611707,Actual,
-2023-02-05,4020,Marketing / Ecommerce,DTC sale,-370.422956,Actual,
-2023-02-05,4110,Marketing / Ecommerce,Returns reserve,928.71477,Actual,
-2023-02-05,4130,Wholesale Sales,Wholesale sale,54.363898,Actual,
-2023-02-05,4140,Wholesale Sales,Wholesale sale,36.242599,Actual,
-2023-02-05,4150,Wholesale Sales,Wholesale sale,30.202166,Actual,
-2023-02-05,5000,Supply Chain / Operations,COGS on shipment,6083.725825,Actual,
-2023-02-05,5000,Supply Chain / Operations,Return to stock,-330.023936,Actual,
-2023-02-05,5010,Supply Chain / Operations,COGS on shipment,935.957819,Actual,
-2023-02-05,5020,Supply Chain / Operations,COGS on shipment,779.964849,Actual,
-2023-02-05,5100,Supply Chain / Operations,DTC delivery cost,1181.75,Actual,
-2023-02-05,5110,Supply Chain / Operations,Wholesale delivery cost,125.366455,Actual,
-2023-02-05,5200,Supply Chain / Operations,DTC delivery cost,529.75,Actual,
-2023-02-05,5210,Supply Chain / Operations,Wholesale delivery cost,160.2,Actual,
-2023-02-06,1000,Finance,DTC delivery cost,-1722.0,Actual,
-2023-02-06,1000,Finance,Processor settlement,15949.620231,Actual,
-2023-02-06,1000,Finance,Refund paid,-825.927376,Actual,
-2023-02-06,1000,Finance,Wholesale delivery cost,-239.418225,Actual,
-2023-02-06,1100,Wholesale Sales,Wholesale sale,6151.012486,Actual,
-2023-02-06,1150,Marketing / Ecommerce,DTC sale,12102.047366,Actual,
-2023-02-06,1150,Marketing / Ecommerce,Processor settlement,-15949.620231,Actual,
-2023-02-06,1200,Supply Chain / Operations,COGS on shipment,-6882.529409,Actual,
-2023-02-06,1200,Supply Chain / Operations,Return to stock,240.017408,Actual,
-2023-02-06,2200,Finance,Refund paid,825.927376,Actual,
-2023-02-06,2200,Finance,Returns reserve,-793.520161,Actual,
-2023-02-06,4000,Marketing / Ecommerce,DTC sale,-11717.775227,Actual,
-2023-02-06,4010,Wholesale Sales,Wholesale sale,-6226.691004,Actual,
-2023-02-06,4020,Marketing / Ecommerce,DTC sale,-384.272138,Actual,
-2023-02-06,4110,Marketing / Ecommerce,Returns reserve,793.520161,Actual,
-2023-02-06,4130,Wholesale Sales,Wholesale sale,34.055333,Actual,
-2023-02-06,4140,Wholesale Sales,Wholesale sale,22.703555,Actual,
-2023-02-06,4150,Wholesale Sales,Wholesale sale,18.919629,Actual,
-2023-02-06,5000,Supply Chain / Operations,COGS on shipment,5368.372939,Actual,
-2023-02-06,5000,Supply Chain / Operations,Return to stock,-240.017408,Actual,
-2023-02-06,5010,Supply Chain / Operations,COGS on shipment,825.903529,Actual,
-2023-02-06,5020,Supply Chain / Operations,COGS on shipment,688.252941,Actual,
-2023-02-06,5100,Supply Chain / Operations,DTC delivery cost,1189.0,Actual,
-2023-02-06,5110,Supply Chain / Operations,Wholesale delivery cost,110.718225,Actual,
-2023-02-06,5200,Supply Chain / Operations,DTC delivery cost,533.0,Actual,
-2023-02-06,5210,Supply Chain / Operations,Wholesale delivery cost,128.7,Actual,
-2023-02-07,1000,Finance,DTC delivery cost,-850.5,Actual,
-2023-02-07,1000,Finance,Processor settlement,8907.346443,Actual,
-2023-02-07,1000,Finance,Refund paid,-663.558095,Actual,
-2023-02-07,1000,Finance,Wholesale delivery cost,-1704.823858,Actual,
-2023-02-07,1100,Wholesale Sales,Wholesale sale,40387.436539,Actual,
-2023-02-07,1150,Marketing / Ecommerce,DTC sale,5322.88947,Actual,
-2023-02-07,1150,Marketing / Ecommerce,Processor settlement,-8907.346443,Actual,
-2023-02-07,1200,Supply Chain / Operations,COGS on shipment,-22520.464922,Actual,
-2023-02-07,1200,Supply Chain / Operations,Return to stock,180.013056,Actual,
-2023-02-07,2200,Finance,Refund paid,663.558095,Actual,
-2023-02-07,2200,Finance,Returns reserve,-553.93384,Actual,
-2023-02-07,4000,Marketing / Ecommerce,DTC sale,-5210.403933,Actual,
-2023-02-07,4010,Wholesale Sales,Wholesale sale,-42574.935379,Actual,
-2023-02-07,4020,Marketing / Ecommerce,DTC sale,-112.485537,Actual,
-2023-02-07,4110,Marketing / Ecommerce,Returns reserve,553.93384,Actual,
-2023-02-07,4130,Wholesale Sales,Wholesale sale,984.374478,Actual,
-2023-02-07,4140,Wholesale Sales,Wholesale sale,656.249652,Actual,
-2023-02-07,4150,Wholesale Sales,Wholesale sale,546.87471,Actual,
-2023-02-07,5000,Supply Chain / Operations,COGS on shipment,17565.962639,Actual,
-2023-02-07,5000,Supply Chain / Operations,Return to stock,-180.013056,Actual,
-2023-02-07,5010,Supply Chain / Operations,COGS on shipment,2702.455791,Actual,
-2023-02-07,5020,Supply Chain / Operations,COGS on shipment,2252.046492,Actual,
-2023-02-07,5100,Supply Chain / Operations,DTC delivery cost,587.25,Actual,
-2023-02-07,5110,Supply Chain / Operations,Wholesale delivery cost,726.973858,Actual,
-2023-02-07,5200,Supply Chain / Operations,DTC delivery cost,263.25,Actual,
-2023-02-07,5210,Supply Chain / Operations,Wholesale delivery cost,977.85,Actual,
-2023-02-08,1000,Finance,DTC delivery cost,-787.5,Actual,
-2023-02-08,1000,Finance,Processor settlement,12902.932359,Actual,
-2023-02-08,1000,Finance,Refund paid,-700.358672,Actual,
-2023-02-08,1150,Marketing / Ecommerce,DTC sale,5005.099994,Actual,
-2023-02-08,1150,Marketing / Ecommerce,Processor settlement,-12902.932359,Actual,
-2023-02-08,1200,Supply Chain / Operations,COGS on shipment,-1311.510977,Actual,
-2023-02-08,1200,Supply Chain / Operations,Return to stock,225.01632,Actual,
-2023-02-08,2200,Finance,Refund paid,700.358672,Actual,
-2023-02-08,2200,Finance,Returns reserve,-22.300014,Actual,
-2023-02-08,4000,Marketing / Ecommerce,DTC sale,-4849.049908,Actual,
-2023-02-08,4020,Marketing / Ecommerce,DTC sale,-156.050086,Actual,
-2023-02-08,4110,Marketing / Ecommerce,Returns reserve,22.300014,Actual,
-2023-02-08,5000,Supply Chain / Operations,COGS on shipment,1022.978562,Actual,
-2023-02-08,5000,Supply Chain / Operations,Return to stock,-225.01632,Actual,
-2023-02-08,5010,Supply Chain / Operations,COGS on shipment,157.381317,Actual,
-2023-02-08,5020,Supply Chain / Operations,COGS on shipment,131.151098,Actual,
-2023-02-08,5100,Supply Chain / Operations,DTC delivery cost,543.75,Actual,
-2023-02-08,5200,Supply Chain / Operations,DTC delivery cost,243.75,Actual,
-2023-02-09,1000,Finance,DTC delivery cost,-934.5,Actual,
-2023-02-09,1000,Finance,Processor settlement,12102.047366,Actual,
-2023-02-09,1000,Finance,Refund paid,-985.125044,Actual,
-2023-02-09,1000,Finance,Wholesale collection,1086.866408,Actual,
-2023-02-09,1000,Finance,Wholesale delivery cost,-128.072689,Actual,
-2023-02-09,1100,Wholesale Sales,Wholesale collection,-1086.866408,Actual,
-2023-02-09,1100,Wholesale Sales,Wholesale sale,3015.149372,Actual,
-2023-02-09,1150,Marketing / Ecommerce,DTC sale,5813.235263,Actual,
-2023-02-09,1150,Marketing / Ecommerce,Processor settlement,-12102.047366,Actual,
-2023-02-09,1200,Supply Chain / Operations,COGS on shipment,-2423.440891,Actual,
-2023-02-09,1200,Supply Chain / Operations,Return to stock,330.023936,Actual,
-2023-02-09,2200,Finance,Refund paid,985.125044,Actual,
-2023-02-09,2200,Finance,Returns reserve,-321.147358,Actual,
-2023-02-09,4000,Marketing / Ecommerce,DTC sale,-5627.662256,Actual,
-2023-02-09,4010,Wholesale Sales,Wholesale sale,-3051.583918,Actual,
-2023-02-09,4020,Marketing / Ecommerce,DTC sale,-185.573007,Actual,
-2023-02-09,4110,Marketing / Ecommerce,Returns reserve,321.147358,Actual,
-2023-02-09,4130,Wholesale Sales,Wholesale sale,16.395546,Actual,
-2023-02-09,4140,Wholesale Sales,Wholesale sale,10.930364,Actual,
-2023-02-09,4150,Wholesale Sales,Wholesale sale,9.108637,Actual,
-2023-02-09,5000,Supply Chain / Operations,COGS on shipment,1890.283895,Actual,
-2023-02-09,5000,Supply Chain / Operations,Return to stock,-330.023936,Actual,
-2023-02-09,5010,Supply Chain / Operations,COGS on shipment,290.812907,Actual,
-2023-02-09,5020,Supply Chain / Operations,COGS on shipment,242.344089,Actual,
-2023-02-09,5100,Supply Chain / Operations,DTC delivery cost,645.25,Actual,
-2023-02-09,5110,Supply Chain / Operations,Wholesale delivery cost,54.272689,Actual,
-2023-02-09,5200,Supply Chain / Operations,DTC delivery cost,289.25,Actual,
-2023-02-09,5210,Supply Chain / Operations,Wholesale delivery cost,73.8,Actual,
-2023-02-10,1000,Finance,DTC delivery cost,-661.5,Actual,
-2023-02-10,1000,Finance,Processor settlement,5322.88947,Actual,
-2023-02-10,1000,Finance,Refund paid,-1062.712311,Actual,
-2023-02-10,1000,Finance,Wholesale delivery cost,-57.732068,Actual,
-2023-02-10,1100,Wholesale Sales,Wholesale sale,1557.337117,Actual,
-2023-02-10,1150,Marketing / Ecommerce,DTC sale,3260.497764,Actual,
-2023-02-10,1150,Marketing / Ecommerce,Processor settlement,-5322.88947,Actual,
-2023-02-10,1200,Supply Chain / Operations,COGS on shipment,-1051.832894,Actual,
-2023-02-10,1200,Supply Chain / Operations,Return to stock,330.023936,Actual,
-2023-02-10,2200,Finance,Refund paid,1062.712311,Actual,
-2023-02-10,2200,Finance,Returns reserve,-430.142227,Actual,
-2023-02-10,4000,Marketing / Ecommerce,DTC sale,-3128.88825,Actual,
-2023-02-10,4010,Wholesale Sales,Wholesale sale,-1576.836511,Actual,
-2023-02-10,4020,Marketing / Ecommerce,DTC sale,-131.609514,Actual,
-2023-02-10,4110,Marketing / Ecommerce,Returns reserve,430.142227,Actual,
-2023-02-10,4130,Wholesale Sales,Wholesale sale,8.774728,Actual,
-2023-02-10,4140,Wholesale Sales,Wholesale sale,5.849818,Actual,
-2023-02-10,4150,Wholesale Sales,Wholesale sale,4.874849,Actual,
-2023-02-10,5000,Supply Chain / Operations,COGS on shipment,820.429657,Actual,
-2023-02-10,5000,Supply Chain / Operations,Return to stock,-330.023936,Actual,
-2023-02-10,5010,Supply Chain / Operations,COGS on shipment,126.219947,Actual,
-2023-02-10,5020,Supply Chain / Operations,COGS on shipment,105.183289,Actual,
-2023-02-10,5100,Supply Chain / Operations,DTC delivery cost,456.75,Actual,
-2023-02-10,5110,Supply Chain / Operations,Wholesale delivery cost,28.032068,Actual,
-2023-02-10,5200,Supply Chain / Operations,DTC delivery cost,204.75,Actual,
-2023-02-10,5210,Supply Chain / Operations,Wholesale delivery cost,29.7,Actual,
-2023-02-11,1000,Finance,DTC delivery cost,-871.5,Actual,
-2023-02-11,1000,Finance,Processor settlement,5005.099994,Actual,
-2023-02-11,1000,Finance,Refund paid,-1183.85063,Actual,
-2023-02-11,1150,Marketing / Ecommerce,DTC sale,4760.681258,Actual,
-2023-02-11,1150,Marketing / Ecommerce,Processor settlement,-5005.099994,Actual,
-2023-02-11,1200,Supply Chain / Operations,COGS on shipment,-1218.371147,Actual,
-2023-02-11,1200,Supply Chain / Operations,Return to stock,375.0272,Actual,
-2023-02-11,2200,Finance,Refund paid,1183.85063,Actual,
-2023-02-11,2200,Finance,Returns reserve,-538.137482,Actual,
-2023-02-11,4000,Marketing / Ecommerce,DTC sale,-4597.517592,Actual,
-2023-02-11,4020,Marketing / Ecommerce,DTC sale,-163.163666,Actual,
-2023-02-11,4110,Marketing / Ecommerce,Returns reserve,538.137482,Actual,
-2023-02-11,5000,Supply Chain / Operations,COGS on shipment,950.329495,Actual,
-2023-02-11,5000,Supply Chain / Operations,Return to stock,-375.0272,Actual,
-2023-02-11,5010,Supply Chain / Operations,COGS on shipment,146.204538,Actual,
-2023-02-11,5020,Supply Chain / Operations,COGS on shipment,121.837115,Actual,
-2023-02-11,5100,Supply Chain / Operations,DTC delivery cost,601.75,Actual,
-2023-02-11,5200,Supply Chain / Operations,DTC delivery cost,269.75,Actual,
-2023-02-12,1000,Finance,DTC delivery cost,-598.5,Actual,
-2023-02-12,1000,Finance,Processor settlement,5813.235263,Actual,
-2023-02-12,1000,Finance,Refund paid,-879.314129,Actual,
-2023-02-12,1150,Marketing / Ecommerce,DTC sale,3835.555171,Actual,
-2023-02-12,1150,Marketing / Ecommerce,Processor settlement,-5813.235263,Actual,
-2023-02-12,1200,Supply Chain / Operations,COGS on shipment,-963.464149,Actual,
-2023-02-12,1200,Supply Chain / Operations,Return to stock,300.02176,Actual,
-2023-02-12,2200,Finance,Refund paid,879.314129,Actual,
-2023-02-12,2200,Finance,Returns reserve,-485.392457,Actual,
-2023-02-12,4000,Marketing / Ecommerce,DTC sale,-3764.691651,Actual,
-2023-02-12,4020,Marketing / Ecommerce,DTC sale,-70.863521,Actual,
-2023-02-12,4110,Marketing / Ecommerce,Returns reserve,485.392457,Actual,
-2023-02-12,5000,Supply Chain / Operations,COGS on shipment,751.502037,Actual,
-2023-02-12,5000,Supply Chain / Operations,Return to stock,-300.02176,Actual,
-2023-02-12,5010,Supply Chain / Operations,COGS on shipment,115.615698,Actual,
-2023-02-12,5020,Supply Chain / Operations,COGS on shipment,96.346415,Actual,
-2023-02-12,5100,Supply Chain / Operations,DTC delivery cost,413.25,Actual,
-2023-02-12,5200,Supply Chain / Operations,DTC delivery cost,185.25,Actual,
-2023-02-13,1000,Finance,DTC delivery cost,-556.5,Actual,
-2023-02-13,1000,Finance,Processor settlement,3260.497764,Actual,
-2023-02-13,1000,Finance,Refund paid,-1301.434768,Actual,
-2023-02-13,1000,Finance,Wholesale delivery cost,-107.680353,Actual,
-2023-02-13,1100,Wholesale Sales,Wholesale sale,2232.241814,Actual,
-2023-02-13,1150,Marketing / Ecommerce,DTC sale,3460.06746,Actual,
-2023-02-13,1150,Marketing / Ecommerce,Processor settlement,-3260.497764,Actual,
-2023-02-13,1200,Supply Chain / Operations,COGS on shipment,-1034.337071,Actual,
-2023-02-13,1200,Supply Chain / Operations,Return to stock,375.0272,Actual,
-2023-02-13,2200,Finance,Refund paid,1301.434768,Actual,
-2023-02-13,2200,Finance,Returns reserve,-420.047367,Actual,
-2023-02-13,4000,Marketing / Ecommerce,DTC sale,-3400.252399,Actual,
-2023-02-13,4010,Wholesale Sales,Wholesale sale,-2256.794028,Actual,
-2023-02-13,4020,Marketing / Ecommerce,DTC sale,-59.815061,Actual,
-2023-02-13,4110,Marketing / Ecommerce,Returns reserve,420.047367,Actual,
-2023-02-13,4130,Wholesale Sales,Wholesale sale,11.048496,Actual,
-2023-02-13,4140,Wholesale Sales,Wholesale sale,7.365664,Actual,
-2023-02-13,4150,Wholesale Sales,Wholesale sale,6.138053,Actual,
-2023-02-13,5000,Supply Chain / Operations,COGS on shipment,806.782915,Actual,
+2023-01-01,1000,Finance,DTC delivery cost,-1785.0,Actual,Balanced Base
+2023-01-01,1000,Finance,Fixed operating costs,-49833.333333,Actual,Balanced Base
+2023-01-01,1000,Finance,Marketing,-62214.609116,Actual,Balanced Base
+2023-01-01,1000,Finance,Payment processing,-12800.201834,Actual,Balanced Base
+2023-01-01,1000,Finance,Payroll,-180583.333333,Actual,Balanced Base
+2023-01-01,1000,Finance,Supplier deposit,-362544.895484,Actual,Balanced Base
+2023-01-01,1150,Marketing / Ecommerce,DTC sale,12990.28527,Actual,Balanced Base
+2023-01-01,1180,Finance,Bad debt,-496.804342,Actual,Balanced Base
+2023-01-01,1200,Supply Chain / Operations,COGS on shipment,-3607.9267,Actual,Balanced Base
+2023-01-01,1200,Supply Chain / Operations,Opening inventory,332834.017326,Actual,Balanced Base
+2023-01-01,1200,Supply Chain / Operations,Shrink and damage,-181.757652,Actual,Balanced Base
+2023-01-01,1300,Supply Chain / Operations,Supplier deposit,362544.895484,Actual,Balanced Base
+2023-01-01,1400,Executive / Corporate,Depreciation,-4166.666667,Actual,Balanced Base
+2023-01-01,2200,Finance,Returns reserve,-1142.693713,Actual,Balanced Base
+2023-01-01,3000,Executive / Corporate,Opening inventory,-332834.017326,Actual,Balanced Base
+2023-01-01,4000,Marketing / Ecommerce,DTC sale,-12612.182282,Actual,Balanced Base
+2023-01-01,4020,Marketing / Ecommerce,DTC sale,-378.102988,Actual,Balanced Base
+2023-01-01,4110,Marketing / Ecommerce,Returns reserve,1142.693713,Actual,Balanced Base
+2023-01-01,5000,Supply Chain / Operations,COGS on shipment,2814.182826,Actual,Balanced Base
+2023-01-01,5010,Supply Chain / Operations,COGS on shipment,432.951204,Actual,Balanced Base
+2023-01-01,5020,Supply Chain / Operations,COGS on shipment,360.79267,Actual,Balanced Base
+2023-01-01,5100,Supply Chain / Operations,DTC delivery cost,1232.5,Actual,Balanced Base
+2023-01-01,5200,Supply Chain / Operations,DTC delivery cost,552.5,Actual,Balanced Base
+2023-01-01,5310,Supply Chain / Operations,Shrink and damage,181.757652,Actual,Balanced Base
+2023-01-01,6000,Customer Experience,Payroll,19348.214286,Actual,Balanced Base
+2023-01-01,6000,Executive / Corporate,Payroll,12898.809524,Actual,Balanced Base
+2023-01-01,6000,Finance,Payroll,19348.214286,Actual,Balanced Base
+2023-01-01,6000,Marketing / Ecommerce,Payroll,45145.833333,Actual,Balanced Base
+2023-01-01,6000,People / Administration,Payroll,6449.404762,Actual,Balanced Base
+2023-01-01,6000,Product / Merchandising,Payroll,32247.02381,Actual,Balanced Base
+2023-01-01,6000,Supply Chain / Operations,Payroll,25797.619048,Actual,Balanced Base
+2023-01-01,6000,Wholesale Sales,Payroll,19348.214286,Actual,Balanced Base
+2023-01-01,6100,Marketing / Ecommerce,Marketing,42305.934199,Actual,Balanced Base
+2023-01-01,6110,Marketing / Ecommerce,Marketing,19908.674917,Actual,Balanced Base
+2023-01-01,6200,Marketing / Ecommerce,Payment processing,12800.201834,Actual,Balanced Base
+2023-01-01,6300,Supply Chain / Operations,Fixed operating costs,9769.561479,Actual,Balanced Base
+2023-01-01,6310,People / Administration,Fixed operating costs,6427.343078,Actual,Balanced Base
+2023-01-01,6320,Technology / Shared Services,Fixed operating costs,11997.707079,Actual,Balanced Base
+2023-01-01,6330,Finance,Fixed operating costs,8998.28031,Actual,Balanced Base
+2023-01-01,6340,Finance,Fixed operating costs,4070.650616,Actual,Balanced Base
+2023-01-01,6350,Executive / Corporate,Fixed operating costs,8569.790771,Actual,Balanced Base
+2023-01-01,6400,Finance,Bad debt,496.804342,Actual,Balanced Base
+2023-01-01,6500,Executive / Corporate,Depreciation,4166.666667,Actual,Balanced Base
+2023-01-02,1000,Finance,DTC delivery cost,-1995.0,Actual,Balanced Base
+2023-01-02,1000,Finance,Wholesale delivery cost,-177.80934,Actual,Balanced Base
+2023-01-02,1100,Wholesale Sales,Wholesale sale,4553.296661,Actual,Balanced Base
+2023-01-02,1150,Marketing / Ecommerce,DTC sale,14852.628342,Actual,Balanced Base
+2023-01-02,1200,Supply Chain / Operations,COGS on shipment,-6773.981379,Actual,Balanced Base
+2023-01-02,2200,Finance,Returns reserve,-866.960883,Actual,Balanced Base
+2023-01-02,4000,Marketing / Ecommerce,DTC sale,-14417.237023,Actual,Balanced Base
+2023-01-02,4010,Wholesale Sales,Wholesale sale,-4609.555448,Actual,Balanced Base
+2023-01-02,4020,Marketing / Ecommerce,DTC sale,-435.391319,Actual,Balanced Base
+2023-01-02,4110,Marketing / Ecommerce,Returns reserve,866.960883,Actual,Balanced Base
+2023-01-02,4130,Wholesale Sales,Wholesale sale,25.316454,Actual,Balanced Base
+2023-01-02,4140,Wholesale Sales,Wholesale sale,16.877636,Actual,Balanced Base
+2023-01-02,4150,Wholesale Sales,Wholesale sale,14.064697,Actual,Balanced Base
+2023-01-02,5000,Supply Chain / Operations,COGS on shipment,5283.705475,Actual,Balanced Base
+2023-01-02,5010,Supply Chain / Operations,COGS on shipment,812.877765,Actual,Balanced Base
+2023-01-02,5020,Supply Chain / Operations,COGS on shipment,677.398138,Actual,Balanced Base
+2023-01-02,5100,Supply Chain / Operations,DTC delivery cost,1377.5,Actual,Balanced Base
+2023-01-02,5110,Supply Chain / Operations,Wholesale delivery cost,81.95934,Actual,Balanced Base
+2023-01-02,5200,Supply Chain / Operations,DTC delivery cost,617.5,Actual,Balanced Base
+2023-01-02,5210,Supply Chain / Operations,Wholesale delivery cost,95.85,Actual,Balanced Base
+2023-01-03,1000,Finance,DTC delivery cost,-1617.0,Actual,Balanced Base
+2023-01-03,1000,Finance,Refund liability utilisation,-48.203573,Actual,Balanced Base
+2023-01-03,1000,Finance,Wholesale delivery cost,-46.72388,Actual,Balanced Base
+2023-01-03,1100,Wholesale Sales,Wholesale sale,1070.771086,Actual,Balanced Base
+2023-01-03,1150,Marketing / Ecommerce,DTC sale,12329.414839,Actual,Balanced Base
+2023-01-03,1200,Supply Chain / Operations,COGS on shipment,-4075.430314,Actual,Balanced Base
+2023-01-03,1200,Supply Chain / Operations,Return to stock,15.558337,Actual,Balanced Base
+2023-01-03,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-03,2200,Finance,Returns reserve,-766.592307,Actual,Balanced Base
+2023-01-03,4000,Marketing / Ecommerce,DTC sale,-11957.040684,Actual,Balanced Base
+2023-01-03,4010,Wholesale Sales,Wholesale sale,-1084.199356,Actual,Balanced Base
+2023-01-03,4020,Marketing / Ecommerce,DTC sale,-372.374154,Actual,Balanced Base
+2023-01-03,4110,Marketing / Ecommerce,Returns reserve,766.592307,Actual,Balanced Base
+2023-01-03,4111,Marketing / Ecommerce,Refund liability utilisation,48.203573,Actual,Balanced Base
+2023-01-03,4130,Wholesale Sales,Wholesale sale,6.042722,Actual,Balanced Base
+2023-01-03,4140,Wholesale Sales,Wholesale sale,4.028481,Actual,Balanced Base
+2023-01-03,4150,Wholesale Sales,Wholesale sale,3.357068,Actual,Balanced Base
+2023-01-03,5000,Supply Chain / Operations,COGS on shipment,3178.835645,Actual,Balanced Base
+2023-01-03,5000,Supply Chain / Operations,Return to stock,-15.558337,Actual,Balanced Base
+2023-01-03,5010,Supply Chain / Operations,COGS on shipment,489.051638,Actual,Balanced Base
+2023-01-03,5020,Supply Chain / Operations,COGS on shipment,407.543031,Actual,Balanced Base
+2023-01-03,5100,Supply Chain / Operations,DTC delivery cost,1116.5,Actual,Balanced Base
+2023-01-03,5110,Supply Chain / Operations,Wholesale delivery cost,19.27388,Actual,Balanced Base
+2023-01-03,5200,Supply Chain / Operations,DTC delivery cost,500.5,Actual,Balanced Base
+2023-01-03,5210,Supply Chain / Operations,Wholesale delivery cost,27.45,Actual,Balanced Base
+2023-01-04,1000,Finance,DTC delivery cost,-1669.5,Actual,Balanced Base
+2023-01-04,1000,Finance,Processor settlement,12990.28527,Actual,Balanced Base
+2023-01-04,1150,Marketing / Ecommerce,DTC sale,13390.343025,Actual,Balanced Base
+2023-01-04,1150,Marketing / Ecommerce,Processor settlement,-12990.28527,Actual,Balanced Base
+2023-01-04,1200,Supply Chain / Operations,COGS on shipment,-3618.563346,Actual,Balanced Base
+2023-01-04,2200,Finance,Returns reserve,-957.604827,Actual,Balanced Base
+2023-01-04,4000,Marketing / Ecommerce,DTC sale,-13006.511204,Actual,Balanced Base
+2023-01-04,4020,Marketing / Ecommerce,DTC sale,-383.831821,Actual,Balanced Base
+2023-01-04,4110,Marketing / Ecommerce,Returns reserve,957.604827,Actual,Balanced Base
+2023-01-04,5000,Supply Chain / Operations,COGS on shipment,2822.47941,Actual,Balanced Base
+2023-01-04,5010,Supply Chain / Operations,COGS on shipment,434.227602,Actual,Balanced Base
+2023-01-04,5020,Supply Chain / Operations,COGS on shipment,361.856335,Actual,Balanced Base
+2023-01-04,5100,Supply Chain / Operations,DTC delivery cost,1152.75,Actual,Balanced Base
+2023-01-04,5200,Supply Chain / Operations,DTC delivery cost,516.75,Actual,Balanced Base
+2023-01-05,1000,Finance,DTC delivery cost,-2257.5,Actual,Balanced Base
+2023-01-05,1000,Finance,Processor settlement,14852.628342,Actual,Balanced Base
+2023-01-05,1150,Marketing / Ecommerce,DTC sale,17352.151689,Actual,Balanced Base
+2023-01-05,1150,Marketing / Ecommerce,Processor settlement,-14852.628342,Actual,Balanced Base
+2023-01-05,1200,Supply Chain / Operations,COGS on shipment,-4804.826951,Actual,Balanced Base
+2023-01-05,2200,Finance,Returns reserve,-1744.497922,Actual,Balanced Base
+2023-01-05,4000,Marketing / Ecommerce,DTC sale,-16870.929705,Actual,Balanced Base
+2023-01-05,4020,Marketing / Ecommerce,DTC sale,-481.221984,Actual,Balanced Base
+2023-01-05,4110,Marketing / Ecommerce,Returns reserve,1744.497922,Actual,Balanced Base
+2023-01-05,5000,Supply Chain / Operations,COGS on shipment,3747.765022,Actual,Balanced Base
+2023-01-05,5010,Supply Chain / Operations,COGS on shipment,576.579234,Actual,Balanced Base
+2023-01-05,5020,Supply Chain / Operations,COGS on shipment,480.482695,Actual,Balanced Base
+2023-01-05,5100,Supply Chain / Operations,DTC delivery cost,1558.75,Actual,Balanced Base
+2023-01-05,5200,Supply Chain / Operations,DTC delivery cost,698.75,Actual,Balanced Base
+2023-01-06,1000,Finance,DTC delivery cost,-1974.0,Actual,Balanced Base
+2023-01-06,1000,Finance,Processor settlement,12329.414839,Actual,Balanced Base
+2023-01-06,1000,Finance,Wholesale delivery cost,-1897.572613,Actual,Balanced Base
+2023-01-06,1100,Wholesale Sales,Wholesale sale,40645.700718,Actual,Balanced Base
+2023-01-06,1150,Marketing / Ecommerce,DTC sale,15698.543602,Actual,Balanced Base
+2023-01-06,1150,Marketing / Ecommerce,Processor settlement,-12329.414839,Actual,Balanced Base
+2023-01-06,1200,Supply Chain / Operations,COGS on shipment,-34933.654869,Actual,Balanced Base
+2023-01-06,2200,Finance,Returns reserve,-831.542487,Actual,Balanced Base
+2023-01-06,4000,Marketing / Ecommerce,DTC sale,-15245.965784,Actual,Balanced Base
+2023-01-06,4010,Wholesale Sales,Wholesale sale,-43203.693882,Actual,Balanced Base
+2023-01-06,4020,Marketing / Ecommerce,DTC sale,-452.577819,Actual,Balanced Base
+2023-01-06,4110,Marketing / Ecommerce,Returns reserve,831.542487,Actual,Balanced Base
+2023-01-06,4130,Wholesale Sales,Wholesale sale,1151.096924,Actual,Balanced Base
+2023-01-06,4140,Wholesale Sales,Wholesale sale,767.397949,Actual,Balanced Base
+2023-01-06,4150,Wholesale Sales,Wholesale sale,639.498291,Actual,Balanced Base
+2023-01-06,5000,Supply Chain / Operations,COGS on shipment,27248.250798,Actual,Balanced Base
+2023-01-06,5010,Supply Chain / Operations,COGS on shipment,4192.038584,Actual,Balanced Base
+2023-01-06,5020,Supply Chain / Operations,COGS on shipment,3493.365487,Actual,Balanced Base
+2023-01-06,5100,Supply Chain / Operations,DTC delivery cost,1363.0,Actual,Balanced Base
+2023-01-06,5110,Supply Chain / Operations,Wholesale delivery cost,731.622613,Actual,Balanced Base
+2023-01-06,5200,Supply Chain / Operations,DTC delivery cost,611.0,Actual,Balanced Base
+2023-01-06,5210,Supply Chain / Operations,Wholesale delivery cost,1165.95,Actual,Balanced Base
+2023-01-07,1000,Finance,DTC delivery cost,-1701.0,Actual,Balanced Base
+2023-01-07,1000,Finance,Processor settlement,13390.343025,Actual,Balanced Base
+2023-01-07,1000,Finance,Refund liability utilisation,-44.674074,Actual,Balanced Base
+2023-01-07,1150,Marketing / Ecommerce,DTC sale,12712.716299,Actual,Balanced Base
+2023-01-07,1150,Marketing / Ecommerce,Processor settlement,-13390.343025,Actual,Balanced Base
+2023-01-07,1200,Supply Chain / Operations,COGS on shipment,-3532.43877,Actual,Balanced Base
+2023-01-07,1200,Supply Chain / Operations,Return to stock,14.549057,Actual,Balanced Base
+2023-01-07,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-07,2200,Finance,Returns reserve,-680.415771,Actual,Balanced Base
+2023-01-07,4000,Marketing / Ecommerce,DTC sale,-12328.884478,Actual,Balanced Base
+2023-01-07,4020,Marketing / Ecommerce,DTC sale,-383.831821,Actual,Balanced Base
+2023-01-07,4110,Marketing / Ecommerce,Returns reserve,680.415771,Actual,Balanced Base
+2023-01-07,4111,Marketing / Ecommerce,Refund liability utilisation,44.674074,Actual,Balanced Base
+2023-01-07,5000,Supply Chain / Operations,COGS on shipment,2755.302241,Actual,Balanced Base
+2023-01-07,5000,Supply Chain / Operations,Return to stock,-14.549057,Actual,Balanced Base
+2023-01-07,5010,Supply Chain / Operations,COGS on shipment,423.892652,Actual,Balanced Base
+2023-01-07,5020,Supply Chain / Operations,COGS on shipment,353.243877,Actual,Balanced Base
+2023-01-07,5100,Supply Chain / Operations,DTC delivery cost,1174.5,Actual,Balanced Base
+2023-01-07,5200,Supply Chain / Operations,DTC delivery cost,526.5,Actual,Balanced Base
+2023-01-08,1000,Finance,DTC delivery cost,-2016.0,Actual,Balanced Base
+2023-01-08,1000,Finance,Processor settlement,17352.151689,Actual,Balanced Base
+2023-01-08,1000,Finance,Refund liability utilisation,-163.763803,Actual,Balanced Base
+2023-01-08,1150,Marketing / Ecommerce,DTC sale,15576.562522,Actual,Balanced Base
+2023-01-08,1150,Marketing / Ecommerce,Processor settlement,-17352.151689,Actual,Balanced Base
+2023-01-08,1200,Supply Chain / Operations,COGS on shipment,-4266.776233,Actual,Balanced Base
+2023-01-08,1200,Supply Chain / Operations,Return to stock,46.279176,Actual,Balanced Base
+2023-01-08,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-08,2200,Finance,Returns reserve,-1040.350592,Actual,Balanced Base
+2023-01-08,4000,Marketing / Ecommerce,DTC sale,-15158.357703,Actual,Balanced Base
+2023-01-08,4020,Marketing / Ecommerce,DTC sale,-418.20482,Actual,Balanced Base
+2023-01-08,4110,Marketing / Ecommerce,Returns reserve,1040.350592,Actual,Balanced Base
+2023-01-08,4111,Marketing / Ecommerce,Refund liability utilisation,163.763803,Actual,Balanced Base
+2023-01-08,5000,Supply Chain / Operations,COGS on shipment,3328.085462,Actual,Balanced Base
+2023-01-08,5000,Supply Chain / Operations,Return to stock,-46.279176,Actual,Balanced Base
+2023-01-08,5010,Supply Chain / Operations,COGS on shipment,512.013148,Actual,Balanced Base
+2023-01-08,5020,Supply Chain / Operations,COGS on shipment,426.677623,Actual,Balanced Base
+2023-01-08,5100,Supply Chain / Operations,DTC delivery cost,1392.0,Actual,Balanced Base
+2023-01-08,5200,Supply Chain / Operations,DTC delivery cost,624.0,Actual,Balanced Base
+2023-01-09,1000,Finance,DTC delivery cost,-1512.0,Actual,Balanced Base
+2023-01-09,1000,Finance,Processor settlement,15698.543602,Actual,Balanced Base
+2023-01-09,1000,Finance,Wholesale delivery cost,-42.063595,Actual,Balanced Base
+2023-01-09,1100,Wholesale Sales,Wholesale sale,1086.866408,Actual,Balanced Base
+2023-01-09,1150,Marketing / Ecommerce,DTC sale,11274.862519,Actual,Balanced Base
+2023-01-09,1150,Marketing / Ecommerce,Processor settlement,-15698.543602,Actual,Balanced Base
+2023-01-09,1200,Supply Chain / Operations,COGS on shipment,-3751.159653,Actual,Balanced Base
+2023-01-09,2200,Finance,Returns reserve,-576.233855,Actual,Balanced Base
+2023-01-09,4000,Marketing / Ecommerce,DTC sale,-10896.759531,Actual,Balanced Base
+2023-01-09,4010,Wholesale Sales,Wholesale sale,-1100.496526,Actual,Balanced Base
+2023-01-09,4020,Marketing / Ecommerce,DTC sale,-378.102988,Actual,Balanced Base
+2023-01-09,4110,Marketing / Ecommerce,Returns reserve,576.233855,Actual,Balanced Base
+2023-01-09,4130,Wholesale Sales,Wholesale sale,6.133553,Actual,Balanced Base
+2023-01-09,4140,Wholesale Sales,Wholesale sale,4.089035,Actual,Balanced Base
+2023-01-09,4150,Wholesale Sales,Wholesale sale,3.407529,Actual,Balanced Base
+2023-01-09,5000,Supply Chain / Operations,COGS on shipment,2925.90453,Actual,Balanced Base
+2023-01-09,5010,Supply Chain / Operations,COGS on shipment,450.139158,Actual,Balanced Base
+2023-01-09,5020,Supply Chain / Operations,COGS on shipment,375.115965,Actual,Balanced Base
+2023-01-09,5100,Supply Chain / Operations,DTC delivery cost,1044.0,Actual,Balanced Base
+2023-01-09,5110,Supply Chain / Operations,Wholesale delivery cost,19.563595,Actual,Balanced Base
+2023-01-09,5200,Supply Chain / Operations,DTC delivery cost,468.0,Actual,Balanced Base
+2023-01-09,5210,Supply Chain / Operations,Wholesale delivery cost,22.5,Actual,Balanced Base
+2023-01-10,1000,Finance,DTC delivery cost,-2257.5,Actual,Balanced Base
+2023-01-10,1000,Finance,Processor settlement,12712.716299,Actual,Balanced Base
+2023-01-10,1000,Finance,Refund liability utilisation,-44.674074,Actual,Balanced Base
+2023-01-10,1150,Marketing / Ecommerce,DTC sale,17380.991456,Actual,Balanced Base
+2023-01-10,1150,Marketing / Ecommerce,Processor settlement,-12712.716299,Actual,Balanced Base
+2023-01-10,1200,Supply Chain / Operations,COGS on shipment,-4809.88329,Actual,Balanced Base
+2023-01-10,1200,Supply Chain / Operations,Return to stock,14.549057,Actual,Balanced Base
+2023-01-10,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-10,2200,Finance,Returns reserve,-1154.331186,Actual,Balanced Base
+2023-01-10,4000,Marketing / Ecommerce,DTC sale,-16928.413638,Actual,Balanced Base
+2023-01-10,4020,Marketing / Ecommerce,DTC sale,-452.577819,Actual,Balanced Base
+2023-01-10,4110,Marketing / Ecommerce,Returns reserve,1154.331186,Actual,Balanced Base
+2023-01-10,4111,Marketing / Ecommerce,Refund liability utilisation,44.674074,Actual,Balanced Base
+2023-01-10,5000,Supply Chain / Operations,COGS on shipment,3751.708966,Actual,Balanced Base
+2023-01-10,5000,Supply Chain / Operations,Return to stock,-14.549057,Actual,Balanced Base
+2023-01-10,5010,Supply Chain / Operations,COGS on shipment,577.185995,Actual,Balanced Base
+2023-01-10,5020,Supply Chain / Operations,COGS on shipment,480.988329,Actual,Balanced Base
+2023-01-10,5100,Supply Chain / Operations,DTC delivery cost,1558.75,Actual,Balanced Base
+2023-01-10,5200,Supply Chain / Operations,DTC delivery cost,698.75,Actual,Balanced Base
+2023-01-11,1000,Finance,DTC delivery cost,-1974.0,Actual,Balanced Base
+2023-01-11,1000,Finance,Processor settlement,15576.562522,Actual,Balanced Base
+2023-01-11,1000,Finance,Refund liability utilisation,-336.437739,Actual,Balanced Base
+2023-01-11,1150,Marketing / Ecommerce,DTC sale,15130.020034,Actual,Balanced Base
+2023-01-11,1150,Marketing / Ecommerce,Processor settlement,-15576.562522,Actual,Balanced Base
+2023-01-11,1200,Supply Chain / Operations,COGS on shipment,-4166.315434,Actual,Balanced Base
+2023-01-11,1200,Supply Chain / Operations,Return to stock,100.81593,Actual,Balanced Base
+2023-01-11,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-11,2200,Finance,Returns reserve,-1214.974391,Actual,Balanced Base
+2023-01-11,4000,Marketing / Ecommerce,DTC sale,-14763.374713,Actual,Balanced Base
+2023-01-11,4020,Marketing / Ecommerce,DTC sale,-366.645321,Actual,Balanced Base
+2023-01-11,4110,Marketing / Ecommerce,Returns reserve,1214.974391,Actual,Balanced Base
+2023-01-11,4111,Marketing / Ecommerce,Refund liability utilisation,336.437739,Actual,Balanced Base
+2023-01-11,5000,Supply Chain / Operations,COGS on shipment,3249.726038,Actual,Balanced Base
+2023-01-11,5000,Supply Chain / Operations,Return to stock,-100.81593,Actual,Balanced Base
+2023-01-11,5010,Supply Chain / Operations,COGS on shipment,499.957852,Actual,Balanced Base
+2023-01-11,5020,Supply Chain / Operations,COGS on shipment,416.631543,Actual,Balanced Base
+2023-01-11,5100,Supply Chain / Operations,DTC delivery cost,1363.0,Actual,Balanced Base
+2023-01-11,5200,Supply Chain / Operations,DTC delivery cost,611.0,Actual,Balanced Base
+2023-01-12,1000,Finance,DTC delivery cost,-1827.0,Actual,Balanced Base
+2023-01-12,1000,Finance,Processor settlement,11274.862519,Actual,Balanced Base
+2023-01-12,1000,Finance,Refund liability utilisation,-147.103582,Actual,Balanced Base
+2023-01-12,1150,Marketing / Ecommerce,DTC sale,13679.368862,Actual,Balanced Base
+2023-01-12,1150,Marketing / Ecommerce,Processor settlement,-11274.862519,Actual,Balanced Base
+2023-01-12,1200,Supply Chain / Operations,COGS on shipment,-3832.920572,Actual,Balanced Base
+2023-01-12,1200,Supply Chain / Operations,Return to stock,43.54526,Actual,Balanced Base
+2023-01-12,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-12,2200,Finance,Returns reserve,-966.10771,Actual,Balanced Base
+2023-01-12,4000,Marketing / Ecommerce,DTC sale,-13238.24871,Actual,Balanced Base
+2023-01-12,4020,Marketing / Ecommerce,DTC sale,-441.120152,Actual,Balanced Base
+2023-01-12,4110,Marketing / Ecommerce,Returns reserve,966.10771,Actual,Balanced Base
+2023-01-12,4111,Marketing / Ecommerce,Refund liability utilisation,147.103582,Actual,Balanced Base
+2023-01-12,5000,Supply Chain / Operations,COGS on shipment,2989.678046,Actual,Balanced Base
+2023-01-12,5000,Supply Chain / Operations,Return to stock,-43.54526,Actual,Balanced Base
+2023-01-12,5010,Supply Chain / Operations,COGS on shipment,459.950469,Actual,Balanced Base
+2023-01-12,5020,Supply Chain / Operations,COGS on shipment,383.292057,Actual,Balanced Base
+2023-01-12,5100,Supply Chain / Operations,DTC delivery cost,1261.5,Actual,Balanced Base
+2023-01-12,5200,Supply Chain / Operations,DTC delivery cost,565.5,Actual,Balanced Base
+2023-01-13,1000,Finance,DTC delivery cost,-1638.0,Actual,Balanced Base
+2023-01-13,1000,Finance,Processor settlement,17380.991456,Actual,Balanced Base
+2023-01-13,1000,Finance,Refund liability utilisation,-245.695068,Actual,Balanced Base
+2023-01-13,1000,Finance,Wholesale delivery cost,-448.10165,Actual,Balanced Base
+2023-01-13,1100,Wholesale Sales,Wholesale sale,10944.536084,Actual,Balanced Base
+2023-01-13,1150,Marketing / Ecommerce,DTC sale,12665.552015,Actual,Balanced Base
+2023-01-13,1150,Marketing / Ecommerce,Processor settlement,-17380.991456,Actual,Balanced Base
+2023-01-13,1200,Supply Chain / Operations,COGS on shipment,-10431.047334,Actual,Balanced Base
+2023-01-13,1200,Supply Chain / Operations,Return to stock,78.036692,Actual,Balanced Base
+2023-01-13,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-13,2200,Finance,Returns reserve,-861.345772,Actual,Balanced Base
+2023-01-13,4000,Marketing / Ecommerce,DTC sale,-12275.991361,Actual,Balanced Base
+2023-01-13,4010,Wholesale Sales,Wholesale sale,-11251.885652,Actual,Balanced Base
+2023-01-13,4020,Marketing / Ecommerce,DTC sale,-389.560654,Actual,Balanced Base
+2023-01-13,4110,Marketing / Ecommerce,Returns reserve,861.345772,Actual,Balanced Base
+2023-01-13,4111,Marketing / Ecommerce,Refund liability utilisation,245.695068,Actual,Balanced Base
+2023-01-13,4130,Wholesale Sales,Wholesale sale,138.307305,Actual,Balanced Base
+2023-01-13,4140,Wholesale Sales,Wholesale sale,92.20487,Actual,Balanced Base
+2023-01-13,4150,Wholesale Sales,Wholesale sale,76.837392,Actual,Balanced Base
+2023-01-13,5000,Supply Chain / Operations,COGS on shipment,8136.21692,Actual,Balanced Base
+2023-01-13,5000,Supply Chain / Operations,Return to stock,-78.036692,Actual,Balanced Base
+2023-01-13,5010,Supply Chain / Operations,COGS on shipment,1251.72568,Actual,Balanced Base
+2023-01-13,5020,Supply Chain / Operations,COGS on shipment,1043.104733,Actual,Balanced Base
+2023-01-13,5100,Supply Chain / Operations,DTC delivery cost,1131.0,Actual,Balanced Base
+2023-01-13,5110,Supply Chain / Operations,Wholesale delivery cost,197.00165,Actual,Balanced Base
+2023-01-13,5200,Supply Chain / Operations,DTC delivery cost,507.0,Actual,Balanced Base
+2023-01-13,5210,Supply Chain / Operations,Wholesale delivery cost,251.1,Actual,Balanced Base
+2023-01-14,1000,Finance,DTC delivery cost,-1501.5,Actual,Balanced Base
+2023-01-14,1000,Finance,Processor settlement,15130.020034,Actual,Balanced Base
+2023-01-14,1000,Finance,Refund liability utilisation,-151.682057,Actual,Balanced Base
+2023-01-14,1150,Marketing / Ecommerce,DTC sale,11494.920222,Actual,Balanced Base
+2023-01-14,1150,Marketing / Ecommerce,Processor settlement,-15130.020034,Actual,Balanced Base
+2023-01-14,1200,Supply Chain / Operations,COGS on shipment,-3149.610854,Actual,Balanced Base
+2023-01-14,1200,Supply Chain / Operations,Return to stock,50.494967,Actual,Balanced Base
+2023-01-14,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-14,2200,Finance,Returns reserve,-618.205271,Actual,Balanced Base
+2023-01-14,4000,Marketing / Ecommerce,DTC sale,-11128.2749,Actual,Balanced Base
+2023-01-14,4020,Marketing / Ecommerce,DTC sale,-366.645321,Actual,Balanced Base
+2023-01-14,4110,Marketing / Ecommerce,Returns reserve,618.205271,Actual,Balanced Base
+2023-01-14,4111,Marketing / Ecommerce,Refund liability utilisation,151.682057,Actual,Balanced Base
+2023-01-14,5000,Supply Chain / Operations,COGS on shipment,2456.696466,Actual,Balanced Base
+2023-01-14,5000,Supply Chain / Operations,Return to stock,-50.494967,Actual,Balanced Base
+2023-01-14,5010,Supply Chain / Operations,COGS on shipment,377.953302,Actual,Balanced Base
+2023-01-14,5020,Supply Chain / Operations,COGS on shipment,314.961085,Actual,Balanced Base
+2023-01-14,5100,Supply Chain / Operations,DTC delivery cost,1036.75,Actual,Balanced Base
+2023-01-14,5200,Supply Chain / Operations,DTC delivery cost,464.75,Actual,Balanced Base
+2023-01-15,1000,Finance,DTC delivery cost,-2068.5,Actual,Balanced Base
+2023-01-15,1000,Finance,Processor settlement,13679.368862,Actual,Balanced Base
+2023-01-15,1000,Finance,Refund liability utilisation,-578.566286,Actual,Balanced Base
+2023-01-15,1000,Finance,Wholesale delivery cost,-339.870197,Actual,Balanced Base
+2023-01-15,1100,Wholesale Sales,Wholesale sale,8931.677592,Actual,Balanced Base
+2023-01-15,1150,Marketing / Ecommerce,DTC sale,16506.754746,Actual,Balanced Base
+2023-01-15,1150,Marketing / Ecommerce,Processor settlement,-13679.368862,Actual,Balanced Base
+2023-01-15,1200,Supply Chain / Operations,COGS on shipment,-9648.037,Actual,Balanced Base
+2023-01-15,1200,Supply Chain / Operations,Return to stock,145.104701,Actual,Balanced Base
+2023-01-15,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-15,2200,Finance,Returns reserve,-2438.942791,Actual,Balanced Base
+2023-01-15,4000,Marketing / Ecommerce,DTC sale,-16042.719262,Actual,Balanced Base
+2023-01-15,4010,Wholesale Sales,Wholesale sale,-9071.161614,Actual,Balanced Base
+2023-01-15,4020,Marketing / Ecommerce,DTC sale,-464.035485,Actual,Balanced Base
+2023-01-15,4110,Marketing / Ecommerce,Returns reserve,1731.478268,Actual,Balanced Base
+2023-01-15,4111,Marketing / Ecommerce,Refund liability utilisation,578.566286,Actual,Balanced Base
+2023-01-15,4120,Wholesale Sales,Returns reserve,707.464523,Actual,Balanced Base
+2023-01-15,4130,Wholesale Sales,Wholesale sale,62.76781,Actual,Balanced Base
+2023-01-15,4140,Wholesale Sales,Wholesale sale,41.845206,Actual,Balanced Base
+2023-01-15,4150,Wholesale Sales,Wholesale sale,34.871005,Actual,Balanced Base
+2023-01-15,5000,Supply Chain / Operations,COGS on shipment,7525.46886,Actual,Balanced Base
+2023-01-15,5000,Supply Chain / Operations,Return to stock,-145.104701,Actual,Balanced Base
+2023-01-15,5010,Supply Chain / Operations,COGS on shipment,1157.76444,Actual,Balanced Base
+2023-01-15,5020,Supply Chain / Operations,COGS on shipment,964.8037,Actual,Balanced Base
+2023-01-15,5100,Supply Chain / Operations,DTC delivery cost,1428.25,Actual,Balanced Base
+2023-01-15,5110,Supply Chain / Operations,Wholesale delivery cost,160.770197,Actual,Balanced Base
+2023-01-15,5200,Supply Chain / Operations,DTC delivery cost,640.25,Actual,Balanced Base
+2023-01-15,5210,Supply Chain / Operations,Wholesale delivery cost,179.1,Actual,Balanced Base
+2023-01-16,1000,Finance,DTC delivery cost,-1680.0,Actual,Balanced Base
+2023-01-16,1000,Finance,Processor settlement,12665.552015,Actual,Balanced Base
+2023-01-16,1000,Finance,Refund liability utilisation,-521.032989,Actual,Balanced Base
+2023-01-16,1000,Finance,Wholesale delivery cost,-335.869652,Actual,Balanced Base
+2023-01-16,1100,Wholesale Sales,Wholesale sale,8734.425099,Actual,Balanced Base
+2023-01-16,1150,Marketing / Ecommerce,DTC sale,14593.416278,Actual,Balanced Base
+2023-01-16,1150,Marketing / Ecommerce,Processor settlement,-12665.552015,Actual,Balanced Base
+2023-01-16,1200,Supply Chain / Operations,COGS on shipment,-9566.144806,Actual,Balanced Base
+2023-01-16,1200,Supply Chain / Operations,Return to stock,147.84776,Actual,Balanced Base
+2023-01-16,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-16,2200,Finance,Returns reserve,-1031.654335,Actual,Balanced Base
+2023-01-16,4000,Marketing / Ecommerce,DTC sale,-14272.601622,Actual,Balanced Base
+2023-01-16,4010,Wholesale Sales,Wholesale sale,-8931.036718,Actual,Balanced Base
+2023-01-16,4020,Marketing / Ecommerce,DTC sale,-320.814656,Actual,Balanced Base
+2023-01-16,4110,Marketing / Ecommerce,Returns reserve,939.044107,Actual,Balanced Base
+2023-01-16,4111,Marketing / Ecommerce,Refund liability utilisation,521.032989,Actual,Balanced Base
+2023-01-16,4120,Wholesale Sales,Returns reserve,92.610229,Actual,Balanced Base
+2023-01-16,4130,Wholesale Sales,Wholesale sale,88.475228,Actual,Balanced Base
+2023-01-16,4140,Wholesale Sales,Wholesale sale,58.983486,Actual,Balanced Base
+2023-01-16,4150,Wholesale Sales,Wholesale sale,49.152905,Actual,Balanced Base
+2023-01-16,5000,Supply Chain / Operations,COGS on shipment,7461.592949,Actual,Balanced Base
+2023-01-16,5000,Supply Chain / Operations,Return to stock,-147.84776,Actual,Balanced Base
+2023-01-16,5010,Supply Chain / Operations,COGS on shipment,1147.937377,Actual,Balanced Base
+2023-01-16,5020,Supply Chain / Operations,COGS on shipment,956.614481,Actual,Balanced Base
+2023-01-16,5100,Supply Chain / Operations,DTC delivery cost,1160.0,Actual,Balanced Base
+2023-01-16,5110,Supply Chain / Operations,Wholesale delivery cost,157.219652,Actual,Balanced Base
+2023-01-16,5200,Supply Chain / Operations,DTC delivery cost,520.0,Actual,Balanced Base
+2023-01-16,5210,Supply Chain / Operations,Wholesale delivery cost,178.65,Actual,Balanced Base
+2023-01-17,1000,Finance,DTC delivery cost,-1942.5,Actual,Balanced Base
+2023-01-17,1000,Finance,Processor settlement,11494.920222,Actual,Balanced Base
+2023-01-17,1000,Finance,Refund liability utilisation,-293.812255,Actual,Balanced Base
+2023-01-17,1000,Finance,Wholesale delivery cost,-666.909033,Actual,Balanced Base
+2023-01-17,1100,Wholesale Sales,Wholesale sale,16225.501813,Actual,Balanced Base
+2023-01-17,1150,Marketing / Ecommerce,DTC sale,14257.035188,Actual,Balanced Base
+2023-01-17,1150,Marketing / Ecommerce,Processor settlement,-11494.920222,Actual,Balanced Base
+2023-01-17,1200,Supply Chain / Operations,COGS on shipment,-16063.23178,Actual,Balanced Base
+2023-01-17,1200,Supply Chain / Operations,Return to stock,78.340548,Actual,Balanced Base
+2023-01-17,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-17,2200,Finance,Returns reserve,-1344.331752,Actual,Balanced Base
+2023-01-17,4000,Marketing / Ecommerce,DTC sale,-13787.27087,Actual,Balanced Base
+2023-01-17,4010,Wholesale Sales,Wholesale sale,-17122.521461,Actual,Balanced Base
+2023-01-17,4020,Marketing / Ecommerce,DTC sale,-469.764318,Actual,Balanced Base
+2023-01-17,4110,Marketing / Ecommerce,Returns reserve,1344.331752,Actual,Balanced Base
+2023-01-17,4111,Marketing / Ecommerce,Refund liability utilisation,293.812255,Actual,Balanced Base
+2023-01-17,4130,Wholesale Sales,Wholesale sale,403.658841,Actual,Balanced Base
+2023-01-17,4140,Wholesale Sales,Wholesale sale,269.105894,Actual,Balanced Base
+2023-01-17,4150,Wholesale Sales,Wholesale sale,224.254912,Actual,Balanced Base
+2023-01-17,5000,Supply Chain / Operations,COGS on shipment,12529.320788,Actual,Balanced Base
+2023-01-17,5000,Supply Chain / Operations,Return to stock,-78.340548,Actual,Balanced Base
+2023-01-17,5010,Supply Chain / Operations,COGS on shipment,1927.587814,Actual,Balanced Base
+2023-01-17,5020,Supply Chain / Operations,COGS on shipment,1606.323178,Actual,Balanced Base
+2023-01-17,5100,Supply Chain / Operations,DTC delivery cost,1341.25,Actual,Balanced Base
+2023-01-17,5110,Supply Chain / Operations,Wholesale delivery cost,292.059033,Actual,Balanced Base
+2023-01-17,5200,Supply Chain / Operations,DTC delivery cost,601.25,Actual,Balanced Base
+2023-01-17,5210,Supply Chain / Operations,Wholesale delivery cost,374.85,Actual,Balanced Base
+2023-01-18,1000,Finance,DTC delivery cost,-2016.0,Actual,Balanced Base
+2023-01-18,1000,Finance,Processor settlement,16506.754746,Actual,Balanced Base
+2023-01-18,1000,Finance,Refund liability utilisation,-340.448533,Actual,Balanced Base
+2023-01-18,1150,Marketing / Ecommerce,DTC sale,15661.693662,Actual,Balanced Base
+2023-01-18,1150,Marketing / Ecommerce,Processor settlement,-16506.754746,Actual,Balanced Base
+2023-01-18,1200,Supply Chain / Operations,COGS on shipment,-4316.245323,Actual,Balanced Base
+2023-01-18,1200,Supply Chain / Operations,Return to stock,95.693014,Actual,Balanced Base
+2023-01-18,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-18,2200,Finance,Returns reserve,-574.506128,Actual,Balanced Base
+2023-01-18,4000,Marketing / Ecommerce,DTC sale,-15209.115843,Actual,Balanced Base
+2023-01-18,4020,Marketing / Ecommerce,DTC sale,-452.577819,Actual,Balanced Base
+2023-01-18,4110,Marketing / Ecommerce,Returns reserve,574.506128,Actual,Balanced Base
+2023-01-18,4111,Marketing / Ecommerce,Refund liability utilisation,340.448533,Actual,Balanced Base
+2023-01-18,5000,Supply Chain / Operations,COGS on shipment,3366.671352,Actual,Balanced Base
+2023-01-18,5000,Supply Chain / Operations,Return to stock,-95.693014,Actual,Balanced Base
+2023-01-18,5010,Supply Chain / Operations,COGS on shipment,517.949439,Actual,Balanced Base
+2023-01-18,5020,Supply Chain / Operations,COGS on shipment,431.624532,Actual,Balanced Base
+2023-01-18,5100,Supply Chain / Operations,DTC delivery cost,1392.0,Actual,Balanced Base
+2023-01-18,5200,Supply Chain / Operations,DTC delivery cost,624.0,Actual,Balanced Base
+2023-01-19,1000,Finance,DTC delivery cost,-2026.5,Actual,Balanced Base
+2023-01-19,1000,Finance,Processor settlement,14593.416278,Actual,Balanced Base
+2023-01-19,1000,Finance,Refund liability utilisation,-459.37783,Actual,Balanced Base
+2023-01-19,1000,Finance,Wholesale delivery cost,-247.804337,Actual,Balanced Base
+2023-01-19,1100,Wholesale Sales,Wholesale sale,6016.907617,Actual,Balanced Base
+2023-01-19,1150,Marketing / Ecommerce,DTC sale,15139.302247,Actual,Balanced Base
+2023-01-19,1150,Marketing / Ecommerce,Processor settlement,-14593.416278,Actual,Balanced Base
+2023-01-19,1200,Supply Chain / Operations,COGS on shipment,-7974.711399,Actual,Balanced Base
+2023-01-19,1200,Supply Chain / Operations,Return to stock,124.429457,Actual,Balanced Base
+2023-01-19,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-19,2200,Finance,Returns reserve,-807.127747,Actual,Balanced Base
+2023-01-19,4000,Marketing / Ecommerce,DTC sale,-14715.368594,Actual,Balanced Base
+2023-01-19,4010,Wholesale Sales,Wholesale sale,-6193.449766,Actual,Balanced Base
+2023-01-19,4020,Marketing / Ecommerce,DTC sale,-423.933653,Actual,Balanced Base
+2023-01-19,4110,Marketing / Ecommerce,Returns reserve,715.155417,Actual,Balanced Base
+2023-01-19,4111,Marketing / Ecommerce,Refund liability utilisation,459.37783,Actual,Balanced Base
+2023-01-19,4120,Wholesale Sales,Returns reserve,91.97233,Actual,Balanced Base
+2023-01-19,4130,Wholesale Sales,Wholesale sale,79.443967,Actual,Balanced Base
+2023-01-19,4140,Wholesale Sales,Wholesale sale,52.962645,Actual,Balanced Base
+2023-01-19,4150,Wholesale Sales,Wholesale sale,44.135537,Actual,Balanced Base
+2023-01-19,5000,Supply Chain / Operations,COGS on shipment,6220.274891,Actual,Balanced Base
+2023-01-19,5000,Supply Chain / Operations,Return to stock,-124.429457,Actual,Balanced Base
+2023-01-19,5010,Supply Chain / Operations,COGS on shipment,956.965368,Actual,Balanced Base
+2023-01-19,5020,Supply Chain / Operations,COGS on shipment,797.47114,Actual,Balanced Base
+2023-01-19,5100,Supply Chain / Operations,DTC delivery cost,1399.25,Actual,Balanced Base
+2023-01-19,5110,Supply Chain / Operations,Wholesale delivery cost,108.304337,Actual,Balanced Base
+2023-01-19,5200,Supply Chain / Operations,DTC delivery cost,627.25,Actual,Balanced Base
+2023-01-19,5210,Supply Chain / Operations,Wholesale delivery cost,139.5,Actual,Balanced Base
+2023-01-20,1000,Finance,DTC delivery cost,-2268.0,Actual,Balanced Base
+2023-01-20,1000,Finance,Processor settlement,14257.035188,Actual,Balanced Base
+2023-01-20,1000,Finance,Refund liability utilisation,-515.380855,Actual,Balanced Base
+2023-01-20,1000,Finance,Wholesale delivery cost,-490.992271,Actual,Balanced Base
+2023-01-20,1100,Wholesale Sales,Wholesale sale,11852.348402,Actual,Balanced Base
+2023-01-20,1150,Marketing / Ecommerce,DTC sale,17156.990097,Actual,Balanced Base
+2023-01-20,1150,Marketing / Ecommerce,Processor settlement,-14257.035188,Actual,Balanced Base
+2023-01-20,1200,Supply Chain / Operations,COGS on shipment,-13103.2728,Actual,Balanced Base
+2023-01-20,1200,Supply Chain / Operations,Return to stock,146.857459,Actual,Balanced Base
+2023-01-20,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-20,2200,Finance,Returns reserve,-928.838179,Actual,Balanced Base
+2023-01-20,4000,Marketing / Ecommerce,DTC sale,-16601.293282,Actual,Balanced Base
+2023-01-20,4010,Wholesale Sales,Wholesale sale,-12582.188763,Actual,Balanced Base
+2023-01-20,4020,Marketing / Ecommerce,DTC sale,-555.696815,Actual,Balanced Base
+2023-01-20,4110,Marketing / Ecommerce,Returns reserve,928.838179,Actual,Balanced Base
+2023-01-20,4111,Marketing / Ecommerce,Refund liability utilisation,515.380855,Actual,Balanced Base
+2023-01-20,4130,Wholesale Sales,Wholesale sale,328.428162,Actual,Balanced Base
+2023-01-20,4140,Wholesale Sales,Wholesale sale,218.952108,Actual,Balanced Base
+2023-01-20,4150,Wholesale Sales,Wholesale sale,182.46009,Actual,Balanced Base
+2023-01-20,5000,Supply Chain / Operations,COGS on shipment,10220.552784,Actual,Balanced Base
+2023-01-20,5000,Supply Chain / Operations,Return to stock,-146.857459,Actual,Balanced Base
+2023-01-20,5010,Supply Chain / Operations,COGS on shipment,1572.392736,Actual,Balanced Base
+2023-01-20,5020,Supply Chain / Operations,COGS on shipment,1310.32728,Actual,Balanced Base
+2023-01-20,5100,Supply Chain / Operations,DTC delivery cost,1566.0,Actual,Balanced Base
+2023-01-20,5110,Supply Chain / Operations,Wholesale delivery cost,213.342271,Actual,Balanced Base
+2023-01-20,5200,Supply Chain / Operations,DTC delivery cost,702.0,Actual,Balanced Base
+2023-01-20,5210,Supply Chain / Operations,Wholesale delivery cost,277.65,Actual,Balanced Base
+2023-01-21,1000,Finance,DTC delivery cost,-1879.5,Actual,Balanced Base
+2023-01-21,1000,Finance,Processor settlement,15661.693662,Actual,Balanced Base
+2023-01-21,1000,Finance,Refund liability utilisation,-773.688327,Actual,Balanced Base
+2023-01-21,1000,Finance,Wholesale delivery cost,-330.498897,Actual,Balanced Base
+2023-01-21,1100,Wholesale Sales,Wholesale sale,8761.049846,Actual,Balanced Base
+2023-01-21,1150,Marketing / Ecommerce,DTC sale,13970.085277,Actual,Balanced Base
+2023-01-21,1150,Marketing / Ecommerce,Processor settlement,-15661.693662,Actual,Balanced Base
+2023-01-21,1200,Supply Chain / Operations,COGS on shipment,-8886.850089,Actual,Balanced Base
+2023-01-21,1200,Supply Chain / Operations,Return to stock,225.090762,Actual,Balanced Base
+2023-01-21,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-21,2200,Finance,Returns reserve,-951.002443,Actual,Balanced Base
+2023-01-21,4000,Marketing / Ecommerce,DTC sale,-13551.880457,Actual,Balanced Base
+2023-01-21,4010,Wholesale Sales,Wholesale sale,-8868.286782,Actual,Balanced Base
+2023-01-21,4020,Marketing / Ecommerce,DTC sale,-418.20482,Actual,Balanced Base
+2023-01-21,4110,Marketing / Ecommerce,Returns reserve,951.002443,Actual,Balanced Base
+2023-01-21,4111,Marketing / Ecommerce,Refund liability utilisation,773.688327,Actual,Balanced Base
+2023-01-21,4130,Wholesale Sales,Wholesale sale,48.256621,Actual,Balanced Base
+2023-01-21,4140,Wholesale Sales,Wholesale sale,32.171081,Actual,Balanced Base
+2023-01-21,4150,Wholesale Sales,Wholesale sale,26.809234,Actual,Balanced Base
+2023-01-21,5000,Supply Chain / Operations,COGS on shipment,6931.74307,Actual,Balanced Base
+2023-01-21,5000,Supply Chain / Operations,Return to stock,-225.090762,Actual,Balanced Base
+2023-01-21,5010,Supply Chain / Operations,COGS on shipment,1066.422011,Actual,Balanced Base
+2023-01-21,5020,Supply Chain / Operations,COGS on shipment,888.685009,Actual,Balanced Base
+2023-01-21,5100,Supply Chain / Operations,DTC delivery cost,1297.75,Actual,Balanced Base
+2023-01-21,5110,Supply Chain / Operations,Wholesale delivery cost,157.698897,Actual,Balanced Base
+2023-01-21,5200,Supply Chain / Operations,DTC delivery cost,581.75,Actual,Balanced Base
+2023-01-21,5210,Supply Chain / Operations,Wholesale delivery cost,172.8,Actual,Balanced Base
+2023-01-22,1000,Finance,DTC delivery cost,-1648.5,Actual,Balanced Base
+2023-01-22,1000,Finance,Processor settlement,15139.302247,Actual,Balanced Base
+2023-01-22,1000,Finance,Refund liability utilisation,-579.71399,Actual,Balanced Base
+2023-01-22,1150,Marketing / Ecommerce,DTC sale,12368.626273,Actual,Balanced Base
+2023-01-22,1150,Marketing / Ecommerce,Processor settlement,-15139.302247,Actual,Balanced Base
+2023-01-22,1200,Supply Chain / Operations,COGS on shipment,-3414.883257,Actual,Balanced Base
+2023-01-22,1200,Supply Chain / Operations,Return to stock,164.892694,Actual,Balanced Base
+2023-01-22,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-22,2200,Finance,Returns reserve,-1362.670336,Actual,Balanced Base
+2023-01-22,4000,Marketing / Ecommerce,DTC sale,-12013.438618,Actual,Balanced Base
+2023-01-22,4020,Marketing / Ecommerce,DTC sale,-355.187655,Actual,Balanced Base
+2023-01-22,4110,Marketing / Ecommerce,Returns reserve,1362.670336,Actual,Balanced Base
+2023-01-22,4111,Marketing / Ecommerce,Refund liability utilisation,579.71399,Actual,Balanced Base
+2023-01-22,5000,Supply Chain / Operations,COGS on shipment,2663.60894,Actual,Balanced Base
+2023-01-22,5000,Supply Chain / Operations,Return to stock,-164.892694,Actual,Balanced Base
+2023-01-22,5010,Supply Chain / Operations,COGS on shipment,409.785991,Actual,Balanced Base
+2023-01-22,5020,Supply Chain / Operations,COGS on shipment,341.488326,Actual,Balanced Base
+2023-01-22,5100,Supply Chain / Operations,DTC delivery cost,1138.25,Actual,Balanced Base
+2023-01-22,5200,Supply Chain / Operations,DTC delivery cost,510.25,Actual,Balanced Base
+2023-01-23,1000,Finance,DTC delivery cost,-2268.0,Actual,Balanced Base
+2023-01-23,1000,Finance,Processor settlement,17156.990097,Actual,Balanced Base
+2023-01-23,1000,Finance,Refund liability utilisation,-607.098457,Actual,Balanced Base
+2023-01-23,1000,Finance,Wholesale delivery cost,-128.718448,Actual,Balanced Base
+2023-01-23,1100,Wholesale Sales,Wholesale sale,3351.024868,Actual,Balanced Base
+2023-01-23,1150,Marketing / Ecommerce,DTC sale,16765.495077,Actual,Balanced Base
+2023-01-23,1150,Marketing / Ecommerce,Processor settlement,-17156.990097,Actual,Balanced Base
+2023-01-23,1200,Supply Chain / Operations,COGS on shipment,-6608.619651,Actual,Balanced Base
+2023-01-23,1200,Supply Chain / Operations,Return to stock,179.937968,Actual,Balanced Base
+2023-01-23,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-23,2200,Finance,Returns reserve,-1508.574101,Actual,Balanced Base
+2023-01-23,4000,Marketing / Ecommerce,DTC sale,-16272.815426,Actual,Balanced Base
+2023-01-23,4010,Wholesale Sales,Wholesale sale,-3392.983,Actual,Balanced Base
+2023-01-23,4020,Marketing / Ecommerce,DTC sale,-492.679651,Actual,Balanced Base
+2023-01-23,4110,Marketing / Ecommerce,Returns reserve,1352.550794,Actual,Balanced Base
+2023-01-23,4111,Marketing / Ecommerce,Refund liability utilisation,607.098457,Actual,Balanced Base
+2023-01-23,4120,Wholesale Sales,Returns reserve,156.023307,Actual,Balanced Base
+2023-01-23,4130,Wholesale Sales,Wholesale sale,18.881159,Actual,Balanced Base
+2023-01-23,4140,Wholesale Sales,Wholesale sale,12.58744,Actual,Balanced Base
+2023-01-23,4150,Wholesale Sales,Wholesale sale,10.489533,Actual,Balanced Base
+2023-01-23,5000,Supply Chain / Operations,COGS on shipment,5154.723328,Actual,Balanced Base
+2023-01-23,5000,Supply Chain / Operations,Return to stock,-179.937968,Actual,Balanced Base
+2023-01-23,5010,Supply Chain / Operations,COGS on shipment,793.034358,Actual,Balanced Base
+2023-01-23,5020,Supply Chain / Operations,COGS on shipment,660.861965,Actual,Balanced Base
+2023-01-23,5100,Supply Chain / Operations,DTC delivery cost,1566.0,Actual,Balanced Base
+2023-01-23,5110,Supply Chain / Operations,Wholesale delivery cost,60.318448,Actual,Balanced Base
+2023-01-23,5200,Supply Chain / Operations,DTC delivery cost,702.0,Actual,Balanced Base
+2023-01-23,5210,Supply Chain / Operations,Wholesale delivery cost,68.4,Actual,Balanced Base
+2023-01-24,1000,Finance,DTC delivery cost,-1491.0,Actual,Balanced Base
+2023-01-24,1000,Finance,Processor settlement,13970.085277,Actual,Balanced Base
+2023-01-24,1000,Finance,Refund liability utilisation,-489.563682,Actual,Balanced Base
+2023-01-24,1150,Marketing / Ecommerce,DTC sale,10699.126681,Actual,Balanced Base
+2023-01-24,1150,Marketing / Ecommerce,Processor settlement,-13970.085277,Actual,Balanced Base
+2023-01-24,1200,Supply Chain / Operations,COGS on shipment,-2960.912857,Actual,Balanced Base
+2023-01-24,1200,Supply Chain / Operations,Return to stock,145.905402,Actual,Balanced Base
+2023-01-24,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-24,2200,Finance,Returns reserve,-857.520091,Actual,Balanced Base
+2023-01-24,4000,Marketing / Ecommerce,DTC sale,-10338.210193,Actual,Balanced Base
+2023-01-24,4020,Marketing / Ecommerce,DTC sale,-360.916488,Actual,Balanced Base
+2023-01-24,4110,Marketing / Ecommerce,Returns reserve,857.520091,Actual,Balanced Base
+2023-01-24,4111,Marketing / Ecommerce,Refund liability utilisation,489.563682,Actual,Balanced Base
+2023-01-24,5000,Supply Chain / Operations,COGS on shipment,2309.512028,Actual,Balanced Base
+2023-01-24,5000,Supply Chain / Operations,Return to stock,-145.905402,Actual,Balanced Base
+2023-01-24,5010,Supply Chain / Operations,COGS on shipment,355.309543,Actual,Balanced Base
+2023-01-24,5020,Supply Chain / Operations,COGS on shipment,296.091286,Actual,Balanced Base
+2023-01-24,5100,Supply Chain / Operations,DTC delivery cost,1029.5,Actual,Balanced Base
+2023-01-24,5200,Supply Chain / Operations,DTC delivery cost,461.5,Actual,Balanced Base
+2023-01-25,1000,Finance,DTC delivery cost,-2068.5,Actual,Balanced Base
+2023-01-25,1000,Finance,Processor settlement,12368.626273,Actual,Balanced Base
+2023-01-25,1000,Finance,Refund liability utilisation,-792.199684,Actual,Balanced Base
+2023-01-25,1000,Finance,Wholesale delivery cost,-83.285627,Actual,Balanced Base
+2023-01-25,1100,Wholesale Sales,Wholesale sale,2026.979273,Actual,Balanced Base
+2023-01-25,1150,Marketing / Ecommerce,DTC sale,16005.431108,Actual,Balanced Base
+2023-01-25,1150,Marketing / Ecommerce,Processor settlement,-12368.626273,Actual,Balanced Base
+2023-01-25,1200,Supply Chain / Operations,COGS on shipment,-5580.752103,Actual,Balanced Base
+2023-01-25,1200,Supply Chain / Operations,Return to stock,210.526485,Actual,Balanced Base
+2023-01-25,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-25,2200,Finance,Returns reserve,-1228.734499,Actual,Balanced Base
+2023-01-25,4000,Marketing / Ecommerce,DTC sale,-15512.751458,Actual,Balanced Base
+2023-01-25,4010,Wholesale Sales,Wholesale sale,-2048.111588,Actual,Balanced Base
+2023-01-25,4020,Marketing / Ecommerce,DTC sale,-492.679651,Actual,Balanced Base
+2023-01-25,4110,Marketing / Ecommerce,Returns reserve,1228.734499,Actual,Balanced Base
+2023-01-25,4111,Marketing / Ecommerce,Refund liability utilisation,792.199684,Actual,Balanced Base
+2023-01-25,4130,Wholesale Sales,Wholesale sale,9.509542,Actual,Balanced Base
+2023-01-25,4140,Wholesale Sales,Wholesale sale,6.339695,Actual,Balanced Base
+2023-01-25,4150,Wholesale Sales,Wholesale sale,5.283079,Actual,Balanced Base
+2023-01-25,5000,Supply Chain / Operations,COGS on shipment,4352.98664,Actual,Balanced Base
+2023-01-25,5000,Supply Chain / Operations,Return to stock,-210.526485,Actual,Balanced Base
+2023-01-25,5010,Supply Chain / Operations,COGS on shipment,669.690252,Actual,Balanced Base
+2023-01-25,5020,Supply Chain / Operations,COGS on shipment,558.07521,Actual,Balanced Base
+2023-01-25,5100,Supply Chain / Operations,DTC delivery cost,1428.25,Actual,Balanced Base
+2023-01-25,5110,Supply Chain / Operations,Wholesale delivery cost,36.485627,Actual,Balanced Base
+2023-01-25,5200,Supply Chain / Operations,DTC delivery cost,640.25,Actual,Balanced Base
+2023-01-25,5210,Supply Chain / Operations,Wholesale delivery cost,46.8,Actual,Balanced Base
+2023-01-26,1000,Finance,DTC delivery cost,-1995.0,Actual,Balanced Base
+2023-01-26,1000,Finance,Processor settlement,16765.495077,Actual,Balanced Base
+2023-01-26,1000,Finance,Refund liability utilisation,-647.811101,Actual,Balanced Base
+2023-01-26,1150,Marketing / Ecommerce,DTC sale,16212.316685,Actual,Balanced Base
+2023-01-26,1150,Marketing / Ecommerce,Processor settlement,-16765.495077,Actual,Balanced Base
+2023-01-26,1200,Supply Chain / Operations,COGS on shipment,-4439.74194,Actual,Balanced Base
+2023-01-26,1200,Supply Chain / Operations,Return to stock,201.337074,Actual,Balanced Base
+2023-01-26,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-26,2200,Finance,Returns reserve,-914.559752,Actual,Balanced Base
+2023-01-26,4000,Marketing / Ecommerce,DTC sale,-15713.908202,Actual,Balanced Base
+2023-01-26,4020,Marketing / Ecommerce,DTC sale,-498.408484,Actual,Balanced Base
+2023-01-26,4110,Marketing / Ecommerce,Returns reserve,914.559752,Actual,Balanced Base
+2023-01-26,4111,Marketing / Ecommerce,Refund liability utilisation,647.811101,Actual,Balanced Base
+2023-01-26,5000,Supply Chain / Operations,COGS on shipment,3462.998713,Actual,Balanced Base
+2023-01-26,5000,Supply Chain / Operations,Return to stock,-201.337074,Actual,Balanced Base
+2023-01-26,5010,Supply Chain / Operations,COGS on shipment,532.769033,Actual,Balanced Base
+2023-01-26,5020,Supply Chain / Operations,COGS on shipment,443.974194,Actual,Balanced Base
+2023-01-26,5100,Supply Chain / Operations,DTC delivery cost,1377.5,Actual,Balanced Base
+2023-01-26,5200,Supply Chain / Operations,DTC delivery cost,617.5,Actual,Balanced Base
+2023-01-27,1000,Finance,DTC delivery cost,-1617.0,Actual,Balanced Base
+2023-01-27,1000,Finance,Processor settlement,10699.126681,Actual,Balanced Base
+2023-01-27,1000,Finance,Refund liability utilisation,-736.134955,Actual,Balanced Base
+2023-01-27,1150,Marketing / Ecommerce,DTC sale,12265.376959,Actual,Balanced Base
+2023-01-27,1150,Marketing / Ecommerce,Processor settlement,-10699.126681,Actual,Balanced Base
+2023-01-27,1200,Supply Chain / Operations,COGS on shipment,-3485.185035,Actual,Balanced Base
+2023-01-27,1200,Supply Chain / Operations,Return to stock,221.548071,Actual,Balanced Base
+2023-01-27,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-27,2200,Finance,Returns reserve,-437.102497,Actual,Balanced Base
+2023-01-27,4000,Marketing / Ecommerce,DTC sale,-11921.64697,Actual,Balanced Base
+2023-01-27,4020,Marketing / Ecommerce,DTC sale,-343.729989,Actual,Balanced Base
+2023-01-27,4110,Marketing / Ecommerce,Returns reserve,437.102497,Actual,Balanced Base
+2023-01-27,4111,Marketing / Ecommerce,Refund liability utilisation,736.134955,Actual,Balanced Base
+2023-01-27,5000,Supply Chain / Operations,COGS on shipment,2718.444327,Actual,Balanced Base
+2023-01-27,5000,Supply Chain / Operations,Return to stock,-221.548071,Actual,Balanced Base
+2023-01-27,5010,Supply Chain / Operations,COGS on shipment,418.222204,Actual,Balanced Base
+2023-01-27,5020,Supply Chain / Operations,COGS on shipment,348.518503,Actual,Balanced Base
+2023-01-27,5100,Supply Chain / Operations,DTC delivery cost,1116.5,Actual,Balanced Base
+2023-01-27,5200,Supply Chain / Operations,DTC delivery cost,500.5,Actual,Balanced Base
+2023-01-28,1000,Finance,DTC delivery cost,-1449.0,Actual,Balanced Base
+2023-01-28,1000,Finance,Processor settlement,16005.431108,Actual,Balanced Base
+2023-01-28,1000,Finance,Refund liability utilisation,-696.903219,Actual,Balanced Base
+2023-01-28,1150,Marketing / Ecommerce,DTC sale,9823.273312,Actual,Balanced Base
+2023-01-28,1150,Marketing / Ecommerce,Processor settlement,-16005.431108,Actual,Balanced Base
+2023-01-28,1200,Supply Chain / Operations,COGS on shipment,-2695.032901,Actual,Balanced Base
+2023-01-28,1200,Supply Chain / Operations,Return to stock,196.829649,Actual,Balanced Base
+2023-01-28,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-28,2200,Finance,Returns reserve,-625.6962,Actual,Balanced Base
+2023-01-28,4000,Marketing / Ecommerce,DTC sale,-9450.899158,Actual,Balanced Base
+2023-01-28,4020,Marketing / Ecommerce,DTC sale,-372.374154,Actual,Balanced Base
+2023-01-28,4110,Marketing / Ecommerce,Returns reserve,625.6962,Actual,Balanced Base
+2023-01-28,4111,Marketing / Ecommerce,Refund liability utilisation,696.903219,Actual,Balanced Base
+2023-01-28,5000,Supply Chain / Operations,COGS on shipment,2102.125663,Actual,Balanced Base
+2023-01-28,5000,Supply Chain / Operations,Return to stock,-196.829649,Actual,Balanced Base
+2023-01-28,5010,Supply Chain / Operations,COGS on shipment,323.403948,Actual,Balanced Base
+2023-01-28,5020,Supply Chain / Operations,COGS on shipment,269.50329,Actual,Balanced Base
+2023-01-28,5100,Supply Chain / Operations,DTC delivery cost,1000.5,Actual,Balanced Base
+2023-01-28,5200,Supply Chain / Operations,DTC delivery cost,448.5,Actual,Balanced Base
+2023-01-29,1000,Finance,DTC delivery cost,-1522.5,Actual,Balanced Base
+2023-01-29,1000,Finance,Processor settlement,16212.316685,Actual,Balanced Base
+2023-01-29,1000,Finance,Refund liability utilisation,-1001.600152,Actual,Balanced Base
+2023-01-29,1150,Marketing / Ecommerce,DTC sale,10748.54935,Actual,Balanced Base
+2023-01-29,1150,Marketing / Ecommerce,Processor settlement,-16212.316685,Actual,Balanced Base
+2023-01-29,1200,Supply Chain / Operations,COGS on shipment,-2962.037666,Actual,Balanced Base
+2023-01-29,1200,Supply Chain / Operations,Return to stock,299.776498,Actual,Balanced Base
+2023-01-29,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-29,2200,Finance,Returns reserve,-838.26828,Actual,Balanced Base
+2023-01-29,4000,Marketing / Ecommerce,DTC sale,-10393.361695,Actual,Balanced Base
+2023-01-29,4020,Marketing / Ecommerce,DTC sale,-355.187655,Actual,Balanced Base
+2023-01-29,4110,Marketing / Ecommerce,Returns reserve,838.26828,Actual,Balanced Base
+2023-01-29,4111,Marketing / Ecommerce,Refund liability utilisation,1001.600152,Actual,Balanced Base
+2023-01-29,5000,Supply Chain / Operations,COGS on shipment,2310.38938,Actual,Balanced Base
+2023-01-29,5000,Supply Chain / Operations,Return to stock,-299.776498,Actual,Balanced Base
+2023-01-29,5010,Supply Chain / Operations,COGS on shipment,355.44452,Actual,Balanced Base
+2023-01-29,5020,Supply Chain / Operations,COGS on shipment,296.203767,Actual,Balanced Base
+2023-01-29,5100,Supply Chain / Operations,DTC delivery cost,1051.25,Actual,Balanced Base
+2023-01-29,5200,Supply Chain / Operations,DTC delivery cost,471.25,Actual,Balanced Base
+2023-01-30,1000,Finance,DTC delivery cost,-2058.0,Actual,Balanced Base
+2023-01-30,1000,Finance,Processor settlement,12265.376959,Actual,Balanced Base
+2023-01-30,1000,Finance,Refund liability utilisation,-1069.721945,Actual,Balanced Base
+2023-01-30,1150,Marketing / Ecommerce,DTC sale,16751.774519,Actual,Balanced Base
+2023-01-30,1150,Marketing / Ecommerce,Processor settlement,-12265.376959,Actual,Balanced Base
+2023-01-30,1200,Supply Chain / Operations,COGS on shipment,-4671.673347,Actual,Balanced Base
+2023-01-30,1200,Supply Chain / Operations,Return to stock,309.797231,Actual,Balanced Base
+2023-01-30,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-30,2200,Finance,Returns reserve,-1046.274226,Actual,Balanced Base
+2023-01-30,4000,Marketing / Ecommerce,DTC sale,-16333.569699,Actual,Balanced Base
+2023-01-30,4020,Marketing / Ecommerce,DTC sale,-418.20482,Actual,Balanced Base
+2023-01-30,4110,Marketing / Ecommerce,Returns reserve,1046.274226,Actual,Balanced Base
+2023-01-30,4111,Marketing / Ecommerce,Refund liability utilisation,1069.721945,Actual,Balanced Base
+2023-01-30,5000,Supply Chain / Operations,COGS on shipment,3643.905211,Actual,Balanced Base
+2023-01-30,5000,Supply Chain / Operations,Return to stock,-309.797231,Actual,Balanced Base
+2023-01-30,5010,Supply Chain / Operations,COGS on shipment,560.600802,Actual,Balanced Base
+2023-01-30,5020,Supply Chain / Operations,COGS on shipment,467.167335,Actual,Balanced Base
+2023-01-30,5100,Supply Chain / Operations,DTC delivery cost,1421.0,Actual,Balanced Base
+2023-01-30,5200,Supply Chain / Operations,DTC delivery cost,637.0,Actual,Balanced Base
+2023-01-31,1000,Finance,DTC delivery cost,-2026.5,Actual,Balanced Base
+2023-01-31,1000,Finance,Processor settlement,9823.273312,Actual,Balanced Base
+2023-01-31,1000,Finance,Refund liability utilisation,-1300.052587,Actual,Balanced Base
+2023-01-31,1150,Marketing / Ecommerce,DTC sale,15932.661976,Actual,Balanced Base
+2023-01-31,1150,Marketing / Ecommerce,Processor settlement,-9823.273312,Actual,Balanced Base
+2023-01-31,1200,Supply Chain / Operations,COGS on shipment,-4462.488561,Actual,Balanced Base
+2023-01-31,1200,Supply Chain / Operations,Return to stock,374.360605,Actual,Balanced Base
+2023-01-31,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-01-31,2200,Finance,Returns reserve,-1537.047317,Actual,Balanced Base
+2023-01-31,4000,Marketing / Ecommerce,DTC sale,-15508.728323,Actual,Balanced Base
+2023-01-31,4020,Marketing / Ecommerce,DTC sale,-423.933653,Actual,Balanced Base
+2023-01-31,4110,Marketing / Ecommerce,Returns reserve,1537.047317,Actual,Balanced Base
+2023-01-31,4111,Marketing / Ecommerce,Refund liability utilisation,1300.052587,Actual,Balanced Base
+2023-01-31,5000,Supply Chain / Operations,COGS on shipment,3480.741077,Actual,Balanced Base
+2023-01-31,5000,Supply Chain / Operations,Return to stock,-374.360605,Actual,Balanced Base
+2023-01-31,5010,Supply Chain / Operations,COGS on shipment,535.498627,Actual,Balanced Base
+2023-01-31,5020,Supply Chain / Operations,COGS on shipment,446.248856,Actual,Balanced Base
+2023-01-31,5100,Supply Chain / Operations,DTC delivery cost,1399.25,Actual,Balanced Base
+2023-01-31,5200,Supply Chain / Operations,DTC delivery cost,627.25,Actual,Balanced Base
+2023-02-01,1000,Finance,DTC delivery cost,-1638.0,Actual,Balanced Base
+2023-02-01,1000,Finance,Fixed operating costs,-49833.333333,Actual,Balanced Base
+2023-02-01,1000,Finance,Marketing,-32642.280944,Actual,Balanced Base
+2023-02-01,1000,Finance,Payment processing,-4503.913617,Actual,Balanced Base
+2023-02-01,1000,Finance,Payroll,-180583.333333,Actual,Balanced Base
+2023-02-01,1000,Finance,Processor settlement,10748.54935,Actual,Balanced Base
+2023-02-01,1000,Finance,Refund liability utilisation,-1075.806011,Actual,Balanced Base
+2023-02-01,1000,Finance,Supplier deposit,-29410.089716,Actual,Balanced Base
+2023-02-01,1000,Finance,Wholesale delivery cost,-323.889737,Actual,Balanced Base
+2023-02-01,1100,Wholesale Sales,Wholesale sale,7593.874287,Actual,Balanced Base
+2023-02-01,1150,Marketing / Ecommerce,DTC sale,12297.336447,Actual,Balanced Base
+2023-02-01,1150,Marketing / Ecommerce,Processor settlement,-10748.54935,Actual,Balanced Base
+2023-02-01,1180,Finance,Bad debt,-565.76257,Actual,Balanced Base
+2023-02-01,1200,Supply Chain / Operations,COGS on shipment,-8610.960006,Actual,Balanced Base
+2023-02-01,1200,Supply Chain / Operations,Return to stock,291.481461,Actual,Balanced Base
+2023-02-01,1200,Supply Chain / Operations,Shrink and damage,-51.8863,Actual,Balanced Base
+2023-02-01,1300,Supply Chain / Operations,Supplier deposit,29410.089716,Actual,Balanced Base
+2023-02-01,1400,Executive / Corporate,Depreciation,-4166.666667,Actual,Balanced Base
+2023-02-01,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-02-01,2200,Finance,Returns reserve,-957.765259,Actual,Balanced Base
+2023-02-01,4000,Marketing / Ecommerce,DTC sale,-11907.775793,Actual,Balanced Base
+2023-02-01,4010,Wholesale Sales,Wholesale sale,-7807.129007,Actual,Balanced Base
+2023-02-01,4020,Marketing / Ecommerce,DTC sale,-389.560654,Actual,Balanced Base
+2023-02-01,4110,Marketing / Ecommerce,Returns reserve,957.765259,Actual,Balanced Base
+2023-02-01,4111,Marketing / Ecommerce,Refund liability utilisation,1075.806011,Actual,Balanced Base
+2023-02-01,4130,Wholesale Sales,Wholesale sale,95.964624,Actual,Balanced Base
+2023-02-01,4140,Wholesale Sales,Wholesale sale,63.976416,Actual,Balanced Base
+2023-02-01,4150,Wholesale Sales,Wholesale sale,53.31368,Actual,Balanced Base
+2023-02-01,5000,Supply Chain / Operations,COGS on shipment,6716.548805,Actual,Balanced Base
+2023-02-01,5000,Supply Chain / Operations,Return to stock,-291.481461,Actual,Balanced Base
+2023-02-01,5010,Supply Chain / Operations,COGS on shipment,1033.315201,Actual,Balanced Base
+2023-02-01,5020,Supply Chain / Operations,COGS on shipment,861.096001,Actual,Balanced Base
+2023-02-01,5100,Supply Chain / Operations,DTC delivery cost,1131.0,Actual,Balanced Base
+2023-02-01,5110,Supply Chain / Operations,Wholesale delivery cost,136.689737,Actual,Balanced Base
+2023-02-01,5200,Supply Chain / Operations,DTC delivery cost,507.0,Actual,Balanced Base
+2023-02-01,5210,Supply Chain / Operations,Wholesale delivery cost,187.2,Actual,Balanced Base
+2023-02-01,5310,Supply Chain / Operations,Shrink and damage,51.8863,Actual,Balanced Base
+2023-02-01,6000,Customer Experience,Payroll,19348.214286,Actual,Balanced Base
+2023-02-01,6000,Executive / Corporate,Payroll,12898.809524,Actual,Balanced Base
+2023-02-01,6000,Finance,Payroll,19348.214286,Actual,Balanced Base
+2023-02-01,6000,Marketing / Ecommerce,Payroll,45145.833333,Actual,Balanced Base
+2023-02-01,6000,People / Administration,Payroll,6449.404762,Actual,Balanced Base
+2023-02-01,6000,Product / Merchandising,Payroll,32247.02381,Actual,Balanced Base
+2023-02-01,6000,Supply Chain / Operations,Payroll,25797.619048,Actual,Balanced Base
+2023-02-01,6000,Wholesale Sales,Payroll,19348.214286,Actual,Balanced Base
+2023-02-01,6100,Marketing / Ecommerce,Marketing,22196.751042,Actual,Balanced Base
+2023-02-01,6110,Marketing / Ecommerce,Marketing,10445.529902,Actual,Balanced Base
+2023-02-01,6200,Marketing / Ecommerce,Payment processing,4503.913617,Actual,Balanced Base
+2023-02-01,6300,Supply Chain / Operations,Fixed operating costs,9769.561479,Actual,Balanced Base
+2023-02-01,6310,People / Administration,Fixed operating costs,6427.343078,Actual,Balanced Base
+2023-02-01,6320,Technology / Shared Services,Fixed operating costs,11997.707079,Actual,Balanced Base
+2023-02-01,6330,Finance,Fixed operating costs,8998.28031,Actual,Balanced Base
+2023-02-01,6340,Finance,Fixed operating costs,4070.650616,Actual,Balanced Base
+2023-02-01,6350,Executive / Corporate,Fixed operating costs,8569.790771,Actual,Balanced Base
+2023-02-01,6400,Finance,Bad debt,565.76257,Actual,Balanced Base
+2023-02-01,6500,Executive / Corporate,Depreciation,4166.666667,Actual,Balanced Base
+2023-02-02,1000,Finance,DTC delivery cost,-1869.0,Actual,Balanced Base
+2023-02-02,1000,Finance,Processor settlement,16751.774519,Actual,Balanced Base
+2023-02-02,1000,Finance,Refund liability utilisation,-1109.49668,Actual,Balanced Base
+2023-02-02,1000,Finance,Wholesale collection,4553.296661,Actual,Balanced Base
+2023-02-02,1000,Finance,Wholesale delivery cost,-84.664071,Actual,Balanced Base
+2023-02-02,1100,Wholesale Sales,Wholesale collection,-4553.296661,Actual,Balanced Base
+2023-02-02,1100,Wholesale Sales,Wholesale sale,1778.559518,Actual,Balanced Base
+2023-02-02,1150,Marketing / Ecommerce,DTC sale,14277.24681,Actual,Balanced Base
+2023-02-02,1150,Marketing / Ecommerce,Processor settlement,-16751.774519,Actual,Balanced Base
+2023-02-02,1200,Supply Chain / Operations,COGS on shipment,-5040.745529,Actual,Balanced Base
+2023-02-02,1200,Supply Chain / Operations,Return to stock,316.026278,Actual,Balanced Base
+2023-02-02,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-02-02,2200,Finance,Returns reserve,-1390.770576,Actual,Balanced Base
+2023-02-02,4000,Marketing / Ecommerce,DTC sale,-13893.41499,Actual,Balanced Base
+2023-02-02,4010,Wholesale Sales,Wholesale sale,-1800.625102,Actual,Balanced Base
+2023-02-02,4020,Marketing / Ecommerce,DTC sale,-383.831821,Actual,Balanced Base
+2023-02-02,4110,Marketing / Ecommerce,Returns reserve,1390.770576,Actual,Balanced Base
+2023-02-02,4111,Marketing / Ecommerce,Refund liability utilisation,1109.49668,Actual,Balanced Base
+2023-02-02,4130,Wholesale Sales,Wholesale sale,9.929513,Actual,Balanced Base
+2023-02-02,4140,Wholesale Sales,Wholesale sale,6.619675,Actual,Balanced Base
+2023-02-02,4150,Wholesale Sales,Wholesale sale,5.516396,Actual,Balanced Base
+2023-02-02,5000,Supply Chain / Operations,COGS on shipment,3931.781513,Actual,Balanced Base
+2023-02-02,5000,Supply Chain / Operations,Return to stock,-316.026278,Actual,Balanced Base
+2023-02-02,5010,Supply Chain / Operations,COGS on shipment,604.889463,Actual,Balanced Base
+2023-02-02,5020,Supply Chain / Operations,COGS on shipment,504.074553,Actual,Balanced Base
+2023-02-02,5100,Supply Chain / Operations,DTC delivery cost,1290.5,Actual,Balanced Base
+2023-02-02,5110,Supply Chain / Operations,Wholesale delivery cost,32.014071,Actual,Balanced Base
+2023-02-02,5200,Supply Chain / Operations,DTC delivery cost,578.5,Actual,Balanced Base
+2023-02-02,5210,Supply Chain / Operations,Wholesale delivery cost,52.65,Actual,Balanced Base
+2023-02-03,1000,Finance,DTC delivery cost,-2142.0,Actual,Balanced Base
+2023-02-03,1000,Finance,Processor settlement,15932.661976,Actual,Balanced Base
+2023-02-03,1000,Finance,Refund liability utilisation,-1299.213405,Actual,Balanced Base
+2023-02-03,1000,Finance,Wholesale collection,1070.771086,Actual,Balanced Base
+2023-02-03,1100,Wholesale Sales,Wholesale collection,-1070.771086,Actual,Balanced Base
+2023-02-03,1150,Marketing / Ecommerce,DTC sale,15949.620231,Actual,Balanced Base
+2023-02-03,1150,Marketing / Ecommerce,Processor settlement,-15932.661976,Actual,Balanced Base
+2023-02-03,1200,Supply Chain / Operations,COGS on shipment,-4424.290825,Actual,Balanced Base
+2023-02-03,1200,Supply Chain / Operations,Return to stock,379.049133,Actual,Balanced Base
+2023-02-03,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-02-03,2200,Finance,Returns reserve,-976.60982,Actual,Balanced Base
+2023-02-03,4000,Marketing / Ecommerce,DTC sale,-15468.398247,Actual,Balanced Base
+2023-02-03,4020,Marketing / Ecommerce,DTC sale,-481.221984,Actual,Balanced Base
+2023-02-03,4110,Marketing / Ecommerce,Returns reserve,976.60982,Actual,Balanced Base
+2023-02-03,4111,Marketing / Ecommerce,Refund liability utilisation,1299.213405,Actual,Balanced Base
+2023-02-03,5000,Supply Chain / Operations,COGS on shipment,3450.946843,Actual,Balanced Base
+2023-02-03,5000,Supply Chain / Operations,Return to stock,-379.049133,Actual,Balanced Base
+2023-02-03,5010,Supply Chain / Operations,COGS on shipment,530.914899,Actual,Balanced Base
+2023-02-03,5020,Supply Chain / Operations,COGS on shipment,442.429082,Actual,Balanced Base
+2023-02-03,5100,Supply Chain / Operations,DTC delivery cost,1479.0,Actual,Balanced Base
+2023-02-03,5200,Supply Chain / Operations,DTC delivery cost,663.0,Actual,Balanced Base
+2023-02-04,1000,Finance,DTC delivery cost,-1333.5,Actual,Balanced Base
+2023-02-04,1000,Finance,Processor settlement,12297.336447,Actual,Balanced Base
+2023-02-04,1000,Finance,Refund liability utilisation,-554.402795,Actual,Balanced Base
+2023-02-04,1000,Finance,Wholesale delivery cost,-786.005185,Actual,Balanced Base
+2023-02-04,1100,Wholesale Sales,Wholesale sale,17616.954741,Actual,Balanced Base
+2023-02-04,1150,Marketing / Ecommerce,DTC sale,8907.346443,Actual,Balanced Base
+2023-02-04,1150,Marketing / Ecommerce,Processor settlement,-12297.336447,Actual,Balanced Base
+2023-02-04,1200,Supply Chain / Operations,COGS on shipment,-13922.354476,Actual,Balanced Base
+2023-02-04,1200,Supply Chain / Operations,Return to stock,161.671405,Actual,Balanced Base
+2023-02-04,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-02-04,2200,Finance,Returns reserve,-1000.073353,Actual,Balanced Base
+2023-02-04,4000,Marketing / Ecommerce,DTC sale,-8635.486233,Actual,Balanced Base
+2023-02-04,4010,Wholesale Sales,Wholesale sale,-18454.179659,Actual,Balanced Base
+2023-02-04,4020,Marketing / Ecommerce,DTC sale,-271.860211,Actual,Balanced Base
+2023-02-04,4110,Marketing / Ecommerce,Returns reserve,480.616527,Actual,Balanced Base
+2023-02-04,4111,Marketing / Ecommerce,Refund liability utilisation,554.402795,Actual,Balanced Base
+2023-02-04,4120,Wholesale Sales,Returns reserve,519.456827,Actual,Balanced Base
+2023-02-04,4130,Wholesale Sales,Wholesale sale,376.751213,Actual,Balanced Base
+2023-02-04,4140,Wholesale Sales,Wholesale sale,251.167475,Actual,Balanced Base
+2023-02-04,4150,Wholesale Sales,Wholesale sale,209.306229,Actual,Balanced Base
+2023-02-04,5000,Supply Chain / Operations,COGS on shipment,10859.436491,Actual,Balanced Base
+2023-02-04,5000,Supply Chain / Operations,Return to stock,-161.671405,Actual,Balanced Base
+2023-02-04,5010,Supply Chain / Operations,COGS on shipment,1670.682537,Actual,Balanced Base
+2023-02-04,5020,Supply Chain / Operations,COGS on shipment,1392.235448,Actual,Balanced Base
+2023-02-04,5100,Supply Chain / Operations,DTC delivery cost,920.75,Actual,Balanced Base
+2023-02-04,5110,Supply Chain / Operations,Wholesale delivery cost,317.105185,Actual,Balanced Base
+2023-02-04,5200,Supply Chain / Operations,DTC delivery cost,412.75,Actual,Balanced Base
+2023-02-04,5210,Supply Chain / Operations,Wholesale delivery cost,468.9,Actual,Balanced Base
+2023-02-05,1000,Finance,DTC delivery cost,-1711.5,Actual,Balanced Base
+2023-02-05,1000,Finance,Processor settlement,14277.24681,Actual,Balanced Base
+2023-02-05,1000,Finance,Refund liability utilisation,-950.015171,Actual,Balanced Base
+2023-02-05,1000,Finance,Wholesale delivery cost,-285.566455,Actual,Balanced Base
+2023-02-05,1100,Wholesale Sales,Wholesale sale,6964.803045,Actual,Balanced Base
+2023-02-05,1150,Marketing / Ecommerce,DTC sale,12902.932359,Actual,Balanced Base
+2023-02-05,1150,Marketing / Ecommerce,Processor settlement,-14277.24681,Actual,Balanced Base
+2023-02-05,1200,Supply Chain / Operations,COGS on shipment,-7799.648493,Actual,Balanced Base
+2023-02-05,1200,Supply Chain / Operations,Return to stock,290.495822,Actual,Balanced Base
+2023-02-05,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-02-05,2200,Finance,Returns reserve,-928.71477,Actual,Balanced Base
+2023-02-05,4000,Marketing / Ecommerce,DTC sale,-12532.509403,Actual,Balanced Base
+2023-02-05,4010,Wholesale Sales,Wholesale sale,-7085.611707,Actual,Balanced Base
+2023-02-05,4020,Marketing / Ecommerce,DTC sale,-370.422956,Actual,Balanced Base
+2023-02-05,4110,Marketing / Ecommerce,Returns reserve,928.71477,Actual,Balanced Base
+2023-02-05,4111,Marketing / Ecommerce,Refund liability utilisation,950.015171,Actual,Balanced Base
+2023-02-05,4130,Wholesale Sales,Wholesale sale,54.363898,Actual,Balanced Base
+2023-02-05,4140,Wholesale Sales,Wholesale sale,36.242599,Actual,Balanced Base
+2023-02-05,4150,Wholesale Sales,Wholesale sale,30.202166,Actual,Balanced Base
+2023-02-05,5000,Supply Chain / Operations,COGS on shipment,6083.725825,Actual,Balanced Base
+2023-02-05,5000,Supply Chain / Operations,Return to stock,-290.495822,Actual,Balanced Base
+2023-02-05,5010,Supply Chain / Operations,COGS on shipment,935.957819,Actual,Balanced Base
+2023-02-05,5020,Supply Chain / Operations,COGS on shipment,779.964849,Actual,Balanced Base
+2023-02-05,5100,Supply Chain / Operations,DTC delivery cost,1181.75,Actual,Balanced Base
+2023-02-05,5110,Supply Chain / Operations,Wholesale delivery cost,125.366455,Actual,Balanced Base
+2023-02-05,5200,Supply Chain / Operations,DTC delivery cost,529.75,Actual,Balanced Base
+2023-02-05,5210,Supply Chain / Operations,Wholesale delivery cost,160.2,Actual,Balanced Base
+2023-02-06,1000,Finance,DTC delivery cost,-1722.0,Actual,Balanced Base
+2023-02-06,1000,Finance,Processor settlement,15949.620231,Actual,Balanced Base
+2023-02-06,1000,Finance,Refund liability utilisation,-825.927376,Actual,Balanced Base
+2023-02-06,1000,Finance,Wholesale delivery cost,-239.418225,Actual,Balanced Base
+2023-02-06,1100,Wholesale Sales,Wholesale sale,6151.012486,Actual,Balanced Base
+2023-02-06,1150,Marketing / Ecommerce,DTC sale,12102.047366,Actual,Balanced Base
+2023-02-06,1150,Marketing / Ecommerce,Processor settlement,-15949.620231,Actual,Balanced Base
+2023-02-06,1200,Supply Chain / Operations,COGS on shipment,-6882.529409,Actual,Balanced Base
+2023-02-06,1200,Supply Chain / Operations,Return to stock,232.1839,Actual,Balanced Base
+2023-02-06,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-02-06,2200,Finance,Returns reserve,-793.520161,Actual,Balanced Base
+2023-02-06,4000,Marketing / Ecommerce,DTC sale,-11717.775227,Actual,Balanced Base
+2023-02-06,4010,Wholesale Sales,Wholesale sale,-6226.691004,Actual,Balanced Base
+2023-02-06,4020,Marketing / Ecommerce,DTC sale,-384.272138,Actual,Balanced Base
+2023-02-06,4110,Marketing / Ecommerce,Returns reserve,793.520161,Actual,Balanced Base
+2023-02-06,4111,Marketing / Ecommerce,Refund liability utilisation,825.927376,Actual,Balanced Base
+2023-02-06,4130,Wholesale Sales,Wholesale sale,34.055333,Actual,Balanced Base
+2023-02-06,4140,Wholesale Sales,Wholesale sale,22.703555,Actual,Balanced Base
+2023-02-06,4150,Wholesale Sales,Wholesale sale,18.919629,Actual,Balanced Base
+2023-02-06,5000,Supply Chain / Operations,COGS on shipment,5368.372939,Actual,Balanced Base
+2023-02-06,5000,Supply Chain / Operations,Return to stock,-232.1839,Actual,Balanced Base
+2023-02-06,5010,Supply Chain / Operations,COGS on shipment,825.903529,Actual,Balanced Base
+2023-02-06,5020,Supply Chain / Operations,COGS on shipment,688.252941,Actual,Balanced Base
+2023-02-06,5100,Supply Chain / Operations,DTC delivery cost,1189.0,Actual,Balanced Base
+2023-02-06,5110,Supply Chain / Operations,Wholesale delivery cost,110.718225,Actual,Balanced Base
+2023-02-06,5200,Supply Chain / Operations,DTC delivery cost,533.0,Actual,Balanced Base
+2023-02-06,5210,Supply Chain / Operations,Wholesale delivery cost,128.7,Actual,Balanced Base
+2023-02-07,1000,Finance,DTC delivery cost,-850.5,Actual,Balanced Base
+2023-02-07,1000,Finance,Processor settlement,8907.346443,Actual,Balanced Base
+2023-02-07,1000,Finance,Refund liability utilisation,-663.558095,Actual,Balanced Base
+2023-02-07,1000,Finance,Wholesale delivery cost,-1704.823858,Actual,Balanced Base
+2023-02-07,1100,Wholesale Sales,Wholesale sale,40387.436539,Actual,Balanced Base
+2023-02-07,1150,Marketing / Ecommerce,DTC sale,5322.88947,Actual,Balanced Base
+2023-02-07,1150,Marketing / Ecommerce,Processor settlement,-8907.346443,Actual,Balanced Base
+2023-02-07,1200,Supply Chain / Operations,COGS on shipment,-22520.464922,Actual,Balanced Base
+2023-02-07,1200,Supply Chain / Operations,Return to stock,185.241527,Actual,Balanced Base
+2023-02-07,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-02-07,2200,Finance,Returns reserve,-553.93384,Actual,Balanced Base
+2023-02-07,4000,Marketing / Ecommerce,DTC sale,-5210.403933,Actual,Balanced Base
+2023-02-07,4010,Wholesale Sales,Wholesale sale,-42574.935379,Actual,Balanced Base
+2023-02-07,4020,Marketing / Ecommerce,DTC sale,-112.485537,Actual,Balanced Base
+2023-02-07,4110,Marketing / Ecommerce,Returns reserve,553.93384,Actual,Balanced Base
+2023-02-07,4111,Marketing / Ecommerce,Refund liability utilisation,663.558095,Actual,Balanced Base
+2023-02-07,4130,Wholesale Sales,Wholesale sale,984.374478,Actual,Balanced Base
+2023-02-07,4140,Wholesale Sales,Wholesale sale,656.249652,Actual,Balanced Base
+2023-02-07,4150,Wholesale Sales,Wholesale sale,546.87471,Actual,Balanced Base
+2023-02-07,5000,Supply Chain / Operations,COGS on shipment,17565.962639,Actual,Balanced Base
+2023-02-07,5000,Supply Chain / Operations,Return to stock,-185.241527,Actual,Balanced Base
+2023-02-07,5010,Supply Chain / Operations,COGS on shipment,2702.455791,Actual,Balanced Base
+2023-02-07,5020,Supply Chain / Operations,COGS on shipment,2252.046492,Actual,Balanced Base
+2023-02-07,5100,Supply Chain / Operations,DTC delivery cost,587.25,Actual,Balanced Base
+2023-02-07,5110,Supply Chain / Operations,Wholesale delivery cost,726.973858,Actual,Balanced Base
+2023-02-07,5200,Supply Chain / Operations,DTC delivery cost,263.25,Actual,Balanced Base
+2023-02-07,5210,Supply Chain / Operations,Wholesale delivery cost,977.85,Actual,Balanced Base
+2023-02-08,1000,Finance,DTC delivery cost,-787.5,Actual,Balanced Base
+2023-02-08,1000,Finance,Processor settlement,12902.932359,Actual,Balanced Base
+2023-02-08,1000,Finance,Refund liability utilisation,-700.358672,Actual,Balanced Base
+2023-02-08,1150,Marketing / Ecommerce,DTC sale,5005.099994,Actual,Balanced Base
+2023-02-08,1150,Marketing / Ecommerce,Processor settlement,-12902.932359,Actual,Balanced Base
+2023-02-08,1200,Supply Chain / Operations,COGS on shipment,-1311.510977,Actual,Balanced Base
+2023-02-08,1200,Supply Chain / Operations,Return to stock,200.707749,Actual,Balanced Base
+2023-02-08,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-02-08,2200,Finance,Returns reserve,-22.300014,Actual,Balanced Base
+2023-02-08,4000,Marketing / Ecommerce,DTC sale,-4849.049908,Actual,Balanced Base
+2023-02-08,4020,Marketing / Ecommerce,DTC sale,-156.050086,Actual,Balanced Base
+2023-02-08,4110,Marketing / Ecommerce,Returns reserve,22.300014,Actual,Balanced Base
+2023-02-08,4111,Marketing / Ecommerce,Refund liability utilisation,700.358672,Actual,Balanced Base
+2023-02-08,5000,Supply Chain / Operations,COGS on shipment,1022.978562,Actual,Balanced Base
+2023-02-08,5000,Supply Chain / Operations,Return to stock,-200.707749,Actual,Balanced Base
+2023-02-08,5010,Supply Chain / Operations,COGS on shipment,157.381317,Actual,Balanced Base
+2023-02-08,5020,Supply Chain / Operations,COGS on shipment,131.151098,Actual,Balanced Base
+2023-02-08,5100,Supply Chain / Operations,DTC delivery cost,543.75,Actual,Balanced Base
+2023-02-08,5200,Supply Chain / Operations,DTC delivery cost,243.75,Actual,Balanced Base
+2023-02-09,1000,Finance,DTC delivery cost,-934.5,Actual,Balanced Base
+2023-02-09,1000,Finance,Processor settlement,12102.047366,Actual,Balanced Base
+2023-02-09,1000,Finance,Refund liability utilisation,-985.125044,Actual,Balanced Base
+2023-02-09,1000,Finance,Wholesale collection,1086.866408,Actual,Balanced Base
+2023-02-09,1000,Finance,Wholesale delivery cost,-128.072689,Actual,Balanced Base
+2023-02-09,1100,Wholesale Sales,Wholesale collection,-1086.866408,Actual,Balanced Base
+2023-02-09,1100,Wholesale Sales,Wholesale sale,3015.149372,Actual,Balanced Base
+2023-02-09,1150,Marketing / Ecommerce,DTC sale,5813.235263,Actual,Balanced Base
+2023-02-09,1150,Marketing / Ecommerce,Processor settlement,-12102.047366,Actual,Balanced Base
+2023-02-09,1200,Supply Chain / Operations,COGS on shipment,-2423.440891,Actual,Balanced Base
+2023-02-09,1200,Supply Chain / Operations,Return to stock,288.210543,Actual,Balanced Base
+2023-02-09,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-02-09,2200,Finance,Returns reserve,-321.147358,Actual,Balanced Base
+2023-02-09,4000,Marketing / Ecommerce,DTC sale,-5627.662256,Actual,Balanced Base
+2023-02-09,4010,Wholesale Sales,Wholesale sale,-3051.583918,Actual,Balanced Base
+2023-02-09,4020,Marketing / Ecommerce,DTC sale,-185.573007,Actual,Balanced Base
+2023-02-09,4110,Marketing / Ecommerce,Returns reserve,321.147358,Actual,Balanced Base
+2023-02-09,4111,Marketing / Ecommerce,Refund liability utilisation,985.125044,Actual,Balanced Base
+2023-02-09,4130,Wholesale Sales,Wholesale sale,16.395546,Actual,Balanced Base
+2023-02-09,4140,Wholesale Sales,Wholesale sale,10.930364,Actual,Balanced Base
+2023-02-09,4150,Wholesale Sales,Wholesale sale,9.108637,Actual,Balanced Base
+2023-02-09,5000,Supply Chain / Operations,COGS on shipment,1890.283895,Actual,Balanced Base
+2023-02-09,5000,Supply Chain / Operations,Return to stock,-288.210543,Actual,Balanced Base
+2023-02-09,5010,Supply Chain / Operations,COGS on shipment,290.812907,Actual,Balanced Base
+2023-02-09,5020,Supply Chain / Operations,COGS on shipment,242.344089,Actual,Balanced Base
+2023-02-09,5100,Supply Chain / Operations,DTC delivery cost,645.25,Actual,Balanced Base
+2023-02-09,5110,Supply Chain / Operations,Wholesale delivery cost,54.272689,Actual,Balanced Base
+2023-02-09,5200,Supply Chain / Operations,DTC delivery cost,289.25,Actual,Balanced Base
+2023-02-09,5210,Supply Chain / Operations,Wholesale delivery cost,73.8,Actual,Balanced Base
+2023-02-10,1000,Finance,DTC delivery cost,-661.5,Actual,Balanced Base
+2023-02-10,1000,Finance,Processor settlement,5322.88947,Actual,Balanced Base
+2023-02-10,1000,Finance,Refund liability utilisation,-1062.712311,Actual,Balanced Base
+2023-02-10,1000,Finance,Wholesale delivery cost,-57.732068,Actual,Balanced Base
+2023-02-10,1100,Wholesale Sales,Wholesale sale,1557.337117,Actual,Balanced Base
+2023-02-10,1150,Marketing / Ecommerce,DTC sale,3260.497764,Actual,Balanced Base
+2023-02-10,1150,Marketing / Ecommerce,Processor settlement,-5322.88947,Actual,Balanced Base
+2023-02-10,1200,Supply Chain / Operations,COGS on shipment,-1051.832894,Actual,Balanced Base
+2023-02-10,1200,Supply Chain / Operations,Return to stock,303.558886,Actual,Balanced Base
+2023-02-10,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-02-10,2200,Finance,Returns reserve,-430.142227,Actual,Balanced Base
+2023-02-10,4000,Marketing / Ecommerce,DTC sale,-3128.88825,Actual,Balanced Base
+2023-02-10,4010,Wholesale Sales,Wholesale sale,-1576.836511,Actual,Balanced Base
+2023-02-10,4020,Marketing / Ecommerce,DTC sale,-131.609514,Actual,Balanced Base
+2023-02-10,4110,Marketing / Ecommerce,Returns reserve,430.142227,Actual,Balanced Base
+2023-02-10,4111,Marketing / Ecommerce,Refund liability utilisation,1062.712311,Actual,Balanced Base
+2023-02-10,4130,Wholesale Sales,Wholesale sale,8.774728,Actual,Balanced Base
+2023-02-10,4140,Wholesale Sales,Wholesale sale,5.849818,Actual,Balanced Base
+2023-02-10,4150,Wholesale Sales,Wholesale sale,4.874849,Actual,Balanced Base
+2023-02-10,5000,Supply Chain / Operations,COGS on shipment,820.429657,Actual,Balanced Base
+2023-02-10,5000,Supply Chain / Operations,Return to stock,-303.558886,Actual,Balanced Base
+2023-02-10,5010,Supply Chain / Operations,COGS on shipment,126.219947,Actual,Balanced Base
+2023-02-10,5020,Supply Chain / Operations,COGS on shipment,105.183289,Actual,Balanced Base
+2023-02-10,5100,Supply Chain / Operations,DTC delivery cost,456.75,Actual,Balanced Base
+2023-02-10,5110,Supply Chain / Operations,Wholesale delivery cost,28.032068,Actual,Balanced Base
+2023-02-10,5200,Supply Chain / Operations,DTC delivery cost,204.75,Actual,Balanced Base
+2023-02-10,5210,Supply Chain / Operations,Wholesale delivery cost,29.7,Actual,Balanced Base
+2023-02-11,1000,Finance,DTC delivery cost,-871.5,Actual,Balanced Base
+2023-02-11,1000,Finance,Processor settlement,5005.099994,Actual,Balanced Base
+2023-02-11,1000,Finance,Refund liability utilisation,-1183.85063,Actual,Balanced Base
+2023-02-11,1150,Marketing / Ecommerce,DTC sale,4760.681258,Actual,Balanced Base
+2023-02-11,1150,Marketing / Ecommerce,Processor settlement,-5005.099994,Actual,Balanced Base
+2023-02-11,1200,Supply Chain / Operations,COGS on shipment,-1218.371147,Actual,Balanced Base
+2023-02-11,1200,Supply Chain / Operations,Return to stock,333.844227,Actual,Balanced Base
+2023-02-11,2200,Finance,Refund liability utilisation,0.0,Actual,Balanced Base
+2023-02-11,2200,Finance,Returns reserve,-538.137482,Actual,Balanced Base
+2023-02-11,4000,Marketing / Ecommerce,DTC sale,-4597.517592,Actual,Balanced Base
+2023-02-11,4020,Marketing / Ecommerce,DTC sale,-163.163666,Actual,Balanced Base
+2023-02-11,4110,Marketing / Ecommerce,Returns reserve,538.137482,Actual,Balanced Base
+2023-02-11,4111,Marketing / Ecommerce,Refund liability utilisation,1183.85063,Actual,Balanced Base
+2023-02-11,5000,Supply Chain / Operations,COGS on shipment,950.329495,Actual,Balanced Base
+2023-02-11,5000,Supply Chain / Operations,Return to stock,-333.844227,Actual,Balanced Base
+2023-02-11,5010,Supply Chain / Operations,COGS on shipment,146.204538,Actual,Balanced Base
+2023-02-11,5020,Supply Chain / Operations,COGS on shipment,121.837115,Actual,Balanced Base
+2023-02-11,5100,Supply Chain / Operations,DTC delivery cost,601.75,Actual,Balanced Base

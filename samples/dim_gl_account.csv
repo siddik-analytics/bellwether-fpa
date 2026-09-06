@@ -17,33 +17,35 @@ account_key,account_code,account_name,statement,account_type,cost_behaviour,is_p
 16,4010,Wholesale merchandise revenue,PL,revenue,variable,True
 17,4020,DTC shipping revenue,PL,revenue,variable,True
 18,4100,Promotional discounts,PL,contra_revenue,variable,True
-19,4110,DTC returns,PL,contra_revenue,variable,True
-20,4120,Wholesale returns,PL,contra_revenue,variable,True
-21,4130,Co-op marketing deductions,PL,contra_revenue,variable,True
-22,4140,Markdown allowances,PL,contra_revenue,variable,True
-23,4150,Chargebacks and compliance deductions,PL,contra_revenue,variable,True
-24,5000,COGS - product cost,PL,cogs,variable,True
-25,5010,COGS - inbound freight,PL,cogs,variable,True
-26,5020,COGS - duty and customs,PL,cogs,variable,True
-27,5100,COGS - outbound parcel freight,PL,cogs,variable,True
-28,5110,COGS - wholesale outbound freight,PL,cogs,variable,True
-29,5200,COGS - DTC pick and pack,PL,cogs,variable,True
-30,5210,COGS - wholesale fulfilment,PL,cogs,variable,True
-31,5220,COGS - packaging,PL,cogs,variable,True
-32,5300,COGS - inventory write-downs,PL,cogs,variable,True
-33,5310,COGS - shrink and damage,PL,cogs,variable,True
-34,5320,COGS - return write-offs,PL,cogs,variable,True
-35,6000,Payroll and benefits,PL,opex,step_fixed,True
-36,6100,Performance marketing,PL,opex,variable,True
-37,6110,Brand and retention marketing,PL,opex,directly_budgeted,True
-38,6200,Payment processing fees,PL,opex,variable,True
-39,6300,3PL storage and account fees,PL,opex,step_fixed,True
-40,6310,Office and facilities,PL,opex,fixed,True
-41,6320,Software and technology,PL,opex,step_fixed,True
-42,6330,Professional fees,PL,opex,directly_budgeted,True
-43,6340,Insurance,PL,opex,fixed,True
-44,6350,Other corporate,PL,opex,directly_budgeted,True
-45,6400,Bad debt expense,PL,opex,variable,True
-46,6500,Depreciation,PL,opex,fixed,True
-47,7000,Interest expense,PL,other,variable,True
-48,7010,Unused line fees,PL,other,fixed,True
+19,4110,DTC returns reserve,PL,contra_revenue,variable,True
+20,4111,DTC refund liability utilisation,BS,liability_movement,n/a,False
+21,4120,Wholesale returns reserve,PL,contra_revenue,variable,True
+22,4121,Wholesale refund liability utilisation,BS,liability_movement,n/a,False
+23,4130,Co-op marketing deductions,PL,contra_revenue,variable,True
+24,4140,Markdown allowances,PL,contra_revenue,variable,True
+25,4150,Chargebacks and compliance deductions,PL,contra_revenue,variable,True
+26,5000,COGS - product cost,PL,cogs,variable,True
+27,5010,COGS - inbound freight,PL,cogs,variable,True
+28,5020,COGS - duty and customs,PL,cogs,variable,True
+29,5100,COGS - outbound parcel freight,PL,cogs,variable,True
+30,5110,COGS - wholesale outbound freight,PL,cogs,variable,True
+31,5200,COGS - DTC pick and pack,PL,cogs,variable,True
+32,5210,COGS - wholesale fulfilment,PL,cogs,variable,True
+33,5220,COGS - packaging,PL,cogs,variable,True
+34,5300,COGS - inventory write-downs,PL,cogs,variable,True
+35,5310,COGS - shrink and damage,PL,cogs,variable,True
+36,5320,COGS - return write-offs,PL,cogs,variable,True
+37,6000,Payroll and benefits,PL,opex,step_fixed,True
+38,6100,Performance marketing,PL,opex,variable,True
+39,6110,Brand and retention marketing,PL,opex,directly_budgeted,True
+40,6200,Payment processing fees,PL,opex,variable,True
+41,6300,3PL storage and account fees,PL,opex,step_fixed,True
+42,6310,Office and facilities,PL,opex,fixed,True
+43,6320,Software and technology,PL,opex,step_fixed,True
+44,6330,Professional fees,PL,opex,directly_budgeted,True
+45,6340,Insurance,PL,opex,fixed,True
+46,6350,Other corporate,PL,opex,directly_budgeted,True
+47,6400,Bad debt expense,PL,opex,variable,True
+48,6500,Depreciation,PL,opex,fixed,True
+49,7000,Interest expense,PL,other,variable,True
+50,7010,Unused line fees,PL,other,fixed,True
