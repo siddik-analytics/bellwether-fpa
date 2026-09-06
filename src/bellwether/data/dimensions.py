@@ -268,8 +268,10 @@ GL_ACCOUNTS: list[tuple[str, str, str, str, str]] = [
     ("4010", "Wholesale merchandise revenue", "PL", "revenue", "variable"),
     ("4020", "DTC shipping revenue", "PL", "revenue", "variable"),
     ("4100", "Promotional discounts", "PL", "contra_revenue", "variable"),
-    ("4110", "DTC returns", "PL", "contra_revenue", "variable"),
-    ("4120", "Wholesale returns", "PL", "contra_revenue", "variable"),
+    ("4110", "DTC returns reserve", "PL", "contra_revenue", "variable"),
+    ("4111", "DTC refund liability utilisation", "BS", "liability_movement", "n/a"),
+    ("4120", "Wholesale returns reserve", "PL", "contra_revenue", "variable"),
+    ("4121", "Wholesale refund liability utilisation", "BS", "liability_movement", "n/a"),
     ("4130", "Co-op marketing deductions", "PL", "contra_revenue", "variable"),
     ("4140", "Markdown allowances", "PL", "contra_revenue", "variable"),
     ("4150", "Chargebacks and compliance deductions", "PL", "contra_revenue", "variable"),
@@ -336,6 +338,23 @@ def build_scenarios() -> pd.DataFrame:
             "scenario_key": np.arange(1, len(names) + 1, dtype="int32"),
             "scenario_name": names,
             "is_operating_plan": [True, False, False, False],
+        }
+    )
+
+
+def build_channels() -> pd.DataFrame:
+    """Grain: one row per sales channel, plus the corporate member.
+
+    Channel is the most-used slicer in the model — §6.7 contribution, §7.1 unit economics, three
+    of four scenarios — and until now it was implicit in *which fact table you were reading*.
+    That works in Python and fails in a BI tool, where one slicer must filter revenue, COGS,
+    marketing and contribution together across facts.
+    """
+    return pd.DataFrame(
+        {
+            "channel_key": np.array([1, 2, 3], dtype="int32"),
+            "channel_name": ["DTC", "Wholesale", "Unallocated corporate"],
+            "is_revenue_channel": [True, True, False],
         }
     )
 
@@ -440,6 +459,7 @@ def build_all(rng: np.random.Generator) -> dict[str, pd.DataFrame]:
         "dim_version": build_versions(),
         "dim_scenario": build_scenarios(),
         "dim_location": build_locations(),
+        "dim_channel": build_channels(),
         "dim_employee": build_employees(rng),
         "dim_campaign": build_campaigns(rng),
         "dim_promotion": build_promotions(),

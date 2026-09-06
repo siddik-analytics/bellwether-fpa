@@ -27,6 +27,7 @@ REVOLVER = "2500"
 EQUITY = "3000"
 
 CORP = "Executive / Corporate"
+OPERATING_PLAN = "Balanced Base"
 
 
 class Journal:
@@ -207,18 +208,33 @@ def build(
     # hero SKUs — so crediting returns at the flat mean understates them by 7%.
     weights = products["revenue_weight"].to_numpy()
     cost_per_unit = float((landed[-1] * weights).sum() / weights.sum())
+    returns = returns.copy()
+    returns["_dtc_refund"] = returns["refund_amount"].where(returns["source"] == "DTC", 0.0)
     by_receipt = returns.groupby(pd.Grouper(key="return_receipt_date", freq="D")).agg(
         refund=("refund_amount", "sum"),
+        dtc_refund=("_dtc_refund", "sum"),
         rec=("recoverable_quantity", "sum"),
         scrap=("non_sellable_quantity", "sum"),
     )
     for date, r in by_receipt.iterrows():
         if date > dates[-1]:
             continue
+        # The reserve was booked to contra-revenue at the sale (4110/4120). Its settlement is a
+        # balance-sheet movement and must not touch revenue again — hence the separate
+        # utilisation accounts, without which "returns for March" is ambiguous between the
+        # reserve booked on March sales and the reserve released against March receipts, and the
+        # two differ by the return lag. See ADR 0017.
+        dtc_share = r["dtc_refund"] / r["refund"] if r["refund"] else 0.0
         j.post(
             date,
-            [(REFUND_LIABILITY, "Finance", r["refund"]), (CASH, "Finance", -r["refund"])],
-            "Refund paid",
+            [
+                ("4111", "Marketing / Ecommerce", r["refund"] * dtc_share),
+                ("4121", "Wholesale Sales", r["refund"] * (1 - dtc_share)),
+                (REFUND_LIABILITY, "Finance", r["refund"]),
+                (CASH, "Finance", -r["refund"]),
+                (REFUND_LIABILITY, "Finance", -r["refund"]),
+            ],
+            "Refund liability utilisation",
         )
         # Recovered units go back to stock and reverse the COGS booked when they shipped.
         # Non-recoverable units are already expensed through COGS on that shipment, so the only
@@ -391,7 +407,10 @@ def build(
 
     ledger = j.frame()
     ledger["version_name"] = "Actual"
-    ledger["scenario_name"] = ""
+    # Actuals carry the operating plan scenario, not a "Not applicable" member — §3.3 defines
+    # performance variance as a same-scenario comparison, and N/A would make every variance in
+    # the model cross a dimension boundary the contract says to hold fixed. See ADR 0016.
+    ledger["scenario_name"] = OPERATING_PLAN
     return ledger
 
 
