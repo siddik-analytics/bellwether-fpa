@@ -54,7 +54,7 @@ Create stub modules so the documented commands exist and exit cleanly:
 
 ### 5. GitHub — this is the step to remember
 
-Create the repository. **Private.** Flip it public at `v0.4-model`, once the history opens on
+Create the repository. **Private.** Flip it public at `v0.5-model`, once the history opens on
 substantive work rather than scaffolding.
 
 Do this part yourself — Claude Code is denied push and should not be creating accounts or

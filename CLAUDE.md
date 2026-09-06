@@ -81,17 +81,18 @@ build/          artifacts — gitignored except at release tags
 
 ## Phases
 
-Current phase: **0**.
+Current phase: **2**.
 
 | Phase | Output | Tag |
 |---|---|---|
 | 0 | Repo scaffold, docs, CI, pre-commit | `v0.1-scaffold` |
-| 1 | Data contract, synthetic generator, validation suite | `v0.2-data` |
-| 2 | Transformation layer, star schema, semantic definitions | `v0.3-warehouse` |
-| 3 | Code-generated Excel model, three statements tying | `v0.4-model` |
-| 4 | Power BI PBIP, DAX, four report pages | `v0.5-bi` |
-| 5 | Board pack, automated variance commentary | `v0.6-reporting` |
-| 6 | README, case study, video, distribution assets | `v1.0` |
+| 1 | Data contract: interview, contract, ADRs | `v0.2-contract` |
+| 2 | Synthetic generator, validation suite | `v0.3-data` |
+| 3 | Transformation layer, star schema, semantic definitions | `v0.4-warehouse` |
+| 4 | Code-generated Excel model, three statements tying | `v0.5-model` |
+| 5 | Power BI PBIP, DAX, four report pages | `v0.6-bi` |
+| 6 | Board pack, automated variance commentary | `v0.7-reporting` |
+| 7 | README, case study, video, distribution assets | `v1.0` |
 
 Definition of done for every phase: tests green, docs updated, tag pushed, and the decision
 log in `docs/adr/` extended if anything non-obvious was chosen.

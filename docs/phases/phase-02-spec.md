@@ -7,12 +7,9 @@ data is asserted by a test rather than asserted by a document.
 
 Tag on completion: `v0.3-data`
 
-> **Numbering.** `CLAUDE.md`'s phase table currently assigns "data contract, synthetic generator,
-> validation suite" to phase 1 and the transformation layer to phase 2. This spec splits that: the
-> interview, data contract and ADRs were phase 1; the generator and validation suite are phase 2.
-> The table in `CLAUDE.md` and `README.md` needs renumbering to match, which shifts every
-> subsequent phase and tag by one. **That change is not made yet — it is proposed and awaiting
-> sign-off**, because it renames tags that have not been cut.
+> **Numbering.** Phase 1 was the interview, data contract and ADRs; phase 2 is the generator and
+> validation suite. `CLAUDE.md`, `README.md` and `phase-00-spec.md` were renumbered to match, which
+> shifted every subsequent phase and tag by one. No tag was renamed after being cut.
 
 ---
 
@@ -179,6 +176,12 @@ set at that point and frozen as a regression. If the generator disagrees materia
 scratch model, the generator is more likely to be right and the contract figure is amended with an
 ADR; what is not acceptable is silently loosening the tolerance until it passes.
 
+**When the first real run lands, the ADR records both figures side by side** — the phase 1
+scratch calculation and the full simulation. The delta between a hand-built monthly model and a
+transaction-level simulation is itself worth showing: it is the difference between an FP&A
+analyst's estimate and the system that replaces it, and a reviewer learns more from seeing the
+two agree (or not) than from either alone.
+
 ---
 
 ## Decisions needed before code
@@ -186,7 +189,7 @@ ADR; what is not acceptable is silently loosening the tolerance until it passes.
 | # | Decision | Why it cannot be defaulted |
 |---|---|---|
 | D-1 | Approve `numpy`, `pandas`, `pyarrow` | `CLAUDE.md` makes adding a dependency a stop-and-ask |
-| D-2 | Parquet as the on-disk format | CSV loses integer minor units and date types; the contract stores money as cents |
+| D-2 | Parquet as the on-disk format, **plus a ~1,000-row CSV sample per fact table in `samples/`** | CSV loses integer minor units and date types, so Parquet is right for the pipeline — but Parquet is opaque on GitHub, and the browsing reviewer is half the audience |
 | D-3 | Confirm the transaction-grain boundary above — full detail for actuals, monthly for forecast | It halves the dataset and it is an interpretation of §8, not a statement of it |
 | D-4 | Confirm the version × scenario coverage above | Generating the full cross-product would fabricate versions the business never produced |
 | D-5 | Phase renumbering in `CLAUDE.md` and `README.md` | Renames tags; a tag is the maintainer's claim to make |
