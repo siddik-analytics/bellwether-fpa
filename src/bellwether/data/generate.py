@@ -69,8 +69,51 @@ def generate(seed: int = C.SEED) -> dict[str, pd.DataFrame]:
     plan, schedule, verdicts = forecast.build(
         closing_revenue, max(opening_cash, C.MIN_CASH_POLICY), max(opening_drawn, 0.0)
     )
-    forecast_ledger = forecast.to_ledger(plan)
-    full_ledger = pd.concat([ledger, forecast_ledger], ignore_index=True)
+
+    # The forecast posts full double entry and the financing schedule is then computed from the
+    # balances that posting produced — not from the scenario drivers that produced the plan.
+    # That is what removes financing.py's second source of truth (ADR 0014, criterion 3.3).
+    from bellwether.data import financing
+    from bellwether.transform import forecast_ledger as fl
+
+    forecast_frames, schedules = [], []
+    for version, scenario in forecast.VERSION_SCENARIOS:
+        sub = plan[(plan["version_name"] == version) & (plan["scenario_name"] == scenario)]
+        if sub.empty:
+            continue
+        posted = pd.concat(
+            [
+                fl.post_opening(ledger, sub["month"].min(), version, scenario),
+                fl.post(sub, version, scenario),
+            ],
+            ignore_index=True,
+        )
+        balances = fl.working_capital_from_ledger(posted)
+        balances = balances[balances["scenario_name"] == scenario]
+        derived = financing.run_from_ledger(
+            balances[
+                [
+                    "month",
+                    "receivables",
+                    "processor_receivable",
+                    "inventory",
+                    "supplier_advances",
+                    "accounts_payable",
+                ]
+            ],
+            sub[["month", "ebitda"]],
+            max(opening_cash, C.MIN_CASH_POLICY),
+            max(opening_drawn, 0.0),
+        )
+        derived["version_name"] = version
+        derived["scenario_name"] = scenario
+        schedules.append(derived)
+        forecast_frames.append(posted)
+        if version == "Latest Forecast":
+            verdicts[scenario] = financing.covenant_summary(derived)
+
+    schedule = pd.concat(schedules, ignore_index=True)
+    full_ledger = pd.concat([ledger, *forecast_frames], ignore_index=True)
 
     tables = {
         **dims,

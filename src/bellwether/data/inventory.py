@@ -175,8 +175,11 @@ def simulate(
     for day in range(n_days):
         on_hand += in_transit[day]
         receipts_arr[day] = in_transit[day]
+        # Only recoverable units re-enter stock. Non-recoverable returned units never entered
+        # it, so subtracting them here removed the loss twice — once by not adding them and
+        # again by deducting them from unrelated stock. It left the inventory control account
+        # $33k above the subledger with no journal to explain the difference.
         on_hand += recovered[day]
-        on_hand -= np.minimum(on_hand, scrapped[day])
 
         want = demand[day]
         shipped = np.minimum(on_hand, want)

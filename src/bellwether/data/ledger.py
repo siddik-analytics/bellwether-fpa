@@ -19,6 +19,7 @@ CASH = "1000"
 AR = "1100"
 PROCESSOR = "1150"
 INVENTORY = "1200"
+INVENTORY_RESERVE = "1210"
 RETURN_ASSET = "1250"
 ADVANCES = "1300"
 PPE = "1400"
@@ -417,11 +418,15 @@ def build(
         month_mask = (dates >= m) & (dates < m + pd.offsets.MonthBegin(1))
         avg_inv = float(inv_series[month_mask].mean()) if month_mask.any() else 0.0
         shrink = avg_inv * d_year.shrink_pct / 12
+        # Shrink is a valuation reserve, not a unit movement (§6.5) — inventory is written down
+        # when net realisable value falls below cost, and no units leave the warehouse. Posting
+        # it against the inventory control account instead put that account $45k below its
+        # subledger, because the subledger has no corresponding movement to record.
         j.post(
             m,
             [
                 ("5310", "Supply Chain / Operations", shrink),
-                (INVENTORY, "Supply Chain / Operations", -shrink),
+                (INVENTORY_RESERVE, "Supply Chain / Operations", -shrink),
             ],
             "Shrink and damage",
         )

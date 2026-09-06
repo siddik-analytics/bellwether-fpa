@@ -77,6 +77,42 @@ running CI on Linux for a Windows-authored project.
 Detailed COM conventions — instance hygiene, absolute paths, `CalculateFullRebuild`, retry on
 transient RPC errors — live in `.claude/rules/excel-com.md`.
 
+## The bus matrix
+
+Every fact against every conformed dimension. Publishing it is what shows whether the schema
+actually conforms — a dimension two facts need and neither has is invisible in code and obvious
+here.
+
+| Fact | channel | customer | date | department | gl_account | location | product | promotion | scenario | supplier | version | wholesale_account |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `fact_dtc_order_line` | x | x | x |  |  |  | x | x | x |  | x |  |
+| `fact_wholesale_invoice_line` | x |  | x |  |  |  | x |  | x |  | x | x |
+| `fact_return_line` | x | x | x |  |  |  | x |  |  |  |  | x |
+| `fact_inventory_daily` |  |  | x |  |  | x | x |  |  |  |  |  |
+| `fact_purchase_order_line` |  |  | x |  |  |  | x |  |  | x |  |  |
+| `fact_stockout` |  |  | x |  |  |  | x |  |  |  |  |  |
+| `fact_gl` | x |  | x | x | x |  |  |  | x |  | x |  |
+| `fact_forecast_monthly` | x |  | x |  |  |  |  |  | x |  | x |  |
+| `fact_financing_monthly` |  |  | x |  |  |  |  |  | x |  |  |  |
+
+The matrix is generated from `transform.star.BUS_MATRIX`, and a test asserts the built schema
+matches it, so the document cannot drift from the code.
+
+Two conventions hold throughout.
+
+**No null foreign keys.** Every dimension carries an explicit "Not applicable" member at key 0
+for facts that legitimately lack a value — a wholesale invoice has no customer, a payroll journal
+has no product. A null degrades silently in a BI tool; an explicit member is countable, and a
+count of it is a data-quality measure.
+
+**Actuals carry the operating plan scenario**, not "Not applicable" (ADR 0016). Contract §3.3
+defines performance variance as a same-scenario comparison, and an N/A member would make every
+variance in the model cross a dimension boundary the contract says to hold fixed.
+
+`fact_gl` reaches product and customer through a **bridge**, not through keys of its own. Most
+postings have no single product — payroll, accruals and interest each have none — so widening the
+ledger would break its declared grain to serve the minority of rows that do.
+
 ## Verification strategy
 
 Three independent checks, in increasing strength:

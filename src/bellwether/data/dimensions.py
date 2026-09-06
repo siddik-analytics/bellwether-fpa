@@ -255,6 +255,7 @@ GL_ACCOUNTS: list[tuple[str, str, str, str, str]] = [
     ("1150", "Payment processor receivable", "BS", "asset", "n/a"),
     ("1180", "Allowance for doubtful accounts", "BS", "contra_asset", "n/a"),
     ("1200", "Inventory - finished goods", "BS", "asset", "n/a"),
+    ("1210", "Inventory reserve", "BS", "contra_asset", "n/a"),
     ("1250", "Right of return asset", "BS", "asset", "n/a"),
     ("1300", "Supplier advances / prepaid inventory", "BS", "asset", "n/a"),
     ("1400", "Property and equipment, net", "BS", "asset", "n/a"),
