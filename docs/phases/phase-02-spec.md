@@ -196,6 +196,18 @@ two agree (or not) than from either alone.
 
 ---
 
+## Known defects carried out of this phase
+
+Both are recorded rather than worked around, and both are owned by phase 3 because the fix needs
+the transformation layer. Neither is a reason to hold the phase 2 tag: the generator meets its
+acceptance criteria, and these are limits on what the forecast can currently do rather than
+errors in what it reports.
+
+| # | Defect | Owner | ADR |
+|---|---|---|---|
+| D-1 | The forecast ledger does not balance. Only actual periods post double entry, so `financing.py` is a second source of truth for forecast working capital and the borrowing base. Check 11 is **not** narrowed to actuals — the fix is to make the forecast balance. | Phase 3 | [0014](../adr/0014-forecast-ledger-does-not-balance.md) |
+| D-2 | `forecast.GM_CALIBRATION` is a hardcoded 3.1pt plug applied uniformly across four scenarios that differ in the channel mix that caused it. Acceleration's margin is overstated and Consolidation's understated. | Phase 3 | [0015](../adr/0015-gm-calibration-is-a-plug.md) |
+
 ## Not in this phase
 
 No star schema build, no semantic metric layer, no oracle, no workbook. The generator produces the

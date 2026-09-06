@@ -1044,6 +1044,9 @@ The generator is not done until these pass. They run in CI.
 5. Trial balance sums to zero by period
 6. Subledger totals tie to the corresponding control account (AR, AP, inventory, refund liability)
 7. Gross-to-net ladders reconstructable from ledger accounts alone, both channels
+   *(Actual periods only until phase 3 — the forecast ledger does not yet
+   balance. This is a known defect with a named owner, not a narrowing of the check: see
+   ADR 0014.)*
 8. Inventory roll-forward ties: opening + receipts − shipments + returns − write-offs = closing,
    every SKU, every day
 
@@ -1125,3 +1128,5 @@ Confirmed excluded, consistent with `docs/charter.md`:
 | 0011 | Inventory turns relaxed to the achievable service frontier |
 | 0012 | Category return rates normalised to the headline 7% |
 | 0013 | Gross margin and EBITDA amended to the generated figures |
+| 0014 | Forecast ledger does not balance — known defect, owned by phase 3 |
+| 0015 | `GM_CALIBRATION` is a plug — known defect, owned by phase 3 |
