@@ -18,7 +18,7 @@ import pandas as pd
 import xlsxwriter
 
 from bellwether.data import config as C
-from bellwether.transform import sensitivity, statements
+from bellwether.transform import expressions, semantic, sensitivity, statements
 from bellwether.workbook import theme as theme_mod
 
 DISCLOSURE = (
@@ -242,15 +242,10 @@ def _link_to_data(
             )
 
 
-#: Lines the P&L computes rather than looks up. Keeping the derivation visible is what makes the
-#: sheet a model: Net Revenue is Gross less Contra on the face of it, traceable by a reader.
-DERIVATIONS = {
-    "Net Revenue": ("Gross Revenue", "Contra Revenue"),
-    "Gross Profit": ("Net Revenue", "Cost of Sales"),
-    "EBITDA": ("Gross Profit", "Operating Expense"),
-}
-RATIOS = (("Gross Margin %", "Gross Profit"), ("EBITDA Margin %", "EBITDA"))
-DERIVED_LINES = frozenset(DERIVATIONS) | {name for name, _ in RATIOS}
+#: Lines the P&L computes rather than looks up. Taken from the semantic layer's derivations
+#: (ADR 0019) rather than restated here — this table used to hold its own copy of the ladder,
+#: which made the workbook a third place the arithmetic lived.
+DERIVED_LINES = frozenset(semantic.DERIVED)
 
 
 def _add_tied_formulas(
@@ -263,6 +258,10 @@ def _add_tied_formulas(
 ) -> None:
     """Derive the P&L subtotals in Excel, carrying the oracle's value as the cached result.
 
+    The formula is generated from the metric's own derivation, so Net Revenue is visibly Gross
+    less Contra on the face of the sheet and a reader can trace it — and it cannot drift from
+    what Python computed, because both come from the same expression.
+
     Forecast columns take the same availability guard as the lines they read. Without it, an
     unapproved combination would leave the source rows empty and the subtotals showing #VALUE!,
     which reads as a broken workbook rather than as a deliberate answer.
@@ -274,29 +273,28 @@ def _add_tied_formulas(
             return f"={expression}"
         return f'=IF({controls.available}<>1,"",{expression})'
 
-    for target, (left, right) in DERIVATIONS.items():
+    for name in semantic.DERIVATION_ORDER:
+        if name not in rows:
+            continue
+        metric = semantic.DERIVED[name]
+        is_ratio = metric.format_string.endswith("%")
         for offset, month in enumerate(months):
             column = _column_letter(first_col + offset)
-            body = f"{column}{rows[left] + 1}-{column}{rows[right] + 1}"
-            sheet.formula(
-                rows[target],
-                first_col + offset,
-                guard(body, month),
-                values[target][offset],
-                _cell_format(sheet, "money", True, month, boundary),
+            cells = {
+                dependency: f"{column}{rows[dependency] + 1}"
+                for dependency in metric.depends_on
+                if dependency in rows
+            }
+            if len(cells) != len(metric.depends_on):
+                continue
+            body = expressions.to_excel(metric.derivation, cells)
+            fmt = (
+                sheet.formats["percent"]
+                if is_ratio
+                else _cell_format(sheet, "money", True, month, boundary)
             )
-
-    for target, numerator in RATIOS:
-        for offset, month in enumerate(months):
-            column = _column_letter(first_col + offset)
-            net = rows["Net Revenue"] + 1
-            body = f"IF({column}{net}=0,0,{column}{rows[numerator] + 1}/{column}{net})"
             sheet.formula(
-                rows[target],
-                first_col + offset,
-                guard(body, month),
-                values[target][offset],
-                sheet.formats["percent"],
+                rows[name], first_col + offset, guard(body, month), values[name][offset], fmt
             )
 
 

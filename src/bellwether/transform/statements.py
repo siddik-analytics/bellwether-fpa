@@ -106,6 +106,11 @@ def metric_series(ledger: pd.DataFrame, accounts: pd.DataFrame) -> pd.DataFrame:
     One grouped pass rather than a filtered aggregation per cell. Returns a long frame so a
     caller can pivot it into whichever shape it needs; the workbook wants months as columns and
     Power BI wants it long.
+
+    The base metrics are read from the account types their definitions name, and the derived
+    ones are evaluated from their own expressions (ADR 0019). This function used to write the
+    ladder out longhand, which made it a second copy of arithmetic ``semantic.evaluate_ladder``
+    already owned.
     """
     by_month = monthly(ledger)
     types = accounts.set_index("account_code")["account_type"]
@@ -118,28 +123,19 @@ def metric_series(ledger: pd.DataFrame, accounts: pd.DataFrame) -> pd.DataFrame:
         aggfunc="sum",
         fill_value=0.0,
     ).reset_index()
-    for column in ("revenue", "contra_revenue", "cogs", "opex", "other"):
-        if column not in pivot:
-            pivot[column] = 0.0
 
-    pivot["Gross Revenue"] = -pivot["revenue"]
-    pivot["Contra Revenue"] = pivot["contra_revenue"]
-    pivot["Net Revenue"] = pivot["Gross Revenue"] - pivot["Contra Revenue"]
-    pivot["Cost of Sales"] = pivot["cogs"]
-    pivot["Gross Profit"] = pivot["Net Revenue"] - pivot["Cost of Sales"]
-    pivot["Operating Expense"] = pivot["opex"]
-    pivot["EBITDA"] = pivot["Gross Profit"] - pivot["Operating Expense"]
-    pivot["Other Income and Expense"] = pivot["other"]
-    pivot["Net Income"] = pivot["EBITDA"] - pivot["Other Income and Expense"]
-    for ratio, numerator in (("Gross Margin %", "Gross Profit"), ("EBITDA Margin %", "EBITDA")):
-        pivot[ratio] = (pivot[numerator] / pivot["Net Revenue"]).where(
-            pivot["Net Revenue"] != 0, 0.0
-        )
-    return pivot[
-        ["month", "version_name", "scenario_name"]
-        + [m for m in semantic.ALL_METRICS if m in pivot]
-        + ["Net Income", "Other Income and Expense"]
-    ]
+    values: dict[str, object] = {}
+    for name, metric in semantic.BASE.items():
+        column = pd.Series(0.0, index=pivot.index)
+        for account_type in metric.account_types:
+            if account_type in pivot:
+                column = column + pivot[account_type]
+        values[name] = column * metric.sign
+
+    for name, series in semantic.derive(values).items():
+        pivot[name] = series
+
+    return pivot[["month", "version_name", "scenario_name", *semantic.ALL_METRICS]]
 
 
 def balance_sheet(ledger: pd.DataFrame) -> pd.DataFrame:

@@ -15,12 +15,19 @@ from dataclasses import dataclass
 
 import pandas as pd
 
+from bellwether.transform import expressions
 from bellwether.transform.allocation import CORPORATE
 
 
 @dataclass(frozen=True)
 class Metric:
-    """One metric. Grain, filter and format live with the definition, never at a call site."""
+    """One metric. Grain, filter, format, derivation and sign convention live with the definition.
+
+    A metric is either **base** — one filter over the ledger — or **derived**, carrying a
+    ``derivation`` expression over other metric names. Nothing else computes a metric: the
+    scalar ladder, the monthly series, the workbook formulas and the DAX measures are all
+    generated from these two fields (ADR 0019).
+    """
 
     name: str
     description: str
@@ -29,10 +36,23 @@ class Metric:
     sign: int = 1
     format_string: str = "$#,##0"
     grain: str = "account x department x month x version x scenario"
-    depends_on: tuple[str, ...] = ()
+    #: Arithmetic over other metrics, in DAX reference syntax. Empty for a base metric.
+    derivation: str = ""
     display_folder: str = "P&L"
+    #: Which direction is favourable. A cost is favourable when it comes in lower, and a
+    #: variance measure cannot get its sign right without knowing this — it is a property of
+    #: the metric, not an argument at the call site.
+    is_cost: bool = False
+
+    @property
+    def depends_on(self) -> tuple[str, ...]:
+        """The metrics this one reads, derived from the expression rather than restated."""
+        return expressions.dependencies(self.derivation) if self.derivation else ()
 
     def evaluate(self, ledger: pd.DataFrame, accounts: pd.DataFrame) -> float:
+        """Base metrics only. A derived metric is evaluated by ``evaluate_ladder``."""
+        if self.derivation:
+            raise ValueError(f"{self.name} is derived; evaluate it through the ladder")
         frame = ledger
         if self.account_types:
             typed = accounts.loc[accounts["account_type"].isin(self.account_types), "account_code"]
@@ -55,78 +75,115 @@ BASE: dict[str, Metric] = {
         "Discounts, returns reserves and wholesale deductions. Returns means the reserve booked "
         "at sale, never the utilisation that unwinds it — ADR 0017.",
         account_types=("contra_revenue",),
+        is_cost=True,
     ),
     "Cost of Sales": Metric(
         "Cost of Sales",
         "Landed cost, outbound shipping and variable fulfilment. Payment processing is excluded "
         "and sits below gross profit — ADR 0004.",
         account_types=("cogs",),
+        is_cost=True,
     ),
     "Operating Expense": Metric(
-        "Operating Expense", "Opex including payment processing", account_types=("opex",)
+        "Operating Expense",
+        "Opex including payment processing",
+        account_types=("opex",),
+        is_cost=True,
+    ),
+    "Other Income and Expense": Metric(
+        "Other Income and Expense",
+        "Interest, financing fees and other non-operating items — everything between EBITDA and "
+        "net income.",
+        account_types=("other",),
+        is_cost=True,
+        display_folder="Below the line",
     ),
 }
 
-#: Variants, each built from the base measures rather than restating their filters.
+#: Variants. Each carries the arithmetic itself, so nothing downstream has to know that Net
+#: Revenue is a subtraction and Gross Margin % is a division — ADR 0019.
 DERIVED: dict[str, Metric] = {
     "Net Revenue": Metric(
         "Net Revenue",
         "Gross revenue less contra revenue — the §6.2 gross-to-net ladder",
-        depends_on=("Gross Revenue", "Contra Revenue"),
+        derivation="[Gross Revenue] - [Contra Revenue]",
     ),
     "Gross Profit": Metric(
         "Gross Profit",
         "Net revenue less cost of sales",
-        depends_on=("Net Revenue", "Cost of Sales"),
+        derivation="[Net Revenue] - [Cost of Sales]",
     ),
     "Gross Margin %": Metric(
         "Gross Margin %",
         "Gross profit over net revenue",
         format_string="0.0%",
-        depends_on=("Gross Profit", "Net Revenue"),
+        derivation="DIVIDE([Gross Profit], [Net Revenue])",
     ),
     "Contribution Profit": Metric(
         "Contribution Profit",
-        "Gross profit less channel-attributable operating cost. Corporate is excluded by the "
-        "§6.7 allocation mapping, not by a filter written here.",
-        depends_on=("Gross Profit", "Operating Expense"),
+        "Gross profit less channel-attributable operating cost. The same arithmetic as EBITDA, "
+        "evaluated inside a channel filter: corporate cost is excluded by the §6.7 allocation "
+        "mapping, not by a filter written here.",
+        derivation="[Gross Profit] - [Operating Expense]",
         display_folder="Channel",
     ),
     "EBITDA": Metric(
         "EBITDA",
-        "Contribution profit less unallocated corporate cost",
-        depends_on=("Contribution Profit",),
+        "Net revenue less cost of sales and operating expense, before interest and financing",
+        derivation="[Gross Profit] - [Operating Expense]",
     ),
     "EBITDA Margin %": Metric(
         "EBITDA Margin %",
         "EBITDA over net revenue",
         format_string="0.0%",
-        depends_on=("EBITDA", "Net Revenue"),
+        derivation="DIVIDE([EBITDA], [Net Revenue])",
+    ),
+    "Net Income": Metric(
+        "Net Income",
+        "EBITDA less interest, financing fees and other non-operating items",
+        derivation="[EBITDA] - [Other Income and Expense]",
+        display_folder="Below the line",
     ),
 }
 
 ALL_METRICS: dict[str, Metric] = {**BASE, **DERIVED}
 
 
+#: Derived metrics in dependency order — computed once, from the definitions themselves.
+DERIVATION_ORDER: tuple[str, ...] = tuple(
+    expressions.resolution_order({name: m.derivation for name, m in DERIVED.items()})
+)
+
+#: The gross-to-net ladder §6.3 requires, in presentation order.
+LADDER: tuple[str, ...] = (
+    "Gross Revenue",
+    "Contra Revenue",
+    "Net Revenue",
+    "Cost of Sales",
+    "Gross Profit",
+    "Gross Margin %",
+    "Operating Expense",
+    "EBITDA",
+    "EBITDA Margin %",
+)
+
+
+def derive(values: dict[str, object]) -> dict[str, object]:
+    """Extend base metric values with every derived metric, in dependency order.
+
+    Values may be floats or pandas Series — the same expressions serve the scalar ladder and the
+    monthly series, which is the property that stopped the ladder existing twice.
+    """
+    out = dict(values)
+    for name in DERIVATION_ORDER:
+        out[name] = expressions.evaluate(DERIVED[name].derivation, out)
+    return out
+
+
 def evaluate_ladder(ledger: pd.DataFrame, accounts: pd.DataFrame) -> dict[str, float]:
     """The three-tier hierarchy from §6.3, computed from the ledger alone."""
-    gross = BASE["Gross Revenue"].evaluate(ledger, accounts)
-    contra = BASE["Contra Revenue"].evaluate(ledger, accounts)
-    cogs = BASE["Cost of Sales"].evaluate(ledger, accounts)
-    opex = BASE["Operating Expense"].evaluate(ledger, accounts)
-    net = gross - contra
-    gross_profit = net - cogs
-    return {
-        "Gross Revenue": gross,
-        "Contra Revenue": contra,
-        "Net Revenue": net,
-        "Cost of Sales": cogs,
-        "Gross Profit": gross_profit,
-        "Gross Margin %": gross_profit / net if net else 0.0,
-        "Operating Expense": opex,
-        "EBITDA": gross_profit - opex,
-        "EBITDA Margin %": (gross_profit - opex) / net if net else 0.0,
-    }
+    base = {name: metric.evaluate(ledger, accounts) for name, metric in BASE.items()}
+    return {name: float(value) for name, value in derive(base).items()}
 
 
 def channel_contribution(
@@ -171,6 +228,15 @@ def variance(actual: float, comparison: float, is_cost: bool) -> float:
     return (comparison - actual) if is_cost else (actual - comparison)
 
 
+def variance_for(metric_name: str, actual: float, comparison: float) -> float:
+    """Variance with the direction taken from the metric definition rather than the caller.
+
+    ``is_cost`` used to be an argument, which meant every consumer — including a DAX generator —
+    had to keep its own list of which measures are costs. It is a property of the metric.
+    """
+    return variance(actual, comparison, ALL_METRICS[metric_name].is_cost)
+
+
 def decompose(
     actual: float,
     budget: float,
@@ -202,6 +268,8 @@ def definitions_frame() -> pd.DataFrame:
                 "grain": m.grain,
                 "display_folder": m.display_folder,
                 "depends_on": ", ".join(m.depends_on),
+                "derivation": m.derivation,
+                "is_cost": m.is_cost,
                 "is_base": name in BASE,
             }
             for name, m in ALL_METRICS.items()
