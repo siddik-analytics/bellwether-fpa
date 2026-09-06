@@ -287,7 +287,7 @@ SEASONAL_RUN_DAYS = 180
 INVENTORY_CLASS_A_SAFETY_MULTIPLIER = 1.25
 #: FY2025 onward is 2.4x the FY2023-24 base. That multiple is the inventory over-commitment the
 #: story requires: purchases placed before demand softened, plus the February launch overhang.
-INVENTORY_WOS_SCALE = {2023: 0.30, 2024: 0.30, 2025: 0.72, 2026: 0.72, 2027: 0.72, 2028: 0.72}
+INVENTORY_WOS_SCALE = {2023: 0.30, 2024: 0.30, 2025: 0.86, 2026: 0.86, 2027: 0.86, 2028: 0.86}
 
 LANDED_COST_SPLIT = {"product": 0.78, "inbound_freight": 0.12, "duty": 0.10}
 
@@ -419,6 +419,12 @@ SUPPLIER_TERMS = {
 }
 
 SAMPLE_ROWS = 1_000
+
+#: Per-year demand gross-up, solved so realised revenue lands on target *after* stockout
+#: suppression removes the lost share. Demand is grossed up, never realised revenue: adding
+#: orders back to cover the shortfall would hit the same top line while erasing the cost of
+#: the stockout. See ADR 0011 and ``stockouts.py``.
+DEMAND_GROSS_UP = {2023: 1.0569, 2024: 1.0047, 2025: 1.0095}
 
 
 @dataclass(frozen=True)

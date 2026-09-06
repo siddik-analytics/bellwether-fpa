@@ -1603,6 +1603,17 @@ expansion is defensible rather than merely convenient.
 > Management's objective is to grow revenue faster than the fixed corporate cost base while
 > avoiding underinvestment in systems, planning capability, and supply-chain control.
 
+> **3PL storage held at $228k despite a 45% inventory increase.** ADR 0011 lifted FY2025 average
+> inventory from $1.39M to ~$2.02M, and §6.5 makes storage a function of inventory volume rather
+> than sales — so the obvious expectation is that storage rises with it. It does not, and the
+> reason is which figure was observed and which was derived. The $18–22k a month is an *observed*
+> cost from this answer: it is what Northlake actually paid, against the inventory Northlake
+> actually held. The $1.39M was a *derived* figure, computed from a turns target that the
+> generator later showed to be unreachable. The observation was right and the derivation was
+> wrong, so scaling the observed cost by the corrected inventory would count the same error
+> twice. Shrink does scale, because the contract defines it as a percentage of average inventory
+> rather than as an observed dollar amount.
+
 **Fixed cost base total** (derived): ~**$1.16M annually** — 3PL $228k, office $150k, software
 $280k, professional fees $210k, insurance $95k, other corporate ~$200k.
 

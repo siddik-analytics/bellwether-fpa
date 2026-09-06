@@ -202,7 +202,11 @@ def build(
                 "Returns reserve",
             )
 
-    cost_per_unit = float(np.mean(landed))
+    # Unit-weighted, not a flat mean across SKUs. A flat mean is $13.91 against a portfolio
+    # average of $15.00, because the catalogue has many cheap accessories and few expensive
+    # hero SKUs — so crediting returns at the flat mean understates them by 7%.
+    weights = products["revenue_weight"].to_numpy()
+    cost_per_unit = float((landed[-1] * weights).sum() / weights.sum())
     by_receipt = returns.groupby(pd.Grouper(key="return_receipt_date", freq="D")).agg(
         refund=("refund_amount", "sum"),
         rec=("recoverable_quantity", "sum"),

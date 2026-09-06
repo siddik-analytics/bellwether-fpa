@@ -26,7 +26,10 @@ def _daily_weights(
 
 
 def generate_dtc(
-    products: pd.DataFrame, spine: pd.DataFrame, rng: np.random.Generator
+    products: pd.DataFrame,
+    spine: pd.DataFrame,
+    rng: np.random.Generator,
+    demand_gross_up: dict[int, float] | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """DTC order lines and the customer dimension.
 
@@ -45,7 +48,10 @@ def generate_dtc(
     for year in C.ACTUAL_YEARS:
         d = C.ACTUALS[year]
         net_per_order = d.aov * (1 - C.DTC_RETURN_RATE) + C.DTC_SHIPPING_REVENUE_PER_ORDER
-        n_orders = round(d.revenue * d.dtc_share / net_per_order)
+        # Demand is grossed up so revenue lands on target *after* stockout
+        # suppression removes the lost share (§6.6).
+        gross_up = (demand_gross_up or {}).get(year, 1.0)
+        n_orders = round(d.revenue * d.dtc_share / net_per_order * gross_up)
 
         days = spine.loc[spine["year"] == year, "date"]
         dates = pd.DatetimeIndex(days.to_numpy())
@@ -164,7 +170,11 @@ def generate_dtc(
 
 
 def generate_wholesale(
-    products: pd.DataFrame, accounts: pd.DataFrame, spine: pd.DataFrame, rng: np.random.Generator
+    products: pd.DataFrame,
+    accounts: pd.DataFrame,
+    spine: pd.DataFrame,
+    rng: np.random.Generator,
+    demand_gross_up: dict[int, float] | None = None,
 ) -> pd.DataFrame:
     """Wholesale invoice lines.
 
@@ -178,7 +188,7 @@ def generate_wholesale(
 
     for year in C.ACTUAL_YEARS:
         d = C.ACTUALS[year]
-        ws_net_target = d.revenue * (1 - d.dtc_share)
+        ws_net_target = d.revenue * (1 - d.dtc_share) * (demand_gross_up or {}).get(year, 1.0)
         days = spine.loc[spine["year"] == year, "date"]
         dates = pd.DatetimeIndex(days.to_numpy())
         p = _daily_weights(dates, C.WS_MONTHLY_SEASONALITY, rng)
