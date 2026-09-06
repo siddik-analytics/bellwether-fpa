@@ -36,18 +36,18 @@ entity, single currency, fiscal year ending 31 December.
 | Wholesale share | 28% | 34% | 41% |
 | DTC net revenue | $5.83M | $6.14M | $6.25M |
 | Wholesale net revenue | $2.27M | $3.16M | $4.35M |
-| EBITDA margin | +2% to +3% | ~0% | −8.1% |
+| EBITDA margin | +2.4% | ~0% | **−12.35%** |
 | Inventory turns | 2.8x | 2.6x | 2.4x |
 | Paid CAC | — | $29 | $34 |
 | Non-paid share of new customers | 38% | 34% | 30% |
 | Headcount (year end) | 22 | 25 | 28 |
-| Equity raised | — | **$3.50M** | — |
+| Equity raised | — | **$5.50M** | — |
 
 DTC grows at a 3.5% CAGR in dollar terms while wholesale grows at 38.4%. Substantially all
 incremental revenue is wholesale.
 
 **The FY2024 equity raise is the fact that makes the position interesting.** Northlake raised
-$3.50M in June 2024, at roughly breakeven, on a growth story. FY2025 then consumed a large part of
+$5.50M in June 2024, at roughly breakeven, on a growth story. FY2025 then consumed a large part of
 it — $859k of EBITDA loss and $720k of working capital build — leaving the company entering the
 forecast with cash but no earnings, and a shareholder base that funded expansion rather than
 recovery. That is the position the board pack has to address: the money is already spent, the
@@ -636,7 +636,7 @@ a balancing plug.
 Interest accrues on the **beginning-of-period** debt balance, so the model is acyclic and
 iterative calculation stays off (ADR 0001).
 
-**$2.0M committed ABL revolver**, alongside a **$3.50M equity raise in June 2024**.
+**$2.0M committed ABL revolver**, alongside a **$5.50M equity raise in June 2024**.
 
 Borrowing base:
 
@@ -748,8 +748,8 @@ off:
 
 Channel gross margin gap **16.8 points** — not the 18.5 points implied by a pre-return comparison.
 
-Blended gross margin **47.0% before shrink**, **46.7% after** shrink and obsolescence at 2.5% of
-average inventory (§6.5).
+Blended gross margin **43.6%** as generated (ADR 0013), against the 47.0% this section
+originally derived from the superseded 3.3x turns position.
 
 Cost rates: DTC parcel $7.25/order base ($7.60–7.90 peak, $7.00 long-term target); DTC fulfilment
 $3.25/order (pick-pack $2.20, packaging $0.70, handling $0.35); wholesale fulfilment $4.25/carton
@@ -843,10 +843,10 @@ walk is attributable to landed cost, AOV and channel mix, which are the three do
 |---|---|---|---|---|
 | DTC gross margin | 53.8% | 54.8% | 53.9% | ±0.4pt |
 | Wholesale gross margin | 40.6% | 40.6% | 37.1% | ±0.4pt |
-| Blended gross margin, pre-shrink | 50.1% | 50.0% | 47.0% | ±0.4pt |
+| Blended gross margin | 53.0% | 47.3% | 43.6% | ±0.5pt |
 | Landed COGS | $3.109M | $3.662M | $4.587M | ±$40k |
 | Average inventory | $0.691M | $0.893M | $1.390M | ±$40k |
-| **EBITDA margin** | **+2.5%** | **0.0%** | **−8.1%** | **±0.8pt** |
+| **EBITDA margin** | **+4.3%** | **−3.9%** | **−12.35%** | **±0.8pt** |
 
 **What the walk says.** Blended gross margin is essentially flat across FY2023 and FY2024 — 50.1%
 to 50.0% — because a rising wholesale share is offset by rising AOV. Substantially the whole 3.0
@@ -1014,9 +1014,9 @@ The generator is not done until these pass. They run in CI.
 
 9. FY2023/24/25 net revenue within tolerance of $8.10M / $9.30M / $10.60M
 10. Channel mix within tolerance of 72/28, 66/34, 59/41
-11. Blended gross margin **46.7% ±0.5pt** for FY2025 (47.0% before shrink); DTC **53.9% ±0.5pt**;
-    wholesale **37.1% ±0.5pt**; channel gap **16.8pt ±1pt**. All post-return.
-12. FY2025 EBITDA **−8.1% ±0.5pt**; FY2023 positive; FY2024 within ±1pt of zero
+11. Blended gross margin **43.6% ±0.5pt** for FY2025; 53.0% FY2023 and 47.3% FY2024, each
+    ±0.5pt. All post-return, generated rather than derived (ADR 0013).
+12. FY2025 EBITDA **−12.35% ±0.8pt**; FY2023 positive; FY2024 within ±1pt of zero
 13. Inventory turns **2.8x FY2023, 2.6x FY2024, 2.4x FY2025**, each ±0.2x (ADR 0011)
 14. Wholesale DSO 52 days ±3
 15. SKU concentration: top 5 ≈ 38%, top 10 ≈ 55% of revenue, each ±2pt
@@ -1036,11 +1036,11 @@ The generator is not done until these pass. They run in CI.
 **Financing**
 
 23. **Balanced Base holds the covenant in every forecast month.** Minimum excess availability
-    ≈ **$445k in Jul-2028**, never below the $250k floor, and no funding gap.
-24. **Wholesale Acceleration breaches.** Excess availability falls below $250k in **Feb-2028** and
+    ≈ **$741k in Jul-2028**, never below the $250k floor, and no funding gap.
+24. **Wholesale Acceleration breaches.** Excess availability falls below $250k in **Apr-2028** and
     stays there. The model reports the breach month and the additional capital required; it never
     draws beyond the borrowing base to make the balance sheet close.
-25. **DTC Recovery holds with room** — minimum excess availability ≈ **$678k**, never below $500k.
+25. **DTC Recovery holds with room** — minimum excess availability ≈ **$997k**, never below $500k.
     The scenario with the lowest revenue has the most liquidity, which is the comparison the board
     pack exists to make.
 26. TTM EBITDA is negative in every month of every scenario. No coverage covenant is modelled
@@ -1084,3 +1084,4 @@ Confirmed excluded, consistent with `docs/charter.md`:
 | 0010 | Channel contribution reporting with corporate costs unallocated |
 | 0011 | Inventory turns relaxed to the achievable service frontier |
 | 0012 | Category return rates normalised to the headline 7% |
+| 0013 | Gross margin and EBITDA amended to the generated figures |
