@@ -597,6 +597,39 @@ Technology remain in a **single unallocated corporate block** below channel cont
 Cost centre ≠ channel. Marketing supports primarily DTC but incurs brand spend benefiting both;
 Supply Chain serves both; Wholesale Sales is a department while Wholesale is a channel.
 
+### The mapping
+
+Allocation is **data, not code** — a resolved table of (GL account, department) → channel that
+both the semantic layer and Power BI consume, so the two cannot drift.
+
+| Directly attributable to DTC | Directly attributable to Wholesale | Split by units shipped | Unallocated corporate |
+|---|---|---|---|
+| DTC revenue, shipping revenue, discounts and returns; outbound parcel; DTC pick-and-pack; payment processing; Marketing / Ecommerce; Customer Experience | Wholesale revenue, returns and all deductions; wholesale freight and fulfilment; bad debt; Wholesale Sales | Product cost, inbound freight, duty, packaging, write-downs, shrink, return write-offs | Executive / Corporate, Finance, People / Administration, Technology / Shared Services, **Supply Chain / Operations** |
+
+### Why Supply Chain stays unallocated
+
+It is the largest unallocated department and the one a reviewer will press on, so the reason is
+evidence rather than assertion.
+
+Allocating it requires choosing a driver, and every defensible driver gives a materially
+different answer. Against FY2025 actuals and $420k of Supply Chain cost:
+
+| Driver | To DTC | To Wholesale | Wholesale share |
+|---|---|---|---|
+| Order and invoice lines | $405k | $15k | **3%** |
+| Net revenue | $252k | $168k | **40%** |
+| Units shipped | $153k | $267k | **64%** |
+
+The spread is **$253k on a $420k cost** — 60% of the number is decided by the choice of driver
+rather than by anything about the business. Each driver is defensible: wholesale ships more units
+on less revenue, DTC generates far more transactions per dollar, and revenue is the conventional
+default precisely because it is the one nobody argues with.
+
+Picking one would manufacture precision the business does not have, and it would do so in the
+comparison the board pack turns on. Leaving it unallocated is the honest position, and the
+sensitivity above is published alongside channel contribution so a reader can see the size of
+what is being withheld rather than take it on trust.
+
 ### 6.8 CAC definitions — ADR 0006
 
 | Measure | FY2025 | Definition |
