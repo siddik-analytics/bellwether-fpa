@@ -605,28 +605,102 @@ def _write_scenarios(sheet: Sheet, series: pd.DataFrame) -> None:
     sheet.worksheet.set_column(1, 6, 18)
 
 
-def _write_sensitivity(sheet: Sheet, grids: dict[str, pd.DataFrame]) -> None:
-    """Grids computed by the oracle; the COM stage lays a native Data Table over them.
+def _write_sensitivity(sheet: Sheet, grids: dict[str, pd.DataFrame]) -> dict[str, dict]:
+    """Grids computed by the oracle, laid out so the COM stage can make them live.
 
-    Excel never originates these values - it reproduces them, and the reconciliation test covers
-    the grid as well as the statements.
+    The layout is Excel's one-variable Data Table shape, and it has to be exact: the driver
+    values run down a column, the formula sits one row above and one column right of the first
+    value, and the whole rectangle is what ``Range.Table`` is called on.
+
+    The formula is a first-order response around the operating plan, and it carries the oracle's
+    baseline as its cached result. Excel never originates a value here — it interpolates a
+    relationship the oracle handed it, and criterion 5.3 checks the column it produces still
+    equals the grid this function was given.
     """
-    sheet.title("Sensitivity", "Computed by the oracle; Excel reproduces")
-    for driver, grid in grids.items():
-        sheet.worksheet.write(sheet.row, 0, driver, sheet.formats["heading"])
+    sheet.title("Sensitivity", "Computed by the oracle; Excel's Data Table reproduces")
+    baseline = sensitivity.baseline_ebitda()
+    specs = sensitivity.drivers()
+    ranges: dict[str, dict] = {}
+
+    for name, grid in grids.items():
+        driver = specs[name]
+        sheet.worksheet.write(sheet.row, 0, name, sheet.formats["heading"])
         sheet.row += 1
-        sheet.worksheet.write(sheet.row, 0, "Driver value", sheet.formats["column_header_left"])
-        sheet.worksheet.write(sheet.row, 1, "FY2028 EBITDA", sheet.formats["column_header"])
+
+        input_row = sheet.row
+        sheet.worksheet.write(sheet.row, 0, "Driver value (input)", sheet.formats["label"])
+        sheet.worksheet.write_number(
+            sheet.row,
+            1,
+            driver.base_value,
+            sheet.formats["input_percent" if driver.format_string.endswith("%") else "input"],
+        )
         sheet.row += 1
+
+        sheet.worksheet.write(sheet.row, 0, "FY2028 EBITDA at that value", sheet.formats["label"])
+        model_cell = f"$B${input_row + 1}"
+        sheet.formula(
+            sheet.row,
+            1,
+            f"={baseline:.6f}+{driver.slope:.6f}*({model_cell}-{driver.base_value:.6f})",
+            baseline,
+            sheet.formats["money"],
+        )
+        model_row = sheet.row
+        sheet.row += 2
+
+        # The Data Table rectangle. Column A holds the inputs; the cell above column B holds the
+        # formula the table varies. Excel requires exactly this arrangement.
+        sheet.worksheet.write(
+            sheet.row, 0, "Driver value / FY2028 EBITDA", sheet.formats["column_header_left"]
+        )
+        sheet.row += 1
+
+        # Excel requires the top-left corner of a one-variable Data Table to be EMPTY. A column
+        # heading there is what makes Range.Table reject the range as an invalid input cell
+        # reference, which is not a message that points at the cause.
+        header_row = sheet.row
+        sheet.formula(
+            sheet.row,
+            1,
+            f"=$B${model_row + 1}",
+            baseline,
+            sheet.formats["column_header"],
+        )
+        sheet.row += 1
+
+        first_value_row = sheet.row
         for row in grid.itertuples():
             sheet.worksheet.write_number(
-                sheet.row, 0, float(row.driver_value), sheet.formats["input"]
+                sheet.row,
+                0,
+                float(row.driver_value),
+                sheet.formats["input_percent" if driver.format_string.endswith("%") else "input"],
             )
             sheet.worksheet.write_number(sheet.row, 1, float(row.ebitda), sheet.formats["money"])
             sheet.row += 1
+
+        ranges[name] = {
+            "sheet": "Sensitivity",
+            # The full rectangle, formula corner included — what Range.Table is called on.
+            "table_range": (f"A{header_row + 1}:B{first_value_row + len(grid)}"),
+            "input_cell": f"B{input_row + 1}",
+            "values": [float(v) for v in grid["ebitda"]],
+            "first_value_row": first_value_row + 1,
+        }
         sheet.row += 1
-    sheet.worksheet.set_column(0, 0, 22)
-    sheet.worksheet.set_column(1, 1, 20)
+
+    sheet.worksheet.write(
+        sheet.row,
+        0,
+        "The oracle computes every figure above. The Excel stage lays a native Data Table over "
+        "each grid so a reader can change the input cell and see the column move - without Excel "
+        "having originated any of the values it currently shows.",
+        sheet.formats["note"],
+    )
+    sheet.worksheet.set_column(0, 0, 30)
+    sheet.worksheet.set_column(1, 1, 22)
+    return ranges
 
 
 def build(tables: dict[str, pd.DataFrame], path, theme: theme_mod.Theme | None = None) -> dict:
@@ -728,7 +802,7 @@ def build(tables: dict[str, pd.DataFrame], path, theme: theme_mod.Theme | None =
     )
 
     _write_scenarios(sheet_for("Scenarios"), series)
-    _write_sensitivity(sheet_for("Sensitivity"), sensitivity.grids())
+    sensitivity_ranges = _write_sensitivity(sheet_for("Sensitivity"), sensitivity.grids())
 
     documentation = sheet_for("Documentation")
     documentation.title("Documentation", "How this workbook is built")
@@ -756,6 +830,7 @@ def build(tables: dict[str, pd.DataFrame], path, theme: theme_mod.Theme | None =
 
     workbook.close()
     return {
+        "sensitivity_ranges": sensitivity_ranges,
         "sheets": 9,
         "months": len(months),
         "scenarios": len(C.SCENARIOS),

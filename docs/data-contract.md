@@ -1299,3 +1299,4 @@ Confirmed excluded, consistent with `docs/charter.md`:
 | 0018 | Cash flow uses the indirect method, starting from EBITDA |
 | 0019 | A metric's derivation is data; every consumer generates from it |
 | 0020 | The star is the consumer boundary: dollars, allocations resolved |
+| 0021 | The COM stage is optional at import time, and uses raw win32com |

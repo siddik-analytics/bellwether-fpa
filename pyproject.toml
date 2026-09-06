@@ -18,6 +18,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# Windows-only, and deliberately not a runtime dependency: the headless build must install and
+# run on Linux with pywin32 unresolvable, not merely uninstalled. `excel_stage` imports it
+# lazily, inside the functions that use COM — see ADR 0021 and criterion 5.6.
+excel = [
+  "pywin32>=306; sys_platform == 'win32'",
+]
 dev = [
   "pytest>=8.0",
   "ruff>=0.6",
@@ -46,4 +52,5 @@ testpaths = ["tests"]
 addopts = "-ra --strict-markers"
 markers = [
   "requires_excel: test needs a local Excel installation via COM (Windows only; skipped in CI)",
+  "requires_powerbi: test needs Power BI Desktop; run manually at the phase gate, never in CI",
 ]
