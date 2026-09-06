@@ -49,3 +49,10 @@ desktop.ini
 # Secrets
 .env
 .env.*
+
+# Power BI Desktop's working files, written whenever the generated project is opened.
+# .pbi/ holds a DPAPI-encrypted securityBindingsSignature (machine-bound credential material)
+# and cache.abf (a binary). Neither belongs in a repository strangers clone.
+powerbi/**/.pbi/
+powerbi/**/StaticResources/
+powerbi/**/*.abf

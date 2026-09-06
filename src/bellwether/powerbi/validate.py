@@ -31,7 +31,7 @@ import re
 from dataclasses import dataclass, field
 
 #: Object declarations, by the depth they are legal at within their parent.
-ROOT_OBJECTS = {"model", "table", "database", "relationship", "expression", "ref"}
+ROOT_OBJECTS = {"model", "table", "database", "relationship", "expression", "ref", "cultureInfo"}
 TABLE_CHILDREN = {"column", "measure", "partition", "hierarchy", "calculationGroup"}
 COLUMN_CHILDREN: set[str] = set()
 
@@ -82,7 +82,12 @@ MODEL_PROPERTIES = {
     "discourageImplicitMeasures",
     "sourceQueryCulture",
     "description",
+    "valueFilterBehavior",
 }
+
+#: A nested object under model, whose own properties are bare flags. Taken from Desktop's
+#: output, not from a guess — the validator rejected the real file until this was added.
+DATA_ACCESS_PROPERTIES = {"legacyRedirects", "returnErrorValuesAsNull", "fastCombine"}
 RELATIONSHIP_PROPERTIES = {
     "fromColumn",
     "toColumn",
@@ -106,6 +111,8 @@ PROPERTIES_FOR = {
     "relationship": RELATIONSHIP_PROPERTIES,
     "database": DATABASE_PROPERTIES,
     "expression": EXPRESSION_OBJECT_PROPERTIES,
+    "dataAccessOptions": DATA_ACCESS_PROPERTIES,
+    "cultureInfo": set(),
 }
 
 CHILDREN_FOR = {
@@ -113,10 +120,12 @@ CHILDREN_FOR = {
     "column": COLUMN_CHILDREN,
     "measure": set(),
     "partition": set(),
-    "model": set(),
+    "model": {"dataAccessOptions"},
     "relationship": set(),
     "database": set(),
     "expression": set(),
+    "dataAccessOptions": set(),
+    "cultureInfo": set(),
 }
 
 _PROPERTY = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*)\s*(:|=|$)")
@@ -190,9 +199,20 @@ def validate_text(text: str, source: str = "<tmdl>") -> list[str]:
         # Three property spellings, all legal: ``name: value``, a bare boolean flag, and
         # ``name = <expression>`` for a partition source or an annotation. Treating the third as
         # an object declaration is what made the validator's own first run mostly noise.
-        is_property = keyword == "annotation" or bool(property_match)
+        # An object may be declared with no name at all. Desktop writes "database" bare at the
+        # root and "dataAccessOptions" bare inside the model, each with its properties nested
+        # underneath. Without this the validator reads them as properties outside any object and
+        # rejects Desktop's own file — which is how these rules were found in the first place.
+        legal_here = ROOT_OBJECTS if parent is None else CHILDREN_FOR.get(parent.kind, set())
+        bare_object = not declaration and keyword in legal_here
+        is_property = not bare_object and (keyword == "annotation" or bool(property_match))
 
         if is_property:
+            if parent is None and keyword == "annotation":
+                # Desktop writes model annotations at depth 0, after the model block. They
+                # belong to the file's root object rather than to nothing.
+                previous_depth = line.depth
+                continue
             if parent is None:
                 errors.append(f"{source} line {line.number}: property outside any object")
             else:

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "northlake"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c9b650e6-1eb7-47dd-9ac5-1a67aa4b662d"
+  }
+}

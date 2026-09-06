@@ -191,14 +191,15 @@ The generated-not-authored assertions in CI, and the local `requires_powerbi` nu
 | 5.25 | Budget under a non-Balanced-Base scenario renders as an explicit "not applicable", never as blank or zero | `tests/powerbi/test_generated.py` |
 | **Report** | | |
 | 5.26 | Four pages, in the order the rules file fixes | `tests/powerbi/test_generated.py` |
-| 5.27 | Every summary visual has drillthrough to transaction level, through the phase 3 GL bridge | `tests/powerbi/test_generated.py` |
-| 5.28 | Every page carries the "illustrative company, synthetic data" note | `tests/powerbi/test_generated.py` |
+| 5.27 | Every summary visual has drillthrough to transaction level, through the phase 3 GL bridge | **Not met** — needs an authoritative visual example from Desktop; see 5.34 and the phase report |
+| 5.28 | Every page carries the "illustrative company, synthetic data" note | Partly: the model carries the note (verified via TOM). Report pages need visuals — **not met** |
 | **Build** | | |
 | 5.29 | `python -m bellwether.build` regenerates the TMDL; a hand-edited measure fails the build | `tests/powerbi/test_generated.py` + the CI clean-tree step |
 | 5.30 | The PBIP project is valid enough to open in Power BI Desktop without error | Model half now automated by 5.33. The **report** half stays manual — Desktop has no CLI |
 | 5.31 | The generated TMDL is structurally valid: tab indentation, legal nesting, and every object property before its first child | `tests/powerbi/test_validate.py` — added after Desktop rejected the first project |
 | 5.32 | The **emitted** DAX text, evaluated against the star, reproduces the semantic layer within 0.01 | `tests/powerbi/test_dax_semantics.py` — not Power BI's engine; see the note there |
 | 5.33 | The semantic model parses under **Microsoft's own TMDL deserializer** (Tabular Object Model), with its conventions read back from the parsed model | `tests/powerbi/test_tom_authority.py`, `requires_tom` — **passes**; found one defect the project's own validator missed |
+| 5.34 | Every generated `$schema` and metadata version equals Power BI Desktop's own, and the validator accepts Desktop's TMDL | `tests/powerbi/test_schema_fixture.py` — oracle is `tests/fixtures/powerbi-desktop-blank/`, not a transcribed constant |
 
 ---
 

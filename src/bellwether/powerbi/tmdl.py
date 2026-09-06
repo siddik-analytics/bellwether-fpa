@@ -29,6 +29,32 @@ MEASURE_TABLE = "Measures"
 #: the byte-for-byte regeneration criterion 5.29 asserts.
 RELATIVE_STAR = "data/star"
 
+#: Every `$schema` Power BI Desktop writes, taken from its own output rather than from
+#: documentation or a guess. The fixture is `tests/fixtures/powerbi-desktop-blank/` and
+#: `tests/powerbi/test_schema_fixture.py` asserts each value below against it — because the five
+#: values these replaced were all transcribed, and all five were wrong.
+SCHEMA_BASE = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition"
+SCHEMAS: dict[str, str] = {
+    "report": f"{SCHEMA_BASE}/report/3.3.0/schema.json",
+    "pagesMetadata": f"{SCHEMA_BASE}/pagesMetadata/1.1.0/schema.json",
+    "page": f"{SCHEMA_BASE}/page/2.1.0/schema.json",
+    "versionMetadata": f"{SCHEMA_BASE}/versionMetadata/1.0.0/schema.json",
+}
+
+#: Files Desktop writes with **no** `$schema`. Adding one would be inventing a contract, which
+#: is what the previous generator did to two of these three.
+WITHOUT_SCHEMA: tuple[str, ...] = ("northlake.pbip", "definition.pbir", "definition.pbism")
+
+#: Desktop's own values. `compatibilityLevel` was 1567 and the database was named; both wrong.
+PBISM_VERSION = "4.2"
+PBIR_VERSION = "4.0"
+REPORT_DEFINITION_VERSION = "2.0.0"
+COMPATIBILITY_LEVEL = 1606
+
+#: Desktop writes the database unnamed. The generator named it, which TMDL tolerates and
+#: Desktop does not produce.
+DATABASE_TMDL = f"database\n\tcompatibilityLevel: {COMPATIBILITY_LEVEL}\n"
+
 #: Columns are presented in business language: no underscores, no source-system names.
 #: ``sourceColumn`` keeps the physical name, so this is a presentation layer rather than a
 #: rename that would have to be matched anywhere else.
@@ -101,6 +127,9 @@ VARIANCE_HEADER = (
     "/// Favourable variance is positive whether the line is revenue or cost. The direction "
     "comes from Metric.is_cost in the semantic layer, never from a judgement made here."
 )
+
+#: The drillthrough target. Not one of the four the rules file fixes.
+DRILLTHROUGH_PAGE = "Transaction detail"
 
 #: `.claude/rules/powerbi-pbip.md` fixes both the count and the order.
 PAGES: tuple[tuple[str, str, tuple[str, ...]], ...] = (
@@ -281,6 +310,10 @@ def _table_tmdl(name: str, frame) -> str:
 
 def _model_tmdl() -> str:
     lines = [
+        # The synthetic-data note. It cannot go on a report page without an authoritative
+        # example of a visual, so it lives where the model carries it and every consumer of the
+        # model sees it - CLAUDE.md rule 6 requires every generated artifact to say this.
+        f"/// {DISCLOSURE_TEXT}",
         "model Model",
         "\tculture: en-GB",
         "\tdefaultPowerBIDataSourceVersion: powerBI_V3",
@@ -331,166 +364,118 @@ def _relationships_tmdl() -> str:
     return "\n".join(lines)
 
 
-#: Page geometry. A report definition needs real numbers here; Desktop lays out against them.
-PAGE_WIDTH = 1280.0
-PAGE_HEIGHT = 720.0
+#: Desktop's own page geometry for a new report.
+PAGE_WIDTH = 1920
+PAGE_HEIGHT = 1080
 DISCLOSURE_TEXT = "Northlake, Inc. is an illustrative company. All data is synthetic."
 
 
-def _visual_container(order: int, measure: str, page: str) -> dict:
-    """One card visual bound to a measure.
+def page_name(display_name: str) -> str:
+    """A stable folder name for a page.
 
-    ``config`` is a **stringified** JSON document inside the report JSON. That is the report
-    format's own convention, not a mistake: Desktop stores each visual's configuration as an
-    escaped string, and emitting it as a nested object produces a file that parses as JSON and
-    is rejected as a report.
+    Desktop uses an opaque twenty-character id. A readable slug is equally valid and this
+    repository is meant to be read, so the folder says which page it is. It must be
+    deterministic either way, or regeneration stops being byte-identical.
     """
-    identifier = f"{page}-{order}"
-    config = {
-        "name": identifier,
-        "layouts": [
+    return display_name.lower().replace("&", "and").replace(" ", "-")
+
+
+def _page_json(display_name: str) -> str:
+    return (
+        json.dumps(
             {
-                "id": 0,
-                "position": {
-                    "x": 40.0 + (order % 3) * 400.0,
-                    "y": 120.0 + (order // 3) * 220.0,
-                    "z": float(order),
-                    "width": 360.0,
-                    "height": 180.0,
-                },
-            }
-        ],
-        "singleVisual": {
-            "visualType": "card",
-            "projections": {"Values": [{"queryRef": f"{MEASURE_TABLE}.{measure}"}]},
-            "drillFilterOtherVisuals": True,
-            "vcObjects": {
-                "title": [
-                    {
-                        "properties": {
-                            "text": {"expr": {"Literal": {"Value": f"'{measure}'"}}},
-                            "show": {"expr": {"Literal": {"Value": "true"}}},
-                        }
-                    }
-                ]
+                "$schema": SCHEMAS["page"],
+                "name": page_name(display_name),
+                "displayName": display_name,
+                "displayOption": "FitToPage",
+                "height": PAGE_HEIGHT,
+                "width": PAGE_WIDTH,
             },
-        },
-    }
-    return {
-        "x": config["layouts"][0]["position"]["x"],
-        "y": config["layouts"][0]["position"]["y"],
-        "z": config["layouts"][0]["position"]["z"],
-        "width": config["layouts"][0]["position"]["width"],
-        "height": config["layouts"][0]["position"]["height"],
-        "config": json.dumps(config),
-    }
+            indent=2,
+        )
+        + "\n"
+    )
 
 
-def _disclosure_container(page: str) -> dict:
-    """The synthetic-data note, as a real textbox on every page — criterion 5.28."""
-    config = {
-        "name": f"{page}-disclosure",
-        "layouts": [
+def _pages_json(display_names: list[str]) -> str:
+    return (
+        json.dumps(
             {
-                "id": 0,
-                "position": {"x": 40.0, "y": 660.0, "z": 99.0, "width": 900.0, "height": 32.0},
-            }
-        ],
-        "singleVisual": {
-            "visualType": "textbox",
-            "objects": {
-                "general": [
-                    {
-                        "properties": {
-                            "paragraphs": [
-                                {
-                                    "textRuns": [
-                                        {"value": DISCLOSURE_TEXT, "textStyle": {"fontSize": "9pt"}}
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                ]
+                "$schema": SCHEMAS["pagesMetadata"],
+                "pageOrder": [page_name(name) for name in display_names],
+                "activePageName": page_name(display_names[0]),
             },
-            "drillFilterOtherVisuals": False,
-        },
-    }
-    return {
-        "x": 40.0,
-        "y": 660.0,
-        "z": 99.0,
-        "width": 900.0,
-        "height": 32.0,
-        "config": json.dumps(config),
-    }
-
-
-def _section(order: int, name: str, subtitle: str, measures: tuple[str, ...], drill: bool) -> dict:
-    identifier = name.lower().replace(" ", "-").replace("&", "and")
-    containers = [
-        _visual_container(index, measure, identifier) for index, measure in enumerate(measures)
-    ]
-    containers.append(_disclosure_container(identifier))
-    section_config: dict = {"visibility": 0}
-    if drill:
-        # A drillthrough target declares the field a visual drills on. Without it the page is
-        # an ordinary page and every "drill to detail" in the report goes nowhere.
-        section_config["objects"] = {
-            "dropShadow": [],
-        }
-        section_config["type"] = "drillthrough"
-    return {
-        "name": f"ReportSection{order}",
-        "displayName": name,
-        "description": subtitle,
-        "filters": "[]",
-        "ordinal": order,
-        "visualContainers": containers,
-        "config": json.dumps(section_config),
-        "displayOption": 1,
-        "width": PAGE_WIDTH,
-        "height": PAGE_HEIGHT,
-    }
+            indent=2,
+        )
+        + "\n"
+    )
 
 
 def _report_json() -> str:
-    """The report definition, in Power BI's own report format.
+    """The report definition.
 
-    An earlier version of this function emitted a readable schema of this project's own
-    invention — pages with a list of measure names. It was valid JSON, it passed every test
-    written against it, and Power BI would have rejected it, because a report definition is not
-    whatever shape is convenient to assert on.
+    Two generations of this function were wrong in different ways. The first invented a schema
+    of this project's own design — pages holding measure names — which every test written
+    against it accepted. The second used Power BI's *legacy* report format, a single
+    `report.json` of `sections` and `visualContainers` at the report root. Desktop writes
+    neither: it writes PBIR, where `definition/report.json` holds report-level settings and each
+    page is its own file under `definition/pages/`.
+
+    Both mistakes came from the same place. Nobody had looked at what Desktop actually produces.
     """
-    sections = [
-        _section(order, name, subtitle, measures, drill=False)
-        for order, (name, subtitle, measures) in enumerate(PAGES)
-    ]
-    sections.append(
-        _section(
-            len(PAGES),
-            "Transaction detail",
-            "Drillthrough target - GL postings behind any summary figure",
-            (),
-            drill=True,
-        )
-    )
-    report = {
-        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/1.0.0/schema.json",
-        "config": json.dumps(
+    return (
+        json.dumps(
             {
-                "version": "5.43",
-                "activeSectionIndex": 0,
-                "defaultDrillFilterOtherVisuals": True,
-                "settings": {"useStylableVisualContainerHeader": True},
-            }
-        ),
-        "layoutOptimization": 0,
-        "pods": [],
-        "resourcePackages": [],
-        "sections": sections,
-    }
-    return json.dumps(report, indent=2) + "\n"
+                "$schema": SCHEMAS["report"],
+                "settings": {
+                    "useStylableVisualContainerHeader": True,
+                    "defaultDrillFilterOtherVisuals": True,
+                    "allowChangeFilterTypes": True,
+                },
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+
+
+def _version_json() -> str:
+    return (
+        json.dumps(
+            {"$schema": SCHEMAS["versionMetadata"], "version": REPORT_DEFINITION_VERSION},
+            indent=2,
+        )
+        + "\n"
+    )
+
+
+def _write_report(report_dir: pathlib.Path) -> list[str]:
+    """Write the PBIR report: settings, version, page order, and one file per page.
+
+    **Visuals are not generated.** Power BI stores each visual as
+    `definition/pages/<page>/visuals/<id>/visual.json`, and the fixture is a *blank* report, so
+    this project has no authoritative example of that file. Inventing one is precisely the defect
+    ADR 0022 records — a schema of the author's own design, tested against itself. The pages are
+    real and correctly shaped; the visuals are a named gap, and closing it needs one saved report
+    from Desktop containing a card and a textbox.
+    """
+    definition = report_dir / "definition"
+    pages_dir = definition / "pages"
+    pages_dir.mkdir(parents=True, exist_ok=True)
+
+    display_names = [name for name, _, _ in PAGES] + [DRILLTHROUGH_PAGE]
+    (definition / "report.json").write_text(_report_json(), encoding="utf-8", newline="\n")
+    (definition / "version.json").write_text(_version_json(), encoding="utf-8", newline="\n")
+    (pages_dir / "pages.json").write_text(
+        _pages_json(display_names), encoding="utf-8", newline="\n"
+    )
+    for display_name in display_names:
+        page_dir = pages_dir / page_name(display_name)
+        page_dir.mkdir(parents=True, exist_ok=True)
+        (page_dir / "page.json").write_text(
+            _page_json(display_name), encoding="utf-8", newline="\n"
+        )
+    return display_names
 
 
 def build(star: dict[str, pd.DataFrame], out_dir: pathlib.Path) -> dict:
@@ -518,23 +503,18 @@ def build(star: dict[str, pd.DataFrame], out_dir: pathlib.Path) -> dict:
     (model_dir / "relationships.tmdl").write_text(
         _relationships_tmdl(), encoding="utf-8", newline="\n"
     )
-    (model_dir / "database.tmdl").write_text(
-        f"database {PROJECT}\n\tcompatibilityLevel: 1567\n", encoding="utf-8", newline="\n"
-    )
+    (model_dir / "database.tmdl").write_text(DATABASE_TMDL, encoding="utf-8", newline="\n")
     (out_dir / f"{PROJECT}.SemanticModel" / "definition.pbism").write_text(
-        json.dumps({"version": "4.0", "settings": {}}, indent=2) + "\n",
+        json.dumps({"version": PBISM_VERSION, "settings": {}}, indent=2) + "\n",
         encoding="utf-8",
         newline="\n",
     )
-    (report_dir / "report.json").write_text(_report_json(), encoding="utf-8", newline="\n")
+    pages = _write_report(report_dir)
     (report_dir / "definition.pbir").write_text(
         json.dumps(
+            # No $schema: Desktop writes none here, and adding one invents a contract.
             {
-                "$schema": (
-                    "https://developer.microsoft.com/json-schemas/fabric/item/report/"
-                    "definition/definitionProperties/1.0.0/schema.json"
-                ),
-                "version": "4.0",
+                "version": PBIR_VERSION,
                 "datasetReference": {"byPath": {"path": f"../{PROJECT}.SemanticModel"}},
             },
             indent=2,
@@ -548,7 +528,7 @@ def build(star: dict[str, pd.DataFrame], out_dir: pathlib.Path) -> dict:
             {
                 "version": "1.0",
                 "artifacts": [{"report": {"path": f"{PROJECT}.Report"}}],
-                "settings": {"enableAutoRecovery": False},
+                "settings": {"enableAutoRecovery": True},
             },
             indent=2,
         )
@@ -561,5 +541,5 @@ def build(star: dict[str, pd.DataFrame], out_dir: pathlib.Path) -> dict:
         "tables": written,
         "measures": len(semantic.ALL_METRICS) + 1,
         "relationships": len(RELATIONSHIPS),
-        "pages": len(PAGES) + 1,
+        "pages": len(pages),
     }

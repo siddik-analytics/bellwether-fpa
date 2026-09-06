@@ -1,3 +1,4 @@
+/// Northlake, Inc. is an illustrative company. All data is synthetic.
 model Model
 	culture: en-GB
 	defaultPowerBIDataSourceVersion: powerBI_V3

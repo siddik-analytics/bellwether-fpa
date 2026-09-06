@@ -233,8 +233,9 @@ def test_format_strings_come_from_the_metric(built) -> None:
         block = text.split(f"measure '{name}' =")[1].split("measure ")[0]
         assert f"formatString: {metric.format_string}" in block, name
 
-    report = (built["dir"] / f"{tmdl.PROJECT}.Report" / "report.json").read_text(encoding="utf-8")
-    assert "formatString" not in report, "a format string on a visual overrides the measure"
+    definition = built["dir"] / f"{tmdl.PROJECT}.Report" / "definition"
+    report = "\n".join(p.read_text(encoding="utf-8") for p in definition.rglob("*.json"))
+    assert "formatString" not in report, "a format string in the report overrides the measure"
 
 
 def test_the_variance_convention_is_stated_once(built) -> None:
@@ -261,11 +262,8 @@ def test_scenarios_are_not_ordered_as_upside_base_downside(built) -> None:
     scenario_block = text.split("table dim_scenario")[1].split("table ")[0]
     assert "sortByColumn" not in scenario_block, "an ordinal on scenario implies a ranking"
 
-    report = (
-        (built["dir"] / f"{tmdl.PROJECT}.Report" / "report.json")
-        .read_text(encoding="utf-8")
-        .lower()
-    )
+    definition = built["dir"] / f"{tmdl.PROJECT}.Report" / "definition"
+    report = "\n".join(p.read_text(encoding="utf-8") for p in definition.rglob("*.json")).lower()
     for banned in ("upside", "downside", "base case", "diverging"):
         assert banned not in report, banned
 
@@ -285,91 +283,100 @@ def test_an_unapproved_combination_states_itself(built) -> None:
 # --- 5.26 to 5.28 the report ----------------------------------------------------------------
 
 
-def _report(directory) -> dict:
-    return json.loads(
-        (directory / f"{tmdl.PROJECT}.Report" / "report.json").read_text(encoding="utf-8")
-    )
+def _report_dir(directory):
+    return directory / f"{tmdl.PROJECT}.Report" / "definition"
 
 
-def _visual_configs(section) -> list[dict]:
-    return [json.loads(container["config"]) for container in section["visualContainers"]]
+def _json(path):
+    return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
 def test_the_report_is_in_power_bis_own_format(built) -> None:
-    """The failure that made this test necessary.
+    """Two generations of this were wrong, and neither could be caught from inside.
 
-    An earlier generator emitted a readable schema of this project's own invention. It was valid
-    JSON, every test written against it passed, and Power BI would have rejected it. A report
-    definition is not whatever shape is convenient to assert on, so the assertions now follow the
-    format: stringified ``config``, ``sections`` rather than pages, and geometry on every visual.
+    The first invented a schema of this project's own design. The second used Power BI's legacy
+    report format — a single `report.json` of `sections` and `visualContainers`. Desktop writes
+    PBIR: `definition/report.json` for report settings, `definition/version.json`, and a file
+    per page under `definition/pages/`. That was settled by looking at Desktop's output, which
+    is now the fixture in `tests/fixtures/powerbi-desktop-blank/`.
     """
-    report = _report(built["dir"])
-    assert "sections" in report and "pages" not in report
-    assert isinstance(report["config"], str), "report config is a stringified JSON document"
-    for section in report["sections"]:
-        assert isinstance(section["config"], str)
-        assert isinstance(section["filters"], str)
-        assert section["width"] > 0 and section["height"] > 0
-        for container in section["visualContainers"]:
-            assert set(container) == {"x", "y", "z", "width", "height", "config"}
-            config = json.loads(container["config"])
-            assert "singleVisual" in config
-            assert config["singleVisual"]["visualType"]
+    definition = _report_dir(built["dir"])
+    assert (definition / "report.json").is_file()
+    assert (definition / "version.json").is_file()
+    assert (definition / "pages" / "pages.json").is_file()
+    assert not (built["dir"] / f"{tmdl.PROJECT}.Report" / "report.json").exists(), (
+        "the legacy report format is still being written"
+    )
+    report = _json(definition / "report.json")
+    assert "sections" not in report, "sections belong to the legacy format"
+    assert isinstance(report["settings"], dict), "PBIR settings are an object, not a string"
 
 
 def test_four_pages_in_the_order_the_rules_fix(built) -> None:
     """5.26 — plus the drillthrough target, which is not one of the four."""
-    sections = _report(built["dir"])["sections"]
-    named = [s["displayName"] for s in sections if "drillthrough" not in s["config"]]
-    assert named == [
-        "Executive summary",
-        "P&L detail",
-        "Cash and working capital",
-        "Unit economics",
+    pages = _json(_report_dir(built["dir"]) / "pages" / "pages.json")
+    expected = [
+        tmdl.page_name(name)
+        for name in [
+            "Executive summary",
+            "P&L detail",
+            "Cash and working capital",
+            "Unit economics",
+            tmdl.DRILLTHROUGH_PAGE,
+        ]
     ]
-    assert [s["ordinal"] for s in sections] == list(range(len(sections)))
+    assert pages["pageOrder"] == expected
+    assert pages["activePageName"] == expected[0]
 
 
-def test_every_summary_visual_drills_through_to_transactions(built) -> None:
-    """5.27 — through the GL bridge phase 3 built."""
-    sections = _report(built["dir"])["sections"]
-    targets = [s for s in sections if "drillthrough" in s["config"]]
-    assert len(targets) == 1, [s["displayName"] for s in targets]
-    assert targets[0]["displayName"] == "Transaction detail"
-
-    for section in sections:
-        if section in targets:
-            continue
-        measures = [
-            c for c in _visual_configs(section) if c["singleVisual"]["visualType"] == "card"
-        ]
-        assert measures, section["displayName"]
-        for config in measures:
-            assert config["singleVisual"]["drillFilterOtherVisuals"] is True
+def test_every_page_in_the_order_has_a_file(built) -> None:
+    """A page listed in pageOrder with no page.json is a report that opens broken."""
+    definition = _report_dir(built["dir"])
+    pages = _json(definition / "pages" / "pages.json")
+    for name in pages["pageOrder"]:
+        page = definition / "pages" / name / "page.json"
+        assert page.is_file(), name
+        assert _json(page)["name"] == name
 
 
-def test_every_measure_a_visual_binds_to_exists(built) -> None:
-    """A queryRef naming a measure that is not in the model is a broken visual."""
-    known = set(_measures(built["dir"]))
-    for section in _report(built["dir"])["sections"]:
-        for config in _visual_configs(section):
-            for projections in config["singleVisual"].get("projections", {}).values():
-                for projection in projections:
-                    table, _, measure = projection["queryRef"].partition(".")
-                    assert table == tmdl.MEASURE_TABLE, projection
-                    assert measure in known, measure
+def test_page_display_names_are_business_language(built) -> None:
+    definition = _report_dir(built["dir"])
+    names = {_json(path)["displayName"] for path in (definition / "pages").rglob("page.json")}
+    assert "Executive summary" in names
+    assert tmdl.DRILLTHROUGH_PAGE in names
 
 
-def test_every_page_carries_the_disclosure(built) -> None:
-    """5.28 — synthetic data, said on every page a reader can land on, as a real textbox."""
-    for section in _report(built["dir"])["sections"]:
-        textboxes = [
-            c for c in _visual_configs(section) if c["singleVisual"]["visualType"] == "textbox"
-        ]
-        assert textboxes, section["displayName"]
-        text = json.dumps(textboxes)
-        assert "illustrative company" in text
-        assert "synthetic" in text
+def test_visuals_are_not_generated_and_that_is_deliberate(built) -> None:
+    """The named gap, asserted so it cannot be closed by accident with a guess.
+
+    Power BI stores a visual at `definition/pages/<page>/visuals/<id>/visual.json`. The fixture
+    is a *blank* report, so this project has no authoritative example of that file, and writing
+    one from imagination is exactly the defect ADR 0022 records — a schema of the author's own
+    design, tested against itself, passing.
+
+    Criteria 5.27 (drillthrough from every summary visual) and 5.28 (a disclosure textbox on
+    every page) are therefore **not met** and are recorded as not met. Closing the gap needs one
+    saved report from Desktop containing a card and a textbox; then this test changes.
+    """
+    definition = _report_dir(built["dir"])
+    assert not list(definition.rglob("visual.json")), (
+        "visuals appeared without an authoritative example to generate them from"
+    )
+
+
+def test_the_disclosure_is_carried_by_the_model(built) -> None:
+    """5.28, as far as it can currently hold.
+
+    The note cannot go on a report page without a visual, so it is the model's own description,
+    where every consumer of the model meets it. Verified through the parser in
+    `test_tom_authority.py` as well as here.
+    """
+    model = (
+        built["dir"] / f"{tmdl.PROJECT}.SemanticModel" / "definition" / "model.tmdl"
+    ).read_text(encoding="utf-8")
+    assert model.splitlines()[0].startswith("/// ")
+    assert "illustrative company" in model
+    assert "synthetic" in model
 
 
 def test_no_absolute_path_is_committed(built) -> None:
