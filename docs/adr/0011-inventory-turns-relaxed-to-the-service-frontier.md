@@ -62,10 +62,24 @@ Class-A safety multiplier and weeks-of-supply scale swept against both targets, 
 Reading the frontier: holding 3.3x in FY2025 costs roughly 6% hero stockouts; holding 4%
 stockouts costs roughly 0.9x of turns. The contract asked for both.
 
-A further finding from the sweep: **service responds to cycle stock, not to class-A safety
-stock.** Raising the class-A multiplier beyond ~1.25 depresses turns without improving
-availability, because the binding constraint is the 90-day lead into a sharp seasonal peak, not
-the depth of the buffer.
+### Service responds to cycle stock, not to safety stock
+
+The most useful finding from the sweep, and the least expected: **raising class-A safety stock
+does not improve availability.** Past a multiplier of about 1.25 it depresses turns and buys
+nothing — the sweep shows the hero stockout rate flat at 4.50% across class-A multipliers of
+1.75, 2.00, 2.25 and 2.50 while FY2025 turns fall from 2.97x to 2.58x.
+
+The reason is that the binding constraint is not buffer depth, it is **the 90-day lead time
+running into a sharp seasonal peak**. November carries 15% of annual DTC volume; an order placed
+to cover it must be committed in August. If the plan under-reads the peak, no amount of standing
+safety stock rescues it, because the shortfall is concentrated in a few weeks and the replenishment
+cannot arrive inside them. What does help is cycle stock — ordering more per cycle, earlier —
+which is why the weeks-of-supply knob moves service and the safety knob does not.
+
+The practical consequence for the model is that **service is bought with timing, not with
+inventory level**. Anyone tuning this later should reach for the ordering calendar and the
+forecast horizon before reaching for safety stock, and a board pack recommending "hold more
+safety stock on hero SKUs" would be recommending the expensive half of the trade.
 
 ## Decision
 
@@ -108,6 +122,15 @@ position in §7.3 and the borrowing base in §6.10. Re-running the covenant prob
 equity raise must increase from $3.25M to **$3.50M** for Balanced Base to hold its covenant —
 higher inventory consumes more cash than the additional borrowing base provides, because the
 inventory advance rate is 50% against a dollar of cash tied up.
+
+That is also the answer to why a $9.3M brand sitting at breakeven raised $3.50M in FY2024:
+**the raise funds inventory, not losses.** FY2024 EBITDA is approximately zero, so nothing is
+being burned on operations. What the money buys is the working capital to commit inventory three
+to four months ahead of wholesale seasonal programmes — the channel Northlake was deliberately
+expanding into, and the one whose orders must be bought before they are placed. A brand growing
+DTC would not need it; a brand growing wholesale cannot avoid it. The raise is the price of the
+strategy the board approved, which is what makes the FY2025 deterioration a question about that
+strategy rather than about cost control.
 
 The turns *decline* across FY2024 to FY2025 is preserved (2.61x to 2.42x) and is now driven by
 the modelled launch overhang rather than asserted. That decline is smaller in proportional terms

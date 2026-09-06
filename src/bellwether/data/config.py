@@ -285,7 +285,9 @@ SEASONAL_RUN_DAYS = 180
 #: generator meets the 4% hero-SKU service target; the turns that result are the relaxed
 #: contract targets, not the other way round.
 INVENTORY_CLASS_A_SAFETY_MULTIPLIER = 1.25
-INVENTORY_WOS_SCALE = {2023: 0.45, 2024: 0.45, 2025: 0.99, 2026: 0.99, 2027: 0.99, 2028: 0.99}
+#: FY2025 onward is 2.4x the FY2023-24 base. That multiple is the inventory over-commitment the
+#: story requires: purchases placed before demand softened, plus the February launch overhang.
+INVENTORY_WOS_SCALE = {2023: 0.30, 2024: 0.30, 2025: 0.72, 2026: 0.72, 2027: 0.72, 2028: 0.72}
 
 LANDED_COST_SPLIT = {"product": 0.78, "inbound_freight": 0.12, "duty": 0.10}
 
