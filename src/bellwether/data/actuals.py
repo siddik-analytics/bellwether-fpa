@@ -30,23 +30,36 @@ def generate_dtc(
     spine: pd.DataFrame,
     rng: np.random.Generator,
     demand_gross_up: dict[int, float] | None = None,
+    periods: list[tuple[int, C.YearDrivers]] | None = None,
+    sku_mask: np.ndarray | None = None,
+    first_order_id: int = 1,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """DTC order lines and the customer dimension.
 
     Grain: one row per line of a DTC order, keyed ``(order_id, line_number)``.
+
+    ``periods`` defaults to the actual years. The near-term forecast passes scenario-derived
+    drivers for FY2026 instead, so it projects **this** demand model rather than running a
+    second one — same seasonality, same SKU concentration, same basket shape, different
+    drivers (contract §8, phase 3 D-d).
+
+    ``sku_mask`` zeroes the selection probability for pruned SKUs, which is how the
+    Consolidation scenario cuts the class-C tail without a separate code path.
     """
     order_frames, customer_rows = [], []
-    next_order, next_customer = 1, 1
+    next_customer = 1
     # Picking a SKU with probability proportional to revenue_weight / price makes realised
     # revenue share match the concentration weights rather than the unit share.
     sku_p = (products["revenue_weight"] / products["msrp"]).to_numpy()
+    if sku_mask is not None:
+        sku_p = sku_p * sku_mask
     sku_p = sku_p / sku_p.sum()
     sku_keys = products["product_key"].to_numpy()
     msrp = products["msrp"].to_numpy()
     ret_rate = products["return_rate"].to_numpy()
+    next_order = first_order_id
 
-    for year in C.ACTUAL_YEARS:
-        d = C.ACTUALS[year]
+    for year, d in periods or [(y, C.ACTUALS[y]) for y in C.ACTUAL_YEARS]:
         net_per_order = d.aov * (1 - C.DTC_RETURN_RATE) + C.DTC_SHIPPING_REVENUE_PER_ORDER
         # Demand is grossed up so revenue lands on target *after* stockout
         # suppression removes the lost share (§6.6).
@@ -175,19 +188,31 @@ def generate_wholesale(
     spine: pd.DataFrame,
     rng: np.random.Generator,
     demand_gross_up: dict[int, float] | None = None,
+    periods: list[tuple[int, C.YearDrivers]] | None = None,
+    account_mask: np.ndarray | None = None,
+    sku_mask: np.ndarray | None = None,
+    first_invoice_id: int = 1,
 ) -> pd.DataFrame:
     """Wholesale invoice lines.
 
     Grain: one row per line of a wholesale invoice/shipment, keyed ``(invoice_id, line_number)``.
     """
-    frames, next_invoice = [], 1
+    frames = []
+    next_invoice = first_invoice_id
     sku_p = (products["revenue_weight"] / products["msrp"]).to_numpy()
+    if sku_mask is not None:
+        sku_p = sku_p * sku_mask
     sku_p = sku_p / sku_p.sum()
+
+    # A pruned account places no orders at all, and its share is redistributed over the accounts
+    # that remain — which is what pruning to the profitable tier actually does.
+    if account_mask is not None:
+        accounts = accounts.loc[account_mask.astype(bool)].copy()
+        accounts["revenue_weight"] = accounts["revenue_weight"] / accounts["revenue_weight"].sum()
     sku_keys = products["product_key"].to_numpy()
     msrp = products["msrp"].to_numpy()
 
-    for year in C.ACTUAL_YEARS:
-        d = C.ACTUALS[year]
+    for year, d in periods or [(y, C.ACTUALS[y]) for y in C.ACTUAL_YEARS]:
         ws_net_target = d.revenue * (1 - d.dtc_share) * (demand_gross_up or {}).get(year, 1.0)
         days = spine.loc[spine["year"] == year, "date"]
         dates = pd.DatetimeIndex(days.to_numpy())
