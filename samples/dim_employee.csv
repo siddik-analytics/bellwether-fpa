@@ -1,29 +1,29 @@
 employee_key,employee_code,department_name,role,hire_date,departure_date,annual_salary,payroll_burden,fully_loaded_cost,bonus_eligible,planned_hire,valid_from,valid_to
-1,EMP-001,Executive / Corporate,Executive role 1,2022-01-01,,161900.0,35600.0,19750000,True,False,2022-01-01,2029-01-01
-2,EMP-002,Executive / Corporate,Executive role 2,2024-02-01,,161900.0,35600.0,19750000,False,False,2024-02-01,2029-01-01
-3,EMP-003,People / Administration,People role 1,2022-01-01,,65600.0,14400.0,8000000,True,False,2022-01-01,2029-01-01
-4,EMP-004,Finance,Finance role 1,2022-01-01,,95600.0,21000.0,11670000,True,False,2022-01-01,2029-01-01
-5,EMP-005,Finance,Finance role 2,2022-01-01,,95600.0,21000.0,11670000,False,False,2022-01-01,2029-01-01
-6,EMP-006,Finance,Finance role 3,2024-06-01,,95600.0,21000.0,11670000,False,False,2024-06-01,2029-01-01
-7,EMP-007,Supply Chain / Operations,Supply Chain role 1,2022-01-01,,86100.0,18900.0,10500000,True,False,2022-01-01,2029-01-01
-8,EMP-008,Supply Chain / Operations,Supply Chain role 2,2022-01-01,,86100.0,18900.0,10500000,False,False,2022-01-01,2029-01-01
-9,EMP-009,Supply Chain / Operations,Supply Chain role 3,2022-01-01,,86100.0,18900.0,10500000,False,False,2022-01-01,2029-01-01
-10,EMP-010,Supply Chain / Operations,Supply Chain role 4,2024-04-01,,86100.0,18900.0,10500000,False,False,2024-04-01,2029-01-01
-11,EMP-011,Product / Merchandising,Product role 1,2022-01-01,,78700.0,17300.0,9600000,True,False,2022-01-01,2029-01-01
-12,EMP-012,Product / Merchandising,Product role 2,2022-01-01,,78700.0,17300.0,9600000,False,False,2022-01-01,2029-01-01
-13,EMP-013,Product / Merchandising,Product role 3,2022-01-01,,78700.0,17300.0,9600000,False,False,2022-01-01,2029-01-01
-14,EMP-014,Product / Merchandising,Product role 4,2024-07-01,,78700.0,17300.0,9600000,False,False,2024-07-01,2029-01-01
-15,EMP-015,Product / Merchandising,Product role 5,2025-05-01,,78700.0,17300.0,9600000,False,False,2025-05-01,2029-01-01
-16,EMP-016,Marketing / Ecommerce,Marketing role 1,2022-01-01,,82100.0,18100.0,10010000,True,False,2022-01-01,2029-01-01
-17,EMP-017,Marketing / Ecommerce,Marketing role 2,2022-01-01,,82100.0,18100.0,10010000,False,False,2022-01-01,2029-01-01
-18,EMP-018,Marketing / Ecommerce,Marketing role 3,2022-01-01,,82100.0,18100.0,10010000,False,False,2022-01-01,2029-01-01
-19,EMP-019,Marketing / Ecommerce,Marketing role 4,2022-01-01,,82100.0,18100.0,10010000,False,False,2022-01-01,2029-01-01
-20,EMP-020,Marketing / Ecommerce,Marketing role 5,2022-01-01,,82100.0,18100.0,10010000,False,False,2022-01-01,2029-01-01
-21,EMP-021,Marketing / Ecommerce,Marketing role 6,2025-09-01,,82100.0,18100.0,10010000,False,False,2025-09-01,2029-01-01
-22,EMP-022,Marketing / Ecommerce,Marketing role 7,2024-09-01,,82100.0,18100.0,10010000,False,False,2024-09-01,2029-01-01
-23,EMP-023,Wholesale Sales,Wholesale Sales role 1,2022-01-01,,99700.0,21900.0,12170000,True,False,2022-01-01,2029-01-01
-24,EMP-024,Wholesale Sales,Wholesale Sales role 2,2022-01-01,,99700.0,21900.0,12170000,False,False,2022-01-01,2029-01-01
-25,EMP-025,Wholesale Sales,Wholesale Sales role 3,2025-05-01,,99700.0,21900.0,12170000,False,False,2025-05-01,2029-01-01
-26,EMP-026,Customer Experience,Customer Experience role 1,2022-01-01,,51900.0,11400.0,6330000,True,False,2022-01-01,2029-01-01
-27,EMP-027,Customer Experience,Customer Experience role 2,2022-01-01,,51900.0,11400.0,6330000,False,False,2022-01-01,2029-01-01
-28,EMP-028,Customer Experience,Customer Experience role 3,2024-10-01,,51900.0,11400.0,6330000,False,False,2024-10-01,2029-01-01
+1,EMP-001,Executive / Corporate,Executive role 1,2022-01-01,,161900.0,35600.0,197500.0,True,False,2022-01-01,2029-01-01
+2,EMP-002,Executive / Corporate,Executive role 2,2024-02-01,,161900.0,35600.0,197500.0,False,False,2024-02-01,2029-01-01
+3,EMP-003,People / Administration,People role 1,2022-01-01,,65600.0,14400.0,80000.0,True,False,2022-01-01,2029-01-01
+4,EMP-004,Finance,Finance role 1,2022-01-01,,95600.0,21000.0,116700.0,True,False,2022-01-01,2029-01-01
+5,EMP-005,Finance,Finance role 2,2022-01-01,,95600.0,21000.0,116700.0,False,False,2022-01-01,2029-01-01
+6,EMP-006,Finance,Finance role 3,2024-06-01,,95600.0,21000.0,116700.0,False,False,2024-06-01,2029-01-01
+7,EMP-007,Supply Chain / Operations,Supply Chain role 1,2022-01-01,,86100.0,18900.0,105000.0,True,False,2022-01-01,2029-01-01
+8,EMP-008,Supply Chain / Operations,Supply Chain role 2,2022-01-01,,86100.0,18900.0,105000.0,False,False,2022-01-01,2029-01-01
+9,EMP-009,Supply Chain / Operations,Supply Chain role 3,2022-01-01,,86100.0,18900.0,105000.0,False,False,2022-01-01,2029-01-01
+10,EMP-010,Supply Chain / Operations,Supply Chain role 4,2024-04-01,,86100.0,18900.0,105000.0,False,False,2024-04-01,2029-01-01
+11,EMP-011,Product / Merchandising,Product role 1,2022-01-01,,78700.0,17300.0,96000.0,True,False,2022-01-01,2029-01-01
+12,EMP-012,Product / Merchandising,Product role 2,2022-01-01,,78700.0,17300.0,96000.0,False,False,2022-01-01,2029-01-01
+13,EMP-013,Product / Merchandising,Product role 3,2022-01-01,,78700.0,17300.0,96000.0,False,False,2022-01-01,2029-01-01
+14,EMP-014,Product / Merchandising,Product role 4,2024-07-01,,78700.0,17300.0,96000.0,False,False,2024-07-01,2029-01-01
+15,EMP-015,Product / Merchandising,Product role 5,2025-05-01,,78700.0,17300.0,96000.0,False,False,2025-05-01,2029-01-01
+16,EMP-016,Marketing / Ecommerce,Marketing role 1,2022-01-01,,82100.0,18100.0,100100.0,True,False,2022-01-01,2029-01-01
+17,EMP-017,Marketing / Ecommerce,Marketing role 2,2022-01-01,,82100.0,18100.0,100100.0,False,False,2022-01-01,2029-01-01
+18,EMP-018,Marketing / Ecommerce,Marketing role 3,2022-01-01,,82100.0,18100.0,100100.0,False,False,2022-01-01,2029-01-01
+19,EMP-019,Marketing / Ecommerce,Marketing role 4,2022-01-01,,82100.0,18100.0,100100.0,False,False,2022-01-01,2029-01-01
+20,EMP-020,Marketing / Ecommerce,Marketing role 5,2022-01-01,,82100.0,18100.0,100100.0,False,False,2022-01-01,2029-01-01
+21,EMP-021,Marketing / Ecommerce,Marketing role 6,2025-09-01,,82100.0,18100.0,100100.0,False,False,2025-09-01,2029-01-01
+22,EMP-022,Marketing / Ecommerce,Marketing role 7,2024-09-01,,82100.0,18100.0,100100.0,False,False,2024-09-01,2029-01-01
+23,EMP-023,Wholesale Sales,Wholesale Sales role 1,2022-01-01,,99700.0,21900.0,121700.0,True,False,2022-01-01,2029-01-01
+24,EMP-024,Wholesale Sales,Wholesale Sales role 2,2022-01-01,,99700.0,21900.0,121700.0,False,False,2022-01-01,2029-01-01
+25,EMP-025,Wholesale Sales,Wholesale Sales role 3,2025-05-01,,99700.0,21900.0,121700.0,False,False,2025-05-01,2029-01-01
+26,EMP-026,Customer Experience,Customer Experience role 1,2022-01-01,,51900.0,11400.0,63300.0,True,False,2022-01-01,2029-01-01
+27,EMP-027,Customer Experience,Customer Experience role 2,2022-01-01,,51900.0,11400.0,63300.0,False,False,2022-01-01,2029-01-01
+28,EMP-028,Customer Experience,Customer Experience role 3,2024-10-01,,51900.0,11400.0,63300.0,False,False,2024-10-01,2029-01-01

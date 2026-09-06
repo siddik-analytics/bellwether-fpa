@@ -36,9 +36,19 @@ MONEY_SUFFIXES = (
 )
 
 
-def to_minor_units(df: pd.DataFrame) -> pd.DataFrame:
-    """Money as integer cents (§2.1). Floats accumulate error the ledger cannot afford."""
+def to_minor_units(df: pd.DataFrame, *, is_fact: bool) -> pd.DataFrame:
+    """Money as integer cents (§2.1). Floats accumulate error the ledger cannot afford.
+
+    Fact tables only, as the contract says. The suffix list cannot tell a rate from an amount -
+    ``msrp_discount`` is a fraction on the wholesale account dimension and a dollar figure on an
+    order line - and applying it everywhere turned a 0.49 discount rate into 49 and left
+    ``fully_loaded_cost`` in cents beside an ``annual_salary`` in dollars on the same row.
+    Restricting it to facts resolves both, because §2.1 also requires rates to stay decimals and
+    every genuine rate lives on a dimension.
+    """
     out = df.copy()
+    if not is_fact:
+        return out
     for column in out.columns:
         if out[column].dtype.kind == "f" and column.endswith(MONEY_SUFFIXES):
             out[column] = (out[column] * 100).round().astype("int64")
@@ -69,7 +79,7 @@ def write(
 
     counts: dict[str, int] = {}
     for name in sorted(tables):
-        frame = to_minor_units(tables[name])
+        frame = to_minor_units(tables[name], is_fact=name.startswith("fact_"))
         frame.to_parquet(parquet_dir / f"{name}.parquet", index=False)
         # Head rather than a random sample: a reviewer opening the CSV wants the first rows of
         # a recognisable table, not a scatter that hides the ordering.
