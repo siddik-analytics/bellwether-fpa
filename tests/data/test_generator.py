@@ -82,6 +82,32 @@ def test_headless_build_generates_the_dataset() -> None:
     assert "generate synthetic source data" in result.stdout
 
 
+def test_csv_samples_are_committed_and_current(data) -> None:
+    """D-2 — the samples are a committed artifact, not generated output.
+
+    `data/` is gitignored wholesale, so samples written under it were never committed and the
+    browsing reviewer they exist for saw nothing. They live at the repo root instead.
+    """
+    samples = REPO_ROOT / "samples"
+    assert samples.is_dir()
+    assert (samples / "README.md").is_file()
+    written = {p.stem for p in samples.glob("*.csv")}
+    expected = {name for name in data if not name.startswith("_")}
+    assert expected <= written, expected - written
+    for path in samples.glob("*.csv"):
+        assert path.stat().st_size < 512_000, f"{path.name} exceeds the pre-commit size limit"
+
+
+def test_samples_are_not_gitignored() -> None:
+    """The defect this replaced was invisible: the files existed and were never committed."""
+    result = subprocess.run(
+        ["git", "check-ignore", "samples/dim_product.csv"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+    )
+    assert result.returncode != 0, "samples/ is gitignored; it must be committed"
+
+
 # --- 2.6, 2.7, 2.8 structure --------------------------------------------------------------
 
 

@@ -1,0 +1,1001 @@
+customer_key,acquisition_channel,is_paid_acquired,first_order_date,first_order_cohort,lifetime_order_count,geography
+1,Organic,False,2023-01-01,2023-01,2,West
+2,Paid social,True,2023-01-01,2023-01,1,West
+3,Retargeting,True,2023-01-01,2023-01,3,South
+4,Retargeting,True,2023-01-01,2023-01,1,Midwest
+5,Paid search,True,2023-01-01,2023-01,2,Midwest
+6,Affiliate / creator,True,2023-01-01,2023-01,2,South
+7,Email / SMS,False,2023-01-01,2023-01,2,West
+8,Paid social,True,2023-01-01,2023-01,2,Northeast
+9,Paid search,True,2023-01-01,2023-01,2,West
+10,Organic,False,2023-01-01,2023-01,2,Northeast
+11,Paid social,True,2023-01-01,2023-01,2,West
+12,Paid search,True,2023-01-01,2023-01,5,South
+13,Paid search,True,2023-01-01,2023-01,1,West
+14,Paid social,True,2023-01-01,2023-01,4,Midwest
+15,Paid social,True,2023-01-01,2023-01,1,South
+16,Organic,False,2023-01-01,2023-01,3,South
+17,Paid search,True,2023-01-01,2023-01,1,Midwest
+18,Paid social,True,2023-01-01,2023-01,1,South
+19,Paid social,True,2023-01-01,2023-01,2,Northeast
+20,Retargeting,True,2023-01-01,2023-01,3,South
+21,Paid social,True,2023-01-01,2023-01,2,South
+22,Organic,False,2023-01-01,2023-01,2,West
+23,Email / SMS,False,2023-01-01,2023-01,3,South
+24,Paid social,True,2023-01-01,2023-01,2,South
+25,Paid social,True,2023-01-01,2023-01,4,Midwest
+26,Paid social,True,2023-01-01,2023-01,3,West
+27,Paid social,True,2023-01-01,2023-01,1,Northeast
+28,Paid social,True,2023-01-01,2023-01,2,Northeast
+29,Paid social,True,2023-01-01,2023-01,1,Midwest
+30,Paid social,True,2023-01-01,2023-01,1,Northeast
+31,Email / SMS,False,2023-01-01,2023-01,3,Northeast
+32,Paid social,True,2023-01-01,2023-01,3,Northeast
+33,Email / SMS,False,2023-01-01,2023-01,2,Midwest
+34,Paid search,True,2023-01-01,2023-01,1,West
+35,Paid social,True,2023-01-01,2023-01,1,South
+36,Paid social,True,2023-01-01,2023-01,3,West
+37,Paid social,True,2023-01-01,2023-01,1,West
+38,Organic,False,2023-01-01,2023-01,2,Northeast
+39,Affiliate / creator,True,2023-01-01,2023-01,3,Midwest
+40,Paid search,True,2023-01-01,2023-01,2,South
+41,Referral,False,2023-01-01,2023-01,1,Northeast
+42,Paid social,True,2023-01-01,2023-01,1,Northeast
+43,Paid social,True,2023-01-01,2023-01,2,West
+44,Paid social,True,2023-01-01,2023-01,2,Midwest
+45,Paid social,True,2023-01-01,2023-01,2,Northeast
+46,Paid social,True,2023-01-01,2023-01,1,West
+47,Paid social,True,2023-01-01,2023-01,3,South
+48,Paid search,True,2023-01-01,2023-01,2,South
+49,Paid social,True,2023-01-01,2023-01,1,South
+50,Email / SMS,False,2023-01-01,2023-01,4,South
+51,Paid social,True,2023-01-01,2023-01,3,South
+52,Affiliate / creator,True,2023-01-01,2023-01,3,Midwest
+53,Paid search,True,2023-01-01,2023-01,1,Northeast
+54,Paid social,True,2023-01-01,2023-01,2,South
+55,Organic,False,2023-01-01,2023-01,1,West
+56,Affiliate / creator,True,2023-01-01,2023-01,4,Northeast
+57,Paid search,True,2023-01-01,2023-01,3,West
+58,Retargeting,True,2023-01-01,2023-01,3,Northeast
+59,Paid social,True,2023-01-01,2023-01,4,South
+60,Paid social,True,2023-01-01,2023-01,1,South
+61,Affiliate / creator,True,2023-01-01,2023-01,3,South
+62,Paid search,True,2023-01-01,2023-01,1,West
+63,Paid search,True,2023-01-01,2023-01,1,Midwest
+64,Referral,False,2023-01-01,2023-01,1,South
+65,Organic,False,2023-01-01,2023-01,1,Midwest
+66,Organic,False,2023-01-01,2023-01,2,Northeast
+67,Retargeting,True,2023-01-01,2023-01,2,Northeast
+68,Paid social,True,2023-01-01,2023-01,4,Northeast
+69,Paid search,True,2023-01-01,2023-01,1,West
+70,Paid social,True,2023-01-01,2023-01,1,Northeast
+71,Paid social,True,2023-01-01,2023-01,3,Midwest
+72,Organic,False,2023-01-01,2023-01,4,South
+73,Affiliate / creator,True,2023-01-01,2023-01,2,South
+74,Email / SMS,False,2023-01-01,2023-01,4,Northeast
+75,Paid social,True,2023-01-01,2023-01,1,Northeast
+76,Paid social,True,2023-01-01,2023-01,3,West
+77,Paid social,True,2023-01-01,2023-01,2,South
+78,Paid search,True,2023-01-01,2023-01,5,Midwest
+79,Paid social,True,2023-01-01,2023-01,1,West
+80,Paid search,True,2023-01-01,2023-01,2,Northeast
+81,Paid social,True,2023-01-01,2023-01,3,Northeast
+82,Paid search,True,2023-01-01,2023-01,1,Northeast
+83,Paid social,True,2023-01-01,2023-01,3,Northeast
+84,Paid social,True,2023-01-01,2023-01,4,West
+85,Retargeting,True,2023-01-01,2023-01,1,West
+86,Email / SMS,False,2023-01-01,2023-01,2,West
+87,Paid social,True,2023-01-01,2023-01,1,Northeast
+88,Paid social,True,2023-01-01,2023-01,2,Northeast
+89,Paid social,True,2023-01-01,2023-01,1,South
+90,Retargeting,True,2023-01-01,2023-01,2,Midwest
+91,Paid search,True,2023-01-01,2023-01,2,South
+92,Paid search,True,2023-01-01,2023-01,2,West
+93,Paid social,True,2023-01-01,2023-01,2,Midwest
+94,Email / SMS,False,2023-01-01,2023-01,2,Northeast
+95,Paid search,True,2023-01-01,2023-01,2,Midwest
+96,Paid social,True,2023-01-01,2023-01,2,South
+97,Paid social,True,2023-01-01,2023-01,2,West
+98,Retargeting,True,2023-01-01,2023-01,2,Northeast
+99,Paid social,True,2023-01-01,2023-01,3,Midwest
+100,Paid social,True,2023-01-01,2023-01,2,Midwest
+101,Paid social,True,2023-01-01,2023-01,4,Northeast
+102,Paid social,True,2023-01-01,2023-01,1,Midwest
+103,Paid social,True,2023-01-01,2023-01,3,West
+104,Retargeting,True,2023-01-01,2023-01,3,Midwest
+105,Paid social,True,2023-01-01,2023-01,3,Midwest
+106,Email / SMS,False,2023-01-02,2023-01,1,South
+107,Organic,False,2023-01-02,2023-01,3,West
+108,Paid search,True,2023-01-02,2023-01,6,West
+109,Retargeting,True,2023-01-02,2023-01,2,South
+110,Paid social,True,2023-01-02,2023-01,3,Northeast
+111,Paid social,True,2023-01-02,2023-01,2,Midwest
+112,Paid search,True,2023-01-02,2023-01,1,South
+113,Paid social,True,2023-01-02,2023-01,1,West
+114,Retargeting,True,2023-01-02,2023-01,6,Midwest
+115,Paid social,True,2023-01-02,2023-01,2,West
+116,Affiliate / creator,True,2023-01-02,2023-01,3,Northeast
+117,Paid search,True,2023-01-02,2023-01,2,West
+118,Paid search,True,2023-01-02,2023-01,2,Northeast
+119,Paid social,True,2023-01-02,2023-01,1,South
+120,Paid social,True,2023-01-02,2023-01,2,Northeast
+121,Paid social,True,2023-01-02,2023-01,1,South
+122,Paid search,True,2023-01-02,2023-01,2,Midwest
+123,Retargeting,True,2023-01-02,2023-01,3,Midwest
+124,Paid search,True,2023-01-02,2023-01,2,West
+125,Paid social,True,2023-01-02,2023-01,2,West
+126,Organic,False,2023-01-02,2023-01,2,Midwest
+127,Email / SMS,False,2023-01-02,2023-01,3,South
+128,Paid search,True,2023-01-02,2023-01,1,South
+129,Paid social,True,2023-01-02,2023-01,1,West
+130,Paid search,True,2023-01-02,2023-01,1,South
+131,Organic,False,2023-01-02,2023-01,2,Midwest
+132,Paid social,True,2023-01-02,2023-01,1,South
+133,Organic,False,2023-01-02,2023-01,2,Northeast
+134,Paid social,True,2023-01-02,2023-01,3,Midwest
+135,Paid search,True,2023-01-02,2023-01,1,West
+136,Paid social,True,2023-01-02,2023-01,2,South
+137,Email / SMS,False,2023-01-02,2023-01,1,Northeast
+138,Paid social,True,2023-01-02,2023-01,3,West
+139,Organic,False,2023-01-02,2023-01,1,South
+140,Retargeting,True,2023-01-02,2023-01,2,South
+141,Affiliate / creator,True,2023-01-02,2023-01,4,South
+142,Paid social,True,2023-01-02,2023-01,1,South
+143,Paid social,True,2023-01-02,2023-01,2,Midwest
+144,Paid social,True,2023-01-02,2023-01,3,Midwest
+145,Paid social,True,2023-01-02,2023-01,2,West
+146,Paid social,True,2023-01-02,2023-01,3,Midwest
+147,Paid social,True,2023-01-02,2023-01,4,South
+148,Paid search,True,2023-01-02,2023-01,2,West
+149,Retargeting,True,2023-01-02,2023-01,3,Midwest
+150,Referral,False,2023-01-02,2023-01,2,Midwest
+151,Organic,False,2023-01-02,2023-01,1,West
+152,Organic,False,2023-01-02,2023-01,2,Midwest
+153,Paid social,True,2023-01-02,2023-01,3,Midwest
+154,Paid social,True,2023-01-02,2023-01,2,Midwest
+155,Paid search,True,2023-01-02,2023-01,1,West
+156,Referral,False,2023-01-02,2023-01,2,West
+157,Retargeting,True,2023-01-02,2023-01,1,South
+158,Paid search,True,2023-01-02,2023-01,1,West
+159,Referral,False,2023-01-02,2023-01,2,West
+160,Paid search,True,2023-01-02,2023-01,1,South
+161,Paid social,True,2023-01-02,2023-01,1,Midwest
+162,Paid search,True,2023-01-02,2023-01,3,South
+163,Paid social,True,2023-01-02,2023-01,2,Northeast
+164,Paid social,True,2023-01-02,2023-01,1,West
+165,Email / SMS,False,2023-01-02,2023-01,2,Northeast
+166,Paid social,True,2023-01-02,2023-01,2,Northeast
+167,Referral,False,2023-01-02,2023-01,2,West
+168,Affiliate / creator,True,2023-01-02,2023-01,2,Midwest
+169,Paid social,True,2023-01-02,2023-01,3,Midwest
+170,Paid social,True,2023-01-02,2023-01,1,South
+171,Paid social,True,2023-01-02,2023-01,4,West
+172,Organic,False,2023-01-02,2023-01,3,South
+173,Affiliate / creator,True,2023-01-02,2023-01,2,Midwest
+174,Affiliate / creator,True,2023-01-02,2023-01,4,Midwest
+175,Organic,False,2023-01-02,2023-01,1,West
+176,Referral,False,2023-01-02,2023-01,1,Northeast
+177,Retargeting,True,2023-01-02,2023-01,2,West
+178,Paid social,True,2023-01-02,2023-01,2,Midwest
+179,Paid social,True,2023-01-02,2023-01,2,West
+180,Affiliate / creator,True,2023-01-02,2023-01,3,Northeast
+181,Paid social,True,2023-01-02,2023-01,4,West
+182,Retargeting,True,2023-01-02,2023-01,4,Northeast
+183,Organic,False,2023-01-02,2023-01,3,Northeast
+184,Paid search,True,2023-01-02,2023-01,2,Northeast
+185,Paid social,True,2023-01-02,2023-01,2,South
+186,Paid social,True,2023-01-02,2023-01,3,Northeast
+187,Paid social,True,2023-01-02,2023-01,1,South
+188,Paid social,True,2023-01-02,2023-01,2,Midwest
+189,Paid social,True,2023-01-02,2023-01,3,Northeast
+190,Paid search,True,2023-01-02,2023-01,2,South
+191,Paid social,True,2023-01-02,2023-01,2,South
+192,Paid search,True,2023-01-02,2023-01,3,South
+193,Paid social,True,2023-01-02,2023-01,2,West
+194,Paid social,True,2023-01-02,2023-01,2,South
+195,Email / SMS,False,2023-01-02,2023-01,3,Midwest
+196,Paid search,True,2023-01-02,2023-01,1,South
+197,Referral,False,2023-01-02,2023-01,2,West
+198,Paid social,True,2023-01-02,2023-01,4,South
+199,Paid social,True,2023-01-02,2023-01,3,West
+200,Paid social,True,2023-01-02,2023-01,2,Midwest
+201,Paid social,True,2023-01-02,2023-01,3,West
+202,Paid social,True,2023-01-02,2023-01,5,Midwest
+203,Paid social,True,2023-01-02,2023-01,4,Northeast
+204,Affiliate / creator,True,2023-01-02,2023-01,3,South
+205,Paid social,True,2023-01-02,2023-01,2,Northeast
+206,Email / SMS,False,2023-01-02,2023-01,3,Midwest
+207,Paid social,True,2023-01-02,2023-01,1,Northeast
+208,Paid social,True,2023-01-02,2023-01,1,West
+209,Affiliate / creator,True,2023-01-02,2023-01,4,South
+210,Paid social,True,2023-01-02,2023-01,1,Northeast
+211,Retargeting,True,2023-01-02,2023-01,3,Midwest
+212,Paid social,True,2023-01-02,2023-01,1,South
+213,Paid social,True,2023-01-02,2023-01,3,Midwest
+214,Affiliate / creator,True,2023-01-02,2023-01,2,Northeast
+215,Paid search,True,2023-01-02,2023-01,4,Midwest
+216,Paid search,True,2023-01-02,2023-01,2,West
+217,Email / SMS,False,2023-01-02,2023-01,2,Midwest
+218,Paid search,True,2023-01-02,2023-01,2,West
+219,Affiliate / creator,True,2023-01-02,2023-01,1,South
+220,Referral,False,2023-01-02,2023-01,2,South
+221,Paid social,True,2023-01-02,2023-01,1,Midwest
+222,Paid social,True,2023-01-02,2023-01,1,Northeast
+223,Paid search,True,2023-01-02,2023-01,1,Northeast
+224,Paid search,True,2023-01-02,2023-01,2,West
+225,Affiliate / creator,True,2023-01-02,2023-01,1,Midwest
+226,Affiliate / creator,True,2023-01-02,2023-01,3,Midwest
+227,Paid social,True,2023-01-02,2023-01,1,Midwest
+228,Email / SMS,False,2023-01-02,2023-01,3,West
+229,Paid social,True,2023-01-02,2023-01,4,West
+230,Paid social,True,2023-01-02,2023-01,1,West
+231,Paid social,True,2023-01-02,2023-01,2,West
+232,Paid social,True,2023-01-03,2023-01,2,West
+233,Paid social,True,2023-01-03,2023-01,3,South
+234,Email / SMS,False,2023-01-03,2023-01,1,South
+235,Paid social,True,2023-01-03,2023-01,5,West
+236,Retargeting,True,2023-01-03,2023-01,1,Midwest
+237,Paid search,True,2023-01-03,2023-01,4,West
+238,Paid search,True,2023-01-03,2023-01,1,South
+239,Referral,False,2023-01-03,2023-01,2,Northeast
+240,Referral,False,2023-01-03,2023-01,4,West
+241,Affiliate / creator,True,2023-01-03,2023-01,3,South
+242,Paid social,True,2023-01-03,2023-01,4,West
+243,Email / SMS,False,2023-01-03,2023-01,2,Northeast
+244,Organic,False,2023-01-03,2023-01,2,Midwest
+245,Retargeting,True,2023-01-03,2023-01,1,South
+246,Affiliate / creator,True,2023-01-03,2023-01,5,Northeast
+247,Paid social,True,2023-01-03,2023-01,2,Midwest
+248,Paid social,True,2023-01-03,2023-01,5,Midwest
+249,Organic,False,2023-01-03,2023-01,3,South
+250,Organic,False,2023-01-03,2023-01,1,West
+251,Paid social,True,2023-01-03,2023-01,1,West
+252,Paid social,True,2023-01-03,2023-01,2,Northeast
+253,Organic,False,2023-01-03,2023-01,3,Midwest
+254,Paid social,True,2023-01-03,2023-01,1,South
+255,Paid social,True,2023-01-03,2023-01,3,Midwest
+256,Paid social,True,2023-01-03,2023-01,2,Northeast
+257,Paid social,True,2023-01-03,2023-01,2,Midwest
+258,Paid social,True,2023-01-03,2023-01,1,Midwest
+259,Paid social,True,2023-01-03,2023-01,3,Midwest
+260,Paid search,True,2023-01-03,2023-01,2,South
+261,Paid social,True,2023-01-03,2023-01,1,Midwest
+262,Paid search,True,2023-01-03,2023-01,2,South
+263,Paid social,True,2023-01-03,2023-01,1,Midwest
+264,Paid social,True,2023-01-03,2023-01,3,South
+265,Affiliate / creator,True,2023-01-03,2023-01,1,Northeast
+266,Paid search,True,2023-01-03,2023-01,2,Midwest
+267,Organic,False,2023-01-03,2023-01,4,Northeast
+268,Organic,False,2023-01-03,2023-01,3,Northeast
+269,Paid search,True,2023-01-03,2023-01,3,Northeast
+270,Organic,False,2023-01-03,2023-01,2,Northeast
+271,Paid social,True,2023-01-03,2023-01,2,West
+272,Paid social,True,2023-01-03,2023-01,3,Northeast
+273,Retargeting,True,2023-01-03,2023-01,4,West
+274,Paid search,True,2023-01-03,2023-01,2,Midwest
+275,Organic,False,2023-01-03,2023-01,1,Midwest
+276,Organic,False,2023-01-03,2023-01,1,South
+277,Paid search,True,2023-01-03,2023-01,4,Northeast
+278,Organic,False,2023-01-03,2023-01,1,Midwest
+279,Paid social,True,2023-01-03,2023-01,1,South
+280,Paid social,True,2023-01-03,2023-01,1,West
+281,Paid social,True,2023-01-03,2023-01,2,Northeast
+282,Paid social,True,2023-01-03,2023-01,4,South
+283,Affiliate / creator,True,2023-01-03,2023-01,1,Midwest
+284,Paid search,True,2023-01-03,2023-01,1,West
+285,Paid search,True,2023-01-03,2023-01,4,Midwest
+286,Paid social,True,2023-01-03,2023-01,2,South
+287,Organic,False,2023-01-03,2023-01,3,Northeast
+288,Paid social,True,2023-01-03,2023-01,1,West
+289,Paid social,True,2023-01-03,2023-01,3,West
+290,Paid social,True,2023-01-03,2023-01,2,Northeast
+291,Paid social,True,2023-01-03,2023-01,3,Northeast
+292,Paid social,True,2023-01-03,2023-01,2,West
+293,Paid social,True,2023-01-03,2023-01,2,Northeast
+294,Paid social,True,2023-01-03,2023-01,3,West
+295,Referral,False,2023-01-03,2023-01,4,Northeast
+296,Paid social,True,2023-01-03,2023-01,1,Northeast
+297,Affiliate / creator,True,2023-01-03,2023-01,4,Northeast
+298,Email / SMS,False,2023-01-03,2023-01,4,West
+299,Retargeting,True,2023-01-03,2023-01,3,Northeast
+300,Paid search,True,2023-01-03,2023-01,1,Midwest
+301,Paid social,True,2023-01-03,2023-01,3,South
+302,Paid social,True,2023-01-03,2023-01,3,West
+303,Retargeting,True,2023-01-03,2023-01,1,Northeast
+304,Paid social,True,2023-01-03,2023-01,4,Northeast
+305,Organic,False,2023-01-03,2023-01,2,South
+306,Paid social,True,2023-01-03,2023-01,3,West
+307,Paid social,True,2023-01-03,2023-01,2,Midwest
+308,Affiliate / creator,True,2023-01-03,2023-01,1,South
+309,Organic,False,2023-01-03,2023-01,3,West
+310,Paid search,True,2023-01-03,2023-01,1,South
+311,Paid social,True,2023-01-03,2023-01,2,West
+312,Paid social,True,2023-01-03,2023-01,4,Midwest
+313,Paid social,True,2023-01-03,2023-01,2,Northeast
+314,Referral,False,2023-01-03,2023-01,1,West
+315,Paid social,True,2023-01-03,2023-01,3,Midwest
+316,Affiliate / creator,True,2023-01-03,2023-01,1,Midwest
+317,Paid social,True,2023-01-03,2023-01,1,South
+318,Paid social,True,2023-01-03,2023-01,3,Midwest
+319,Affiliate / creator,True,2023-01-03,2023-01,2,Midwest
+320,Referral,False,2023-01-03,2023-01,2,South
+321,Referral,False,2023-01-03,2023-01,1,West
+322,Affiliate / creator,True,2023-01-03,2023-01,1,Northeast
+323,Paid social,True,2023-01-03,2023-01,1,South
+324,Paid search,True,2023-01-03,2023-01,1,West
+325,Paid social,True,2023-01-03,2023-01,2,South
+326,Paid social,True,2023-01-03,2023-01,3,West
+327,Paid social,True,2023-01-03,2023-01,1,West
+328,Referral,False,2023-01-03,2023-01,2,Midwest
+329,Retargeting,True,2023-01-03,2023-01,2,Northeast
+330,Retargeting,True,2023-01-03,2023-01,1,West
+331,Paid search,True,2023-01-03,2023-01,3,South
+332,Affiliate / creator,True,2023-01-03,2023-01,4,Midwest
+333,Email / SMS,False,2023-01-03,2023-01,3,West
+334,Paid social,True,2023-01-03,2023-01,2,Northeast
+335,Organic,False,2023-01-04,2023-01,2,West
+336,Retargeting,True,2023-01-04,2023-01,2,West
+337,Paid search,True,2023-01-04,2023-01,2,West
+338,Paid social,True,2023-01-04,2023-01,3,Midwest
+339,Paid social,True,2023-01-04,2023-01,5,South
+340,Email / SMS,False,2023-01-04,2023-01,1,West
+341,Paid social,True,2023-01-04,2023-01,3,South
+342,Paid search,True,2023-01-04,2023-01,1,Midwest
+343,Paid social,True,2023-01-04,2023-01,2,South
+344,Paid social,True,2023-01-04,2023-01,2,West
+345,Email / SMS,False,2023-01-04,2023-01,3,South
+346,Email / SMS,False,2023-01-04,2023-01,2,West
+347,Paid social,True,2023-01-04,2023-01,3,Midwest
+348,Referral,False,2023-01-04,2023-01,1,South
+349,Email / SMS,False,2023-01-04,2023-01,3,West
+350,Email / SMS,False,2023-01-04,2023-01,2,Northeast
+351,Paid social,True,2023-01-04,2023-01,2,Northeast
+352,Paid social,True,2023-01-04,2023-01,2,Midwest
+353,Referral,False,2023-01-04,2023-01,2,Northeast
+354,Retargeting,True,2023-01-04,2023-01,3,West
+355,Retargeting,True,2023-01-04,2023-01,1,Midwest
+356,Paid social,True,2023-01-04,2023-01,2,Midwest
+357,Paid search,True,2023-01-04,2023-01,1,Midwest
+358,Referral,False,2023-01-04,2023-01,2,West
+359,Referral,False,2023-01-04,2023-01,4,Midwest
+360,Paid social,True,2023-01-04,2023-01,2,West
+361,Paid social,True,2023-01-04,2023-01,2,West
+362,Paid social,True,2023-01-04,2023-01,2,South
+363,Affiliate / creator,True,2023-01-04,2023-01,1,Northeast
+364,Referral,False,2023-01-04,2023-01,2,South
+365,Paid social,True,2023-01-04,2023-01,2,Northeast
+366,Paid social,True,2023-01-04,2023-01,2,Midwest
+367,Paid social,True,2023-01-04,2023-01,1,South
+368,Paid social,True,2023-01-04,2023-01,1,West
+369,Paid social,True,2023-01-04,2023-01,3,South
+370,Retargeting,True,2023-01-04,2023-01,1,Midwest
+371,Paid social,True,2023-01-04,2023-01,2,West
+372,Paid social,True,2023-01-04,2023-01,2,South
+373,Paid search,True,2023-01-04,2023-01,3,South
+374,Paid social,True,2023-01-04,2023-01,1,Midwest
+375,Referral,False,2023-01-04,2023-01,2,South
+376,Affiliate / creator,True,2023-01-04,2023-01,3,West
+377,Paid social,True,2023-01-04,2023-01,1,Midwest
+378,Paid social,True,2023-01-04,2023-01,4,West
+379,Paid search,True,2023-01-04,2023-01,2,Northeast
+380,Retargeting,True,2023-01-04,2023-01,1,Northeast
+381,Email / SMS,False,2023-01-04,2023-01,3,West
+382,Referral,False,2023-01-04,2023-01,1,West
+383,Paid social,True,2023-01-04,2023-01,1,Northeast
+384,Paid social,True,2023-01-04,2023-01,4,West
+385,Retargeting,True,2023-01-04,2023-01,2,Midwest
+386,Paid social,True,2023-01-04,2023-01,2,Midwest
+387,Paid social,True,2023-01-04,2023-01,3,South
+388,Affiliate / creator,True,2023-01-04,2023-01,1,Northeast
+389,Paid social,True,2023-01-04,2023-01,1,West
+390,Paid social,True,2023-01-04,2023-01,2,West
+391,Paid social,True,2023-01-04,2023-01,1,West
+392,Referral,False,2023-01-04,2023-01,3,South
+393,Paid search,True,2023-01-04,2023-01,1,Northeast
+394,Organic,False,2023-01-04,2023-01,2,Midwest
+395,Affiliate / creator,True,2023-01-04,2023-01,2,South
+396,Paid social,True,2023-01-04,2023-01,5,Northeast
+397,Paid search,True,2023-01-04,2023-01,1,West
+398,Paid social,True,2023-01-04,2023-01,2,West
+399,Retargeting,True,2023-01-04,2023-01,2,West
+400,Email / SMS,False,2023-01-04,2023-01,2,West
+401,Paid search,True,2023-01-04,2023-01,2,Northeast
+402,Paid search,True,2023-01-04,2023-01,4,South
+403,Organic,False,2023-01-04,2023-01,3,West
+404,Organic,False,2023-01-04,2023-01,2,Midwest
+405,Organic,False,2023-01-04,2023-01,1,South
+406,Paid search,True,2023-01-04,2023-01,2,Midwest
+407,Referral,False,2023-01-04,2023-01,4,South
+408,Paid search,True,2023-01-04,2023-01,3,West
+409,Paid social,True,2023-01-04,2023-01,1,Midwest
+410,Paid social,True,2023-01-04,2023-01,2,South
+411,Paid social,True,2023-01-04,2023-01,4,West
+412,Paid social,True,2023-01-04,2023-01,4,West
+413,Retargeting,True,2023-01-04,2023-01,1,Midwest
+414,Email / SMS,False,2023-01-04,2023-01,1,Northeast
+415,Email / SMS,False,2023-01-04,2023-01,2,West
+416,Paid search,True,2023-01-04,2023-01,3,Northeast
+417,Paid social,True,2023-01-04,2023-01,3,Northeast
+418,Paid social,True,2023-01-04,2023-01,2,South
+419,Paid social,True,2023-01-04,2023-01,2,Midwest
+420,Retargeting,True,2023-01-04,2023-01,3,West
+421,Affiliate / creator,True,2023-01-04,2023-01,1,Northeast
+422,Paid social,True,2023-01-04,2023-01,5,West
+423,Email / SMS,False,2023-01-04,2023-01,2,Northeast
+424,Retargeting,True,2023-01-04,2023-01,3,West
+425,Paid social,True,2023-01-04,2023-01,2,West
+426,Paid social,True,2023-01-04,2023-01,2,Northeast
+427,Paid social,True,2023-01-04,2023-01,3,West
+428,Paid search,True,2023-01-04,2023-01,2,Northeast
+429,Paid social,True,2023-01-04,2023-01,1,Northeast
+430,Paid social,True,2023-01-04,2023-01,1,West
+431,Paid social,True,2023-01-04,2023-01,2,Midwest
+432,Paid social,True,2023-01-04,2023-01,3,South
+433,Referral,False,2023-01-04,2023-01,2,Northeast
+434,Paid social,True,2023-01-04,2023-01,1,Northeast
+435,Paid social,True,2023-01-04,2023-01,2,South
+436,Paid social,True,2023-01-05,2023-01,3,West
+437,Paid search,True,2023-01-05,2023-01,1,South
+438,Paid social,True,2023-01-05,2023-01,2,Midwest
+439,Paid social,True,2023-01-05,2023-01,3,West
+440,Retargeting,True,2023-01-05,2023-01,1,South
+441,Paid social,True,2023-01-05,2023-01,3,Northeast
+442,Paid social,True,2023-01-05,2023-01,1,South
+443,Referral,False,2023-01-05,2023-01,1,Northeast
+444,Organic,False,2023-01-05,2023-01,2,Northeast
+445,Affiliate / creator,True,2023-01-05,2023-01,2,West
+446,Paid search,True,2023-01-05,2023-01,2,South
+447,Retargeting,True,2023-01-05,2023-01,3,Midwest
+448,Paid social,True,2023-01-05,2023-01,2,South
+449,Paid social,True,2023-01-05,2023-01,5,Northeast
+450,Paid social,True,2023-01-05,2023-01,1,South
+451,Referral,False,2023-01-05,2023-01,1,South
+452,Affiliate / creator,True,2023-01-05,2023-01,4,Midwest
+453,Paid social,True,2023-01-05,2023-01,2,South
+454,Paid social,True,2023-01-05,2023-01,3,West
+455,Affiliate / creator,True,2023-01-05,2023-01,3,South
+456,Organic,False,2023-01-05,2023-01,3,Northeast
+457,Referral,False,2023-01-05,2023-01,1,Midwest
+458,Paid search,True,2023-01-05,2023-01,2,Midwest
+459,Paid social,True,2023-01-05,2023-01,2,South
+460,Referral,False,2023-01-05,2023-01,3,West
+461,Paid search,True,2023-01-05,2023-01,2,South
+462,Paid social,True,2023-01-05,2023-01,1,West
+463,Paid social,True,2023-01-05,2023-01,2,South
+464,Paid social,True,2023-01-05,2023-01,1,Northeast
+465,Retargeting,True,2023-01-05,2023-01,3,Midwest
+466,Paid social,True,2023-01-05,2023-01,2,Midwest
+467,Paid search,True,2023-01-05,2023-01,2,West
+468,Paid search,True,2023-01-05,2023-01,2,Northeast
+469,Paid social,True,2023-01-05,2023-01,1,South
+470,Paid social,True,2023-01-05,2023-01,1,Midwest
+471,Paid search,True,2023-01-05,2023-01,3,South
+472,Paid social,True,2023-01-05,2023-01,2,Northeast
+473,Organic,False,2023-01-05,2023-01,3,South
+474,Paid search,True,2023-01-05,2023-01,1,South
+475,Email / SMS,False,2023-01-05,2023-01,2,West
+476,Affiliate / creator,True,2023-01-05,2023-01,3,Northeast
+477,Retargeting,True,2023-01-05,2023-01,3,West
+478,Paid search,True,2023-01-05,2023-01,2,South
+479,Paid social,True,2023-01-05,2023-01,4,Northeast
+480,Paid social,True,2023-01-05,2023-01,2,West
+481,Retargeting,True,2023-01-05,2023-01,2,South
+482,Organic,False,2023-01-05,2023-01,2,South
+483,Retargeting,True,2023-01-05,2023-01,6,Midwest
+484,Email / SMS,False,2023-01-05,2023-01,2,Northeast
+485,Paid social,True,2023-01-05,2023-01,3,Midwest
+486,Paid search,True,2023-01-05,2023-01,1,Midwest
+487,Paid search,True,2023-01-05,2023-01,1,South
+488,Paid social,True,2023-01-05,2023-01,1,Midwest
+489,Retargeting,True,2023-01-05,2023-01,1,Northeast
+490,Organic,False,2023-01-05,2023-01,2,West
+491,Email / SMS,False,2023-01-05,2023-01,3,Midwest
+492,Paid search,True,2023-01-05,2023-01,3,Northeast
+493,Paid search,True,2023-01-05,2023-01,1,Northeast
+494,Organic,False,2023-01-05,2023-01,2,Midwest
+495,Paid social,True,2023-01-05,2023-01,2,Midwest
+496,Paid social,True,2023-01-05,2023-01,1,South
+497,Paid search,True,2023-01-05,2023-01,1,Northeast
+498,Affiliate / creator,True,2023-01-05,2023-01,3,Northeast
+499,Paid social,True,2023-01-05,2023-01,1,West
+500,Paid social,True,2023-01-05,2023-01,1,Midwest
+501,Organic,False,2023-01-05,2023-01,2,South
+502,Organic,False,2023-01-05,2023-01,4,South
+503,Affiliate / creator,True,2023-01-05,2023-01,1,South
+504,Affiliate / creator,True,2023-01-05,2023-01,4,Midwest
+505,Paid social,True,2023-01-05,2023-01,1,Northeast
+506,Affiliate / creator,True,2023-01-05,2023-01,2,Midwest
+507,Retargeting,True,2023-01-05,2023-01,3,Midwest
+508,Retargeting,True,2023-01-05,2023-01,2,South
+509,Paid search,True,2023-01-05,2023-01,3,Northeast
+510,Retargeting,True,2023-01-05,2023-01,1,South
+511,Paid search,True,2023-01-05,2023-01,6,South
+512,Retargeting,True,2023-01-05,2023-01,3,Midwest
+513,Paid search,True,2023-01-05,2023-01,3,South
+514,Organic,False,2023-01-05,2023-01,1,South
+515,Paid social,True,2023-01-05,2023-01,4,West
+516,Paid social,True,2023-01-05,2023-01,2,Northeast
+517,Affiliate / creator,True,2023-01-05,2023-01,1,South
+518,Paid social,True,2023-01-05,2023-01,2,Northeast
+519,Referral,False,2023-01-05,2023-01,3,Midwest
+520,Paid search,True,2023-01-05,2023-01,2,South
+521,Paid search,True,2023-01-05,2023-01,1,West
+522,Affiliate / creator,True,2023-01-05,2023-01,2,Midwest
+523,Paid social,True,2023-01-05,2023-01,2,Northeast
+524,Organic,False,2023-01-05,2023-01,3,South
+525,Email / SMS,False,2023-01-05,2023-01,3,West
+526,Paid search,True,2023-01-05,2023-01,3,Northeast
+527,Paid social,True,2023-01-05,2023-01,3,South
+528,Email / SMS,False,2023-01-05,2023-01,3,West
+529,Paid social,True,2023-01-05,2023-01,2,Northeast
+530,Paid social,True,2023-01-05,2023-01,2,West
+531,Organic,False,2023-01-05,2023-01,3,West
+532,Paid social,True,2023-01-05,2023-01,3,South
+533,Paid social,True,2023-01-05,2023-01,2,West
+534,Paid social,True,2023-01-05,2023-01,5,Northeast
+535,Email / SMS,False,2023-01-05,2023-01,1,Northeast
+536,Paid social,True,2023-01-05,2023-01,3,Midwest
+537,Affiliate / creator,True,2023-01-05,2023-01,2,Midwest
+538,Paid social,True,2023-01-05,2023-01,1,Northeast
+539,Retargeting,True,2023-01-05,2023-01,1,Midwest
+540,Paid search,True,2023-01-05,2023-01,2,Midwest
+541,Organic,False,2023-01-05,2023-01,3,West
+542,Paid social,True,2023-01-05,2023-01,1,Northeast
+543,Email / SMS,False,2023-01-05,2023-01,2,South
+544,Paid social,True,2023-01-05,2023-01,4,West
+545,Organic,False,2023-01-05,2023-01,2,Northeast
+546,Retargeting,True,2023-01-05,2023-01,2,West
+547,Paid search,True,2023-01-05,2023-01,3,Midwest
+548,Paid search,True,2023-01-05,2023-01,3,Midwest
+549,Paid social,True,2023-01-05,2023-01,2,Midwest
+550,Affiliate / creator,True,2023-01-05,2023-01,2,Midwest
+551,Paid search,True,2023-01-05,2023-01,1,Midwest
+552,Paid social,True,2023-01-05,2023-01,2,South
+553,Paid social,True,2023-01-05,2023-01,1,South
+554,Affiliate / creator,True,2023-01-05,2023-01,2,South
+555,Referral,False,2023-01-05,2023-01,1,Midwest
+556,Paid social,True,2023-01-05,2023-01,1,Northeast
+557,Paid search,True,2023-01-05,2023-01,1,South
+558,Email / SMS,False,2023-01-05,2023-01,1,West
+559,Paid search,True,2023-01-05,2023-01,2,Northeast
+560,Affiliate / creator,True,2023-01-05,2023-01,2,Northeast
+561,Paid search,True,2023-01-05,2023-01,3,West
+562,Paid social,True,2023-01-05,2023-01,2,Northeast
+563,Paid social,True,2023-01-05,2023-01,2,South
+564,Paid social,True,2023-01-05,2023-01,2,Midwest
+565,Paid social,True,2023-01-05,2023-01,2,Midwest
+566,Paid social,True,2023-01-05,2023-01,3,Midwest
+567,Referral,False,2023-01-05,2023-01,3,Northeast
+568,Paid social,True,2023-01-05,2023-01,2,Northeast
+569,Paid social,True,2023-01-06,2023-01,2,West
+570,Paid social,True,2023-01-06,2023-01,1,West
+571,Referral,False,2023-01-06,2023-01,1,Midwest
+572,Paid social,True,2023-01-06,2023-01,2,South
+573,Retargeting,True,2023-01-06,2023-01,2,West
+574,Organic,False,2023-01-06,2023-01,2,South
+575,Paid social,True,2023-01-06,2023-01,1,Northeast
+576,Organic,False,2023-01-06,2023-01,2,West
+577,Referral,False,2023-01-06,2023-01,1,West
+578,Organic,False,2023-01-06,2023-01,2,West
+579,Organic,False,2023-01-06,2023-01,2,Northeast
+580,Organic,False,2023-01-06,2023-01,3,South
+581,Paid social,True,2023-01-06,2023-01,1,South
+582,Organic,False,2023-01-06,2023-01,2,Midwest
+583,Paid search,True,2023-01-06,2023-01,2,West
+584,Paid search,True,2023-01-01,2023-01,2,South
+585,Organic,False,2023-01-06,2023-01,2,West
+586,Paid search,True,2023-01-06,2023-01,1,Midwest
+587,Paid social,True,2023-01-06,2023-01,3,West
+588,Referral,False,2023-01-06,2023-01,1,Midwest
+589,Paid social,True,2023-01-06,2023-01,4,Midwest
+590,Affiliate / creator,True,2023-01-06,2023-01,1,South
+591,Paid social,True,2023-01-06,2023-01,1,Midwest
+592,Paid search,True,2023-01-06,2023-01,2,Midwest
+593,Paid social,True,2023-01-06,2023-01,2,Northeast
+594,Paid social,True,2023-01-06,2023-01,8,Midwest
+595,Retargeting,True,2023-01-06,2023-01,3,West
+596,Referral,False,2023-01-06,2023-01,1,Midwest
+597,Paid social,True,2023-01-06,2023-01,3,South
+598,Paid social,True,2023-01-06,2023-01,2,Midwest
+599,Paid social,True,2023-01-06,2023-01,2,West
+600,Paid social,True,2023-01-06,2023-01,2,Midwest
+601,Retargeting,True,2023-01-06,2023-01,2,West
+602,Retargeting,True,2023-01-06,2023-01,2,South
+603,Paid social,True,2023-01-06,2023-01,2,South
+604,Email / SMS,False,2023-01-06,2023-01,3,South
+605,Paid search,True,2023-01-06,2023-01,2,Northeast
+606,Paid search,True,2023-01-06,2023-01,1,Northeast
+607,Retargeting,True,2023-01-06,2023-01,1,South
+608,Paid social,True,2023-01-06,2023-01,3,South
+609,Retargeting,True,2023-01-06,2023-01,4,Midwest
+610,Affiliate / creator,True,2023-01-06,2023-01,3,Northeast
+611,Paid social,True,2023-01-06,2023-01,3,Northeast
+612,Organic,False,2023-01-06,2023-01,1,Midwest
+613,Affiliate / creator,True,2023-01-06,2023-01,1,South
+614,Paid social,True,2023-01-06,2023-01,2,South
+615,Paid social,True,2023-01-06,2023-01,1,Northeast
+616,Email / SMS,False,2023-01-06,2023-01,3,Northeast
+617,Organic,False,2023-01-06,2023-01,1,West
+618,Paid search,True,2023-01-06,2023-01,3,South
+619,Affiliate / creator,True,2023-01-06,2023-01,1,West
+620,Paid social,True,2023-01-06,2023-01,3,Midwest
+621,Paid social,True,2023-01-06,2023-01,2,Midwest
+622,Referral,False,2023-01-06,2023-01,1,South
+623,Paid social,True,2023-01-06,2023-01,2,West
+624,Paid social,True,2023-01-06,2023-01,2,Northeast
+625,Paid social,True,2023-01-06,2023-01,2,West
+626,Affiliate / creator,True,2023-01-06,2023-01,4,Northeast
+627,Paid social,True,2023-01-06,2023-01,1,West
+628,Paid search,True,2023-01-06,2023-01,1,Midwest
+629,Retargeting,True,2023-01-06,2023-01,1,South
+630,Paid social,True,2023-01-06,2023-01,1,Midwest
+631,Paid social,True,2023-01-06,2023-01,1,Midwest
+632,Retargeting,True,2023-01-06,2023-01,3,Northeast
+633,Paid search,True,2023-01-06,2023-01,1,West
+634,Referral,False,2023-01-06,2023-01,3,Midwest
+635,Retargeting,True,2023-01-06,2023-01,2,Northeast
+636,Paid social,True,2023-01-06,2023-01,1,Midwest
+637,Paid social,True,2023-01-06,2023-01,2,West
+638,Paid search,True,2023-01-06,2023-01,1,West
+639,Paid social,True,2023-01-06,2023-01,3,Midwest
+640,Paid search,True,2023-01-06,2023-01,1,Northeast
+641,Organic,False,2023-01-06,2023-01,3,West
+642,Paid search,True,2023-01-06,2023-01,2,Midwest
+643,Affiliate / creator,True,2023-01-06,2023-01,1,Midwest
+644,Paid social,True,2023-01-06,2023-01,3,Northeast
+645,Referral,False,2023-01-06,2023-01,3,West
+646,Retargeting,True,2023-01-06,2023-01,3,Northeast
+647,Retargeting,True,2023-01-06,2023-01,1,Midwest
+648,Affiliate / creator,True,2023-01-06,2023-01,1,Northeast
+649,Paid social,True,2023-01-06,2023-01,5,Northeast
+650,Paid social,True,2023-01-06,2023-01,1,South
+651,Paid social,True,2023-01-06,2023-01,1,South
+652,Paid search,True,2023-01-06,2023-01,3,Midwest
+653,Retargeting,True,2023-01-06,2023-01,3,South
+654,Organic,False,2023-01-06,2023-01,1,South
+655,Paid search,True,2023-01-06,2023-01,1,Northeast
+656,Paid social,True,2023-01-06,2023-01,1,Midwest
+657,Affiliate / creator,True,2023-01-06,2023-01,2,Northeast
+658,Paid social,True,2023-01-06,2023-01,3,Northeast
+659,Paid social,True,2023-01-06,2023-01,1,West
+660,Retargeting,True,2023-01-06,2023-01,3,West
+661,Referral,False,2023-01-06,2023-01,3,Northeast
+662,Paid search,True,2023-01-06,2023-01,1,Midwest
+663,Affiliate / creator,True,2023-01-06,2023-01,1,West
+664,Organic,False,2023-01-06,2023-01,2,Northeast
+665,Paid social,True,2023-01-06,2023-01,1,West
+666,Paid search,True,2023-01-06,2023-01,3,Northeast
+667,Referral,False,2023-01-06,2023-01,1,South
+668,Paid social,True,2023-01-06,2023-01,1,Northeast
+669,Paid search,True,2023-01-06,2023-01,2,Northeast
+670,Paid social,True,2023-01-06,2023-01,2,West
+671,Paid social,True,2023-01-06,2023-01,2,West
+672,Paid social,True,2023-01-06,2023-01,2,South
+673,Organic,False,2023-01-06,2023-01,2,South
+674,Paid social,True,2023-01-06,2023-01,2,Midwest
+675,Paid social,True,2023-01-06,2023-01,1,South
+676,Affiliate / creator,True,2023-01-06,2023-01,1,Midwest
+677,Paid search,True,2023-01-06,2023-01,1,South
+678,Paid search,True,2023-01-06,2023-01,4,Northeast
+679,Email / SMS,False,2023-01-06,2023-01,2,Midwest
+680,Affiliate / creator,True,2023-01-06,2023-01,1,Midwest
+681,Referral,False,2023-01-06,2023-01,4,South
+682,Paid social,True,2023-01-06,2023-01,1,South
+683,Paid social,True,2023-01-06,2023-01,3,South
+684,Retargeting,True,2023-01-06,2023-01,1,Midwest
+685,Email / SMS,False,2023-01-06,2023-01,2,West
+686,Paid social,True,2023-01-06,2023-01,4,Northeast
+687,Paid social,True,2023-01-06,2023-01,3,Midwest
+688,Paid social,True,2023-01-06,2023-01,1,Northeast
+689,Paid search,True,2023-01-06,2023-01,2,West
+690,Paid social,True,2023-01-06,2023-01,1,Midwest
+691,Referral,False,2023-01-06,2023-01,3,Midwest
+692,Paid search,True,2023-01-06,2023-01,2,Midwest
+693,Affiliate / creator,True,2023-01-06,2023-01,2,Northeast
+694,Paid social,True,2023-01-06,2023-01,5,Midwest
+695,Referral,False,2023-01-06,2023-01,2,Northeast
+696,Paid social,True,2023-01-06,2023-01,1,West
+697,Paid search,True,2023-01-06,2023-01,1,Midwest
+698,Referral,False,2023-01-07,2023-01,2,West
+699,Referral,False,2023-01-07,2023-01,2,Midwest
+700,Organic,False,2023-01-07,2023-01,1,South
+701,Paid social,True,2023-01-07,2023-01,1,Northeast
+702,Paid social,True,2023-01-07,2023-01,3,Northeast
+703,Paid social,True,2023-01-07,2023-01,3,Northeast
+704,Organic,False,2023-01-07,2023-01,1,South
+705,Email / SMS,False,2023-01-07,2023-01,2,West
+706,Affiliate / creator,True,2023-01-07,2023-01,2,West
+707,Retargeting,True,2023-01-07,2023-01,1,West
+708,Affiliate / creator,True,2023-01-07,2023-01,2,West
+709,Paid social,True,2023-01-07,2023-01,2,West
+710,Paid social,True,2023-01-07,2023-01,3,South
+711,Retargeting,True,2023-01-07,2023-01,3,Northeast
+712,Referral,False,2023-01-07,2023-01,3,Midwest
+713,Affiliate / creator,True,2023-01-07,2023-01,3,South
+714,Paid social,True,2023-01-01,2023-01,2,South
+715,Paid social,True,2023-01-07,2023-01,2,Northeast
+716,Paid social,True,2023-01-07,2023-01,1,South
+717,Paid social,True,2023-01-07,2023-01,2,Northeast
+718,Retargeting,True,2023-01-07,2023-01,2,Midwest
+719,Organic,False,2023-01-07,2023-01,1,Midwest
+720,Paid social,True,2023-01-07,2023-01,1,Midwest
+721,Referral,False,2023-01-07,2023-01,5,South
+722,Paid social,True,2023-01-07,2023-01,3,South
+723,Paid social,True,2023-01-07,2023-01,1,West
+724,Paid social,True,2023-01-07,2023-01,2,South
+725,Paid social,True,2023-01-07,2023-01,1,Midwest
+726,Paid social,True,2023-01-07,2023-01,4,Midwest
+727,Referral,False,2023-01-07,2023-01,2,South
+728,Email / SMS,False,2023-01-07,2023-01,3,South
+729,Paid social,True,2023-01-07,2023-01,2,Northeast
+730,Paid search,True,2023-01-07,2023-01,1,Northeast
+731,Referral,False,2023-01-07,2023-01,1,Northeast
+732,Paid search,True,2023-01-07,2023-01,3,Northeast
+733,Referral,False,2023-01-07,2023-01,1,South
+734,Organic,False,2023-01-07,2023-01,4,West
+735,Affiliate / creator,True,2023-01-07,2023-01,1,Northeast
+736,Paid search,True,2023-01-07,2023-01,1,Midwest
+737,Referral,False,2023-01-07,2023-01,5,West
+738,Retargeting,True,2023-01-07,2023-01,1,South
+739,Retargeting,True,2023-01-07,2023-01,3,Northeast
+740,Email / SMS,False,2023-01-07,2023-01,3,West
+741,Affiliate / creator,True,2023-01-07,2023-01,3,Midwest
+742,Affiliate / creator,True,2023-01-07,2023-01,2,Northeast
+743,Affiliate / creator,True,2023-01-07,2023-01,1,Midwest
+744,Paid search,True,2023-01-07,2023-01,1,Midwest
+745,Paid search,True,2023-01-07,2023-01,2,West
+746,Retargeting,True,2023-01-07,2023-01,2,South
+747,Paid social,True,2023-01-07,2023-01,4,West
+748,Paid search,True,2023-01-07,2023-01,2,West
+749,Referral,False,2023-01-07,2023-01,2,West
+750,Affiliate / creator,True,2023-01-07,2023-01,2,South
+751,Paid social,True,2023-01-07,2023-01,1,West
+752,Affiliate / creator,True,2023-01-07,2023-01,3,West
+753,Paid social,True,2023-01-07,2023-01,3,South
+754,Paid social,True,2023-01-07,2023-01,3,South
+755,Paid social,True,2023-01-07,2023-01,3,Midwest
+756,Paid social,True,2023-01-07,2023-01,3,South
+757,Affiliate / creator,True,2023-01-07,2023-01,3,South
+758,Paid social,True,2023-01-07,2023-01,1,West
+759,Paid social,True,2023-01-07,2023-01,2,Midwest
+760,Paid social,True,2023-01-07,2023-01,4,West
+761,Email / SMS,False,2023-01-07,2023-01,1,Northeast
+762,Paid social,True,2023-01-07,2023-01,1,Northeast
+763,Affiliate / creator,True,2023-01-07,2023-01,4,Midwest
+764,Paid social,True,2023-01-07,2023-01,2,South
+765,Paid search,True,2023-01-07,2023-01,4,South
+766,Paid social,True,2023-01-07,2023-01,1,West
+767,Paid social,True,2023-01-07,2023-01,1,West
+768,Paid social,True,2023-01-07,2023-01,1,South
+769,Paid search,True,2023-01-07,2023-01,2,South
+770,Affiliate / creator,True,2023-01-07,2023-01,2,South
+771,Email / SMS,False,2023-01-07,2023-01,1,South
+772,Paid search,True,2023-01-07,2023-01,3,Midwest
+773,Paid social,True,2023-01-07,2023-01,1,West
+774,Paid social,True,2023-01-07,2023-01,3,West
+775,Email / SMS,False,2023-01-07,2023-01,1,Midwest
+776,Email / SMS,False,2023-01-07,2023-01,1,Northeast
+777,Affiliate / creator,True,2023-01-07,2023-01,3,Midwest
+778,Retargeting,True,2023-01-07,2023-01,1,Midwest
+779,Retargeting,True,2023-01-07,2023-01,1,Northeast
+780,Paid social,True,2023-01-07,2023-01,1,West
+781,Paid social,True,2023-01-07,2023-01,2,South
+782,Organic,False,2023-01-07,2023-01,2,Northeast
+783,Affiliate / creator,True,2023-01-03,2023-01,2,West
+784,Paid social,True,2023-01-07,2023-01,1,South
+785,Paid search,True,2023-01-07,2023-01,3,Midwest
+786,Paid social,True,2023-01-07,2023-01,2,West
+787,Paid social,True,2023-01-07,2023-01,2,Northeast
+788,Paid social,True,2023-01-07,2023-01,1,South
+789,Paid search,True,2023-01-07,2023-01,2,South
+790,Paid social,True,2023-01-07,2023-01,3,South
+791,Organic,False,2023-01-07,2023-01,4,West
+792,Organic,False,2023-01-07,2023-01,2,South
+793,Retargeting,True,2023-01-07,2023-01,2,Midwest
+794,Organic,False,2023-01-07,2023-01,6,Midwest
+795,Paid social,True,2023-01-07,2023-01,2,Northeast
+796,Paid social,True,2023-01-07,2023-01,2,South
+797,Paid social,True,2023-01-07,2023-01,1,Northeast
+798,Paid social,True,2023-01-07,2023-01,1,Northeast
+799,Paid search,True,2023-01-07,2023-01,2,West
+800,Paid social,True,2023-01-07,2023-01,2,Northeast
+801,Paid social,True,2023-01-07,2023-01,1,West
+802,Paid social,True,2023-01-07,2023-01,2,Midwest
+803,Organic,False,2023-01-07,2023-01,1,Midwest
+804,Email / SMS,False,2023-01-08,2023-01,1,Northeast
+805,Retargeting,True,2023-01-08,2023-01,1,Northeast
+806,Paid search,True,2023-01-08,2023-01,1,South
+807,Paid search,True,2023-01-08,2023-01,1,West
+808,Paid social,True,2023-01-08,2023-01,1,South
+809,Paid social,True,2023-01-08,2023-01,1,Northeast
+810,Paid search,True,2023-01-08,2023-01,2,West
+811,Paid search,True,2023-01-08,2023-01,1,West
+812,Email / SMS,False,2023-01-08,2023-01,2,West
+813,Retargeting,True,2023-01-08,2023-01,2,West
+814,Organic,False,2023-01-08,2023-01,5,West
+815,Paid social,True,2023-01-08,2023-01,1,Midwest
+816,Email / SMS,False,2023-01-08,2023-01,1,West
+817,Paid social,True,2023-01-08,2023-01,3,West
+818,Organic,False,2023-01-08,2023-01,2,West
+819,Paid social,True,2023-01-08,2023-01,2,Midwest
+820,Paid social,True,2023-01-08,2023-01,2,West
+821,Paid search,True,2023-01-08,2023-01,2,West
+822,Paid social,True,2023-01-08,2023-01,2,Midwest
+823,Organic,False,2023-01-08,2023-01,2,Northeast
+824,Paid social,True,2023-01-08,2023-01,2,South
+825,Paid social,True,2023-01-08,2023-01,3,Midwest
+826,Paid search,True,2023-01-08,2023-01,2,South
+827,Affiliate / creator,True,2023-01-08,2023-01,1,Northeast
+828,Paid search,True,2023-01-08,2023-01,2,Midwest
+829,Retargeting,True,2023-01-08,2023-01,3,Midwest
+830,Paid social,True,2023-01-08,2023-01,2,Northeast
+831,Retargeting,True,2023-01-08,2023-01,3,West
+832,Affiliate / creator,True,2023-01-08,2023-01,2,Northeast
+833,Paid social,True,2023-01-08,2023-01,2,Midwest
+834,Affiliate / creator,True,2023-01-08,2023-01,1,Midwest
+835,Paid search,True,2023-01-08,2023-01,3,South
+836,Organic,False,2023-01-08,2023-01,2,West
+837,Affiliate / creator,True,2023-01-08,2023-01,3,South
+838,Paid social,True,2023-01-08,2023-01,1,South
+839,Affiliate / creator,True,2023-01-08,2023-01,1,Midwest
+840,Paid social,True,2023-01-08,2023-01,5,South
+841,Paid social,True,2023-01-08,2023-01,3,Midwest
+842,Paid search,True,2023-01-08,2023-01,1,South
+843,Paid social,True,2023-01-08,2023-01,2,Northeast
+844,Paid social,True,2023-01-02,2023-01,5,Midwest
+845,Paid social,True,2023-01-08,2023-01,1,South
+846,Paid search,True,2023-01-08,2023-01,3,South
+847,Retargeting,True,2023-01-08,2023-01,2,Northeast
+848,Paid social,True,2023-01-08,2023-01,1,West
+849,Paid search,True,2023-01-08,2023-01,4,South
+850,Email / SMS,False,2023-01-08,2023-01,1,Midwest
+851,Affiliate / creator,True,2023-01-08,2023-01,3,Midwest
+852,Affiliate / creator,True,2023-01-08,2023-01,2,West
+853,Paid social,True,2023-01-08,2023-01,2,Northeast
+854,Paid search,True,2023-01-08,2023-01,4,South
+855,Retargeting,True,2023-01-08,2023-01,3,South
+856,Paid search,True,2023-01-08,2023-01,1,Northeast
+857,Affiliate / creator,True,2023-01-08,2023-01,3,Midwest
+858,Paid social,True,2023-01-08,2023-01,2,West
+859,Paid social,True,2023-01-08,2023-01,2,Northeast
+860,Paid social,True,2023-01-08,2023-01,1,Midwest
+861,Organic,False,2023-01-08,2023-01,2,West
+862,Paid search,True,2023-01-08,2023-01,1,South
+863,Paid social,True,2023-01-08,2023-01,1,Northeast
+864,Paid search,True,2023-01-08,2023-01,2,Midwest
+865,Paid social,True,2023-01-08,2023-01,1,Northeast
+866,Referral,False,2023-01-08,2023-01,4,Midwest
+867,Paid social,True,2023-01-08,2023-01,1,West
+868,Paid social,True,2023-01-08,2023-01,2,South
+869,Organic,False,2023-01-08,2023-01,2,Midwest
+870,Paid social,True,2023-01-08,2023-01,3,West
+871,Paid social,True,2023-01-08,2023-01,1,Northeast
+872,Retargeting,True,2023-01-08,2023-01,2,South
+873,Paid search,True,2023-01-08,2023-01,3,Northeast
+874,Paid social,True,2023-01-08,2023-01,5,Midwest
+875,Retargeting,True,2023-01-08,2023-01,1,Midwest
+876,Paid social,True,2023-01-08,2023-01,3,Midwest
+877,Paid social,True,2023-01-08,2023-01,1,Midwest
+878,Organic,False,2023-01-08,2023-01,2,Midwest
+879,Paid social,True,2023-01-08,2023-01,3,Northeast
+880,Paid social,True,2023-01-08,2023-01,3,South
+881,Paid search,True,2023-01-08,2023-01,2,South
+882,Affiliate / creator,True,2023-01-08,2023-01,3,Midwest
+883,Paid search,True,2023-01-08,2023-01,3,Northeast
+884,Referral,False,2023-01-08,2023-01,1,South
+885,Paid social,True,2023-01-08,2023-01,1,Northeast
+886,Paid social,True,2023-01-08,2023-01,2,West
+887,Paid search,True,2023-01-08,2023-01,3,South
+888,Referral,False,2023-01-08,2023-01,1,Northeast
+889,Paid social,True,2023-01-08,2023-01,2,West
+890,Affiliate / creator,True,2023-01-08,2023-01,1,West
+891,Paid social,True,2023-01-08,2023-01,1,West
+892,Retargeting,True,2023-01-08,2023-01,1,Northeast
+893,Paid search,True,2023-01-08,2023-01,2,West
+894,Paid search,True,2023-01-08,2023-01,3,West
+895,Paid social,True,2023-01-08,2023-01,2,Midwest
+896,Paid social,True,2023-01-08,2023-01,5,Northeast
+897,Paid search,True,2023-01-08,2023-01,2,West
+898,Paid social,True,2023-01-01,2023-01,2,West
+899,Paid social,True,2023-01-08,2023-01,1,South
+900,Paid search,True,2023-01-08,2023-01,2,Northeast
+901,Paid search,True,2023-01-08,2023-01,2,South
+902,Email / SMS,False,2023-01-08,2023-01,3,Midwest
+903,Paid social,True,2023-01-08,2023-01,2,West
+904,Paid social,True,2023-01-08,2023-01,1,Northeast
+905,Paid social,True,2023-01-08,2023-01,3,South
+906,Paid search,True,2023-01-08,2023-01,1,West
+907,Referral,False,2023-01-08,2023-01,2,South
+908,Paid social,True,2023-01-08,2023-01,1,Midwest
+909,Paid social,True,2023-01-08,2023-01,2,South
+910,Organic,False,2023-01-08,2023-01,2,South
+911,Affiliate / creator,True,2023-01-08,2023-01,2,West
+912,Email / SMS,False,2023-01-08,2023-01,2,Northeast
+913,Paid social,True,2023-01-08,2023-01,3,South
+914,Paid social,True,2023-01-08,2023-01,3,Northeast
+915,Email / SMS,False,2023-01-08,2023-01,3,Northeast
+916,Paid search,True,2023-01-08,2023-01,6,South
+917,Affiliate / creator,True,2023-01-08,2023-01,4,Northeast
+918,Paid social,True,2023-01-08,2023-01,2,Midwest
+919,Email / SMS,False,2023-01-08,2023-01,2,Northeast
+920,Paid social,True,2023-01-08,2023-01,1,West
+921,Paid social,True,2023-01-08,2023-01,2,Midwest
+922,Retargeting,True,2023-01-08,2023-01,2,Midwest
+923,Paid search,True,2023-01-08,2023-01,1,Northeast
+924,Affiliate / creator,True,2023-01-08,2023-01,3,Midwest
+925,Paid social,True,2023-01-08,2023-01,2,South
+926,Email / SMS,False,2023-01-09,2023-01,2,Midwest
+927,Retargeting,True,2023-01-09,2023-01,3,Northeast
+928,Paid search,True,2023-01-09,2023-01,2,West
+929,Organic,False,2023-01-09,2023-01,3,West
+930,Affiliate / creator,True,2023-01-09,2023-01,2,West
+931,Paid social,True,2023-01-09,2023-01,4,Northeast
+932,Paid social,True,2023-01-09,2023-01,1,South
+933,Retargeting,True,2023-01-09,2023-01,1,South
+934,Paid search,True,2023-01-09,2023-01,2,South
+935,Retargeting,True,2023-01-09,2023-01,3,Northeast
+936,Paid search,True,2023-01-09,2023-01,3,Northeast
+937,Paid social,True,2023-01-09,2023-01,2,South
+938,Retargeting,True,2023-01-09,2023-01,1,Northeast
+939,Paid social,True,2023-01-09,2023-01,4,Northeast
+940,Referral,False,2023-01-09,2023-01,4,West
+941,Referral,False,2023-01-09,2023-01,3,Northeast
+942,Paid search,True,2023-01-09,2023-01,1,Midwest
+943,Organic,False,2023-01-09,2023-01,1,Northeast
+944,Affiliate / creator,True,2023-01-09,2023-01,2,Northeast
+945,Paid social,True,2023-01-09,2023-01,1,Midwest
+946,Organic,False,2023-01-09,2023-01,3,Northeast
+947,Organic,False,2023-01-09,2023-01,1,West
+948,Organic,False,2023-01-09,2023-01,2,Midwest
+949,Retargeting,True,2023-01-09,2023-01,1,Northeast
+950,Paid social,True,2023-01-09,2023-01,1,South
+951,Paid social,True,2023-01-09,2023-01,2,Midwest
+952,Paid social,True,2023-01-09,2023-01,2,Northeast
+953,Organic,False,2023-01-09,2023-01,2,Northeast
+954,Paid social,True,2023-01-09,2023-01,2,Northeast
+955,Paid social,True,2023-01-09,2023-01,1,South
+956,Affiliate / creator,True,2023-01-09,2023-01,2,West
+957,Paid social,True,2023-01-09,2023-01,2,Northeast
+958,Retargeting,True,2023-01-09,2023-01,4,South
+959,Paid search,True,2023-01-09,2023-01,1,Midwest
+960,Retargeting,True,2023-01-09,2023-01,2,Northeast
+961,Paid search,True,2023-01-09,2023-01,2,South
+962,Paid social,True,2023-01-09,2023-01,3,Midwest
+963,Organic,False,2023-01-06,2023-01,6,South
+964,Paid social,True,2023-01-09,2023-01,2,Midwest
+965,Paid search,True,2023-01-09,2023-01,1,Midwest
+966,Affiliate / creator,True,2023-01-09,2023-01,3,Midwest
+967,Paid search,True,2023-01-09,2023-01,3,West
+968,Paid social,True,2023-01-09,2023-01,2,Northeast
+969,Organic,False,2023-01-09,2023-01,2,Northeast
+970,Paid social,True,2023-01-09,2023-01,2,Midwest
+971,Paid social,True,2023-01-09,2023-01,1,South
+972,Paid social,True,2023-01-09,2023-01,1,Midwest
+973,Organic,False,2023-01-09,2023-01,2,Northeast
+974,Paid social,True,2023-01-09,2023-01,2,West
+975,Paid social,True,2023-01-09,2023-01,1,Northeast
+976,Paid search,True,2023-01-09,2023-01,1,South
+977,Paid social,True,2023-01-09,2023-01,4,South
+978,Paid social,True,2023-01-09,2023-01,2,West
+979,Retargeting,True,2023-01-09,2023-01,2,South
+980,Paid search,True,2023-01-09,2023-01,2,South
+981,Referral,False,2023-01-09,2023-01,1,Northeast
+982,Paid social,True,2023-01-09,2023-01,1,Northeast
+983,Paid social,True,2023-01-09,2023-01,2,Northeast
+984,Paid social,True,2023-01-09,2023-01,1,Northeast
+985,Paid social,True,2023-01-09,2023-01,1,South
+986,Retargeting,True,2023-01-09,2023-01,1,Northeast
+987,Paid social,True,2023-01-09,2023-01,4,Northeast
+988,Affiliate / creator,True,2023-01-09,2023-01,3,West
+989,Paid search,True,2023-01-09,2023-01,2,South
+990,Paid social,True,2023-01-09,2023-01,1,Northeast
+991,Paid social,True,2023-01-09,2023-01,3,Midwest
+992,Organic,False,2023-01-09,2023-01,3,West
+993,Paid social,True,2023-01-09,2023-01,1,Midwest
+994,Paid social,True,2023-01-09,2023-01,2,West
+995,Paid social,True,2023-01-09,2023-01,1,Midwest
+996,Email / SMS,False,2023-01-09,2023-01,1,South
+997,Paid social,True,2023-01-09,2023-01,2,Midwest
+998,Paid social,True,2023-01-09,2023-01,2,South
+999,Paid social,True,2023-01-09,2023-01,2,Midwest
+1000,Organic,False,2023-01-10,2023-01,3,Northeast

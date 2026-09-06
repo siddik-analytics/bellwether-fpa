@@ -1,0 +1,10 @@
+department_key,department_name,is_corporate
+1,Executive / Corporate,True
+2,Finance,True
+3,People / Administration,True
+4,Supply Chain / Operations,False
+5,Product / Merchandising,False
+6,Marketing / Ecommerce,False
+7,Wholesale Sales,False
+8,Customer Experience,False
+9,Technology / Shared Services,True

@@ -1,0 +1,5 @@
+scenario_name,minimum_excess_availability,trough_month,first_breach_month,first_funding_gap_month,additional_capital_required,peak_revolver_drawn,months_drawn,holds
+Balanced Base,0.0,2027-01-01 00:00:00,2026-07-01 00:00:00,2027-01-01 00:00:00,182400.03984591272,1624097.6209409777,36,False
+Wholesale Acceleration,0.0,2027-02-01 00:00:00,2027-01-01 00:00:00,2027-02-01 00:00:00,296427.5785687128,2000000.0,36,False
+Consolidation / Path to Breakeven,0.0,2027-02-01 00:00:00,2026-06-01 00:00:00,2027-02-01 00:00:00,111429.89505747019,1054794.3866018886,36,False
+DTC Recovery / Margin,0.0,2027-01-01 00:00:00,2026-06-01 00:00:00,2027-01-01 00:00:00,163261.81003043544,1319245.4414125306,36,False

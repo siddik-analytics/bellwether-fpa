@@ -1,0 +1,5 @@
+version_key,version_name,is_frozen
+1,Actual,False
+2,Budget,True
+3,Prior Forecast,True
+4,Latest Forecast,False

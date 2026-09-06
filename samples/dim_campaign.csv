@@ -1,0 +1,8 @@
+campaign_key,channel,spend_share,is_paid,classification
+1,Paid social,0.38,True,Acquisition
+2,Paid search,0.15,True,Acquisition
+3,Affiliate / creator,0.08,True,Acquisition
+4,Retargeting,0.07,True,Acquisition
+5,Email / SMS,0.07,False,Retention
+6,Organic,0.15,False,Retention
+7,Referral,0.1,False,Acquisition

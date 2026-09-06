@@ -45,12 +45,25 @@ def to_minor_units(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+#: Floats are rounded before they reach a CSV sample. The samples are committed, the build
+#: regenerates them, and CI asserts the working tree is clean afterwards — so a difference of
+#: one bit in a float repr between the Windows machine that committed them and the Linux runner
+#: that regenerates them would fail the build for no real reason.
+SAMPLE_FLOAT_PRECISION = 6
+
+
 def write(
-    tables: dict[str, pd.DataFrame], data_dir: pathlib.Path, sample_rows: int = C.SAMPLE_ROWS
+    tables: dict[str, pd.DataFrame],
+    data_dir: pathlib.Path,
+    sample_dir: pathlib.Path,
+    sample_rows: int = C.SAMPLE_ROWS,
 ) -> dict[str, int]:
-    """Write every table to Parquet, plus a CSV sample of each. Returns row counts."""
+    """Write every table to Parquet, plus a committed CSV sample of each.
+
+    Parquet goes to ``data/`` and is gitignored; samples go to ``samples/`` at the repo root and
+    are committed. Returns row counts.
+    """
     parquet_dir = data_dir / "parquet"
-    sample_dir = data_dir / "samples"
     parquet_dir.mkdir(parents=True, exist_ok=True)
     sample_dir.mkdir(parents=True, exist_ok=True)
 
@@ -60,6 +73,7 @@ def write(
         frame.to_parquet(parquet_dir / f"{name}.parquet", index=False)
         # Head rather than a random sample: a reviewer opening the CSV wants the first rows of
         # a recognisable table, not a scatter that hides the ordering.
-        frame.head(sample_rows).to_csv(sample_dir / f"{name}.csv", index=False)
+        sample = frame.head(sample_rows).round(SAMPLE_FLOAT_PRECISION)
+        sample.to_csv(sample_dir / f"{name}.csv", index=False, lineterminator=chr(10))
         counts[name] = len(frame)
     return counts

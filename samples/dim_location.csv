@@ -1,0 +1,3 @@
+location_key,location_name,is_sellable
+1,3PL warehouse,True
+2,In transit,False

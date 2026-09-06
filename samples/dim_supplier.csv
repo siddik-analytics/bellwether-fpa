@@ -1,0 +1,6 @@
+supplier_key,supplier_code,supplier_name,term_type,country,deposit_pct,balance_days,valid_from,valid_to
+1,SUP-001,Primary drinkware manufacturer,core,Asia,0.3,30,2023-01-01,2029-01-01
+2,SUP-002,Secondary drinkware manufacturer,strategic,Asia,0.2,30,2023-01-01,2029-01-01
+3,SUP-003,Food storage manufacturer,core,Asia,0.3,30,2023-01-01,2029-01-01
+4,SUP-004,Accessories manufacturer,core,Asia,0.3,30,2023-01-01,2029-01-01
+5,SUP-005,Seasonal / limited edition,launch,Asia,0.5,-5,2023-01-01,2029-01-01

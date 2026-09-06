@@ -189,7 +189,7 @@ two agree (or not) than from either alone.
 | # | Decision | Why it cannot be defaulted |
 |---|---|---|
 | D-1 | Approve `numpy`, `pandas`, `pyarrow` | `CLAUDE.md` makes adding a dependency a stop-and-ask |
-| D-2 | Parquet as the on-disk format, **plus a ~1,000-row CSV sample per fact table in `samples/`** | CSV loses integer minor units and date types, so Parquet is right for the pipeline — but Parquet is opaque on GitHub, and the browsing reviewer is half the audience |
+| D-2 | Parquet as the on-disk format, **plus a ~1,000-row CSV sample per table in a committed `samples/` directory at the repo root** | CSV loses integer minor units and date types, so Parquet is right for the pipeline — but Parquet is opaque on GitHub, and the browsing reviewer is half the audience. `data/` is gitignored wholesale, so the samples have to live outside it to be committed at all |
 | D-3 | Confirm the transaction-grain boundary above — full detail for actuals, monthly for forecast | It halves the dataset and it is an interpretation of §8, not a statement of it |
 | D-4 | Confirm the version × scenario coverage above | Generating the full cross-product would fabricate versions the business never produced |
 | D-5 | Phase renumbering in `CLAUDE.md` and `README.md` | Renames tags; a tag is the maintainer's claim to make |

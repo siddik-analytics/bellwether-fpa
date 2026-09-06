@@ -92,12 +92,16 @@ def generate(seed: int = C.SEED) -> dict[str, pd.DataFrame]:
     return tables
 
 
-def run(data_dir: pathlib.Path | None = None, seed: int = C.SEED) -> dict[str, int]:
+def run(
+    data_dir: pathlib.Path | None = None,
+    seed: int = C.SEED,
+    sample_dir: pathlib.Path | None = None,
+) -> dict[str, int]:
     """Generate and write. Returns row counts per table."""
-    from bellwether.paths import DATA_DIR
+    from bellwether.paths import DATA_DIR, SAMPLES_DIR
 
     tables = generate(seed)
-    counts = writer.write(tables, data_dir or DATA_DIR)
+    counts = writer.write(tables, data_dir or DATA_DIR, sample_dir or SAMPLES_DIR)
     for name in sorted(counts):
         log.info("  %-32s %9s rows", name, f"{counts[name]:,}")
     return counts

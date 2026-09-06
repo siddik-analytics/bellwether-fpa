@@ -15,6 +15,11 @@ DATA_DIR = REPO_ROOT / "data"
 #: Build artifacts: workbook, board pack PDF, PNG exports. Gitignored outside release tags.
 BUILD_DIR = REPO_ROOT / "build"
 
+#: CSV samples of every generated table. Unlike DATA_DIR these are **committed**: they are the
+#: only view of the dataset available to someone reading the repository on GitHub rather than
+#: running it, and half this project's audience does exactly that.
+SAMPLES_DIR = REPO_ROOT / "samples"
+
 DOCS_DIR = REPO_ROOT / "docs"
 POWERBI_DIR = REPO_ROOT / "powerbi"
 

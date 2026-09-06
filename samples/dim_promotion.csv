@@ -1,0 +1,31 @@
+promotion_key,promotion_name,year,start_date,end_date,is_sitewide
+1,Spring,2023,2023-03-15,2023-04-10,False
+2,Summer,2023,2023-06-10,2023-06-24,False
+3,Back to school,2023,2023-08-20,2023-09-12,False
+4,Black Friday / Cyber Monday,2023,2023-11-22,2023-12-01,True
+5,Holiday gifting,2023,2023-12-10,2023-12-21,False
+6,Spring,2024,2024-03-15,2024-04-10,False
+7,Summer,2024,2024-06-10,2024-06-24,False
+8,Back to school,2024,2024-08-20,2024-09-12,False
+9,Black Friday / Cyber Monday,2024,2024-11-22,2024-12-01,True
+10,Holiday gifting,2024,2024-12-10,2024-12-21,False
+11,Spring,2025,2025-03-15,2025-04-10,False
+12,Summer,2025,2025-06-10,2025-06-24,False
+13,Back to school,2025,2025-08-20,2025-09-12,False
+14,Black Friday / Cyber Monday,2025,2025-11-22,2025-12-01,True
+15,Holiday gifting,2025,2025-12-10,2025-12-21,False
+16,Spring,2026,2026-03-15,2026-04-10,False
+17,Summer,2026,2026-06-10,2026-06-24,False
+18,Back to school,2026,2026-08-20,2026-09-12,False
+19,Black Friday / Cyber Monday,2026,2026-11-22,2026-12-01,True
+20,Holiday gifting,2026,2026-12-10,2026-12-21,False
+21,Spring,2027,2027-03-15,2027-04-10,False
+22,Summer,2027,2027-06-10,2027-06-24,False
+23,Back to school,2027,2027-08-20,2027-09-12,False
+24,Black Friday / Cyber Monday,2027,2027-11-22,2027-12-01,True
+25,Holiday gifting,2027,2027-12-10,2027-12-21,False
+26,Spring,2028,2028-03-15,2028-04-10,False
+27,Summer,2028,2028-06-10,2028-06-24,False
+28,Back to school,2028,2028-08-20,2028-09-12,False
+29,Black Friday / Cyber Monday,2028,2028-11-22,2028-12-01,True
+30,Holiday gifting,2028,2028-12-10,2028-12-21,False

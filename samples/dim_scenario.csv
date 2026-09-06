@@ -1,0 +1,5 @@
+scenario_key,scenario_name,is_operating_plan
+1,Balanced Base,True
+2,Wholesale Acceleration,False
+3,Consolidation / Path to Breakeven,False
+4,DTC Recovery / Margin,False
