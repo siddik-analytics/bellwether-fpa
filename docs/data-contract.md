@@ -37,9 +37,17 @@ entity, single currency, fiscal year ending 31 December.
 | Paid CAC | — | $29 | $34 |
 | Non-paid share of new customers | 38% | 34% | 30% |
 | Headcount (year end) | 22 | 25 | 28 |
+| Equity raised | — | **$3.25M** | — |
 
 DTC grows at a 3.5% CAGR in dollar terms while wholesale grows at 38.4%. Substantially all
 incremental revenue is wholesale.
+
+**The FY2024 equity raise is the fact that makes the position interesting.** Northlake raised
+$3.25M in June 2024, at roughly breakeven, on a growth story. FY2025 then consumed a large part of
+it — $859k of EBITDA loss and $720k of working capital build — leaving the company entering the
+forecast with cash but no earnings, and a shareholder base that funded expansion rather than
+recovery. That is the position the board pack has to address: the money is already spent, the
+plan it funded has not yet worked, and the question is whether to keep going or change direction.
 
 ### 1.2 The central tension
 
@@ -638,27 +646,26 @@ weak-liquidation-value stock.
 Pricing: **SOFR + 3.50%**, 0.50% unused-line fee. **SOFR is an explicit monthly model input**, not
 an embedded all-in rate.
 
-**Covenants — two, with different applicability:**
+**One financial covenant: minimum excess availability of $250k**, tested monthly, throughout the
+forecast horizon.
 
-1. **Minimum excess availability of $250k**, tested monthly. This is the live financial covenant
-   throughout the forecast horizon.
-2. **Fixed charge coverage ratio of 1.10x**, trailing twelve months — **springing, and applicable
-   only once TTM EBITDA is positive**.
+There is **no fixed charge coverage covenant**. One was specified and then removed: TTM EBITDA is
+negative in every month of every scenario across the whole horizon, so a coverage test would never
+have become applicable, and modelling machinery that never evaluates is decoration. See ADR 0008.
 
-The FCCR is deliberately not evaluated while TTM EBITDA is negative. FY2025 EBITDA is −$859k, so a
-continuously applicable 1.10x test fails in month one of every scenario and every version. A
-covenant breached from inception is not a constraint; it forces either a permanent waiver assumption
-or a model in which every scenario reports a default, and both destroy the covenant's value as a
-signal. An availability-based covenant is what actually binds a borrower at this stage, and it is
-what the model tests.
-
-Internal minimum cash of **$500k** is retained as a **management policy, not a covenant**.
+Internal minimum cash of **$500k** is retained as a **management policy, not a covenant**. Cash is
+drawn down to that floor before the revolver is used.
 
 **Five separately reported lines:** facility commitment; borrowing base; revolver drawn; excess
 availability; minimum availability / covenant status.
 
-FY2025 opening drawn balance ~**$650k**, subject to reconciliation against the generated borrowing
-base.
+**Opening forecast position at 1 January 2026: revolver drawn $0, cash $1.54M.**
+
+This supersedes the ~$650k opening draw first assumed. Reconciling against the FY2024 equity raise
+shows Northlake does not need the revolver during FY2025 — it funds the year's loss and working
+capital build from the raise, ending FY2025 with cash still above the policy minimum and the
+facility undrawn. The revolver is first drawn in FY2026, and only after cash reaches the $500k
+floor.
 
 **Debt is never an unlimited balancing plug.** Where borrowing-base capacity is exhausted, the
 model surfaces the **first funding-gap month and the additional capital required**.
@@ -853,6 +860,109 @@ share of new customers falling from 38% to 30%. A generator that holds marketing
 percentage of revenue would contradict the CAC series in §6.8.
 
 
+### 7.6 FY2026–FY2028 scenario drivers
+
+Bounded generator inputs, the same treatment as §7.5. The forecast has three scenarios (§3.2) and
+each needs its own driver set; without them, whether the covenant binds is undefined.
+
+**Shared across all three scenarios**
+
+| Input | FY2026 | FY2027 | FY2028 | Tolerance |
+|---|---|---|---|---|
+| Landed cost per unit | $15.15 | $15.30 | $15.45 | ±$0.10 |
+| Average fully loaded compensation | $110,800 | $115,200 | $119,800 | ±$2,500 |
+| SOFR (monthly model input) | 4.00% | 4.00% | 4.00% | ±100bp |
+| Capex | $50k | $50k | $50k | ±$15k |
+| Wholesale net price per unit | $25.19 | $25.27 | $25.36 | ±$0.25 |
+
+Landed cost drifts up ~1% a year after the April 2025 step; wholesale price recovers only part of
+it, which is why wholesale gross margin declines slightly across the horizon in every scenario.
+
+**Balanced Base** — the operating plan
+
+| Input | FY2026 | FY2027 | FY2028 | Tolerance |
+|---|---|---|---|---|
+| Net revenue growth | 11.0% | 10.0% | 9.0% | ±1.0pt |
+| DTC share of net revenue | 58.0% | 57.5% | 57.0% | ±1.0pt |
+| DTC average order value | $79.60 | $81.20 | $82.80 | ±$1.00 |
+| Paid media CAC | $33 | $32 | $31 | ±$1.00 |
+| Marketing, % of net revenue | 13.2% | 12.6% | 12.0% | ±0.3pt |
+| Fixed cost base | $1.210M | $1.260M | $1.300M | ±$40k |
+| Headcount, year end | 28 | 29 | 30 | ±1 FTE |
+| Inventory turns | 3.8x | 4.0x | 4.2x | ±0.2x |
+| Wholesale DSO | 50 days | 50 days | 49 days | ±2 days |
+| Shrink, % of average inventory | 1.8% | 1.3% | 1.0% | ±0.3pt |
+
+**Wholesale Acceleration** — take the large-account opportunities
+
+| Input | FY2026 | FY2027 | FY2028 | Tolerance |
+|---|---|---|---|---|
+| Net revenue growth | 17.0% | 16.0% | 14.0% | ±1.5pt |
+| DTC share of net revenue | 53.0% | 48.5% | 45.0% | ±1.5pt |
+| DTC average order value | $79.60 | $81.20 | $82.80 | ±$1.00 |
+| Paid media CAC | $34 | $34 | $33 | ±$1.00 |
+| Marketing, % of net revenue | 11.8% | 10.8% | 10.2% | ±0.3pt |
+| Fixed cost base | $1.250M | $1.340M | $1.430M | ±$40k |
+| Headcount, year end | 29 | 32 | 34 | ±1 FTE |
+| Inventory turns | 3.55x | 3.60x | 3.65x | ±0.2x |
+| Wholesale DSO | 53 days | 56 days | 58 days | ±2 days |
+| Shrink, % of average inventory | 2.0% | 1.9% | 1.8% | ±0.3pt |
+
+Three drivers move against the business simultaneously and deliberately: DSO extends as the mix
+shifts to national accounts, turns deteriorate because more inventory is committed ahead of
+seasonal programmes, and the DTC share falls, diluting blended margin. Headcount steps faster
+because wholesale coverage is the constraint at scale (§5.9).
+
+**DTC Recovery / Margin** — limit marginal wholesale, rebuild DTC
+
+| Input | FY2026 | FY2027 | FY2028 | Tolerance |
+|---|---|---|---|---|
+| Net revenue growth | 7.0% | 7.0% | 8.0% | ±1.0pt |
+| DTC share of net revenue | 61.0% | 63.0% | 65.0% | ±1.0pt |
+| DTC average order value | $80.40 | $82.80 | $85.20 | ±$1.00 |
+| Paid media CAC | $32 | $30 | $29 | ±$1.00 |
+| Marketing, % of net revenue | 13.4% | 12.9% | 12.4% | ±0.3pt |
+| Fixed cost base | $1.190M | $1.220M | $1.250M | ±$40k |
+| Headcount, year end | 28 | 28 | 29 | ±1 FTE |
+| Inventory turns | 4.0x | 4.3x | 4.5x | ±0.2x |
+| Wholesale DSO | 49 days | 48 days | 47 days | ±2 days |
+| Shrink, % of average inventory | 1.5% | 1.1% | 1.0% | ±0.3pt |
+
+Marketing intensity **falls** here rather than rising, which is the point of the scenario:
+improving CAC and a higher repeat rate mean each new customer costs less, so DTC growth is bought
+more cheaply even as absolute DTC revenue rises. A version of this scenario in which marketing
+rises while CAC improves is incoherent and would make the case strictly worse than Balanced Base
+on both cash and earnings, which is not the trade-off management is weighing.
+
+**Derived — asserted, not set**
+
+| | FY2026 | FY2027 | FY2028 | Tolerance |
+|---|---|---|---|---|
+| **Balanced Base** | | | | |
+| Net revenue | $11.77M | $12.94M | $14.11M | ±$0.15M |
+| Blended gross margin | 47.0% | 47.1% | 47.1% | ±0.5pt |
+| EBITDA margin | −5.2% | −3.4% | −1.8% | ±0.8pt |
+| **Wholesale Acceleration** | | | | |
+| Net revenue | $12.40M | $14.39M | $16.40M | ±$0.20M |
+| Blended gross margin | 46.1% | 45.4% | 44.8% | ±0.5pt |
+| EBITDA margin | −4.0% | −2.5% | −1.0% | ±0.8pt |
+| **DTC Recovery / Margin** | | | | |
+| Net revenue | $11.34M | $12.14M | $13.11M | ±$0.15M |
+| Blended gross margin | 47.8% | 48.6% | 49.5% | ±0.5pt |
+| EBITDA margin | −5.9% | −3.3% | −1.4% | ±0.8pt |
+
+**None of the three reaches positive EBITDA within the horizon.** Wholesale Acceleration has the
+best headline EBITDA by FY2028 (−1.0%) on the highest revenue, and is the only scenario that runs
+out of borrowing availability. That inversion is the entire point of modelling them — the scenario
+that looks best on the income statement is the one the balance sheet cannot fund.
+
+**The $2.0M facility commitment binds only under Wholesale Acceleration.** In that scenario the
+borrowing base reaches the commitment in February 2028 and is capped by it thereafter, so growth in
+eligible receivables stops translating into availability. Under Balanced Base and DTC Recovery the
+base peaks well below $2.0M and the commitment is headroom rather than a constraint. A facility
+sized to bind in exactly one of three scenarios is doing useful work; one that binds in none would
+be decoration.
+
 ---
 
 ## 8. Forecast structure
@@ -917,21 +1027,23 @@ The generator is not done until these pass. They run in CI.
 
 **Financing**
 
-23. Excess availability is **≥ $250k in every month of every scenario**, or a funding gap is
-    reported naming the month it first occurs. The revolver never draws beyond the borrowing base.
-24. The FCCR is **not evaluated in any month where TTM EBITDA ≤ 0**. Asserting this directly is the
-    point: a continuously applicable test would fail from month one.
-25. Under **Balanced Base**, TTM EBITDA first turns positive in a determinate month, and the FCCR
-    becomes applicable that month. The test asserts (a) that month as a frozen regression value —
-    pinned from the first model run in phase 3, expected within FY2027 — and (b) that FCCR ≥ 1.10x
-    in that month and every subsequent month of the horizon.
-26. Return write-offs and shrink are **separately reported and never netted**; FY2025 return
+23. **Balanced Base holds the covenant in every forecast month.** Minimum excess availability
+    ≈ **$264k in Jul-2028**, never below the $250k floor, and no funding gap.
+24. **Wholesale Acceleration breaches.** Excess availability falls below $250k in **Mar-2028** and
+    reaches zero by **May-2028**. The model reports the breach month and the additional capital
+    required; it never draws beyond the borrowing base to make the balance sheet close.
+25. **DTC Recovery holds with room** — minimum excess availability ≈ **$555k**, never below $500k.
+    The scenario with the lowest revenue has the most liquidity, which is the comparison the board
+    pack exists to make.
+26. TTM EBITDA is negative in every month of every scenario. No coverage covenant is modelled
+    (ADR 0008), and any reintroduction of one requires this assertion to be revisited first.
+27. Return write-offs and shrink are **separately reported and never netted**; FY2025 return
     write-offs ≈ $49k and shrink ≈ $35k (§6.5)
 
 **Sign and range**
 
-27. Value ranges and sign conventions plausible per column, not merely non-null
-28. Favourable variance is positive regardless of whether the line is revenue or cost
+28. Value ranges and sign conventions plausible per column, not merely non-null
+29. Favourable variance is positive regardless of whether the line is revenue or cost
 
 ---
 

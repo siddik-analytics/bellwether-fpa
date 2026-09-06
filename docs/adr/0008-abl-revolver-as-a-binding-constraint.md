@@ -35,19 +35,19 @@ weak-liquidation-value stock.
 **Pricing:** SOFR + 3.50%, with a 0.50% unused-line fee. **SOFR is an explicit monthly model
 input**, never an embedded all-in rate.
 
-**Covenants — two, with different applicability:**
+**One financial covenant: minimum excess availability of $250k**, tested monthly throughout the
+horizon. Internal minimum cash of $500k is a management policy, not a covenant.
 
-1. **Minimum excess availability of $250k**, tested monthly. The live financial covenant throughout
-   the forecast horizon.
-2. **Fixed charge coverage ratio of 1.10x** trailing twelve months, **springing: applicable only
-   once TTM EBITDA is positive**.
+**Funding.** A **$3.25M equity raise in June 2024** sits behind the facility. Northlake therefore
+enters the forecast with the revolver undrawn and $1.54M of cash, having funded the FY2025 loss and
+working capital build from the raise rather than from debt.
 
-Internal minimum cash of $500k is retained as a **management policy, not a covenant**.
+### Why there is no fixed charge coverage covenant
 
-### Why the FCCR springs on profitability rather than on availability
+Two earlier drafts of this decision carried one, and both were wrong.
 
-The first draft of this decision made the FCCR spring when excess availability fell below $300k,
-which is the conventional structure and is wrong for this company at this point in its life.
+The first made the FCCR spring when excess availability fell below $300k — the conventional
+structure, and wrong for this company at this point in its life.
 
 Northlake's FY2025 EBITDA is **negative $859k**. A fixed charge coverage ratio compares EBITDA less
 unfinanced capital expenditure and cash taxes against fixed charges — interest, scheduled principal,
@@ -61,18 +61,25 @@ which every scenario reports an event of default from the start, which destroys 
 value as a signal precisely when the reader most needs one. Either way the FCCR stops discriminating
 between good and bad outcomes, which is the only reason to model a covenant at all.
 
-Making applicability conditional on TTM EBITDA turning positive resolves this and is also what a
-lender would actually document for a borrower in this position. Coverage covenants are set against
-a business that has fixed charges it can plausibly cover; before that point, the lender protects
-itself through the borrowing base and an availability floor, not through a coverage ratio.
+The second draft made applicability conditional on TTM EBITDA turning positive, which fixes the
+inception problem and is what a lender would actually document for a borrower in this position.
+That draft was also removed, for a different reason: **it never becomes applicable.**
 
-The availability covenant does the work in the meantime, and does it well: it is tested against the
-borrowing base, which already contracts as inventory ages and receivables stretch.
+A 36-month projection of all three scenarios shows TTM EBITDA negative in every month of every
+scenario. Balanced Base reaches −1.8% by FY2028, Wholesale Acceleration −1.0%, DTC Recovery −1.4%.
+The best case in the best scenario in the final month of the horizon is still a loss. A springing
+covenant that never springs is not a conservative safeguard; it is unexercised machinery that
+implies a control the model does not actually apply, and a reviewer who traces it finds nothing
+behind it.
 
-**Consequence for the model:** the month the FCCR first becomes applicable is a reported output,
-not an assumption. Under Balanced Base it is the first month TTM EBITDA turns positive, expected
-within FY2027, and it is asserted as a frozen regression value once the model is built. From that
-month onward the 1.10x test binds normally.
+So the coverage covenant is gone, and **minimum excess availability is the sole financial
+covenant**. That is the right answer on the merits as well as the modelling: an asset-based lender
+to a loss-making borrower protects itself through the borrowing base and an availability floor, and
+tests coverage only when there is coverage to test.
+
+If a future version of the plan reaches positive TTM EBITDA within the horizon, reintroducing a
+coverage covenant becomes worth reconsidering — and validation check 26 exists to force that
+conversation by asserting the condition that currently makes it unnecessary.
 
 **Five separately reported lines:** facility commitment, borrowing base, revolver drawn, excess
 availability, and minimum availability / covenant status.
