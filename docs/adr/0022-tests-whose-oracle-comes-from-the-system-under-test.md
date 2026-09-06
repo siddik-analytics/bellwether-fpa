@@ -120,10 +120,30 @@ outside the project:
 | Artifact | External authority | Status |
 |---|---|---|
 | `.xlsx` workbook | Excel, via COM — recalculates and reports | automated, `requires_excel` |
-| TMDL semantic model | Power BI Desktop — parses and loads | **manual**, criterion 5.30 |
+| TMDL semantic model | **Microsoft's own TMDL parser** (Tabular Object Model) | automated, `requires_tom` |
 | Power BI report | Power BI Desktop — renders the pages | **manual**, criterion 5.30 |
 | DAX measures | Power BI's engine — evaluates them | **manual**, criterion 5.15 |
 | Parquet star | `pyarrow` round trip | automated |
+
+The second row started as a manual gate and did not have to stay one. The Tabular Object Model
+ships with DAX Studio and Tabular Editor and contains the **same deserializer Power BI Desktop
+uses**, so the model can be parsed by the real authority headless. Looking for an automatable
+authority before accepting a manual one is part of the countermeasure, not a refinement of it.
+
+It justified itself on its first run. The project passed the project's own structural validator
+and Microsoft's parser still rejected it:
+
+```
+Parsing error type - InvalidLineType
+Detailed error - Unexpected line type: Empty!
+Document - './tables/Measures'
+Line Number - 5
+```
+
+A `///` line describes the object that follows it. A blank line between the two leaves it
+describing nothing. The hand-written validator had no opinion about that, because its author had
+not known the rule — which is the entire reason an authority outside the system is not optional.
+Two hand-written checkers in sequence, each blind in the same place, are one checker.
 
 Where the authority cannot be automated, the gate is **manual and named as manual**. It is not
 replaced by a proxy that is then described as though it were the real thing.

@@ -53,4 +53,5 @@ addopts = "-ra --strict-markers"
 markers = [
   "requires_excel: test needs a local Excel installation via COM (Windows only; skipped in CI)",
   "requires_powerbi: test needs Power BI Desktop; run manually at the phase gate, never in CI",
+  "requires_tom: test needs a local Tabular Object Model assembly (DAX Studio, Tabular Editor); skipped when absent",
 ]

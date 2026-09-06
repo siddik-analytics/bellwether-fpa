@@ -1,8 +1,6 @@
+/// Favourable variance is positive whether the line is revenue or cost. The direction comes from Metric.is_cost in the semantic layer, never from a judgement made here.
 table Measures
 	lineageTag: table-measures
-
-	/// Favourable variance is positive whether the line is revenue or cost. The direction comes from Metric.is_cost in the semantic layer, never from a judgement made here.
-
 	column 'placeholder'
 		dataType: string
 		isHidden

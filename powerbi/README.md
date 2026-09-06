@@ -44,3 +44,21 @@ the TMDL is structurally well-formed.
 It does **not** prove the DAX evaluates correctly — there is no supported way to run a DAX
 measure from a script. That check is `requires_powerbi`, local, and run by hand at the phase
 gate. The gap is real and is named rather than papered over; see `docs/phases/phase-05-spec.md`.
+
+## Running the numeric reconciliation (criterion 5.15)
+
+The only check that needs Power BI's own engine. Everything else about the model is verified
+headless — `tests/powerbi/test_tom_authority.py` parses it with the same deserializer Desktop
+uses, and `test_dax_semantics.py` evaluates the emitted DAX against the star.
+
+To produce the export the test looks for:
+
+1. Open the project and set `ProjectRoot` as above, then refresh.
+2. Build a table visual with **Month**, **Version**, **Scenario** and the measures **Net
+   Revenue** and **EBITDA**.
+3. Export it as `powerbi/verification/measure-export.csv`, with columns named
+   `month, version_name, scenario_name, Net Revenue, EBITDA`.
+4. `pytest -m requires_powerbi`
+
+The test skips when the file is absent, because a missing manual export is not a defect in the
+model. It asserts agreement with the oracle to 0.01.

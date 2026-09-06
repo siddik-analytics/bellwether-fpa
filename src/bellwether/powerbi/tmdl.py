@@ -191,12 +191,14 @@ def _measures_table() -> str:
     TMDL parses a table with a partition and no columns; Power BI rejects it on load. The
     placeholder is hidden, so a report author never sees it.
     """
+    # A /// line describes the object that *follows* it; it is not a free-standing comment.
+    # A blank line between the two leaves it describing nothing, and Microsoft's own TMDL
+    # parser rejects the file with "Unexpected line type: Empty!". The convention belongs to
+    # the table it governs, immediately above the declaration.
     lines = [
+        VARIANCE_HEADER,
         f"table {MEASURE_TABLE}",
         f"\tlineageTag: table-{MEASURE_TABLE.lower()}",
-        "",
-        f"\t{VARIANCE_HEADER}",
-        "",
         "\tcolumn 'placeholder'",
         "\t\tdataType: string",
         "\t\tisHidden",
