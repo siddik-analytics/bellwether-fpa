@@ -38,9 +38,14 @@ input**, never an embedded all-in rate.
 **One financial covenant: minimum excess availability of $250k**, tested monthly throughout the
 horizon. Internal minimum cash of $500k is a management policy, not a covenant.
 
-**Funding.** A **$3.25M equity raise in June 2024** sits behind the facility. Northlake therefore
-enters the forecast with the revolver undrawn and $1.54M of cash, having funded the FY2025 loss and
-working capital build from the raise rather than from debt.
+**Funding.** A **$3.50M equity raise in June 2024** sits behind the facility. Northlake therefore
+enters the forecast with the revolver undrawn and roughly $1.5M of cash, having funded the FY2025
+loss and working capital build from the raise rather than from debt.
+
+*Sized at $3.25M when this ADR was first written. ADR 0011 relaxed inventory turns to the
+achievable service frontier, which lifted FY2025 average inventory from $1.39M to $2.02M; the
+extra cash that ties up exceeds the extra borrowing base it creates, because inventory advances at
+50%. Balanced Base breached in June 2028 at $3.25M and holds at $3.50M.*
 
 ### Why there is no fixed charge coverage covenant
 

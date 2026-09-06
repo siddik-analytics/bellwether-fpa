@@ -129,9 +129,11 @@ def simulate(
     supplier_for_family = {"Drinkware": 1, "Food storage": 3, "Accessories": 4, "Seasonal": 5}
     fam = products["product_family"].to_numpy()
     is_launch = products["lifecycle_state"].to_numpy() == "launch"
+    is_finite_run = products["sku_class"].to_numpy() == "C"
 
     # Seed opening stock at roughly the target so the first quarter is not artificially starved.
     on_hand[:] = np.maximum(trailing * 7 * wos_target[0], 20)
+    on_hand = np.where(is_finite_run, trailing * C.SEASONAL_RUN_DAYS * 0.5, on_hand)
 
     for day in range(n_days):
         on_hand += in_transit[day]
@@ -158,13 +160,16 @@ def simulate(
             # trailing average on a 90-day lead time — which is why the contract has holiday POs
             # placed in May-July. Forward demand stands in for the planner's forecast, degraded
             # by a forecast error so the plan is good rather than clairvoyant.
-            horizon_start = min(day + int(lead.max()), n_days - 1)
-            horizon_end = min(horizon_start + int(cycle_days), n_days)
-            if horizon_end > horizon_start:
-                forward = demand[horizon_start:horizon_end].mean(axis=0)
-                forward = forward * rng.normal(1.0, 0.15, size=n_sku).clip(0.6, 1.5)
-            else:
-                forward = trailing
+            # Each SKU forecasts over its own lead window. Using the longest lead for every
+            # SKU makes a 90-day item plan from a window starting 135 days out, so it misses
+            # the 45 days of demand its own order actually has to cover.
+            forward = np.zeros(n_sku)
+            for lead_days in np.unique(lead):
+                grp = lead == lead_days
+                h0 = min(day + int(lead_days), n_days - 1)
+                h1 = min(h0 + int(cycle_days), n_days)
+                forward[grp] = demand[h0:h1, grp].mean(axis=0) if h1 > h0 else trailing[grp]
+            forward = forward * rng.normal(1.0, 0.15, size=n_sku).clip(0.6, 1.5)
             weekly = np.maximum(forward, trailing * 0.4) * 7
             pipeline = in_transit[day + 1 : day + 1 + int(lead.max())].sum(axis=0)
             position = on_hand + pipeline
@@ -175,6 +180,33 @@ def simulate(
             # A launch SKU has nothing to reorder against until it exists.
             active = (launch_day <= day + lead) & (position < reorder_point) & (need > 0)
             order_units = np.where(active, np.ceil(need / moq) * moq, 0.0)
+
+            # Class C is bought as finite seasonal runs, not continuously replenished (§4.1,
+            # Q14). Two buys a year, each sized to the season the receipt will serve, and the
+            # stock is allowed to run to zero before the next buy. Replenishing these on a
+            # reorder point is what put a permanent floor of lead-time cover plus safety stock
+            # under fifty slow SKUs, and that floor is most of why inventory turns could not
+            # reach target.
+            season_units = np.zeros(n_sku)
+            if dates[day].month in C.SEASONAL_BUY_MONTHS:
+                s0 = min(day + int(lead.max()), n_days - 1)
+                s1 = min(s0 + C.SEASONAL_RUN_DAYS, n_days)
+                if s1 > s0:
+                    season_demand = demand[s0:s1].sum(axis=0)
+                    season_demand = season_demand * rng.normal(1.0, 0.15, n_sku).clip(0.6, 1.5)
+                    # The February 2025 launch was bought to plan, and plan was 35% above what
+                    # actually sold (§1.3). Sizing the buy to realised demand would erase the
+                    # event: the overhang is the whole point, and it has to arrive as inventory
+                    # ordered before the miss was visible.
+                    first_buy = is_launch & (launch_day > day) & (launch_day <= day + lead)
+                    season_demand = np.where(
+                        first_buy,
+                        season_demand / (1.0 - C.LAUNCH_SHORTFALL_VS_PLAN),
+                        season_demand,
+                    )
+                    shortfall = season_demand - position
+                    season_units = np.where(shortfall > 0, np.ceil(shortfall / moq) * moq, 0.0)
+            order_units = np.where(is_finite_run, season_units, order_units)
             for col in np.nonzero(order_units)[0]:
                 arrive = day + int(lead[col])
                 if arrive >= n_days + 399:
@@ -246,6 +278,41 @@ def simulate(
     return inv, pos, stock
 
 
+def _metrics(products, suppliers, demand, dates, returns, seed, wos_scale, class_mult, lc):
+    """One simulation run, reduced to the two numbers the contract calibrates against."""
+    rng = np.random.default_rng(seed)
+    inv, pos, stock = simulate(
+        products, suppliers, demand, dates, returns, rng, wos_scale, class_mult
+    )
+    n_sku = len(products)
+    closing = inv["closing_units"].to_numpy().reshape(len(dates), n_sku)
+    shipments = inv["shipments"].to_numpy().reshape(len(dates), n_sku)
+    value = (closing * lc).sum(axis=1)
+    cogs = (shipments * lc).sum(axis=1)
+
+    turns = {}
+    for year in sorted({d.year for d in dates}):
+        mask = dates.year == year
+        avg_inv = value[mask].mean()
+        turns[year] = (cogs[mask].sum() / avg_inv if avg_inv else 0.0, avg_inv)
+
+    is_hero = products["is_hero"].to_numpy()
+    hero_demand = demand[:, is_hero].sum()
+    hero_short = 0.0
+    if len(stock):
+        hero_keys = set(products.loc[is_hero, "product_key"])
+        hero_short = stock.loc[stock["product_key"].isin(hero_keys), "suppressed_units"].sum()
+    return inv, pos, stock, turns, (hero_short / hero_demand if hero_demand else 0.0)
+
+
+def target_turns(year: int) -> float:
+    return (
+        C.ACTUALS[year].inventory_turns
+        if year in C.ACTUALS
+        else C.SCENARIOS["Balanced Base"][year]["inventory_turns"]
+    )
+
+
 def simulate_calibrated(
     products: pd.DataFrame,
     suppliers: pd.DataFrame,
@@ -253,74 +320,57 @@ def simulate_calibrated(
     dates: pd.DatetimeIndex,
     returns: pd.DataFrame,
     rng_seed: int,
-    iterations: int = 8,
+    iterations: int = 12,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, dict]:
     """Solve the two inventory knobs against their two contract targets.
 
-    Inventory turns and the hero-SKU stockout rate are both contract calibration targets (§7.3,
-    §6.6) and they pull against each other: more cover lifts service and depresses turns. Rather
-    than hand-tuning weeks-of-supply until both happen to land, this solves for them —
-    a per-year weeks-of-supply scale against the turns target, and a class-A safety multiplier
-    against the 4% hero stockout target.
+    Inventory turns (§7.3) and the hero-SKU stockout rate (§6.6) are both calibration targets and
+    they pull against each other: more cover lifts service and depresses turns.
 
-    Note the contract's own figures are in tension: 90-day lead time plus 5-6 weeks of class-A
-    safety stock implies more cover than 3.3x turns allows. The solver resolves that tension
-    explicitly and reports where it landed, rather than burying it in a driver.
+    The two knobs are solved jointly rather than by independent proportional feedback. Independent
+    feedback diverges here — the service knob has more authority over class A inventory than the
+    weeks-of-supply knob has over the total, so it wins every exchange and both ends up pinned at
+    their clips with neither target met.
+
+    Outer search is over the class-A safety multiplier; for each candidate the per-year
+    weeks-of-supply scale is solved by damped iteration with the multiplier held fixed. The
+    candidate whose stockout rate is closest to target, among those meeting the turns tolerance,
+    wins; if none meets it, the best joint error wins and the caller can see the gap.
     """
     lc = landed_cost_series(products, dates)
-    n_sku = len(products)
-    is_hero = products["is_hero"].to_numpy()
     years = sorted({d.year for d in dates})
-    wos_scale = dict.fromkeys(years, 1.0)
-    class_mult = {"A": 1.0, "B": 1.0, "C": 1.0}
-    report: dict = {}
+    best = None
 
-    for _ in range(iterations):
-        rng = np.random.default_rng(rng_seed)
-        inv, pos, stock = simulate(
-            products, suppliers, demand, dates, returns, rng, wos_scale, class_mult
-        )
-        closing = inv["closing_units"].to_numpy().reshape(len(dates), n_sku)
-        shipments = inv["shipments"].to_numpy().reshape(len(dates), n_sku)
-        value = (closing * lc).sum(axis=1)
-        cogs = (shipments * lc).sum(axis=1)
-
-        report = {}
-        for year in years:
-            mask = dates.year == year
-            avg_inv = value[mask].mean()
-            realised = cogs[mask].sum() / avg_inv if avg_inv else 0.0
-            target = (
-                C.ACTUALS[year].inventory_turns
-                if year in C.ACTUALS
-                else C.SCENARIOS["Balanced Base"][year]["inventory_turns"]
+    for class_a in (1.0, 1.25, 1.5, 1.75, 2.0, 2.5):
+        class_mult = {"A": class_a, "B": 1.0, "C": 1.0}
+        wos_scale = dict.fromkeys(years, 1.0)
+        result = None
+        for _ in range(iterations):
+            result = _metrics(
+                products, suppliers, demand, dates, returns, rng_seed, wos_scale, class_mult, lc
             )
-            report[year] = (realised, target)
-            if realised > 0:
-                # More cover lowers turns, so scale weeks-of-supply by realised / target.
-                # Damped and clipped: the two knobs interact, and undamped updates diverge —
-                # a runaway class-A multiplier inflates inventory, which drives the turns knob
-                # to its floor, which starves service and drives the A knob further up.
-                step = (realised / target) ** 0.5
-                wos_scale[year] = float(np.clip(wos_scale[year] * step, 0.30, 3.00))
+            _, _, _, turns, hero = result
+            moved = False
+            for year in years:
+                realised, _ = turns[year]
+                target = target_turns(year)
+                if realised > 0 and abs(realised - target) > 0.10:
+                    step = (realised / target) ** 0.6
+                    wos_scale[year] = float(np.clip(wos_scale[year] * step, 0.05, 4.00))
+                    moved = True
+            if not moved:
+                break
 
-        hero_demand = demand[:, is_hero].sum()
-        hero_short = 0.0
-        if len(stock):
-            hero_keys = set(products.loc[is_hero, "product_key"])
-            hero_short = stock.loc[stock["product_key"].isin(hero_keys), "suppressed_units"].sum()
-        hero_rate = hero_short / hero_demand if hero_demand else 0.0
-        report["hero_stockout_rate"] = hero_rate
-        if hero_rate > 0:
-            step = (hero_rate / C.STOCKOUT_DEMAND_SHARE) ** 0.4
-            class_mult["A"] = float(np.clip(class_mult["A"] * step, 0.50, 3.00))
+        inv, pos, stock, turns, hero = result
+        turns_err = max(abs(r - target_turns(y)) for y, (r, _) in turns.items())
+        hero_err = abs(hero - C.STOCKOUT_DEMAND_SHARE)
+        score = (turns_err > 0.20, hero_err, turns_err)
+        if best is None or score < best[0]:
+            best = (score, inv, pos, stock, turns, hero, dict(wos_scale), dict(class_mult))
 
-        turns_ok = all(
-            abs(r - t) <= 0.20 for r, t in (v for k, v in report.items() if isinstance(k, int))
-        )
-        if turns_ok and abs(hero_rate - C.STOCKOUT_DEMAND_SHARE) < 0.008:
-            break
-
-    report["wos_scale"] = dict(wos_scale)
-    report["class_multiplier"] = dict(class_mult)
+    _, inv, pos, stock, turns, hero, wos_scale, class_mult = best
+    report = {y: (r, target_turns(y), a) for y, (r, a) in turns.items()}
+    report["hero_stockout_rate"] = hero
+    report["wos_scale"] = wos_scale
+    report["class_multiplier"] = class_mult
     return inv, pos, stock, report

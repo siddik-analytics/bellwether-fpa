@@ -41,13 +41,13 @@ class YearDrivers:
 #: Contract §7.5. FY2025 is the anchor; FY2023-24 are bounded inputs derived from it.
 ACTUALS: dict[int, YearDrivers] = {
     2023: YearDrivers(
-        8_100_000, 0.7200, 74.50, 14.12, 4.5, 22, 98_500, 598_000, 0.1100, 0.010, 48, 27.0
+        8_100_000, 0.7200, 74.50, 14.12, 2.8, 22, 98_500, 598_000, 0.1100, 0.010, 48, 27.0
     ),
     2024: YearDrivers(
-        9_300_000, 0.6600, 76.25, 14.12, 4.1, 25, 102_400, 758_000, 0.1200, 0.010, 50, 29.0
+        9_300_000, 0.6600, 76.25, 14.12, 2.6, 25, 102_400, 758_000, 0.1200, 0.010, 50, 29.0
     ),
     2025: YearDrivers(
-        10_600_000, 0.5896, 78.00, 15.00, 3.3, 28, 106_464, 1_163_000, 0.1368, 0.025, 52, 34.0
+        10_600_000, 0.5896, 78.00, 15.00, 2.4, 28, 106_464, 1_163_000, 0.1368, 0.025, 52, 34.0
     ),
 }
 
@@ -59,7 +59,7 @@ SCENARIOS: dict[str, dict[int, dict]] = {
             dtc_share=0.580,
             aov=79.60,
             landed_cost=15.15,
-            inventory_turns=3.8,
+            inventory_turns=2.8,
             headcount=28,
             compensation=110_800,
             fixed_costs=1_210_000,
@@ -73,7 +73,7 @@ SCENARIOS: dict[str, dict[int, dict]] = {
             dtc_share=0.575,
             aov=81.20,
             landed_cost=15.30,
-            inventory_turns=4.0,
+            inventory_turns=2.9,
             headcount=29,
             compensation=115_200,
             fixed_costs=1_260_000,
@@ -87,7 +87,7 @@ SCENARIOS: dict[str, dict[int, dict]] = {
             dtc_share=0.570,
             aov=82.80,
             landed_cost=15.45,
-            inventory_turns=4.2,
+            inventory_turns=3.0,
             headcount=30,
             compensation=119_800,
             fixed_costs=1_300_000,
@@ -103,7 +103,7 @@ SCENARIOS: dict[str, dict[int, dict]] = {
             dtc_share=0.530,
             aov=79.60,
             landed_cost=15.15,
-            inventory_turns=3.55,
+            inventory_turns=2.6,
             headcount=29,
             compensation=110_800,
             fixed_costs=1_250_000,
@@ -117,7 +117,7 @@ SCENARIOS: dict[str, dict[int, dict]] = {
             dtc_share=0.485,
             aov=81.20,
             landed_cost=15.30,
-            inventory_turns=3.60,
+            inventory_turns=2.65,
             headcount=32,
             compensation=115_200,
             fixed_costs=1_340_000,
@@ -131,7 +131,7 @@ SCENARIOS: dict[str, dict[int, dict]] = {
             dtc_share=0.450,
             aov=82.80,
             landed_cost=15.45,
-            inventory_turns=3.65,
+            inventory_turns=2.7,
             headcount=34,
             compensation=119_800,
             fixed_costs=1_430_000,
@@ -147,7 +147,7 @@ SCENARIOS: dict[str, dict[int, dict]] = {
             dtc_share=0.610,
             aov=80.40,
             landed_cost=15.15,
-            inventory_turns=4.0,
+            inventory_turns=2.9,
             headcount=28,
             compensation=110_800,
             fixed_costs=1_190_000,
@@ -161,7 +161,7 @@ SCENARIOS: dict[str, dict[int, dict]] = {
             dtc_share=0.630,
             aov=82.80,
             landed_cost=15.30,
-            inventory_turns=4.3,
+            inventory_turns=3.1,
             headcount=28,
             compensation=115_200,
             fixed_costs=1_220_000,
@@ -175,7 +175,7 @@ SCENARIOS: dict[str, dict[int, dict]] = {
             dtc_share=0.650,
             aov=85.20,
             landed_cost=15.45,
-            inventory_turns=4.5,
+            inventory_turns=3.2,
             headcount=29,
             compensation=119_800,
             fixed_costs=1_250_000,
@@ -276,6 +276,17 @@ LAUNCH_LEAD_DAYS = 135
 MOQ_BY_FAMILY = {"Drinkware": 1_200, "Food storage": 1_000, "Accessories": 750, "Seasonal": 2_000}
 PO_CANCELLATION_DAYS_BEFORE_RECEIPT = 55
 
+#: Class C is bought as finite seasonal runs rather than continuously replenished (§4.1).
+#: June buy lands for autumn/holiday; November buy lands for spring.
+SEASONAL_BUY_MONTHS = (6, 11)
+SEASONAL_RUN_DAYS = 180
+
+#: Solved inventory operating point — see ADR 0011. These are the settings at which the
+#: generator meets the 4% hero-SKU service target; the turns that result are the relaxed
+#: contract targets, not the other way round.
+INVENTORY_CLASS_A_SAFETY_MULTIPLIER = 1.25
+INVENTORY_WOS_SCALE = {2023: 0.45, 2024: 0.45, 2025: 0.99, 2026: 0.99, 2027: 0.99, 2028: 0.99}
+
 LANDED_COST_SPLIT = {"product": 0.78, "inbound_freight": 0.12, "duty": 0.10}
 
 INVENTORY_AGE_BUCKETS = [(0, 180, 0.00), (181, 270, 0.10), (271, 365, 0.25), (366, 10_000, 0.60)]
@@ -304,7 +315,7 @@ MIN_CASH_POLICY = 500_000.0
 SOFR = 0.040
 SPREAD = 0.035
 UNUSED_LINE_FEE = 0.005
-EQUITY_RAISE = 3_250_000.0
+EQUITY_RAISE = 3_500_000.0
 EQUITY_RAISE_DATE = dt.date(2024, 6, 15)
 OPENING_CASH = 400_000.0
 CAPEX_PER_YEAR = 50_000.0

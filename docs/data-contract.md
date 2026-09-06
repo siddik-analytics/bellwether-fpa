@@ -37,17 +37,17 @@ entity, single currency, fiscal year ending 31 December.
 | DTC net revenue | $5.83M | $6.14M | $6.25M |
 | Wholesale net revenue | $2.27M | $3.16M | $4.35M |
 | EBITDA margin | +2% to +3% | ~0% | −8.1% |
-| Inventory turns | — | 4.1x | 3.3x |
+| Inventory turns | 2.8x | 2.6x | 2.4x |
 | Paid CAC | — | $29 | $34 |
 | Non-paid share of new customers | 38% | 34% | 30% |
 | Headcount (year end) | 22 | 25 | 28 |
-| Equity raised | — | **$3.25M** | — |
+| Equity raised | — | **$3.50M** | — |
 
 DTC grows at a 3.5% CAGR in dollar terms while wholesale grows at 38.4%. Substantially all
 incremental revenue is wholesale.
 
 **The FY2024 equity raise is the fact that makes the position interesting.** Northlake raised
-$3.25M in June 2024, at roughly breakeven, on a growth story. FY2025 then consumed a large part of
+$3.50M in June 2024, at roughly breakeven, on a growth story. FY2025 then consumed a large part of
 it — $859k of EBITDA loss and $720k of working capital build — leaving the company entering the
 forecast with cash but no earnings, and a shareholder base that funded expansion rather than
 recovery. That is the position the board pack has to address: the money is already spent, the
@@ -201,7 +201,10 @@ Attributes: `sku_code` (natural key), `product_family`, `category`, `sku_class` 
 
 Revenue concentration must satisfy: top 5 SKUs ≈ 38% of revenue, top 10 ≈ 55%.
 
-Return rate is a **product-category attribute**, not a channel constant:
+Return rate is a **product-category attribute**, not a channel constant. The rates below are
+the *shape*; they are scaled at build time so their revenue-weighted mean equals the headline
+7% in §5.3, because Northlake's drinkware-heavy mix otherwise yields 5.9% and the two figures
+cannot both be free. See ADR 0012.
 
 | Category | DTC return rate |
 |---|---|
@@ -335,7 +338,8 @@ detect them. This is the most demanding grain in the contract and it sizes the d
 Monthly snapshots are derived for management reporting; inventory must never exist only as a
 month-end GL balance.
 
-**FY2025 calibration:** turns 3.3x on landed COGS; average inventory ~$1.39M; ~111 days on hand.
+**FY2025 calibration:** turns 2.4x on landed COGS; average inventory ~$2.02M; ~152 days on hand.
+Turns were relaxed from 3.3x to the achievable service frontier — see ADR 0011.
 
 ### 5.5 `fact_purchase_order_line`
 
@@ -632,7 +636,7 @@ a balancing plug.
 Interest accrues on the **beginning-of-period** debt balance, so the model is acyclic and
 iterative calculation stays off (ADR 0001).
 
-**$2.0M committed ABL revolver.**
+**$2.0M committed ABL revolver**, alongside a **$3.50M equity raise in June 2024**.
 
 Borrowing base:
 
@@ -663,7 +667,7 @@ drawn down to that floor before the revolver is used.
 **Five separately reported lines:** facility commitment; borrowing base; revolver drawn; excess
 availability; minimum availability / covenant status.
 
-**Opening forecast position at 1 January 2026: revolver drawn $0, cash $1.54M.**
+**Opening forecast position at 1 January 2026: revolver drawn $0, cash ~$1.5M.**
 
 This supersedes the ~$650k opening draw first assumed. Reconciling against the FY2024 equity raise
 shows Northlake does not need the revolver during FY2025 — it funds the year's loss and working
@@ -778,12 +782,12 @@ usage-based); professional fees $210k; insurance $95k; other corporate ~$200k.
 
 | | FY2025 |
 |---|---|
-| Inventory (average, at landed cost) | ~$1.39M |
+| Inventory (average, at landed cost) | ~$2.02M |
 | Wholesale receivables | ~$620k |
 | Processor receivable | ~$55k |
 | Supplier advances | ~$370k |
 | Accounts payable | ~$290k |
-| **Net working capital** | **~$2.1M (20% of revenue)** |
+| **Net working capital** | **~$2.7M (26% of revenue)** |
 
 The channel mix shift absorbed roughly **$720k** of incremental working capital in FY2025 —
 ~$400k into inventory and ~$320k into receivables.
@@ -822,7 +826,7 @@ by check 12.
 | Payroll | $2.167M | $2.560M | $2.981M | ±$25k |
 | Headcount, year end | 22 FTE | 25 FTE | 28 FTE | exact |
 | Average fully loaded compensation | $98,500 | $102,400 | $106,464 | ±$2,000 |
-| Inventory turns | 4.5x | 4.1x | 3.3x | ±0.2x |
+| Inventory turns | 2.8x | 2.6x | 2.4x | ±0.2x |
 | Shrink, % of average inventory | 1.0% | 1.0% | 2.5% | ±0.2pt |
 
 Landed cost is identical in FY2023 and FY2024 because the 8% supplier increase takes effect in
@@ -893,7 +897,7 @@ it, which is why wholesale gross margin declines slightly across the horizon in 
 | Marketing, % of net revenue | 13.2% | 12.6% | 12.0% | ±0.3pt |
 | Fixed cost base | $1.210M | $1.260M | $1.300M | ±$40k |
 | Headcount, year end | 28 | 29 | 30 | ±1 FTE |
-| Inventory turns | 3.8x | 4.0x | 4.2x | ±0.2x |
+| Inventory turns | 2.8x | 2.9x | 3.0x | ±0.2x |
 | Wholesale DSO | 50 days | 50 days | 49 days | ±2 days |
 | Shrink, % of average inventory | 1.8% | 1.3% | 1.0% | ±0.3pt |
 
@@ -908,7 +912,7 @@ it, which is why wholesale gross margin declines slightly across the horizon in 
 | Marketing, % of net revenue | 11.8% | 10.8% | 10.2% | ±0.3pt |
 | Fixed cost base | $1.250M | $1.340M | $1.430M | ±$40k |
 | Headcount, year end | 29 | 32 | 34 | ±1 FTE |
-| Inventory turns | 3.55x | 3.60x | 3.65x | ±0.2x |
+| Inventory turns | 2.6x | 2.65x | 2.7x | ±0.2x |
 | Wholesale DSO | 53 days | 56 days | 58 days | ±2 days |
 | Shrink, % of average inventory | 2.0% | 1.9% | 1.8% | ±0.3pt |
 
@@ -928,7 +932,7 @@ because wholesale coverage is the constraint at scale (§5.9).
 | Marketing, % of net revenue | 13.4% | 12.9% | 12.4% | ±0.3pt |
 | Fixed cost base | $1.190M | $1.220M | $1.250M | ±$40k |
 | Headcount, year end | 28 | 28 | 29 | ±1 FTE |
-| Inventory turns | 4.0x | 4.3x | 4.5x | ±0.2x |
+| Inventory turns | 2.9x | 3.1x | 3.2x | ±0.2x |
 | Wholesale DSO | 49 days | 48 days | 47 days | ±2 days |
 | Shrink, % of average inventory | 1.5% | 1.1% | 1.0% | ±0.3pt |
 
@@ -1013,7 +1017,7 @@ The generator is not done until these pass. They run in CI.
 11. Blended gross margin **46.7% ±0.5pt** for FY2025 (47.0% before shrink); DTC **53.9% ±0.5pt**;
     wholesale **37.1% ±0.5pt**; channel gap **16.8pt ±1pt**. All post-return.
 12. FY2025 EBITDA **−8.1% ±0.5pt**; FY2023 positive; FY2024 within ±1pt of zero
-13. Inventory turns 4.1x FY2024, 3.3x FY2025, each ±0.2x
+13. Inventory turns **2.8x FY2023, 2.6x FY2024, 2.4x FY2025**, each ±0.2x (ADR 0011)
 14. Wholesale DSO 52 days ±3
 15. SKU concentration: top 5 ≈ 38%, top 10 ≈ 55% of revenue, each ±2pt
 16. Account concentration: largest 24%, top 5 62% of wholesale revenue, each ±2pt
@@ -1032,11 +1036,11 @@ The generator is not done until these pass. They run in CI.
 **Financing**
 
 23. **Balanced Base holds the covenant in every forecast month.** Minimum excess availability
-    ≈ **$264k in Jul-2028**, never below the $250k floor, and no funding gap.
-24. **Wholesale Acceleration breaches.** Excess availability falls below $250k in **Mar-2028** and
-    reaches zero by **May-2028**. The model reports the breach month and the additional capital
-    required; it never draws beyond the borrowing base to make the balance sheet close.
-25. **DTC Recovery holds with room** — minimum excess availability ≈ **$555k**, never below $500k.
+    ≈ **$445k in Jul-2028**, never below the $250k floor, and no funding gap.
+24. **Wholesale Acceleration breaches.** Excess availability falls below $250k in **Feb-2028** and
+    stays there. The model reports the breach month and the additional capital required; it never
+    draws beyond the borrowing base to make the balance sheet close.
+25. **DTC Recovery holds with room** — minimum excess availability ≈ **$678k**, never below $500k.
     The scenario with the lowest revenue has the most liquidity, which is the comparison the board
     pack exists to make.
 26. TTM EBITDA is negative in every month of every scenario. No coverage covenant is modelled
@@ -1078,3 +1082,5 @@ Confirmed excluded, consistent with `docs/charter.md`:
 | 0008 | ABL revolver with a borrowing base, treated as a binding constraint |
 | 0009 | Supplier contracts in USD; FX out of scope |
 | 0010 | Channel contribution reporting with corporate costs unallocated |
+| 0011 | Inventory turns relaxed to the achievable service frontier |
+| 0012 | Category return rates normalised to the headline 7% |
