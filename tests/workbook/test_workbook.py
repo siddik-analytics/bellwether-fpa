@@ -13,7 +13,7 @@ import pytest
 from bellwether.data import config as C
 from bellwether.data import generate
 from bellwether.paths import REPO_ROOT
-from bellwether.transform import allocation, semantic, star, statements
+from bellwether.transform import allocation, semantic, sensitivity, star, statements
 from bellwether.workbook import model
 from bellwether.workbook import theme as theme_mod
 
@@ -163,7 +163,7 @@ def test_every_contract_driver_appears(built) -> None:
 
 def test_sensitivity_grids_are_oracle_computed() -> None:
     """4.16 — the oracle computes the grid; Excel's Data Table reproduces it."""
-    grids = model.sensitivity_grids()
+    grids = sensitivity.grids()
     assert set(grids) >= {"Paid media CAC", "Landed cost per unit", "DTC share of revenue"}
     for driver, grid in grids.items():
         assert len(grid) >= 4, driver
