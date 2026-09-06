@@ -62,6 +62,17 @@ CASH_LINES = [
 
 NOT_APPLICABLE = "not applicable"
 
+#: The hidden sheet every statement looks up. All ten version/scenario combinations live here,
+#: which is what lets one workbook carry the whole comparison (E-c) with a live selector over it.
+DATA_SHEET = "Data"
+#: A row emitted once per combination so a formula can ask whether a selection exists at all.
+#: Budget was approved under Balanced Base only, and the model has to say so rather than show
+#: zeros - criterion 4.14.
+EXISTS_KEY = "combination exists"
+DEFAULT_VERSION = "Latest Forecast"
+DEFAULT_SCENARIO = "Balanced Base"
+BUDGET_NOTE = "not applicable - Budget was approved under Balanced Base only"
+
 
 @dataclass
 class Sheet:
@@ -84,6 +95,31 @@ class Sheet:
         if value is None:
             raise ValueError("a formula must carry its oracle value as the cached result")
         self.worksheet.write_formula(row, col, expression, fmt, value)
+
+
+@dataclass(frozen=True)
+class DataBlock:
+    """Where the lookup ranges are. Statements reference these, never a literal range."""
+
+    key_rows: int
+    months: int
+
+    @property
+    def keys(self) -> str:
+        return f"{DATA_SHEET}!$A$2:$A${self.key_rows + 1}"
+
+    @property
+    def values(self) -> str:
+        return f"{DATA_SHEET}!$B$2:${_column_letter(self.months)}${self.key_rows + 1}"
+
+
+@dataclass(frozen=True)
+class Controls:
+    """The two cells the reader drives the model from, and the guard derived from them."""
+
+    version: str
+    scenario: str
+    available: str
 
 
 def _column_letter(index: int) -> str:
@@ -115,62 +151,261 @@ def _write_month_headers(sheet: Sheet, months: list[pd.Timestamp], first_col: in
 
 def _write_series_block(
     sheet: Sheet, frame: pd.DataFrame, months: list[pd.Timestamp], lines, first_col: int
-) -> dict[str, int]:
-    """Write one statement block. Returns the row each line landed on, for later formulas."""
+) -> tuple[dict[str, int], dict[str, list[float]]]:
+    """Write one statement block.
+
+    Returns the row each line landed on and the oracle values written there. The values come back
+    rather than being read off the worksheet afterwards because these cells are about to become
+    formulas, and a formula cell has no number to read back. The cached value has to originate in
+    the semantic layer, which is the whole point.
+    """
     indexed = frame.set_index("month")
     rows: dict[str, int] = {}
+    values: dict[str, list[float]] = {}
     boundary = _boundary(months)
     for name, style, is_total in lines:
         label_fmt = sheet.formats["label_total"] if is_total else sheet.formats["label"]
         sheet.worksheet.write(sheet.row, 0, name, label_fmt)
+        line: list[float] = []
         for offset, month in enumerate(months):
             value = float(indexed[name].get(month, 0.0)) if name in indexed else 0.0
-            key = f"{style}_total" if is_total and f"{style}_total" in sheet.formats else style
-            fmt = sheet.formats[key]
-            if month == boundary and style == "money":
-                fmt = sheet.formats["boundary_cell"]
-            sheet.worksheet.write_number(sheet.row, first_col + offset, value, fmt)
+            sheet.worksheet.write_number(
+                sheet.row,
+                first_col + offset,
+                value,
+                _cell_format(sheet, style, is_total, month, boundary),
+            )
+            line.append(value)
         rows[name] = sheet.row
+        values[name] = line
         sheet.row += 1
-    return rows
+    return rows, values
 
 
-def _add_tied_formulas(
-    sheet: Sheet, rows: dict[str, int], months: list[pd.Timestamp], first_col: int
-) -> None:
-    """Replace the derived P&L lines with real formulas carrying their oracle values.
+def _cell_format(sheet: Sheet, style: str, is_total: bool, month, boundary):
+    if month == boundary and style == "money":
+        return sheet.formats["boundary_cell"]
+    key = f"{style}_total" if is_total and f"{style}_total" in sheet.formats else style
+    return sheet.formats[key]
 
-    This is what makes the workbook a model rather than a dump: Net Revenue is visibly Gross
-    Revenue less Contra Revenue, and a reader can trace it. The cached value is the oracle's, so
-    nothing here originates a number.
+
+def _lookup(prefix: str, label: str, data: DataBlock, controls: Controls, column: int) -> str:
+    """A forecast cell: whatever the two selector cells currently name."""
+    key = f'{controls.version}&"|"&{controls.scenario}&"|{prefix}:"&{label}'
+    index = f"INDEX({data.values},MATCH({key},{data.keys},0),{column})"
+    # Empty, not zero, when the combination was never approved - criterion 4.14.
+    return f'=IF({controls.available}<>1,"",{index})'
+
+
+def _actual_lookup(prefix: str, label: str, data: DataBlock, column: int) -> str:
+    """A historical cell.
+
+    Always Actual. It is the only version with 2023-25 data, so a selector set to Budget must not
+    blank out the history it is being compared against.
     """
-    derivations = {
-        "Net Revenue": ("Gross Revenue", "Contra Revenue"),
-        "Gross Profit": ("Net Revenue", "Cost of Sales"),
-        "EBITDA": ("Gross Profit", "Operating Expense"),
-    }
-    for target, (left, right) in derivations.items():
-        for offset in range(len(months)):
-            column = _column_letter(first_col + offset)
-            expression = f"={column}{rows[left] + 1}-{column}{rows[right] + 1}"
-            cached = sheet.worksheet.table.get(rows[target], {}).get(first_col + offset)
-            value = cached.number if cached is not None else 0.0
-            fmt = sheet.formats["money_total"]
-            sheet.formula(rows[target], first_col + offset, expression, value, fmt)
+    key = f'"Actual|{DEFAULT_SCENARIO}|{prefix}:"&{label}'
+    return f"=INDEX({data.values},MATCH({key},{data.keys},0),{column})"
 
-    for target, numerator in (("Gross Margin %", "Gross Profit"), ("EBITDA Margin %", "EBITDA")):
-        for offset in range(len(months)):
-            column = _column_letter(first_col + offset)
-            net = rows["Net Revenue"] + 1
-            expression = f"=IF({column}{net}=0,0,{column}{rows[numerator] + 1}/{column}{net})"
-            cached = sheet.worksheet.table.get(rows[target], {}).get(first_col + offset)
-            value = cached.number if cached is not None else 0.0
+
+def _link_to_data(
+    sheet: Sheet,
+    prefix: str,
+    lines,
+    rows: dict[str, int],
+    values: dict[str, list[float]],
+    months: list[pd.Timestamp],
+    data: DataBlock,
+    controls: Controls,
+    first_col: int,
+    skip: frozenset[str] = frozenset(),
+) -> None:
+    """Turn source lines into lookups driven by the version and scenario selectors."""
+    boundary = _boundary(months)
+    for name, style, is_total in lines:
+        if name in skip:
+            continue
+        row = rows[name]
+        label = f"$A{row + 1}"
+        for offset, month in enumerate(months):
+            column = offset + 1
+            expression = (
+                _actual_lookup(prefix, label, data, column)
+                if month < boundary
+                else _lookup(prefix, label, data, controls, column)
+            )
             sheet.formula(
-                rows[target], first_col + offset, expression, value, sheet.formats["percent"]
+                row,
+                first_col + offset,
+                expression,
+                values[name][offset],
+                _cell_format(sheet, style, is_total, month, boundary),
             )
 
 
-def _write_cover(sheet: Sheet, series: pd.DataFrame) -> None:
+#: Lines the P&L computes rather than looks up. Keeping the derivation visible is what makes the
+#: sheet a model: Net Revenue is Gross less Contra on the face of it, traceable by a reader.
+DERIVATIONS = {
+    "Net Revenue": ("Gross Revenue", "Contra Revenue"),
+    "Gross Profit": ("Net Revenue", "Cost of Sales"),
+    "EBITDA": ("Gross Profit", "Operating Expense"),
+}
+RATIOS = (("Gross Margin %", "Gross Profit"), ("EBITDA Margin %", "EBITDA"))
+DERIVED_LINES = frozenset(DERIVATIONS) | {name for name, _ in RATIOS}
+
+
+def _add_tied_formulas(
+    sheet: Sheet,
+    rows: dict[str, int],
+    values: dict[str, list[float]],
+    months: list[pd.Timestamp],
+    controls: Controls,
+    first_col: int,
+) -> None:
+    """Derive the P&L subtotals in Excel, carrying the oracle's value as the cached result.
+
+    Forecast columns take the same availability guard as the lines they read. Without it, an
+    unapproved combination would leave the source rows empty and the subtotals showing #VALUE!,
+    which reads as a broken workbook rather than as a deliberate answer.
+    """
+    boundary = _boundary(months)
+
+    def guard(expression: str, month) -> str:
+        if month < boundary:
+            return f"={expression}"
+        return f'=IF({controls.available}<>1,"",{expression})'
+
+    for target, (left, right) in DERIVATIONS.items():
+        for offset, month in enumerate(months):
+            column = _column_letter(first_col + offset)
+            body = f"{column}{rows[left] + 1}-{column}{rows[right] + 1}"
+            sheet.formula(
+                rows[target],
+                first_col + offset,
+                guard(body, month),
+                values[target][offset],
+                _cell_format(sheet, "money", True, month, boundary),
+            )
+
+    for target, numerator in RATIOS:
+        for offset, month in enumerate(months):
+            column = _column_letter(first_col + offset)
+            net = rows["Net Revenue"] + 1
+            body = f"IF({column}{net}=0,0,{column}{rows[numerator] + 1}/{column}{net})"
+            sheet.formula(
+                rows[target],
+                first_col + offset,
+                guard(body, month),
+                values[target][offset],
+                sheet.formats["percent"],
+            )
+
+
+def _forecast_versions() -> list[str]:
+    """The versions a reader can select. Actual is not one of them - it is the history."""
+    return ["Budget", "Latest Forecast", "Prior Forecast"]
+
+
+def _write_controls(sheet: Sheet, data: DataBlock) -> Controls:
+    """The two cells that drive every statement - criteria 4.12 and 4.13.
+
+    A dropdown is the whole interface: a reader switches version or scenario and the three
+    statements follow. The guard cell underneath is what stops an unapproved combination from
+    presenting itself as a set of zeroes.
+    """
+    sheet.worksheet.write(sheet.row, 0, "Model controls", sheet.formats["heading"])
+    sheet.row += 1
+
+    version_row = sheet.row
+    sheet.worksheet.write(sheet.row, 0, "Forecast version", sheet.formats["label"])
+    sheet.worksheet.write(sheet.row, 1, DEFAULT_VERSION, sheet.formats["selector"])
+    sheet.worksheet.data_validation(
+        sheet.row, 1, sheet.row, 1, {"validate": "list", "source": _forecast_versions()}
+    )
+    sheet.row += 1
+
+    scenario_row = sheet.row
+    sheet.worksheet.write(sheet.row, 0, "Scenario", sheet.formats["label"])
+    sheet.worksheet.write(sheet.row, 1, DEFAULT_SCENARIO, sheet.formats["selector"])
+    sheet.worksheet.data_validation(
+        sheet.row, 1, sheet.row, 1, {"validate": "list", "source": list(C.SCENARIOS)}
+    )
+    sheet.row += 1
+
+    version = f"Cover!$B${version_row + 1}"
+    scenario = f"Cover!$B${scenario_row + 1}"
+    guard_row = sheet.row
+    probe = f'$B${version_row + 1}&"|"&$B${scenario_row + 1}&"|{EXISTS_KEY}"'
+    sheet.worksheet.write(sheet.row, 0, "Selection exists", sheet.formats["label"])
+    sheet.formula(
+        sheet.row,
+        1,
+        f"=IF(ISNA(MATCH({probe},{data.keys},0)),0,1)",
+        1.0,
+        sheet.formats["integer"],
+    )
+    sheet.row += 1
+
+    available = f"Cover!$B${guard_row + 1}"
+    sheet.worksheet.write(sheet.row, 0, "", sheet.formats["label"])
+    sheet.formula(
+        sheet.row,
+        1,
+        f'=IF($B${guard_row + 1}=1,"Showing "&$B${version_row + 1}&" / "'
+        f'&$B${scenario_row + 1},"{BUDGET_NOTE}")',
+        f"Showing {DEFAULT_VERSION} / {DEFAULT_SCENARIO}",
+        sheet.formats["note"],
+    )
+    sheet.row += 2
+    return Controls(version=version, scenario=scenario, available=available)
+
+
+def _write_data_sheet(
+    sheet: Sheet, keys: list[str], grid: list[list[float]], months: list[pd.Timestamp]
+) -> None:
+    """The long form of every combination, hidden because it is machinery rather than a report."""
+    sheet.worksheet.write(0, 0, "key", sheet.formats["column_header_left"])
+    for offset, month in enumerate(months):
+        sheet.worksheet.write_datetime(0, 1 + offset, month, sheet.formats["month"])
+    for row, (key, line) in enumerate(zip(keys, grid, strict=True), start=1):
+        sheet.worksheet.write(row, 0, key, sheet.formats["label"])
+        for offset, value in enumerate(line):
+            sheet.worksheet.write_number(row, 1 + offset, value, sheet.formats["money"])
+    sheet.worksheet.set_column(0, 0, 64)
+    sheet.worksheet.hide()
+
+
+def _data_grid(
+    frames: list[tuple[str, pd.DataFrame, list[str]]], months: list[pd.Timestamp]
+) -> tuple[list[str], list[list[float]]]:
+    """Every version, scenario and line, on one month axis.
+
+    The statement prefix is part of the key because EBITDA appears on both the P&L and the cash
+    flow and the two must not collide into one row.
+    """
+    keys: list[str] = []
+    grid: list[list[float]] = []
+    seen: set[tuple[str, str]] = set()
+    for prefix, frame, names in frames:
+        frame = frame.copy()
+        frame["month"] = pd.to_datetime(frame["month"])
+        for (version, scenario), group in frame.groupby(
+            ["version_name", "scenario_name"], sort=True
+        ):
+            if (version, scenario) not in seen:
+                seen.add((version, scenario))
+                keys.append(f"{version}|{scenario}|{EXISTS_KEY}")
+                grid.append([1.0] * len(months))
+            indexed = group.groupby("month").sum(numeric_only=True)
+            for name in names:
+                if name not in indexed:
+                    continue
+                column = indexed[name]
+                keys.append(f"{version}|{scenario}|{prefix}:{name}")
+                grid.append([float(column.get(month, 0.0)) for month in months])
+    return keys, grid
+
+
+def _write_cover(sheet: Sheet, series: pd.DataFrame, data: DataBlock) -> Controls:
     sheet.title("Northlake, Inc.", "Driver-based three-statement model")
     actual = series[series["version_name"] == "Actual"]
     latest = series[
@@ -203,6 +438,7 @@ def _write_cover(sheet: Sheet, series: pd.DataFrame) -> None:
             sheet.worksheet.write_number(sheet.row, 1, value, sheet.formats["money"])
         sheet.row += 1
     sheet.row += 1
+    controls = _write_controls(sheet, data)
     sheet.worksheet.write(
         sheet.row,
         0,
@@ -213,6 +449,7 @@ def _write_cover(sheet: Sheet, series: pd.DataFrame) -> None:
     )
     sheet.worksheet.set_column(0, 0, 46)
     sheet.worksheet.set_column(1, 1, 34)
+    return controls
 
 
 def _write_assumptions(sheet: Sheet) -> None:
@@ -266,23 +503,43 @@ def _write_assumptions(sheet: Sheet) -> None:
 
 
 def _write_statement(
-    sheet: Sheet, name: str, subtitle: str, frame: pd.DataFrame, months: list[pd.Timestamp], lines
-) -> dict[str, int]:
+    sheet: Sheet,
+    name: str,
+    subtitle: str,
+    frame: pd.DataFrame,
+    months: list[pd.Timestamp],
+    lines,
+    prefix: str,
+    data: DataBlock,
+    controls: Controls,
+    skip: frozenset[str] = frozenset(),
+) -> tuple[dict[str, int], dict[str, list[float]]]:
     sheet.title(name, subtitle)
     _write_month_headers(sheet, months, first_col=1)
-    rows = _write_series_block(sheet, frame, months, lines, first_col=1)
+    rows, values = _write_series_block(sheet, frame, months, lines, first_col=1)
+    _link_to_data(sheet, prefix, lines, rows, values, months, data, controls, 1, skip)
+    sheet.row += 1
+    sheet.formula(
+        sheet.row,
+        0,
+        f'="Actual to Dec-{max(C.ACTUAL_YEARS)}; forecast from Jan-{min(C.FORECAST_YEARS)} on "'
+        f'&{controls.version}&" / "&{controls.scenario}',
+        f"Actual to Dec-{max(C.ACTUAL_YEARS)}; forecast from Jan-{min(C.FORECAST_YEARS)} on "
+        f"{DEFAULT_VERSION} / {DEFAULT_SCENARIO}",
+        sheet.formats["note"],
+    )
     sheet.row += 1
     sheet.worksheet.write(
         sheet.row,
         0,
-        f"Actual periods to Dec-{max(C.ACTUAL_YEARS)}; forecast from Jan-{min(C.FORECAST_YEARS)}, "
-        "marked by the highlighted column.",
+        "The highlighted column marks the actual/forecast boundary. History is always Actual; "
+        "the selectors on the Cover sheet drive the forecast columns.",
         sheet.formats["note"],
     )
     sheet.worksheet.set_column(0, 0, sheet.theme.column_width_label)
     sheet.worksheet.set_column(1, len(months) + 1, sheet.theme.column_width_month)
     sheet.worksheet.freeze_panes(*sheet.theme.freeze_at)
-    return rows
+    return rows, values
 
 
 def _write_scenarios(sheet: Sheet, series: pd.DataFrame) -> None:
@@ -436,61 +693,73 @@ def build(tables: dict[str, pd.DataFrame], path, theme: theme_mod.Theme | None =
             worksheet.set_tab_color(theme.tab_colours[name])
         return Sheet(worksheet, formats, theme)
 
-    _write_cover(sheet_for("Cover"), series)
+    bs_lines = [(key, "money", key == statements.EQUITY) for key, _ in BALANCE_LINES]
+    bs_lines.append(("difference", "money", True))
+    cf_lines = [(name, "money", total) for name, total in CASH_LINES]
+    months = _months(series)
+
+    # Build the lookup grid before anything references it: the ranges the statements point at
+    # depend on how many keys it holds, and a formula written against a guessed extent would be
+    # wrong in a way nothing would catch until Excel opened the file.
+    keys, grid = _data_grid(
+        [
+            ("PL", series, [name for name, _, _ in PL_LINES]),
+            ("BS", balances, [name for name, _, _ in bs_lines]),
+            ("CF", flow, [name for name, _, _ in cf_lines]),
+        ],
+        months,
+    )
+    data = DataBlock(key_rows=len(keys), months=len(months))
+
+    controls = _write_cover(sheet_for("Cover"), series, data)
     _write_assumptions(sheet_for("Assumptions"))
 
-    plan = series[
-        (series["version_name"].isin(["Actual", "Latest Forecast"]))
-        & (series["scenario_name"] == "Balanced Base")
-    ]
-    plan = plan.groupby("month", as_index=False).sum(numeric_only=True)
-    months = _months(plan)
+    def default_view(frame: pd.DataFrame) -> pd.DataFrame:
+        """What the workbook shows when it is opened: Actual, then the operating plan."""
+        subset = frame[
+            (frame["version_name"].isin(["Actual", DEFAULT_VERSION]))
+            & (frame["scenario_name"] == DEFAULT_SCENARIO)
+        ]
+        return subset.groupby("month", as_index=False).sum(numeric_only=True)
 
+    plan = default_view(series)
     pl_sheet = sheet_for("P&L")
-    rows = _write_statement(
+    rows, values = _write_statement(
         pl_sheet,
         "Profit and loss",
-        "Actual to Dec-2025, Balanced Base thereafter",
+        "Actual to Dec-2025, then the selected version and scenario",
         plan,
         months,
         PL_LINES,
+        "PL",
+        data,
+        controls,
+        skip=DERIVED_LINES,
     )
-    _add_tied_formulas(pl_sheet, rows, months, first_col=1)
+    _add_tied_formulas(pl_sheet, rows, values, months, controls, first_col=1)
 
-    bs = (
-        balances[
-            (balances["version_name"].isin(["Actual", "Latest Forecast"]))
-            & (balances["scenario_name"] == "Balanced Base")
-        ]
-        .groupby("month", as_index=False)
-        .sum(numeric_only=True)
-    )
-    bs_lines = [(key, "money", key == statements.EQUITY) for key, _ in BALANCE_LINES]
-    bs_lines.append(("difference", "money", True))
     _write_statement(
         sheet_for("Balance sheet"),
         "Balance sheet",
         "Assets less contra-assets equal liabilities plus equity, every period",
-        bs,
+        default_view(balances),
         months,
         bs_lines,
+        "BS",
+        data,
+        controls,
     )
 
-    cf = (
-        flow[
-            (flow["version_name"].isin(["Actual", "Latest Forecast"]))
-            & (flow["scenario_name"] == "Balanced Base")
-        ]
-        .groupby("month", as_index=False)
-        .sum(numeric_only=True)
-    )
     _write_statement(
         sheet_for("Cash flow"),
         "Cash flow",
         "Indirect method, from EBITDA - ADR 0018",
-        cf,
+        default_view(flow),
         months,
-        [(name, "money", total) for name, total in CASH_LINES],
+        cf_lines,
+        "CF",
+        data,
+        controls,
     )
 
     _write_scenarios(sheet_for("Scenarios"), series)
@@ -507,6 +776,9 @@ def build(tables: dict[str, pd.DataFrame], path, theme: theme_mod.Theme | None =
         "Iterative calculation is off: interest accrues on the beginning-of-period balance",
         "  (ADR 0001), so the model is acyclic by construction.",
         "The highlighted column marks the actual/forecast boundary.",
+        "The Cover sheet carries a version and a scenario selector. History is always Actual;",
+        "  the selectors drive the forecast columns on all three statements. Budget exists only",
+        "  under Balanced Base, and any other pairing with it says so rather than showing zeroes.",
         "",
         DISCLOSURE,
     ]
@@ -515,9 +787,11 @@ def build(tables: dict[str, pd.DataFrame], path, theme: theme_mod.Theme | None =
         documentation.row += 1
     documentation.worksheet.set_column(0, 0, 100)
 
+    _write_data_sheet(sheet_for(DATA_SHEET), keys, grid, months)
+
     workbook.close()
     return {
-        "sheets": 8,
+        "sheets": 9,
         "months": len(months),
         "scenarios": len(C.SCENARIOS),
         "theme": theme.name,

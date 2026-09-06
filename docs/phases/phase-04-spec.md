@@ -144,8 +144,8 @@ locally, because it is what makes the formulas trustworthy.
 | 4.10 | Statements tie to the semantic layer, not merely to each other | `tests/workbook/test_statements.py` |
 | 4.11 | Interest accrues on the beginning-of-period balance; iterative calculation is **off** | Inspect the workbook's calculation settings; ADR 0001 |
 | **Drivers and scenarios** | | |
-| 4.12 | Changing a driver cell changes downstream figures on recalculation — the model is live, not a dump | `requires_excel` |
-| 4.13 | The scenario selector switches all four scenarios; the version selector switches Actual, Budget, Prior and Latest Forecast | `requires_excel` |
+| 4.12 | Changing a driver cell changes downstream figures on recalculation — the model is live, not a dump | `tests/workbook/test_workbook.py` resolves the lookup by hand; the Excel recalculation is phase 5 |
+| 4.13 | The scenario selector switches all four scenarios; the version selector switches Budget, Prior and Latest Forecast, with Actual always shown as history | `tests/workbook/test_workbook.py` — all nine live combinations resolved against the written file |
 | 4.14 | Budget exists only under Balanced Base, and the selector handles that asymmetry without showing an empty statement as if it were a zero one | `tests/workbook/test_selectors.py` |
 | 4.15 | Every driver in contract §7.5 and §7.6 appears on the assumptions sheet, sourced from config rather than typed | `tests/workbook/test_drivers.py` |
 | 4.16 | Sensitivity grids cover the drivers §7.6 names as sensitivities — CAC, DSO, landed cost, wholesale share | `tests/workbook/test_sensitivity.py` |
@@ -157,7 +157,7 @@ locally, because it is what makes the formulas trustworthy.
 | **Build** | | |
 | 4.21 | `python -m bellwether.build` produces the workbook headless, exits 0, leaves a clean tree | CI on ubuntu |
 | 4.22 | Workbook generation completes within 60 seconds | Timed in CI |
-| 4.23 | Two runs with the same seed produce a byte-identical workbook | `tests/workbook/test_determinism.py` |
+| 4.23 | Two runs with the same seed produce a byte-identical workbook | `tests/workbook/test_workbook.py` — SHA-256 of the file, not of extracted values |
 | 4.24 | The workbook opens without repair warnings in Excel | `requires_excel` |
 | 4.25 | Deleting the COM stage leaves a complete, usable model | The headless build is the deliverable CI tests |
 

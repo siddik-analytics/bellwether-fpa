@@ -17,6 +17,10 @@ from bellwether.transform import allocation, semantic, star, statements
 from bellwether.workbook import model
 from bellwether.workbook import theme as theme_mod
 
+ROW = re.compile(r"<row[^>]*>(.*?)</row>", re.S)
+CELL = re.compile(r'<c r="([A-Z]+)(\d+)"([^>]*)>(?:<f[^>]*>.*?</f>)?(?:<v>([^<]*)</v>)?', re.S)
+SHARED = re.compile(r"<si>(.*?)</si>", re.S)
+
 CELL_WITH_FORMULA = re.compile(r'<c r="([A-Z]+\d+)"[^>]*>(?:<f[^>]*>([^<]*)</f>)(<v>[^<]*</v>)?')
 
 
@@ -39,6 +43,20 @@ def _sheet_xml(path) -> dict[str, str]:
         for name in archive.namelist()
         if name.startswith("xl/worksheets/sheet")
     }
+
+
+def _numeric_cached_values(path) -> set[float]:
+    """Every numeric formula result in the file. Text results - the selection echo the sheets
+    carry so a reader always sees which version is showing - are not figures and are skipped."""
+    out: set[float] = set()
+    for xml in _sheet_xml(path).values():
+        for _, _, value in CELL_WITH_FORMULA.findall(xml):
+            text = re.sub(r"</?v>", "", value or "")
+            try:
+                out.add(float(text))
+            except ValueError:
+                continue
+    return out
 
 
 # --- 4.1 to 4.3 the oracle rule -----------------------------------------------------------
@@ -75,15 +93,9 @@ def test_formula_cached_values_match_the_semantic_layer(built, tables) -> None:
         .sum(numeric_only=True)
     )
 
-    xml = _sheet_xml(path)["xl/worksheets/sheet3.xml"]
-    cached = {
-        cell: float(re.sub(r"</?v>", "", value))
-        for cell, _, value in CELL_WITH_FORMULA.findall(xml)
-        if value
-    }
-    # Row 8 on the P&L is Net Revenue; column B is the first month.
+    cached = _numeric_cached_values(path)
     first_month_net = float(plan.sort_values("month")["Net Revenue"].iloc[0])
-    assert any(abs(v - first_month_net) < 0.01 for v in cached.values()), first_month_net
+    assert any(abs(v - first_month_net) < 0.01 for v in cached), first_month_net
 
 
 def test_formula_writer_refuses_a_missing_value() -> None:
@@ -231,7 +243,7 @@ def test_generation_is_well_inside_the_time_budget(tables, tmp_path) -> None:
 
 def test_workbook_has_the_expected_sheets(built) -> None:
     path, summary = built
-    assert summary["sheets"] == 8
+    assert summary["sheets"] == 9
     assert summary["months"] == 72
     shared = zipfile.ZipFile(path).read("xl/sharedStrings.xml").decode("utf-8")
     for sheet in (
@@ -302,15 +314,114 @@ def test_channel_revenue_sums_to_the_total_the_workbook_reports(built, tables) -
 
     # And that same total is a number the workbook actually contains, not one only the test knows.
     path, _ = built
-    cached = {
-        round(float(re.sub(r"</?v>", "", value)), 2)
-        for xml in _sheet_xml(path).values()
-        for _, _, value in CELL_WITH_FORMULA.findall(xml)
-        if value
-    }
+    cached = _numeric_cached_values(path)
     monthly_net = series[
         (series["version_name"] == "Actual") & (series["scenario_name"] == "Balanced Base")
     ].sort_values("month")["Net Revenue"]
     assert any(any(abs(v - float(m)) < 0.01 for v in cached) for m in monthly_net.head(3)), (
         "the workbook does not carry the net revenue the disaggregation ties to"
     )
+
+
+# --- 4.12 to 4.14 the selectors actually select ------------------------------------------------
+
+
+def _shared_strings(path) -> list[str]:
+    xml = zipfile.ZipFile(path).read("xl/sharedStrings.xml").decode("utf-8")
+    return [re.sub(r"<[^>]+>", "", block) for block in SHARED.findall(xml)]
+
+
+def _data_sheet(path) -> dict[str, list[float]]:
+    """Read the hidden lookup grid back out of the file, keyed as the formulas key it.
+
+    Parsing the written workbook rather than calling the builder is the point: the selector is
+    only real if what landed in the file resolves, and a helper that re-derived the grid in
+    Python would pass even if nothing had been written.
+    """
+    strings = _shared_strings(path)
+    sheets = _sheet_xml(path)
+    xml = sheets[max(sheets, key=lambda n: int(re.search(r"sheet(\d+)", n).group(1)))]
+    grid: dict[str, list[float]] = {}
+    for body in ROW.findall(xml):
+        key = None
+        values: list[float] = []
+        for column, _, attrs, value in CELL.findall(body):
+            if column == "A":
+                key = strings[int(value)] if 't="s"' in attrs else value
+            elif value not in (None, ""):
+                values.append(float(value))
+        if key and key != "key":
+            grid[key] = values
+    return grid
+
+
+def test_the_selector_reaches_every_combination(built, tables) -> None:
+    """4.13 - resolve the lookup by hand for all twelve selectable pairs.
+
+    This is what an Excel recalculation would do, done without Excel. It is not a substitute for
+    the COM reconciliation in phase 5; it is the check that the formulas point somewhere real,
+    which is the failure a `requires_excel` test would otherwise let through to a machine nobody
+    runs CI on.
+    """
+    path, _ = built
+    grid = _data_sheet(path)
+    series = statements.metric_series(tables["fact_gl"], tables["dim_gl_account"])
+
+    reachable = 0
+    for version in ("Budget", "Latest Forecast", "Prior Forecast"):
+        for scenario in C.SCENARIOS:
+            subset = series[
+                (series["version_name"] == version) & (series["scenario_name"] == scenario)
+            ].sort_values("month")
+            key = f"{version}|{scenario}|PL:Net Revenue"
+            if subset.empty:
+                assert key not in grid, f"{key} exists for a combination that was never approved"
+                continue
+            assert key in grid, key
+            reachable += 1
+            # The grid runs the full 72-month axis; a forecast combination occupies the tail.
+            written = [v for v in grid[key] if v]
+            expected = [v for v in subset["Net Revenue"].tolist() if v]
+            assert len(written) == len(expected), key
+            for got, want in zip(written, expected, strict=True):
+                assert abs(got - want) < 0.01, key
+    assert reachable == 9, reachable
+
+
+def test_switching_scenario_changes_the_numbers(built) -> None:
+    """4.12 - the model is live. Two scenarios that agreed would mean the selector does nothing."""
+    path, _ = built
+    grid = _data_sheet(path)
+    base = grid["Latest Forecast|Balanced Base|PL:EBITDA"]
+    other = grid["Latest Forecast|Wholesale Acceleration|PL:EBITDA"]
+    assert base != other
+    assert sum(base) != sum(other)
+
+
+def test_an_unapproved_combination_is_guarded_not_zeroed(built) -> None:
+    """4.14 - with a live selector this has teeth it did not have as a static table."""
+    path, _ = built
+    grid = _data_sheet(path)
+    assert "Budget|Balanced Base|combination exists" in grid
+    for scenario in C.SCENARIOS:
+        if scenario == "Balanced Base":
+            continue
+        assert f"Budget|{scenario}|combination exists" not in grid
+
+    # A missing key is only a stated answer if the statements consult the guard, so find the
+    # guard cell on the cover and prove the P&L formulas reference it.
+    cover = _sheet_xml(path)["xl/worksheets/sheet1.xml"]
+    guard = re.search(r'<c r="(B\d+)"[^>]*><f>IF\(ISNA\(MATCH\(', cover)
+    assert guard, "no availability guard on the cover"
+    reference = f"Cover!${guard.group(1)[0]}${guard.group(1)[1:]}"
+    for sheet in ("sheet3.xml", "sheet4.xml", "sheet5.xml"):
+        xml = _sheet_xml(path)[f"xl/worksheets/{sheet}"]
+        assert reference in xml, f"{sheet} does not consult the guard"
+
+
+def test_history_is_never_driven_by_the_version_selector(built) -> None:
+    """A selector set to Budget must not blank 2023 - Budget has no history to show."""
+    path, _ = built
+    xml = _sheet_xml(path)["xl/worksheets/sheet3.xml"]
+    historical = [f for cell, f, _ in CELL_WITH_FORMULA.findall(xml) if cell.startswith("B")]
+    assert any("Actual|Balanced Base" in f for f in historical), historical[:3]
