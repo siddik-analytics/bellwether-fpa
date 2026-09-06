@@ -478,6 +478,57 @@ write-downs, shrink / damage.
 
 Budget and forecast are **append-only and never overwritten by actuals**.
 
+### 5.8a Statement assembly
+
+The ledger holds accounts; the statements are how they present. Both are specified here because
+§9 check 5 asserts that cash flow closing cash equals balance sheet cash, and until phase 4 there
+was nothing for that check to assert against — a phase 1 gap that surfaced three phases late.
+
+**Balance sheet classification.** Every balance-sheet account carries a classification, so
+current and non-current present separately and the working-capital movement the cash flow needs
+is derivable rather than assumed.
+
+| Classification | Accounts |
+|---|---|
+| Current asset | Cash (1000), wholesale receivables (1100), processor receivable (1150), inventory (1200) net of reserve (1210), right of return asset (1250), supplier advances (1300) |
+| Non-current asset | Property and equipment (1400) |
+| Contra-asset | Allowance for doubtful accounts (1180), inventory reserve (1210) |
+| Current liability | Accounts payable (2000), accruals (2100), refund liability (2200) |
+| Non-current liability | Revolving credit facility (2500) |
+| Equity | Common stock and paid-in capital (3000), retained earnings (3900) |
+
+The revolver is classified **non-current** because the facility is committed; a borrower drawing
+on a committed line is not holding a payable due within the year. Availability, not maturity, is
+what constrains it, and that is reported separately (§6.10).
+
+**Cash flow, indirect method** — ADR 0018. Starts from EBITDA because working capital is what
+Northlake's story turns on, and the indirect method puts that movement on its own lines:
+
+```
+EBITDA
+  less   increase in inventory
+  less   increase in receivables and processor receivable
+  less   increase in supplier advances
+  plus   increase in accounts payable
+  plus   increase in refund liability
+= Cash generated from operations
+  less   interest paid and financing fees
+  less   capital expenditure
+= Free cash flow
+  plus   equity raised
+  plus   net revolver drawings
+= Movement in cash
+```
+
+**Non-cash items are excluded explicitly**, not by omission: shrink is a reserve movement (§6.5),
+the returns reserve unwinds against the refund liability without cash until the refund is paid
+(ADR 0017), and depreciation never touches cash. Each is added back on its own line so a reader
+can see it was considered.
+
+The statement depends on **movements**, so it requires an opening balance sheet and cannot be
+computed for the first period of a series in isolation. The forecast posts one for exactly this
+reason (ADR 0014).
+
 ### 5.9 `fact_headcount`
 
 **Grain: employee × month.**
@@ -1131,7 +1182,10 @@ The generator is not done until these pass. They run in CI.
 **Accounting**
 
 5. Trial balance sums to zero by period
-6. Subledger totals tie to the corresponding control account (AR, AP, inventory, refund liability)
+6. Subledger totals tie to the corresponding control account (AR, AP, inventory, refund
+   liability), inventory within the 0.5% tolerance stated at §5.8a
+6a. Balance sheet balances every period: assets less contra-assets = liabilities + equity
+6b. Cash flow closing cash equals balance sheet cash every period, both derived from the ledger
 7. Gross-to-net ladders reconstructable from ledger accounts alone, both channels
    *(Actual periods only until phase 3 — the forecast ledger does not yet
    balance. This is a known defect with a named owner, not a narrowing of the check: see
@@ -1224,3 +1278,4 @@ Confirmed excluded, consistent with `docs/charter.md`:
 | 0015 | `GM_CALIBRATION` is a plug — known defect, owned by phase 3 |
 | 0016 | Actual periods carry the operating plan scenario, not "Not applicable" |
 | 0017 | The returns reserve and its unwind are separate accounts |
+| 0018 | Cash flow uses the indirect method, starting from EBITDA |

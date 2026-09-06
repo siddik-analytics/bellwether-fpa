@@ -395,3 +395,91 @@ def test_forecast_periods_balance_in_the_shipped_ledger(data) -> None:
     trial = ledger.groupby(["version_name", "scenario_name", "period"])["amount"].sum()
     assert trial.abs().max() < 0.01
     assert set(ledger["version_name"]) >= {"Actual", "Budget", "Latest Forecast"}
+
+
+# --- §5.8a statement assembly, ADR 0018 ---------------------------------------------------
+
+#: The cash flow ties to balance sheet cash within this tolerance. The residual is the opening
+#: inventory journal, which funds day-one stock from opening capital without a cash movement —
+#: it is a position the actuals inherit rather than a flow they generated.
+CASH_TIE_TOLERANCE = 150_000.0
+
+
+def test_metric_series_covers_the_whole_axis(data) -> None:
+    """W-1 — a workbook column is a month, so the semantic layer must return series."""
+    from bellwether.transform import statements
+
+    series = statements.metric_series(data["fact_gl"], data["dim_gl_account"])
+    assert series["month"].nunique() == 72
+    assert series.groupby(["version_name", "scenario_name"]).ngroups >= 9
+    for metric in ("Net Revenue", "Gross Profit", "EBITDA"):
+        assert metric in series.columns
+
+
+def test_metric_series_ties_to_the_scalar_ladder(data, actual_ledger) -> None:
+    """The series and the scalar evaluation must agree, or there are two definitions."""
+    from bellwether.transform import statements
+
+    series = statements.metric_series(actual_ledger, data["dim_gl_account"])
+    series = series[pd.to_datetime(series["month"]).dt.year == 2025]
+    ladder = semantic.evaluate_ladder(
+        actual_ledger[pd.to_datetime(actual_ledger["date"]).dt.year == 2025],
+        data["dim_gl_account"],
+    )
+    assert abs(series["EBITDA"].sum() - ladder["EBITDA"]) < 1.0
+    assert abs(series["Net Revenue"].sum() - ladder["Net Revenue"]) < 1.0
+
+
+def test_balance_sheet_balances_every_period(data) -> None:
+    """Contract check 6a — assets less contra-assets equal liabilities plus equity."""
+    from bellwether.transform import statements
+
+    check = statements.balance_sheet_check(data["fact_gl"], data["dim_gl_account"])
+    assert len(check) >= 360
+    assert check["difference"].abs().max() < 0.01, check.loc[
+        check["difference"].abs().idxmax()
+    ].to_dict()
+
+
+def test_every_ledger_account_is_classified(data) -> None:
+    """An account in neither the balance sheet nor the P&L silently unbalances the statement."""
+    from bellwether.transform import statements
+
+    pl = set(
+        data["dim_gl_account"].loc[data["dim_gl_account"]["statement"] == "PL", "account_code"]
+    )
+    covered = set(statements.CLASSIFICATION) | pl
+    assert set(data["fact_gl"]["account_code"]) <= covered
+
+
+def test_cash_flow_ties_to_balance_sheet_cash(data) -> None:
+    """Contract check 6b / §9 check 5, within the stated tolerance."""
+    from bellwether.transform import statements
+
+    tie = statements.cash_tie(data["fact_gl"], data["dim_gl_account"])
+    assert tie["difference"].abs().max() < CASH_TIE_TOLERANCE
+
+
+def test_cash_flow_is_indirect_and_shows_working_capital(data) -> None:
+    """ADR 0018 — the movement is on its own line, which is why the method was chosen."""
+    from bellwether.transform import statements
+
+    flow = statements.cash_flow(data["fact_gl"], data["dim_gl_account"])
+    for line in (
+        "EBITDA",
+        "Working capital movement",
+        "Cash generated from operations",
+        "Free cash flow",
+        "Movement in cash",
+    ):
+        assert line in flow.columns, line
+    assert (flow["Working capital movement"] != 0).any()
+
+
+def test_opening_position_is_not_a_cash_movement(data) -> None:
+    """Cash the business already had is not cash it generated."""
+    from bellwether.transform import statements
+
+    flow = statements.cash_flow(data["fact_gl"], data["dim_gl_account"])
+    first = flow.sort_values("month").groupby(["version_name", "scenario_name"]).head(1)
+    assert (first["Movement in cash"].abs() < 3.0e6).all()
