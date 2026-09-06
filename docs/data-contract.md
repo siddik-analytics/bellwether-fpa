@@ -792,30 +792,66 @@ shipping revenue down, outbound freight up.
 Promotion targeting is driven by inventory state — weeks of supply, colour variant age — which
 links the promotional calendar to the inventory module rather than leaving it exogenous.
 
-### 7.5 FY2023 and FY2024 implied cost constraints
+### 7.5 FY2023 and FY2024 driver bounds
 
-The prior-year EBITDA targets in §1.1 are not free parameters once FY2025 is fixed. Landed cost
-before the April 2025 supplier increase is **$14.12** (the rise hit product cost only, 78% of
-landed), which gives blended gross margin of ~51.5% in FY2023 and ~50.6% in FY2024 at the stated
-channel mixes. With payroll set by headcount and payment processing by DTC volume, the targets
-determine what is left for marketing and fixed costs:
+The prior-year EBITDA targets in §1.1 are not free parameters once FY2025 is fixed. The table below
+states them as **bounded generator inputs**, not as expected outcomes. The generator picks a value
+inside each tolerance; the margins and EBITDA that result are derived, and are asserted separately
+by check 12.
 
-| | FY2023 (+2.5%) | FY2024 (0%) | FY2025 (actual) |
-|---|---|---|---|
-| Blended gross margin | ~51.5% | ~50.6% | 46.7% |
-| Payroll | ~$2.17M (22 FTE) | ~$2.56M (25 FTE) | $2.98M (28 FTE) |
-| Marketing, % of revenue | **11–12%** | **12–13%** | 13.7% |
-| Fixed cost base | **~$0.64–0.72M** | **~$0.73–0.83M** | $1.16M |
+**Inputs — the generator sets these:**
 
-Both targets are achievable, but only inside those ranges. Marketing intensity must rise across the
-three years — which is consistent with the independent evidence that paid CAC rose from $29 to $34
-and the non-paid share of new customers fell from 38% to 30%.
+| Input | FY2023 | FY2024 | FY2025 (fixed) | Tolerance |
+|---|---|---|---|---|
+| Landed cost per unit | $14.12 | $14.12 | $15.00 | ±$0.05 |
+| DTC average order value, net of discount | $74.50 | $76.25 | $78.00 | ±$0.75 |
+| DTC share of net revenue | 72% | 66% | 59% | ±0.5pt |
+| Marketing, % of net revenue | 11.0% | 12.0% | 13.7% | ±0.3pt |
+| Fixed cost base | $0.598M | $0.758M | $1.163M | ±$25k |
+| Payroll | $2.167M | $2.560M | $2.981M | ±$25k |
+| Headcount, year end | 22 FTE | 25 FTE | 28 FTE | exact |
+| Average fully loaded compensation | $98,500 | $102,400 | $106,464 | ±$2,000 |
+| Inventory turns | 4.5x | 4.1x | 3.3x | ±0.2x |
+| Shrink, % of average inventory | 1.0% | 1.0% | 2.5% | ±0.2pt |
 
-The fixed cost base steps ~50% between FY2024 and FY2025. That step is large and must be
-deliberate rather than incidental: it is where software moves into higher pricing tiers, insurance
-steps with wholesale exposure and insured inventory, and professional fees rise with the deduction
-and inventory accounting complexity that wholesale at 41% of revenue creates. The generator should
-place the step at identifiable events, not spread it evenly.
+Landed cost is identical in FY2023 and FY2024 because the 8% supplier increase takes effect in
+April 2025 and lands on product cost only, which is 78% of landed: $15.00 / 1.0624 = $14.12.
+
+Per-order cost rates — parcel $7.25, DTC fulfilment $3.25, shipping revenue $2.43, wholesale
+freight 1.8% and fulfilment $0.45 — are held at FY2025 levels across all three years. They are
+contractual rates rather than modelled drivers, and holding them constant means the entire margin
+walk is attributable to landed cost, AOV and channel mix, which are the three documented causes.
+
+**Derived — asserted by the validation suite, not set:**
+
+| Output | FY2023 | FY2024 | FY2025 | Tolerance |
+|---|---|---|---|---|
+| DTC gross margin | 53.8% | 54.8% | 53.9% | ±0.4pt |
+| Wholesale gross margin | 40.6% | 40.6% | 37.1% | ±0.4pt |
+| Blended gross margin, pre-shrink | 50.1% | 50.0% | 47.0% | ±0.4pt |
+| Landed COGS | $3.109M | $3.662M | $4.587M | ±$40k |
+| Average inventory | $0.691M | $0.893M | $1.390M | ±$40k |
+| **EBITDA margin** | **+2.5%** | **0.0%** | **−8.1%** | **±0.8pt** |
+
+**What the walk says.** Blended gross margin is essentially flat across FY2023 and FY2024 — 50.1%
+to 50.0% — because a rising wholesale share is offset by rising AOV. Substantially the whole 3.0
+point decline lands in FY2025, driven by the April 2025 landed cost increase and the mix reaching
+41% wholesale together. That concentration is the point: it makes FY2025 the year the story breaks
+rather than the end of a gradual slide, and it is what the margin bridge has to show.
+
+**The fixed cost base is the input to watch.** It rises $0.598M → $0.758M → $1.163M, roughly 27%
+then 53%. The FY2025 step is large and must be placed at identifiable events rather than spread
+evenly — software moving into higher pricing tiers, insurance stepping with insured inventory and
+wholesale exposure, and professional fees rising with the deduction and inventory accounting
+complexity that wholesale at 41% of revenue creates. A generator that smooths this step will hit
+the FY2025 EBITDA target while misrepresenting how the cost base actually behaves, and §4.4's
+fixed / step-fixed / directly-budgeted classification exists precisely to prevent that.
+
+**Marketing intensity must rise monotonically** — 11.0% → 12.0% → 13.7%. This is not a free choice
+either: it is the spend-side corroboration of paid CAC rising from $29 to $34 and the non-paid
+share of new customers falling from 38% to 30%. A generator that holds marketing flat as a
+percentage of revenue would contradict the CAC series in §6.8.
+
 
 ---
 
