@@ -1,0 +1,49 @@
+# Generated data and build artifacts — never committed outside a release tag
+data/
+build/
+
+# Excel
+*.xlsx
+*.xlsm
+*.xlsb
+*.xls
+
+# Office lock files. Generalised rather than listed per extension: these appear the moment
+# a document is opened, under whatever extension, and one of them reaching a commit is the
+# kind of mistake that is permanent in a public repo.
+~$*
+
+# Power BI — PBIP text format is committed; the binary is not
+*.pbix
+*.pbit
+.pbi/
+**/.pbi/localSettings.json
+**/*.abf
+
+# Office / PDF outputs
+*.pdf
+*.docx
+*.pptx
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+
+# Claude Code — project settings are shared, local ones are not
+.claude/settings.local.json
+
+# OS / editor
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Secrets
+.env
+.env.*

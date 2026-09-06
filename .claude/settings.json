@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git switch *)",
+      "Bash(git branch *)",
+      "Bash(git tag *)",
+      "Bash(git stash *)",
+      "Bash(git restore *)",
+      "Bash(git remote *)",
+      "Bash(.venv/Scripts/python.exe -m pytest *)",
+      "Bash(.venv/Scripts/python.exe -m bellwether *)",
+      "Bash(.venv/Scripts/python.exe -m ruff *)",
+      "Bash(pre-commit run *)"
+    ],
+    "ask": [
+      "Bash(git reset *)",
+      "Bash(git rebase *)",
+      "Bash(git clean *)",
+      "Bash(git filter-branch *)",
+      "Bash(git checkout *)"
+    ],
+    "deny": [
+      "Bash(git push *)",
+      "Bash(git remote remove *)",
+      "Bash(git remote set-url *)"
+    ]
+  }
+}
