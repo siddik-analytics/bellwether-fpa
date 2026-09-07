@@ -11,6 +11,30 @@
   },
   "visual": {
     "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Figures"
+                    }
+                  },
+                  "Property": "Net Income"
+                }
+              },
+              "queryRef": "Key Figures.Net Income",
+              "nativeQueryRef": "Net Income",
+              "displayName": "Net Income",
+              "format": "$#,##0"
+            }
+          ]
+        }
+      }
+    },
     "drillFilterOtherVisuals": true
   }
 }

@@ -352,26 +352,28 @@ def test_page_display_names_are_business_language(built) -> None:
     assert tmdl.DRILLTHROUGH_PAGE in names
 
 
-def test_visual_containers_are_generated_but_not_bound(built) -> None:
-    """The state of 5.27, asserted rather than described.
+def test_every_card_is_bound_to_a_measure(built) -> None:
+    """5.27 — the cards display something now.
 
-    Visual containers are generated from a Desktop reference (see `test_visual_fixture.py`).
-    Their field bindings are not: every visual in that reference is an unbound placeholder, so
-    the `visual.query` shape is still unknown and writing one would be the defect ADR 0022
-    exists to prevent.
-
-    So the pages carry real, correctly shaped cards that display nothing, and **5.27 is not
-    met**. That is a worse-looking report than an invented binding would have produced, and a
-    truer one.
+    Bound from `tests/fixtures/powerbi-desktop-bound/`, which is the third Desktop reference and
+    the first to contain a field actually assigned to a visual. Before it, the cards were
+    correctly shaped and empty, and that was recorded as not met rather than dressed up.
     """
     definition = _report_dir(built["dir"])
-    visuals = list(definition.rglob("visual.json"))
-    assert visuals, "visual containers should be generated"
-    for path in visuals:
-        visual = _json(path)["visual"]
-        assert set(visual) == {"visualType", "drillFilterOtherVisuals"}, (
-            f"{path.parent.name} acquired a binding with no authoritative example behind it"
-        )
+    cards = [
+        _json(path)
+        for path in definition.rglob("visual.json")
+        if _json(path)["visual"]["visualType"] == tmdl.CARD_VISUAL
+    ]
+    assert cards, "no cards were generated"
+    known = set(_measures(built["dir"]))
+    for card in cards:
+        projections = card["visual"]["query"]["queryState"]["Data"]["projections"]
+        assert len(projections) == 1, card["name"]
+        field = projections[0]["field"]["Measure"]
+        assert field["Expression"]["SourceRef"]["Entity"] == tmdl.MEASURE_TABLE
+        assert field["Property"] in known, field["Property"]
+        assert projections[0]["queryRef"] == f"{tmdl.MEASURE_TABLE}.{field['Property']}"
 
 
 def test_the_disclosure_is_carried_by_the_model(built) -> None:

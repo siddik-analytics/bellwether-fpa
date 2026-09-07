@@ -191,8 +191,8 @@ The generated-not-authored assertions in CI, and the local `requires_powerbi` nu
 | 5.25 | Budget under a non-Balanced-Base scenario renders as an explicit "not applicable", never as blank or zero | `tests/powerbi/test_generated.py` |
 | **Report** | | |
 | 5.26 | Four pages, in the order the rules file fixes | `tests/powerbi/test_generated.py` |
-| 5.27 | Every summary visual has drillthrough to transaction level, through the phase 3 GL bridge | **Not met** — containers generated from the reference, but every visual in it is unbound, so no field-binding shape exists to generate from |
-| 5.28 | Every page carries the "illustrative company, synthetic data" note | **Not met on report pages** — the reference has no textbox. The model carries the note instead, verified via TOM |
+| 5.27 | Every summary visual has drillthrough to transaction level, through the phase 3 GL bridge | `tests/powerbi/test_bound_fixture.py` — cards bound, drillthrough target declared as Desktop declares it. **Rendering still manual (5.30)** |
+| 5.28 | Every page carries the "illustrative company, synthetic data" note | `tests/powerbi/test_bound_fixture.py` — a real textbox on every page, plus the model description |
 | **Build** | | |
 | 5.29 | `python -m bellwether.build` regenerates the TMDL; a hand-edited measure fails the build | `tests/powerbi/test_generated.py` + the CI clean-tree step |
 | 5.30 | The PBIP project is valid enough to open in Power BI Desktop without error | Model half now automated by 5.33. The **report** half stays manual — Desktop has no CLI |
@@ -202,6 +202,7 @@ The generated-not-authored assertions in CI, and the local `requires_powerbi` nu
 | 5.34 | Every generated `$schema` and metadata version equals Power BI Desktop's own, and the validator accepts Desktop's TMDL | `tests/powerbi/test_schema_fixture.py` — oracle is `tests/fixtures/powerbi-desktop-blank/`, not a transcribed constant |
 | 5.35 | Every generated visual container matches Power BI Desktop's own shape — schema, key set and visualType vocabulary | `tests/powerbi/test_visual_fixture.py` — oracle is `tests/fixtures/powerbi-desktop-visuals/` |
 | 5.36 | Every object name passes **Power BI Desktop's own `NameValidator`**, not only TMDL parsing | `tests/powerbi/test_tom_authority.py`, `requires_tom` — caught `Measures`, which TOM accepted and Desktop refused |
+| 5.37 | Every `Entity` and `Property` in the report resolves against the model as TOM parsed it | `tests/powerbi/test_bound_fixture.py`, `requires_tom` — 14 references, 0 unresolved |
 
 ---
 

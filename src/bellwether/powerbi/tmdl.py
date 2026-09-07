@@ -50,6 +50,15 @@ SCHEMAS: dict[str, str] = {
 #: shape: `$schema`, `name`, `position`, `visual`.
 VISUAL_SCHEMA = f"{SCHEMA_BASE}/visualContainer/2.12.0/schema.json"
 
+#: The textbox visual type, for the synthetic-data note on every page — criterion 5.28.
+TEXTBOX_VISUAL = "textbox"
+
+#: How a drillthrough target declares the field it drills on, from the bound reference: a hidden
+#: page carrying a `filterConfig` filter with `howCreated: Drillthrough` and a `pageBinding` whose
+#: parameter is bound to that filter by name.
+DRILLTHROUGH_ENTITY = "dim_channel"
+DRILLTHROUGH_PROPERTY = "Channel"
+
 #: `cardVisual`, not `card`. The reference lists both the modern name and 23 others; guessing
 #: the older one would have produced a visual Power BI does not recognise.
 CARD_VISUAL = "cardVisual"
@@ -419,6 +428,28 @@ def visual_name(page: str, measure: str) -> str:
     return digest[:20]
 
 
+def _field(kind: str, entity: str, prop: str) -> dict:
+    """A field reference. `Measure` for a measure, `Column` for a column — the only difference."""
+    return {kind: {"Expression": {"SourceRef": {"Entity": entity}}, "Property": prop}}
+
+
+def _projection(measure: str) -> dict:
+    """One projection: the field, plus the three names Power BI keeps alongside it.
+
+    `queryRef` is the model path, `nativeQueryRef` and `displayName` are what a reader sees. The
+    format string comes from the metric definition, so a card shows the same format as the
+    measure — the report is not a second place formatting is decided.
+    """
+    metric = semantic.ALL_METRICS[measure]
+    return {
+        "field": _field("Measure", MEASURE_TABLE, measure),
+        "queryRef": f"{MEASURE_TABLE}.{measure}",
+        "nativeQueryRef": measure,
+        "displayName": measure,
+        "format": metric.format_string,
+    }
+
+
 def _visual_json(page: str, measure: str, order: int) -> str:
     """One visual container, in the shape the reference proves.
 
@@ -441,7 +472,72 @@ def _visual_json(page: str, measure: str, order: int) -> str:
                     "width": 560,
                     "tabOrder": order,
                 },
-                "visual": {"visualType": CARD_VISUAL, "drillFilterOtherVisuals": True},
+                "visual": {
+                    "visualType": CARD_VISUAL,
+                    "query": {"queryState": {"Data": {"projections": [_projection(measure)]}}},
+                    "drillFilterOtherVisuals": True,
+                },
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+
+
+def _textbox_json(page: str, text: str, order: int) -> str:
+    """The synthetic-data note, as a real textbox — criterion 5.28.
+
+    Shape taken from the bound reference: a `textbox` carries its content under
+    `objects.general[].properties.paragraphs[].textRuns[]`, with background and border switched
+    off through `visualContainerObjects`.
+    """
+    return (
+        json.dumps(
+            {
+                "$schema": VISUAL_SCHEMA,
+                "name": visual_name(page, "disclosure"),
+                "position": {
+                    "x": 40,
+                    "y": PAGE_HEIGHT - 60,
+                    "z": order,
+                    "height": 32,
+                    "width": 1200,
+                    "tabOrder": order,
+                },
+                "visual": {
+                    "visualType": TEXTBOX_VISUAL,
+                    "objects": {
+                        "general": [
+                            {
+                                "properties": {
+                                    "paragraphs": [
+                                        {
+                                            "textRuns": [
+                                                {
+                                                    "value": text,
+                                                    "textStyle": {
+                                                        "fontSize": "9pt",
+                                                        "fontFamily": "Segoe UI",
+                                                    },
+                                                }
+                                            ],
+                                            "horizontalTextAlignment": "left",
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "visualContainerObjects": {
+                        "background": [
+                            {"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}
+                        ],
+                        "border": [
+                            {"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}
+                        ],
+                    },
+                    "drillFilterOtherVisuals": True,
+                },
             },
             indent=2,
         )
@@ -450,20 +546,46 @@ def _visual_json(page: str, measure: str, order: int) -> str:
 
 
 def _page_json(display_name: str) -> str:
-    return (
-        json.dumps(
-            {
-                "$schema": SCHEMAS["page"],
-                "name": page_name(display_name),
-                "displayName": display_name,
-                "displayOption": "FitToPage",
-                "height": PAGE_HEIGHT,
-                "width": PAGE_WIDTH,
-            },
-            indent=2,
-        )
-        + "\n"
-    )
+    slug = page_name(display_name)
+    page: dict = {
+        "$schema": SCHEMAS["page"],
+        "name": slug,
+        "displayName": display_name,
+        "displayOption": "FitToPage",
+        "height": PAGE_HEIGHT,
+        "width": PAGE_WIDTH,
+    }
+    if display_name == DRILLTHROUGH_PAGE:
+        # A drillthrough target is hidden in view mode and declares the field it drills on twice:
+        # once as a filter marked howCreated Drillthrough, and once as a pageBinding parameter
+        # bound to that filter by name. Both are required — the reference has both.
+        field = _field("Column", DRILLTHROUGH_ENTITY, DRILLTHROUGH_PROPERTY)
+        filter_name = f"{slug}_dt_filter"
+        page["visibility"] = "HiddenInViewMode"
+        page["filterConfig"] = {
+            "filters": [
+                {
+                    "name": filter_name,
+                    "field": field,
+                    "type": "Categorical",
+                    "howCreated": "Drillthrough",
+                }
+            ]
+        }
+        page["pageBinding"] = {
+            "name": f"{slug}_dt_binding",
+            "type": "Drillthrough",
+            "parameters": [
+                {
+                    "name": f"{slug}_dt_param",
+                    "boundFilter": filter_name,
+                    "asAggregation": False,
+                    "qnaSingleSelectRequired": False,
+                    "fieldExpr": field,
+                }
+            ],
+        }
+    return json.dumps(page, indent=2) + "\n"
 
 
 def _pages_json(display_names: list[str]) -> str:
@@ -550,12 +672,19 @@ def _write_report(report_dir: pathlib.Path) -> list[str]:
         (page_dir / "page.json").write_text(
             _page_json(display_name), encoding="utf-8", newline="\n"
         )
-        for order, measure in enumerate(measures_for.get(display_name, ())):
+        measures = measures_for.get(display_name, ())
+        for order, measure in enumerate(measures):
             visual_dir = page_dir / "visuals" / visual_name(slug, measure)
             visual_dir.mkdir(parents=True, exist_ok=True)
             (visual_dir / "visual.json").write_text(
                 _visual_json(slug, measure, order), encoding="utf-8", newline="\n"
             )
+        # Criterion 5.28: every page a reader can land on, including the drillthrough target.
+        disclosure_dir = page_dir / "visuals" / visual_name(slug, "disclosure")
+        disclosure_dir.mkdir(parents=True, exist_ok=True)
+        (disclosure_dir / "visual.json").write_text(
+            _textbox_json(slug, DISCLOSURE_TEXT, len(measures)), encoding="utf-8", newline="\n"
+        )
     return display_names
 
 

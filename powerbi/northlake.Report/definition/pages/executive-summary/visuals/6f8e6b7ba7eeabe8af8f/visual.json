@@ -11,6 +11,30 @@
   },
   "visual": {
     "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Figures"
+                    }
+                  },
+                  "Property": "EBITDA Margin %"
+                }
+              },
+              "queryRef": "Key Figures.EBITDA Margin %",
+              "nativeQueryRef": "EBITDA Margin %",
+              "displayName": "EBITDA Margin %",
+              "format": "0.0%"
+            }
+          ]
+        }
+      }
+    },
     "drillFilterOtherVisuals": true
   }
 }

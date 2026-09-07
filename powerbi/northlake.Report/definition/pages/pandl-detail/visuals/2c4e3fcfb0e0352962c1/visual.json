@@ -11,6 +11,30 @@
   },
   "visual": {
     "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Key Figures"
+                    }
+                  },
+                  "Property": "Contra Revenue"
+                }
+              },
+              "queryRef": "Key Figures.Contra Revenue",
+              "nativeQueryRef": "Contra Revenue",
+              "displayName": "Contra Revenue",
+              "format": "$#,##0"
+            }
+          ]
+        }
+      }
+    },
     "drillFilterOtherVisuals": true
   }
 }

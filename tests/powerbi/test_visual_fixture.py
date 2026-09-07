@@ -9,11 +9,12 @@ That last point already mattered. The modern card is **`cardVisual`**; a guess w
 `card`, which is what the earlier invented report format used, and Power BI would not have
 recognised it.
 
-**What the reference does not contain, and what therefore is not generated.** All 24 visuals are
-unbound placeholders — no `query`, no `projections`, no field reference of any kind — and there
-is no textbox among them. So the container shape is authoritative and the *binding* is still
-unknown. Criteria 5.27 and 5.28 remain open, and the tests below say so rather than asserting
-around it.
+This reference contains only **unbound placeholders**, which is what it was for: the container
+envelope, the position shape and the `visualType` vocabulary. The *binding* came later, from
+`tests/fixtures/powerbi-desktop-bound/`, and is asserted in `test_bound_fixture.py`.
+
+Keeping the two apart is deliberate. This file answers "is the container shaped like Desktop's?"
+and nothing else, so a change to how fields are bound cannot quietly weaken it.
 """
 
 from __future__ import annotations
@@ -93,15 +94,19 @@ def test_generated_visuals_have_desktops_key_set(built, reference) -> None:
     for visual in _generated(built):
         assert tuple(sorted(visual)) == expected_top, visual["name"]
         assert tuple(sorted(visual["position"])) == expected_position, visual["name"]
-        assert set(visual["visual"]) <= {"visualType", "drillFilterOtherVisuals"}, visual["name"]
+        assert {"visualType", "drillFilterOtherVisuals"} <= set(visual["visual"]), visual["name"]
 
 
 def test_the_visual_type_comes_from_desktops_vocabulary(built, reference) -> None:
     """`cardVisual`, not `card`. The earlier invented format used the name that does not exist."""
     known = {v["visual"]["visualType"] for v in reference}
     assert tmdl.CARD_VISUAL in known
+    assert tmdl.TEXTBOX_VISUAL not in known, (
+        "this reference has no textbox; the bound reference is where that shape comes from"
+    )
     for visual in _generated(built):
-        assert visual["visual"]["visualType"] in known, visual["visual"]["visualType"]
+        visual_type = visual["visual"]["visualType"]
+        assert visual_type in known | {tmdl.TEXTBOX_VISUAL}, visual_type
 
 
 def test_visual_names_are_desktop_shaped_and_deterministic(built) -> None:
@@ -180,9 +185,13 @@ def test_the_reference_contains_no_textbox(reference) -> None:
     assert "textbox" not in types, "a textbox reference exists; the disclosure can go on a page"
 
 
-def test_generated_visuals_are_unbound_and_that_is_deliberate(built) -> None:
-    """A card with an invented binding would look finished and be wrong."""
+def test_the_container_envelope_is_unchanged_by_binding(built, reference) -> None:
+    """Adding a query must not disturb the shape this reference established.
+
+    The bound reference supplied `visual.query`; everything around it — the schema, the name, the
+    position keys — still comes from here, and a binding that quietly changed the envelope would
+    be a second source of truth for the same thing.
+    """
+    expected_top = {tuple(sorted(v)) for v in reference}.pop()
     for visual in _generated(built):
-        assert set(visual["visual"]) == {"visualType", "drillFilterOtherVisuals"}, (
-            "a binding appeared without an authoritative example to generate it from"
-        )
+        assert tuple(sorted(visual)) == expected_top, visual["name"]
