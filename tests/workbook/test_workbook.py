@@ -283,7 +283,9 @@ def test_net_income_flows_to_retained_earnings(tables) -> None:
     # with the opposite sign. Asserting the sum is zero catches a sign flip that asserting
     # equality of magnitudes would not.
     assert (merged["accumulated_result"] + merged["cumulative"]).abs().max() < 0.01
-    assert len(merged) == 360
+    # Derived, not a magic number: the grid grew to 372 when the FY2025 budget was added, and a
+    # hardcoded 360 would have read as a defect rather than as the new year it is.
+    assert len(merged) == len(series)
 
 
 def test_channel_revenue_sums_to_the_total_the_workbook_reports(built, tables) -> None:

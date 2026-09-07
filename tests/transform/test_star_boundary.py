@@ -78,14 +78,30 @@ def test_channel_contribution_is_a_group_by_not_a_calculation(tables, built) -> 
     assert abs(sum(contribution.values()) - total) < 1.0
 
 
-def test_the_forecast_keeps_shared_cost_unallocated_and_says_so(built) -> None:
-    """Units are measured, and the forecast measured none. Stated, not silently allocated."""
+def test_shared_cost_is_split_only_where_units_were_measured(built) -> None:
+    """Units are measured, and the split follows the measurement rather than the version.
+
+    This used to assert that *every* forecast row was unallocated, which was true only because
+    no forecast period overlapped a period with transaction facts. The FY2025 budget changed
+    that: its months sit inside the actual years, so the units shipped in those months are
+    measured and the split is real.
+
+    Holding the mix at the measured activity of the month is also what a budget-versus-actual
+    comparison at channel grain wants — it isolates the cost variance from the mix variance.
+    """
     frame = built["fact_gl"]
+    frame = frame.assign(year=pd.to_datetime(frame["date"]).dt.year)
     forecast = frame[frame["version_name"] != "Actual"]
     shared = forecast[forecast["account_code"] == "5000"]
     assert not shared.empty
-    assert (shared["split_basis"] == "none").all()
-    assert (shared["channel_allocation"] == "Unallocated corporate").all()
+
+    measured = shared[shared["year"].isin([2023, 2024, 2025])]
+    unmeasured = shared[~shared["year"].isin([2023, 2024, 2025])]
+
+    assert not measured.empty, "the FY2025 budget should have measured units behind it"
+    assert (measured["split_basis"] == "units shipped").all()
+    assert (unmeasured["split_basis"] == "none").all()
+    assert (unmeasured["channel_allocation"] == "Unallocated corporate").all()
 
 
 def test_every_gl_row_declares_how_it_was_attributed(built) -> None:

@@ -53,70 +53,119 @@ def monthly_pl(scenario: str, opening_revenue: float) -> pd.DataFrame:
     for year in C.FORECAST_YEARS:
         d = C.SCENARIOS[scenario][year]
         revenue *= 1 + d["growth"]
-        dtc_annual = revenue * d["dtc_share"]
-        ws_annual = revenue - dtc_annual
-        dtc_gm, ws_gm = _unit_economics(d)
-        blended = d["dtc_share"] * dtc_gm + (1 - d["dtc_share"]) * ws_gm - GM_CALIBRATION
+        rows.extend(_year_rows(year, d, revenue, scenario))
+    return pd.DataFrame(rows)
 
-        landed_annual = revenue * (1 - blended) * 0.78
-        avg_inventory = landed_annual / d["inventory_turns"]
 
-        for m in range(12):
-            month = pd.Timestamp(year, m + 1, 1)
-            dtc = dtc_annual * C.DTC_MONTHLY_SEASONALITY[m]
-            ws = ws_annual * C.WS_MONTHLY_SEASONALITY[m]
-            rev_m = dtc + ws
-            # November and December carry a revenue spike and a margin trough together (§7.4).
-            season_gm = {10: -0.022, 11: -0.014}.get(m, 0.002)
-            gross_profit = rev_m * (blended + season_gm) - avg_inventory * d["shrink_pct"] / 12
+def _year_rows(year: int, d: dict, revenue: float, scenario: str) -> list[dict]:
+    """Twelve months of P&L and working capital for one year at one set of drivers.
 
-            processing = (
-                dtc * (1 + C.DTC_SHIPPING_REVENUE_PER_ORDER / d["aov"]) * C.PAYMENT_PROCESSING_PCT
-            )
-            marketing = rev_m * d["marketing_pct"]
-            payroll = d["headcount"] * d["compensation"] / 12
-            fixed = d["fixed_costs"] / 12
-            bad_debt = ws * C.BAD_DEBT_PCT
-            ebitda = gross_profit - processing - marketing - payroll - fixed - bad_debt
+    Extracted so the FY2025 budget is produced by **the same arithmetic** as the forecast rather
+    than a parallel implementation. A budget computed differently from the plan it is compared
+    against would put the method into the variance.
+    """
+    rows = []
+    dtc_annual = revenue * d["dtc_share"]
+    ws_annual = revenue - dtc_annual
+    dtc_gm, ws_gm = _unit_economics(d)
+    blended = d["dtc_share"] * dtc_gm + (1 - d["dtc_share"]) * ws_gm - GM_CALIBRATION
 
-            receivables = ws_annual * d["dso"] / 365
-            processor = (
-                dtc
-                * (1 + C.DTC_SHIPPING_REVENUE_PER_ORDER / d["aov"])
-                * C.PROCESSOR_SETTLEMENT_DAYS
-                / 30.4
-            )
-            inventory = (
-                avg_inventory
-                * [0.95, 1.00, 1.05, 1.08, 1.12, 1.15, 1.15, 1.12, 1.05, 0.98, 0.88, 0.87][m]
-            )
-            advances, payables = inventory * 0.27, inventory * 0.21
+    landed_annual = revenue * (1 - blended) * 0.78
+    avg_inventory = landed_annual / d["inventory_turns"]
 
-            rows.append(
-                {
-                    "month": month,
-                    "scenario_name": scenario,
-                    "fiscal_year": year,
-                    "dtc_revenue": dtc,
-                    "wholesale_revenue": ws,
-                    "revenue": rev_m,
-                    "gross_profit": gross_profit,
-                    "gross_margin": gross_profit / rev_m,
-                    "payment_processing": processing,
-                    "marketing": marketing,
-                    "payroll": payroll,
-                    "fixed_costs": fixed,
-                    "bad_debt": bad_debt,
-                    "ebitda": ebitda,
-                    "receivables": receivables,
-                    "processor_receivable": processor,
-                    "inventory": inventory,
-                    "supplier_advances": advances,
-                    "accounts_payable": payables,
-                    "working_capital": inventory + receivables + processor + advances - payables,
-                    "capex": C.CAPEX_PER_YEAR / 12,
-                }
-            )
+    for m in range(12):
+        month = pd.Timestamp(year, m + 1, 1)
+        dtc = dtc_annual * C.DTC_MONTHLY_SEASONALITY[m]
+        ws = ws_annual * C.WS_MONTHLY_SEASONALITY[m]
+        rev_m = dtc + ws
+        # November and December carry a revenue spike and a margin trough together (§7.4).
+        season_gm = {10: -0.022, 11: -0.014}.get(m, 0.002)
+        gross_profit = rev_m * (blended + season_gm) - avg_inventory * d["shrink_pct"] / 12
+
+        processing = (
+            dtc * (1 + C.DTC_SHIPPING_REVENUE_PER_ORDER / d["aov"]) * C.PAYMENT_PROCESSING_PCT
+        )
+        marketing = rev_m * d["marketing_pct"]
+        payroll = d["headcount"] * d["compensation"] / 12
+        fixed = d["fixed_costs"] / 12
+        bad_debt = ws * C.BAD_DEBT_PCT
+        ebitda = gross_profit - processing - marketing - payroll - fixed - bad_debt
+
+        receivables = ws_annual * d["dso"] / 365
+        processor = (
+            dtc
+            * (1 + C.DTC_SHIPPING_REVENUE_PER_ORDER / d["aov"])
+            * C.PROCESSOR_SETTLEMENT_DAYS
+            / 30.4
+        )
+        inventory = (
+            avg_inventory
+            * [0.95, 1.00, 1.05, 1.08, 1.12, 1.15, 1.15, 1.12, 1.05, 0.98, 0.88, 0.87][m]
+        )
+        advances, payables = inventory * 0.27, inventory * 0.21
+
+        rows.append(
+            {
+                "month": month,
+                "scenario_name": scenario,
+                "fiscal_year": year,
+                "dtc_revenue": dtc,
+                "wholesale_revenue": ws,
+                "revenue": rev_m,
+                "gross_profit": gross_profit,
+                "gross_margin": gross_profit / rev_m,
+                "payment_processing": processing,
+                "marketing": marketing,
+                "payroll": payroll,
+                "fixed_costs": fixed,
+                "bad_debt": bad_debt,
+                "ebitda": ebitda,
+                "receivables": receivables,
+                "processor_receivable": processor,
+                "inventory": inventory,
+                "supplier_advances": advances,
+                "accounts_payable": payables,
+                "working_capital": inventory + receivables + processor + advances - payables,
+                "capex": C.CAPEX_PER_YEAR / 12,
+            }
+        )
+    return rows
+
+
+def budget_drivers(launch_shortfall: float) -> dict:
+    """The FY2025 budget's drivers: the realised year, wrong in exactly two ways — G-a.
+
+    Everything except product cost and revenue is budgeted at what actually happened, so the
+    variance has two causes and no noise. That is deliberate: commentary can only attribute a
+    movement it can decompose, and a budget that differs everywhere produces a residual that
+    swamps both real effects.
+    """
+    actual = C.ACTUALS[C.BUDGET_YEAR]
+    prior = C.ACTUALS[C.BUDGET_YEAR - 1]
+    budgeted_revenue = actual.revenue + launch_shortfall
+    return {
+        # Assumption two: the launch performs, so budgeted revenue is higher than realised.
+        "growth": budgeted_revenue / prior.revenue - 1,
+        # Assumption one: product cost holds at the pre-April level.
+        "landed_cost": C.ACTUALS[C.BUDGET_LANDED_COST_YEAR].landed_cost,
+        "dtc_share": actual.dtc_share,
+        "aov": actual.aov,
+        "inventory_turns": actual.inventory_turns,
+        "headcount": actual.headcount,
+        "compensation": actual.compensation,
+        "fixed_costs": actual.fixed_costs,
+        "marketing_pct": actual.marketing_pct,
+        "shrink_pct": actual.shrink_pct,
+        "dso": actual.dso,
+        "paid_cac": actual.paid_cac,
+    }
+
+
+def budget_pl(launch_shortfall: float) -> pd.DataFrame:
+    """The approved FY2025 budget, twelve months, in the same shape as the forecast plan."""
+    drivers = budget_drivers(launch_shortfall)
+    revenue = C.ACTUALS[C.BUDGET_YEAR - 1].revenue * (1 + drivers["growth"])
+    rows = _year_rows(C.BUDGET_YEAR, drivers, revenue, "Balanced Base")
     return pd.DataFrame(rows)
 
 

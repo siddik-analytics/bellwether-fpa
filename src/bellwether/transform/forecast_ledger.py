@@ -43,7 +43,11 @@ RETAINED_EARNINGS = "3900"
 
 
 def post_opening(
-    actual_ledger: pd.DataFrame, first_month: pd.Timestamp, version: str, scenario: str
+    actual_ledger: pd.DataFrame,
+    first_month: pd.Timestamp,
+    version: str,
+    scenario: str,
+    as_of: pd.Timestamp | None = None,
 ) -> pd.DataFrame:
     """Carry the actuals' closing balance sheet into a forecast version and scenario.
 
@@ -52,8 +56,14 @@ def post_opening(
     borrowing base computed from them is meaningless — which is the trap that made deriving
     working capital from the ledger look impossible in phase 2.
     """
+    # `as_of` bounds which actuals form the opening position. The FY2025 budget opens from the
+    # FY2024 close, not from everything the actuals eventually contain — a budget approved at the
+    # end of FY2024 cannot open on a balance sheet that includes the year it is budgeting.
+    source = actual_ledger
+    if as_of is not None:
+        source = source[pd.to_datetime(source["date"]) < as_of]
     balances = (
-        actual_ledger[actual_ledger["account_code"].isin(OPENING_ACCOUNTS)]
+        source[source["account_code"].isin(OPENING_ACCOUNTS)]
         .groupby("account_code")["amount"]
         .sum()
     )

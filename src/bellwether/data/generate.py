@@ -76,14 +76,33 @@ def generate(seed: int = C.SEED) -> dict[str, pd.DataFrame]:
     from bellwether.data import financing
     from bellwether.transform import forecast_ledger as fl
 
+    # G-a: the approved FY2025 budget. Northlake set it at the end of FY2024, before the April
+    # supplier increase and before the food-storage launch missed, so it is wrong in exactly two
+    # ways — §1.3 — and the FY2025 variance has two named causes rather than noise.
+    launch_shortfall = _launch_shortfall(dtc, wholesale, dims["dim_product"])
+    budget_year_pl = forecast.budget_pl(launch_shortfall)
+    budget_year_pl["version_name"] = "Budget"
+
     forecast_frames, schedules = [], []
     for version, scenario in forecast.VERSION_SCENARIOS:
         sub = plan[(plan["version_name"] == version) & (plan["scenario_name"] == scenario)]
         if sub.empty:
             continue
+        is_budget = version == "Budget"
+        # The budget is one continuous stream from FY2025, so it opens once, on the FY2024
+        # close. Opening it again in FY2026 would carry the balance sheet twice.
+        if is_budget:
+            sub = pd.concat([budget_year_pl, sub], ignore_index=True).sort_values("month")
+        first_month = sub["month"].min()
         posted = pd.concat(
             [
-                fl.post_opening(ledger, sub["month"].min(), version, scenario),
+                fl.post_opening(
+                    ledger,
+                    first_month,
+                    version,
+                    scenario,
+                    as_of=first_month if is_budget else None,
+                ),
                 fl.post(sub, version, scenario),
             ],
             ignore_index=True,
@@ -134,13 +153,40 @@ def generate(seed: int = C.SEED) -> dict[str, pd.DataFrame]:
         "fact_purchase_order_line": purchase_orders,
         "fact_stockout": suppressed,
         "fact_gl": full_ledger,
-        "fact_forecast_monthly": plan,
+        "fact_forecast_monthly": pd.concat(
+            [budget_year_pl.assign(scenario_name="Balanced Base"), plan], ignore_index=True
+        ),
         "fact_financing_monthly": schedule,
     }
     tables["_verdicts"] = pd.DataFrame(
         [{"scenario_name": k, **{kk: str(vv) for kk, vv in v.items()}} for k, v in verdicts.items()]
     )
     return tables
+
+
+def _launch_shortfall(dtc: pd.DataFrame, wholesale: pd.DataFrame, products: pd.DataFrame) -> float:
+    """What the food-storage launch was budgeted to earn and did not — §1.3, G-a.
+
+    Derived from the realised revenue of the launch SKUs rather than stated as a constant, so the
+    budget stays honest if the generator changes. §1.3 puts the range at ~35% below plan by June,
+    so realised revenue is treated as ``LAUNCH_PLAN_ATTAINMENT`` of what was planned.
+    """
+    keys = set(products.loc[products["lifecycle_state"] == "launch", "product_key"])
+    if not keys:
+        return 0.0
+    year = C.BUDGET_YEAR
+    realised = float(
+        dtc.loc[
+            (dtc["fiscal_year"] == year) & (dtc["product_key"].isin(keys)),
+            "net_merchandise_value",
+        ].sum()
+        + wholesale.loc[
+            (wholesale["fiscal_year"] == year) & (wholesale["product_key"].isin(keys)),
+            "net_revenue",
+        ].sum()
+    )
+    planned = realised / C.LAUNCH_PLAN_ATTAINMENT
+    return planned - realised
 
 
 def run(

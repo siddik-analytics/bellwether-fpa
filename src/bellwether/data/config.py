@@ -38,6 +38,23 @@ class YearDrivers:
     paid_cac: float
 
 
+#: The FY2025 budget year — phase 6 G-a. Northlake approved this budget at the end of FY2024,
+#: before either of the two dateable FY2025 events in §1.3 had happened, so it is wrong in
+#: exactly two ways and right in every other. That is what makes the variance explainable: a
+#: budget that is noisily wrong produces commentary that can only describe.
+BUDGET_YEAR = 2025
+
+#: **Assumption one: product cost holds.** The budget carries FY2024's landed cost, because the
+#: primary drinkware supplier's +8% increase took effect in April 2025 and was not known when the
+#: budget was set. Actual FY2025 landed cost is $15.00.
+BUDGET_LANDED_COST_YEAR = 2024
+
+#: **Assumption two: the launch performs.** The insulated food-storage range launched in February
+#: 2025 and ran ~35% below plan by June (§1.3). The budget assumes plan. The shortfall is derived
+#: from the realised revenue of the launch SKUs rather than stated here, so it stays true if the
+#: generator changes.
+LAUNCH_PLAN_ATTAINMENT = 0.65
+
 #: Contract §7.5. FY2025 is the anchor; FY2023-24 are bounded inputs derived from it.
 ACTUALS: dict[int, YearDrivers] = {
     2023: YearDrivers(
