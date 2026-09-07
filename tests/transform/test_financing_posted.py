@@ -180,3 +180,46 @@ def test_the_opening_drawn_balance_seeds_the_first_movement(data) -> None:
     seeded = fl.post_financing(schedule, "Latest Forecast", "Balanced Base", opening_drawn=0.0)
     drawn = -seeded.loc[seeded["account_code"] == REVOLVER, "amount"].sum()
     assert abs(drawn - 250_000.0) < 0.01, "the first month's draw was dropped"
+
+
+# --- 6.6: the schedule's cash is internal, and must stay that way ---------------------------
+
+
+def test_the_schedules_cash_column_has_no_consumers(data) -> None:
+    """ADR 0023 — the divergence is unpublished, not resolved.
+
+    `financing.run` still computes a cash roll-forward internally; it has to, because the draw
+    or repay decision depends on the cash position at that moment. What changed is that the
+    figure no longer reaches a published table, so nothing can read a cash number that disagrees
+    with the ledger's by up to $1.7M.
+
+    Deleting a disagreeing number and establishing which source is authoritative read very
+    differently, and only the second is what happened. This test is the mechanism that keeps it
+    that way — a future caller cannot quietly reintroduce the column.
+    """
+    from bellwether.paths import REPO_ROOT
+
+    schedule = data["fact_financing_monthly"]
+    assert "cash" not in schedule.columns, "the schedule's own cash figure is published again"
+    assert "revolver_drawn" in schedule.columns, "the published facility state is still needed"
+
+    offenders = []
+    for path in (REPO_ROOT / "src").rglob("*.py"):
+        for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+            stripped = line.strip()
+            if stripped.startswith("#"):
+                continue
+            for pattern in ('["cash"]', "['cash']", ".cash "):
+                if pattern in stripped and "cash_flow" not in stripped:
+                    offenders.append(f"{path.name}:{number} {stripped}")
+    assert not offenders, offenders
+
+
+def test_the_ledger_is_the_only_published_source_of_cash(data) -> None:
+    """One authority. Everything that needs cash derives it from posted balances."""
+    from bellwether.transform import forecast_ledger as fl
+
+    balances = fl.working_capital_from_ledger(data["fact_gl"])
+    assert "cash" in balances.columns, "the ledger-derived view is where cash comes from"
+    schedule_columns = set(data["fact_financing_monthly"].columns)
+    assert not (schedule_columns & {"cash", "closing_cash", "cash_balance"})
