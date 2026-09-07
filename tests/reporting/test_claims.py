@@ -192,6 +192,16 @@ def _perturb(name: str, tables: dict[str, pd.DataFrame], monkeypatch) -> claims.
         _break_channel_contribution(monkeypatch, row="total")
     elif name == "an undefined margin prints as zero":
         _break_channel_contribution(monkeypatch, row="corporate")
+    elif name == "the rationale quotes a stale spread":
+        # The realistic defect for a figure moved out of a table and into a sentence: the table
+        # is regenerated, the sentence is not, and nothing notices.
+        original = pack.exhibit_allocation_sensitivity
+
+        def stale(tables_, gl_, accounts_):
+            exhibit = original(tables_, gl_, accounts_)
+            return replace(exhibit, why=exhibit.why.replace("$393,096", "$412,000"))
+
+        monkeypatch.setattr(pack, "exhibit_allocation_sensitivity", stale)
     elif name == "no bridge":
         return claims.Evidence(tables, gl, bridge=None)
     else:  # pragma: no cover — a typo in the table below, not a runtime path
@@ -227,6 +237,7 @@ FALSIFIERS = {
     "A brand that shifted toward wholesale and posted a loss": "no corporate block",
     "FY2025 total contribution margin": "the total margin is hard-coded to zero",
     "the corporate block's contribution margin": "an undefined margin prints as zero",
+    "the spread and the cost quoted in C-1's rationale": "the rationale quotes a stale spread",
     "The explanation is entirely in working capital": "nothing breaches",
     "It is still a larger company in FY2028 than it is today": "no revenue in the final year",
     "The budget was approved before the April supplier increase and before the": "no budget",

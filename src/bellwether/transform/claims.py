@@ -38,7 +38,7 @@ import pandas as pd
 
 from bellwether.data import config as C
 from bellwether.transform import bridge as bridge_mod
-from bellwether.transform import semantic
+from bellwether.transform import semantic, units
 
 #: A raise is "roughly breakeven" if the year's EBITDA margin is inside this band. Stated as a
 #: number because "roughly" in a board pack has to mean something a reader can check.
@@ -190,8 +190,8 @@ class Evidence:
         )
 
     @functools.cache  # noqa: B019
-    def exhibit(self, key: str) -> pd.DataFrame:
-        """One exhibit's table as the pack renders it.
+    def exhibit(self, key: str):
+        """One exhibit, as the pack renders it — its table and its rationale.
 
         A figure claim is about the artifact's own content, so it reads the artifact. What it
         compares against is computed here, from the ledger, so the two sides stay independent.
@@ -201,7 +201,7 @@ class Evidence:
         for section in pack.compose(self.tables, self.gl):
             for exhibit in section.exhibits:
                 if exhibit.key == key:
-                    return exhibit.table
+                    return exhibit
         raise KeyError(key)
 
     @functools.cache  # noqa: B019
@@ -556,7 +556,7 @@ def _the_blended_margin_is_the_blended_margin(e: Evidence) -> Verdict:
     It was hard-coded to 0.0 and shipped, which is the worst kind of defect in this artifact: a
     number that is wrong rather than a layout that is ugly, on the first table a reader meets.
     """
-    table = e.exhibit("channel_contribution")
+    table = e.exhibit("channel_contribution").table
     year = e.last_actual
     row = table[table[""] == f"FY{year} total"]
     if row.empty:
@@ -573,7 +573,7 @@ def _the_blended_margin_is_the_blended_margin(e: Evidence) -> Verdict:
 @figure("the corporate block's contribution margin")
 def _an_undefined_margin_is_not_printed_as_zero(e: Evidence) -> Verdict:
     """No revenue means no rate. Zero percent and no percent are different statements."""
-    table = e.exhibit("channel_contribution")
+    table = e.exhibit("channel_contribution").table
     row = table[table[""] == CORPORATE]
     if row.empty:
         return Verdict(False, "the exhibit has no corporate row")
@@ -590,8 +590,37 @@ CHANNEL_CONTRIBUTION = (
     _the_blended_margin_is_the_blended_margin,
     _an_undefined_margin_is_not_printed_as_zero,
 )
+
+
+@figure("the spread and the cost quoted in C-1's rationale")
+def _the_quoted_spread_matches_the_table(e: Evidence) -> Verdict:
+    """The two figures the rationale states, against the grid and the ledger.
+
+    They moved into the sentence because repeating one number down a column said nothing six
+    times. A figure stated once in prose still has to be the right figure.
+    """
+    grid = e.allocation_sensitivity()
+    spread = grid.groupby("channel_name")["allocated_cost"].agg(lambda s: s.max() - s.min())
+    # Each driver allocates the whole cost between the two channels, so one driver's
+    # rows sum to it. Summing the frame would count it once per driver.
+    per_driver = grid.groupby("driver")["allocated_cost"].sum()
+    cost = float(per_driver.iloc[0])
+    why = e.exhibit("allocation_sensitivity").why
+    quoted = [units.money(float(spread.max())), units.money(cost)]
+    return Verdict(
+        all(q in why for q in quoted)
+        # To the cent, not exactly: the two channels' spreads are the same quantity reached by
+        # different subtractions, so they differ in the last bit of a float and always will.
+        and float(spread.max() - spread.min()) < 0.01
+        and float(per_driver.max() - per_driver.min()) < 0.01,
+        f"rationale quotes {quoted}; grid gives spread {spread.to_dict()} on a cost of "
+        f"{units.money(cost)}",
+    )
+
+
 ALLOCATION_SENSITIVITY = (
     _the_drivers_reverse_the_ranking,
+    _the_quoted_spread_matches_the_table,
     framing("Showing the range answers the question a sceptical reader is already forming"),
 )
 COVENANT_TRACE = (

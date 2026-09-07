@@ -56,11 +56,13 @@ def test_each_comparison_is_commented_on_once(sections) -> None:
     titles = [b.title for section in sections for b in section.blocks]
     assert len(titles) == len(set(titles)), f"a comparison is commented on twice: {titles}"
     by_section = {s.title: [b.title for b in s.blocks] for s in sections}
-    assert by_section["Position"] == ["Year on year"]
-    # The budget commentary sits with the bridge that names its two causes.
-    assert by_section["What follows"] == ["Performance against budget"]
-    bridge_exhibit = next(e for s in sections for e in s.exhibits if e.key == "pl_bridge")
-    assert bridge_exhibit in [e for s in sections if s.title == "What follows" for e in s.exhibits]
+    # Both FY2025 comparisons, and the bridge that decomposes one of them, sit together at the
+    # front. The pack ends on the decision rather than on the evidence for the year behind it.
+    assert by_section["Position"] == ["Year on year", "Performance against budget"]
+    assert by_section["What follows"] == []
+    position = next(s for s in sections if s.title == "Position")
+    assert [e.key for e in position.exhibits] == ["pl_bridge"]
+    assert sections[-1].title == "What follows"
 
 
 def test_the_threshold_is_stated_under_every_block(sections) -> None:
@@ -79,9 +81,13 @@ def test_the_pack_carries_the_disclosure(sections) -> None:
 def test_the_supply_chain_cost_is_derived_from_the_ledger(sections) -> None:
     """The exhibit's argument is about how much a real number moves, so it must be the real one."""
     sensitivity = next(e for s in sections for e in s.exhibits if e.key == "allocation_sensitivity")
-    wholesale = sensitivity.table[sensitivity.table["Channel"] == "Wholesale"]
-    spread = wholesale["Share of cost"].max() - wholesale["Share of cost"].min()
-    assert spread > 0.4, "the drivers must disagree, or the argument for not choosing is empty"
+    table = sensitivity.table
+    assert len(table) == 3, "one row per driver, channels across — six rows did not scan"
+    spread = table["Cost to Wholesale"].max() - table["Cost to Wholesale"].min()
+    total = float(table["Cost to DTC"].iloc[0] + table["Cost to Wholesale"].iloc[0])
+    assert spread / total > 0.4, (
+        "the drivers must disagree, or the argument for not choosing is empty"
+    )
 
 
 def test_the_pack_is_composed_without_excel(sections) -> None:

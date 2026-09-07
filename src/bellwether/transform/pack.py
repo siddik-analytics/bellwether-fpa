@@ -181,35 +181,40 @@ def exhibit_allocation_sensitivity(
         lines_by_channel={"DTC": float(len(dtc_year)), "Wholesale": float(len(ws_year))},
         supply_chain_cost=supply_chain_cost(gl, accounts, year),
     )
-    # Business language, not the allocator's column names. `.claude/rules/powerbi-pbip.md` says
-    # it for the model and it is just as true of a page a board reads.
-    sensitivity = sensitivity.rename(
-        columns={
-            "driver": "Allocation driver",
-            "channel_name": "Channel",
-            "share": "Share of cost",
-            "allocated_cost": "Cost allocated",
-            "rationale": "Why it is defensible",
-            "range_for_channel": "Spread across drivers",
+    # One row per driver, channels across. The long form put six rows and a repeated spread on
+    # the page, each row wrapping to three or four lines with its channel name orphaned above
+    # its numbers; three rows make the disagreement between drivers visible at a glance, which
+    # is the exhibit's entire argument.
+    pivot = sensitivity.pivot(index="driver", columns="channel_name", values="allocated_cost")
+    rationale = sensitivity.drop_duplicates("driver").set_index("driver")["rationale"]
+    table = pd.DataFrame(
+        {
+            "Allocation driver": pivot.index,
+            "Cost to DTC": pivot["DTC"].to_numpy(),
+            "Cost to Wholesale": pivot["Wholesale"].to_numpy(),
+            "Why it is defensible": rationale.reindex(pivot.index).to_numpy(),
         }
     )
+    # One fact about the whole table, so it is stated once in the rationale rather than repeated
+    # down a column. It is the same figure for either channel: the cost is fixed, so whatever one
+    # channel gains across drivers the other loses.
+    spread = float(sensitivity["range_for_channel"].max())
     return Exhibit(
         key="allocation_sensitivity",
         title="What was not allocated, and what the choice would have been worth",
         why=(
-            "Every driver below is defensible and they disagree by enough that choosing one "
+            f"Every driver below is defensible and they disagree by {units.money(spread)} on a "
+            f"{units.money(supply_chain_cost(gl, accounts, year))} cost, so choosing one "
             "manufactures precision the business does not have. Showing the range answers the "
             "question a sceptical reader is already forming."
         ),
-        table=sensitivity,
+        table=table,
         named_range="Exhibit_AllocationSensitivity",
         units={
             "Allocation driver": units.TEXT,
-            "Channel": units.TEXT,
-            "Share of cost": units.PERCENT,
-            "Cost allocated": units.MONEY,
+            "Cost to DTC": units.MONEY,
+            "Cost to Wholesale": units.MONEY,
             "Why it is defensible": units.TEXT,
-            "Spread across drivers": units.MONEY,
         },
         claims=claims.ALLOCATION_SENSITIVITY,
     )
@@ -362,14 +367,21 @@ def compose(tables: dict[str, pd.DataFrame], star_gl: pd.DataFrame) -> list[Sect
             "wholesale growth story."
         ),
         claims=claims.POSITION,
-        # The against-budget commentary used to sit here as well, framed differently from the
-        # bridge exhibit that names the same two causes. One variance, stated once, where the
-        # evidence for it is.
+        # Both FY2025 comparisons, and the bridge that decomposes the budget one, sit together
+        # here. They were at the back of the pack behind the conclusion, which asked a reader
+        # to accept a decision and then read the evidence for the year it rests on.
         blocks=[
             commentary.block(
                 "Year on year", year_on_year, f"FY{year} gross profit", f"FY{year - 1}"
-            )
+            ),
+            commentary.block(
+                "Performance against budget",
+                against_budget,
+                f"FY{year} gross profit",
+                "budget",
+            ),
         ],
+        exhibits=[exhibit_pl_bridge(against_budget)],
     )
 
     tension = Section(
@@ -410,16 +422,7 @@ def compose(tables: dict[str, pd.DataFrame], star_gl: pd.DataFrame) -> list[Sect
             "the four, which is the decision in front of the board: growth that the balance "
             "sheet cannot fund, or a smaller company that funds itself."
         ),
-        exhibits=[exhibit_pl_bridge(against_budget)],
         claims=claims.DECISION,
-        blocks=[
-            commentary.block(
-                "Performance against budget",
-                against_budget,
-                f"FY{year} gross profit",
-                "budget",
-            )
-        ],
     )
 
     return [position, tension, funding, decision]

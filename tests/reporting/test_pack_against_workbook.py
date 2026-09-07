@@ -90,8 +90,8 @@ def test_the_bridge_endpoints_match_the_workbook(grid, sections) -> None:
     those agree, the exhibit is bridging the same movement the workbook shows.
     """
     year = max(C.ACTUAL_YEARS)
-    decision = next(s for s in sections if s.title == "What follows")
-    against_budget = next(b for b in decision.blocks if b.title == "Performance against budget")
+    position = next(s for s in sections if s.title == "Position")
+    against_budget = next(b for b in position.blocks if b.title == "Performance against budget")
     headline = against_budget.sentences[0]
     actual = workbook_total(grid, "Actual", "Balanced Base", "Gross Profit", year)
     budget = workbook_total(grid, "Budget", "Balanced Base", "Gross Profit", year)
