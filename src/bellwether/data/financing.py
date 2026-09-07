@@ -102,7 +102,11 @@ def run(monthly: pd.DataFrame, opening_cash: float, opening_drawn: float) -> pd.
                 "interest_expense": interest,
                 "unused_line_fee": unused,
                 "cash_flow": cash_flow,
-                "cash": cash,
+                # `cash` is deliberately not published — criterion 6.6. It is this roll-forward's
+                # own working figure, and it disagrees with the ledger's cash because the two
+                # model the accrual-to-cash timing differently. Two published cash figures is a
+                # second source of truth for the one quantity the covenant turns on, and nothing
+                # downstream read this one. The ledger is the authority; ask it.
                 "revolver_drawn": drawn,
                 "excess_availability": availability,
                 "funding_gap": funding_gap,

@@ -108,7 +108,15 @@ def generate(seed: int = C.SEED) -> dict[str, pd.DataFrame]:
         derived["version_name"] = version
         derived["scenario_name"] = scenario
         schedules.append(derived)
+        # D-1: the schedule's own entries go into the ledger. It was computed from posted
+        # balances and then never posted back, which left financing.py as a second source of
+        # truth for interest, fees and the revolver — the thing ADR 0014 claimed to have removed.
+        financing_legs = fl.post_financing(
+            derived, version, scenario, opening_drawn=max(opening_drawn, 0.0)
+        )
         forecast_frames.append(posted)
+        if not financing_legs.empty:
+            forecast_frames.append(financing_legs)
         if version == "Latest Forecast":
             verdicts[scenario] = financing.covenant_summary(derived)
 

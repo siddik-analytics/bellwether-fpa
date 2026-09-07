@@ -191,10 +191,21 @@ def post(plan: pd.DataFrame, version: str, scenario: str) -> pd.DataFrame:
     return ledger
 
 
-def post_financing(schedule: pd.DataFrame, version: str, scenario: str) -> pd.DataFrame:
-    """Post interest, fees and revolver movements from the financing schedule."""
+def post_financing(
+    schedule: pd.DataFrame, version: str, scenario: str, opening_drawn: float = 0.0
+) -> pd.DataFrame:
+    """Post interest, fees and revolver movements from the financing schedule — phase 6 D-1.
+
+    The schedule already **deducts** interest and fees from its own cash roll-forward, so posting
+    them does not change the schedule and cannot move a covenant figure. What it changes is the
+    ledger, which until now carried none of it: no interest expense, no fee, and no revolver
+    liability for a company whose central question is whether it can fund itself.
+
+    ``opening_drawn`` seeds the first month's movement. Without it the first draw is never
+    posted, because a movement is a difference and the first row has nothing to differ from.
+    """
     j = Journal()
-    previous_drawn = None
+    previous_drawn = opening_drawn
     for r in schedule.sort_values("month").itertuples():
         if r.interest_expense:
             j.post(
