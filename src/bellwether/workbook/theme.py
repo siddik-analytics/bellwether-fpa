@@ -102,9 +102,21 @@ def resolve(workbook, theme: Theme) -> dict[str, object]:
         "heading": fmt(
             font_name=theme.heading_font, font_size=12, bold=True, font_color=theme.accent
         ),
-        "column_header": fmt(bold=True, bottom=1, border_color=theme.rule, align="right"),
-        "column_header_left": fmt(bold=True, bottom=1, border_color=theme.rule),
+        "column_header": fmt(
+            bold=True,
+            bottom=1,
+            border_color=theme.rule,
+            align="right",
+            text_wrap=True,
+            valign="bottom",
+        ),
+        "column_header_left": fmt(
+            bold=True, bottom=1, border_color=theme.rule, text_wrap=True, valign="bottom"
+        ),
         "label": fmt(),
+        # Exhibit text wraps inside its own cell. Overflow is what ran "10,738,185 to
+        # 10,600,595" into the next row's label in the exported pack.
+        "label_wrap": fmt(text_wrap=True, valign="top"),
         "label_indent": fmt(indent=1),
         "label_total": fmt(bold=True, top=1, border_color=theme.rule),
         "money": fmt(num_format=MONEY, align="right"),

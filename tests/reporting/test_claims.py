@@ -21,10 +21,12 @@ for every one of them the perturbation that must break it.
 from __future__ import annotations
 
 import re
+from dataclasses import replace
 
 import pandas as pd
 import pytest
 
+from bellwether.data import config as C
 from bellwether.transform import claims, pack
 
 #: Words that turn a sentence into an assertion about the data. A sentence carrying one of these,
@@ -130,6 +132,25 @@ def _swap(frame: pd.DataFrame, column: str, left: str, right: str) -> pd.DataFra
     return frame
 
 
+def _break_channel_contribution(monkeypatch, row: str) -> None:
+    """Put back the defect the figure claims were written for.
+
+    A figure claim compares the artifact against the ledger, so no change to the *world* can make
+    them disagree — both sides move together. What must break it is a wrong exhibit, and the two
+    wrong exhibits are known exactly, because the pack shipped with them.
+    """
+    original = pack.exhibit_channel_contribution
+
+    def broken(gl, accounts):
+        exhibit = original(gl, accounts)
+        table = exhibit.table.copy()
+        target = f"FY{max(C.ACTUAL_YEARS)} total" if row == "total" else claims.CORPORATE
+        table.loc[table[""] == target, "Contribution margin"] = 0.0
+        return replace(exhibit, table=table)
+
+    monkeypatch.setattr(pack, "exhibit_channel_contribution", broken)
+
+
 def _perturb(name: str, tables: dict[str, pd.DataFrame], monkeypatch) -> claims.Evidence:
     """Change one thing about the world, and return the evidence it produces."""
     tables = dict(tables)
@@ -167,6 +188,10 @@ def _perturb(name: str, tables: dict[str, pd.DataFrame], monkeypatch) -> claims.
         gl = gl[~(gl["account_code"].isin(revenue) & (year == year.max()))]
     elif name == "no budget":
         gl = gl[gl["version_name"] != "Budget"]
+    elif name == "the total margin is hard-coded to zero":
+        _break_channel_contribution(monkeypatch, row="total")
+    elif name == "an undefined margin prints as zero":
+        _break_channel_contribution(monkeypatch, row="corporate")
     elif name == "no bridge":
         return claims.Evidence(tables, gl, bridge=None)
     else:  # pragma: no cover — a typo in the table below, not a runtime path
@@ -191,7 +216,6 @@ FALSIFIERS = {
     "is the only plan that reaches profitability inside the horizon": "scenarios swapped",
     "the only one that never draws the facility": "scenarios swapped",
     "It does so on the lowest revenue of the four": "scenarios swapped",
-    "Neither channel is the loss": "no corporate block",
     "choosing one manufactures precision the business does not have": (
         "supply chain costs nothing"
     ),
@@ -200,15 +224,18 @@ FALSIFIERS = {
     ),
     "Both show up here as named causes rather than as a single unexplained variance": "no bridge",
     "The only plan that reaches profitability is the one that grows slowest": "scenarios swapped",
+    "Neither channel is the loss": "no corporate block",
     "A brand that shifted toward wholesale and posted a loss": "no corporate block",
+    "FY2025 total contribution margin": "the total margin is hard-coded to zero",
+    "the corporate block's contribution margin": "an undefined margin prints as zero",
     "The explanation is entirely in working capital": "nothing breaches",
     "It is still a larger company in FY2028 than it is today": "no revenue in the final year",
     "The budget was approved before the April supplier increase and before the": "no budget",
 }
 
 
-def test_every_verified_claim_has_a_falsifier() -> None:
-    verified = {c.sentence for c in claims.ALL if c.kind == "verified"}
+def test_every_checked_claim_has_a_falsifier() -> None:
+    verified = {c.sentence for c in claims.ALL if c.kind in ("verified", "figure")}
     assert verified - set(FALSIFIERS) == set(), "claims never shown capable of failing"
     assert set(FALSIFIERS) - verified == set(), "falsifiers for claims that no longer exist"
 

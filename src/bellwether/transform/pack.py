@@ -18,12 +18,14 @@ from dataclasses import dataclass, field
 import pandas as pd
 
 from bellwether.data import config as C
-from bellwether.transform import allocation, bridge, claims, commentary, semantic
+from bellwether.transform import allocation, bridge, claims, commentary, semantic, units
 
 DISCLOSURE = (
     "Northlake, Inc. is an illustrative company. All data is synthetic — no real company, "
     "no real people, no scraped data."
 )
+
+CORPORATE = "Unallocated corporate"
 
 
 @dataclass(frozen=True)
@@ -36,6 +38,10 @@ class Exhibit:
     table: pd.DataFrame
     #: The Excel named range this becomes, for PNG export — criterion 6.27.
     named_range: str
+    #: What each column measures, by column name. Declared here because this is where the
+    #: figure is composed; a renderer that infers the unit from the value gets zero balances
+    #: and empty residuals wrong. See `units.py`.
+    units: dict[str, str] = field(default_factory=dict)
     #: The claims ``why`` makes, each verified against the ledger. See `claims.py`.
     claims: tuple = ()
 
@@ -64,7 +70,7 @@ def _channel_ladder(gl: pd.DataFrame, accounts: pd.DataFrame, year: int, version
         & (gl["scenario_name"] == "Balanced Base")
     ]
     out = {}
-    for channel in (*bridge.CHANNELS, "Unallocated corporate"):
+    for channel in (*bridge.CHANNELS, CORPORATE):
         out[channel] = semantic.evaluate_ladder(
             frame[frame["channel_allocation"] == channel], accounts
         )
@@ -90,25 +96,31 @@ def quantities(
 
 def exhibit_channel_contribution(gl: pd.DataFrame, accounts: pd.DataFrame) -> Exhibit:
     """C-2 — it reverses the conclusion a reader arrives with."""
-    ladders = _channel_ladder(gl, accounts, max(C.ACTUAL_YEARS), "Actual")
+    year = max(C.ACTUAL_YEARS)
+    ladders = _channel_ladder(gl, accounts, year, "Actual")
     rows = []
-    for channel in (*bridge.CHANNELS, "Unallocated corporate"):
+    for channel in (*bridge.CHANNELS, CORPORATE):
         ladder = ladders[channel]
-        revenue = ladder["Net Revenue"]
         rows.append(
             {
                 "": channel,
-                "Net revenue": revenue,
-                "Contribution margin": ladder["Gross Profit"] / revenue if revenue else 0.0,
+                "Net revenue": ladder["Net Revenue"],
+                # `nan`, not zero, when there is no revenue to divide by. The corporate block
+                # has none, and printing its margin as 0.0% states a rate the data does not
+                # have — the first review of the pack caught exactly that.
+                "Contribution margin": units.ratio(ladder["Gross Profit"], ladder["Net Revenue"]),
                 "Contribution": ladder["EBITDA"],
             }
         )
+    total = ladders["Total"]
     rows.append(
         {
-            "": f"FY{max(C.ACTUAL_YEARS)} total",
-            "Net revenue": ladders["Total"]["Net Revenue"],
-            "Contribution margin": 0.0,
-            "Contribution": ladders["Total"]["EBITDA"],
+            "": f"FY{year} total",
+            "Net revenue": total["Net Revenue"],
+            # The blended margin, computed. It was hard-coded to 0.0, which put a wrong number
+            # on the headline table of the client-facing artifact.
+            "Contribution margin": units.ratio(total["Gross Profit"], total["Net Revenue"]),
+            "Contribution": total["EBITDA"],
         }
     )
     return Exhibit(
@@ -121,6 +133,12 @@ def exhibit_channel_contribution(gl: pd.DataFrame, accounts: pd.DataFrame) -> Ex
         table=pd.DataFrame(rows),
         named_range="Exhibit_ChannelContribution",
         claims=claims.CHANNEL_CONTRIBUTION,
+        units={
+            "": units.TEXT,
+            "Net revenue": units.MONEY,
+            "Contribution margin": units.PERCENT,
+            "Contribution": units.MONEY,
+        },
     )
 
 
@@ -161,6 +179,18 @@ def exhibit_allocation_sensitivity(
         lines_by_channel={"DTC": float(len(dtc_year)), "Wholesale": float(len(ws_year))},
         supply_chain_cost=supply_chain_cost(gl, accounts, year),
     )
+    # Business language, not the allocator's column names. `.claude/rules/powerbi-pbip.md` says
+    # it for the model and it is just as true of a page a board reads.
+    sensitivity = sensitivity.rename(
+        columns={
+            "driver": "Allocation driver",
+            "channel_name": "Channel",
+            "share": "Share of cost",
+            "allocated_cost": "Cost allocated",
+            "rationale": "Why it is defensible",
+            "range_for_channel": "Spread across drivers",
+        }
+    )
     return Exhibit(
         key="allocation_sensitivity",
         title="What was not allocated, and what the choice would have been worth",
@@ -171,6 +201,14 @@ def exhibit_allocation_sensitivity(
         ),
         table=sensitivity,
         named_range="Exhibit_AllocationSensitivity",
+        units={
+            "Allocation driver": units.TEXT,
+            "Channel": units.TEXT,
+            "Share of cost": units.PERCENT,
+            "Cost allocated": units.MONEY,
+            "Why it is defensible": units.TEXT,
+            "Spread across drivers": units.MONEY,
+        },
         claims=claims.ALLOCATION_SENSITIVITY,
     )
 
@@ -201,6 +239,14 @@ def exhibit_covenant_trace(tables: dict[str, pd.DataFrame]) -> Exhibit:
         ),
         table=pd.DataFrame(rows).sort_values("Minimum excess availability"),
         named_range="Exhibit_CovenantTrace",
+        units={
+            "Scenario": units.TEXT,
+            "Peak revolver drawn": units.MONEY,
+            "Borrowing base at trough": units.MONEY,
+            "Minimum excess availability": units.MONEY,
+            "Months drawn": units.COUNT,
+            "Holds": units.FLAG,
+        },
         claims=claims.COVENANT_TRACE,
     )
 
@@ -215,8 +261,15 @@ def exhibit_pl_bridge(bridge_built: bridge.Bridge) -> Exhibit:
             "food-storage launch missed. Both show up here as named causes rather than as a "
             "single unexplained variance."
         ),
-        table=bridge_built.frame(),
+        table=bridge_built.frame().rename(
+            columns={"effect": "Cause", "driver": "What moved", "amount": "Effect on gross profit"}
+        ),
         named_range="Exhibit_PLBridge",
+        units={
+            "Cause": units.TEXT,
+            "What moved": units.TEXT,
+            "Effect on gross profit": units.MONEY,
+        },
         claims=claims.PL_BRIDGE,
     )
 
@@ -247,6 +300,12 @@ def exhibit_scenario_comparison(gl: pd.DataFrame, accounts: pd.DataFrame) -> Exh
         ),
         table=pd.DataFrame(rows).sort_values(f"FY{final} net revenue", ascending=False),
         named_range="Exhibit_ScenarioComparison",
+        units={
+            "Scenario": units.TEXT,
+            f"FY{final} net revenue": units.MONEY,
+            f"FY{final} EBITDA": units.MONEY,
+            "EBITDA margin": units.PERCENT,
+        },
         claims=claims.SCENARIO_COMPARISON,
     )
 

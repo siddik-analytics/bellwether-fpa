@@ -73,8 +73,8 @@ def test_the_pack_carries_the_disclosure(sections) -> None:
 def test_the_supply_chain_cost_is_derived_from_the_ledger(sections) -> None:
     """The exhibit's argument is about how much a real number moves, so it must be the real one."""
     sensitivity = next(e for s in sections for e in s.exhibits if e.key == "allocation_sensitivity")
-    wholesale = sensitivity.table[sensitivity.table["channel_name"] == "Wholesale"]
-    spread = wholesale["share"].max() - wholesale["share"].min()
+    wholesale = sensitivity.table[sensitivity.table["Channel"] == "Wholesale"]
+    spread = wholesale["Share of cost"].max() - wholesale["Share of cost"].min()
     assert spread > 0.4, "the drivers must disagree, or the argument for not choosing is empty"
 
 

@@ -48,6 +48,8 @@ from dataclasses import dataclass, field
 
 import pandas as pd
 
+from bellwether.transform.units import money
+
 #: Below this, a movement is not worth a sentence — criterion 6.17. Stated in the pack rather
 #: than applied silently, because an undisclosed materiality filter is one the reader cannot see.
 MATERIALITY = 25_000.0
@@ -114,6 +116,10 @@ class Effect:
     amount: float
     driver: str
     detail: dict[str, float] = field(default_factory=dict)
+    #: The figures printed inside ``driver``, declared so commentary can carry them and the
+    #: prose test can find them. A number a reader sees that nothing declared is a number
+    #: nothing can check — which is how "10,738,185" reached the pack alongside "$10.60M".
+    driver_numbers: tuple[float, ...] = ()
 
     @property
     def is_material(self) -> bool:
@@ -171,8 +177,9 @@ def build(metric: str, base: Quantities, comparison: Quantities) -> Bridge:
         Effect(
             "Revenue",
             revenue_effect,
-            f"net revenue {base.total_revenue:,.0f} to {comparison.total_revenue:,.0f}",
+            f"net revenue {money(base.total_revenue)} to {money(comparison.total_revenue)}",
             {"base": base.total_revenue, "comparison": comparison.total_revenue},
+            driver_numbers=(base.total_revenue, comparison.total_revenue),
         )
     )
 

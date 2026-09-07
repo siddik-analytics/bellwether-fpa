@@ -26,6 +26,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from bellwether.transform.bridge import MATERIALITY, Bridge, Effect
+from bellwether.transform.units import money
 
 
 @dataclass(frozen=True)
@@ -41,14 +42,6 @@ class Sentence:
     numbers: tuple[float, ...] = ()
     claims: tuple[str, ...] = ()
     kind: str = "finding"
-
-
-def money(amount: float) -> str:
-    """A figure a reader can say out loud. Signed by direction, never by a minus sign alone."""
-    magnitude = abs(amount)
-    if magnitude >= 1_000_000:
-        return f"${magnitude / 1_000_000:,.2f}M"
-    return f"${magnitude:,.0f}"
 
 
 def _direction(amount: float, is_cost: bool = False) -> str:
@@ -79,7 +72,9 @@ def _attribution(effect: Effect) -> Sentence:
     verb = "added" if effect.amount > 0 else "cost"
     return Sentence(
         text=f"{effect.name} {verb} {money(effect.amount)} — {effect.driver}.",
-        numbers=(effect.amount,),
+        # The driver's own figures are declared too, so 6.13 covers every number in the
+        # sentence rather than only the one the effect is named for.
+        numbers=(effect.amount, *effect.driver_numbers),
         claims=(effect.name,),
     )
 

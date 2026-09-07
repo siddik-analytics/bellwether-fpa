@@ -12,6 +12,7 @@ module writes one, and it requires the value.
 from __future__ import annotations
 
 import datetime as dt
+import math
 from dataclasses import dataclass
 
 import pandas as pd
@@ -19,6 +20,7 @@ import xlsxwriter
 
 from bellwether.data import config as C
 from bellwether.transform import expressions, pack, semantic, sensitivity, statements
+from bellwether.transform import units as units_mod
 from bellwether.workbook import theme as theme_mod
 
 DISCLOSURE = (
@@ -703,6 +705,40 @@ def _write_sensitivity(sheet: Sheet, grids: dict[str, pd.DataFrame]) -> dict[str
     return ranges
 
 
+#: Units the pack renders as numbers. Text and flags are written as text, so they neither
+#: inherit a number format nor need one.
+NUMERIC_UNITS = (units_mod.MONEY, units_mod.PERCENT, units_mod.COUNT)
+
+#: Exhibit headers wrap rather than overflow. Without this "Borrowing base at trough" runs into
+#: the next column's header and the two read as one word in the exported PDF.
+HEADER_HEIGHT = 30
+
+
+def _write_exhibit_cell(sheet: Sheet, column: int, value, unit: str) -> None:
+    """One cell of one exhibit, rendered from the unit `transform/` declared for its column.
+
+    The unit is never inferred from the value. A revolver drawn to $0 and a margin of 0% are the
+    same float, and guessing between them printed "peak revolver drawn 0.0%" in the board pack.
+    """
+    if unit in NUMERIC_UNITS:
+        if value is None or (isinstance(value, float) and math.isnan(value)):
+            # No denominator, so no rate. Printing 0.0% here would state a number the data does
+            # not have, and a reader cannot tell that apart from a real zero.
+            sheet.worksheet.write(sheet.row, column, "n/a", sheet.formats["not_applicable"])
+            return
+        style = {units_mod.MONEY: "money", units_mod.PERCENT: "percent"}.get(unit, "integer")
+        # `-0.0` is falsy, so this normalises a negative zero that would otherwise print as a
+        # value carrying a sign the arithmetic did not intend.
+        sheet.worksheet.write_number(sheet.row, column, float(value) or 0.0, sheet.formats[style])
+        return
+    if unit == units_mod.FLAG:
+        sheet.worksheet.write(
+            sheet.row, column, "yes" if value else "no", sheet.formats["label_wrap"]
+        )
+        return
+    sheet.worksheet.write(sheet.row, column, str(value), sheet.formats["label_wrap"])
+
+
 def _write_pack(workbook, sheet: Sheet, sections: list) -> list[str]:
     """The board pack's exhibits and commentary, laid out for reading and for export.
 
@@ -741,19 +777,19 @@ def _write_pack(workbook, sheet: Sheet, sections: list) -> list[str]:
             table = exhibit.table
             first_row = sheet.row
             for column, header in enumerate(table.columns):
-                sheet.worksheet.write(
-                    sheet.row, column, str(header), sheet.formats["column_header"]
+                style = (
+                    "column_header"
+                    if exhibit.units.get(header) in NUMERIC_UNITS
+                    else "column_header_left"
                 )
+                sheet.worksheet.write(sheet.row, column, str(header), sheet.formats[style])
+            sheet.worksheet.set_row(sheet.row, HEADER_HEIGHT)
             sheet.row += 1
             for record in table.itertuples(index=False):
-                for column, value in enumerate(record):
-                    if isinstance(value, (int, float)) and not isinstance(value, bool):
-                        style = "percent" if abs(float(value)) <= 1.5 else "money"
-                        sheet.worksheet.write_number(
-                            sheet.row, column, float(value), sheet.formats[style]
-                        )
-                    else:
-                        sheet.worksheet.write(sheet.row, column, str(value), sheet.formats["label"])
+                for column, header in enumerate(table.columns):
+                    _write_exhibit_cell(
+                        sheet, column, record[column], exhibit.units.get(header, "")
+                    )
                 sheet.row += 1
 
             last_column = _column_letter(max(0, len(table.columns) - 1))
@@ -765,8 +801,8 @@ def _write_pack(workbook, sheet: Sheet, sections: list) -> list[str]:
             sheet.row += 2
 
     sheet.worksheet.write(sheet.row, 0, DISCLOSURE, sheet.formats["disclosure"])
-    sheet.worksheet.set_column(0, 0, 60)
-    sheet.worksheet.set_column(1, 6, 20)
+    sheet.worksheet.set_column(0, 0, 34)
+    sheet.worksheet.set_column(1, 5, 24)
     return names
 
 

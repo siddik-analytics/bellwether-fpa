@@ -79,6 +79,20 @@ class Claim:
         return self.check(evidence)
 
 
+def figure(label: str) -> Callable[[Callable[[Evidence], Verdict]], Claim]:
+    """A claim about a figure the pack *renders* rather than a sentence it writes.
+
+    A wrong number in a table reaches the reader exactly as a wrong sentence does, and the pack's
+    first review found one: the contribution table's total row printed a 0.0% margin where the
+    blended rate is 43.6%. Prose coverage could never have caught it, because no prose said it.
+    """
+
+    def wrap(check: Callable[[Evidence], Verdict]) -> Claim:
+        return Claim(sentence=label, kind="figure", check=check)
+
+    return wrap
+
+
 def framing(sentence: str) -> Claim:
     """A sentence that argues rather than asserts. Recorded, not checked."""
     return Claim(sentence=sentence, kind="framing")
@@ -174,6 +188,21 @@ class Evidence:
             lines_by_channel={"DTC": float(len(dtc)), "Wholesale": float(len(wholesale))},
             supply_chain_cost=float(cost),
         )
+
+    @functools.cache  # noqa: B019
+    def exhibit(self, key: str) -> pd.DataFrame:
+        """One exhibit's table as the pack renders it.
+
+        A figure claim is about the artifact's own content, so it reads the artifact. What it
+        compares against is computed here, from the ledger, so the two sides stay independent.
+        """
+        from bellwether.transform import pack
+
+        for section in pack.compose(self.tables, self.gl):
+            for exhibit in section.exhibits:
+                if exhibit.key == key:
+                    return exhibit.table
+        raise KeyError(key)
 
     @functools.cache  # noqa: B019
     def budget(self, year: int) -> dict[str, float]:
@@ -399,11 +428,6 @@ DECISION = (
 # --- The exhibits ------------------------------------------------------------------------------
 
 
-@verified("Neither channel is the loss")
-def _neither_channel_is_the_loss(e: Evidence) -> Verdict:
-    return _both_channels_contribute.check(e)
-
-
 @verified("choosing one manufactures precision the business does not have")
 def _the_drivers_reverse_the_ranking(e: Evidence) -> Verdict:
     """The sharpest form of C-1: the choice of driver changes which channel looks better.
@@ -525,7 +549,53 @@ def _the_budget_predates_both_events(e: Evidence) -> Verdict:
     )
 
 
-CHANNEL_CONTRIBUTION = (_neither_channel_is_the_loss, _the_shift_and_the_loss_both_happened)
+@verified("Neither channel is the loss")
+def _neither_channel_is_the_loss(e: Evidence) -> Verdict:
+    return _both_channels_contribute.check(e)
+
+
+@figure("FY2025 total contribution margin")
+def _the_blended_margin_is_the_blended_margin(e: Evidence) -> Verdict:
+    """The headline table's total row, against the ledger.
+
+    It was hard-coded to 0.0 and shipped, which is the worst kind of defect in this artifact: a
+    number that is wrong rather than a layout that is ugly, on the first table a reader meets.
+    """
+    table = e.exhibit("channel_contribution")
+    year = e.last_actual
+    row = table[table[""] == f"FY{year} total"]
+    if row.empty:
+        return Verdict(False, f"the exhibit has no FY{year} total row")
+    rendered = float(row.iloc[0]["Contribution margin"])
+    ladder = e.actual(year)
+    expected = ladder["Gross Profit"] / ladder["Net Revenue"]
+    return Verdict(
+        abs(rendered - expected) < 0.0001,
+        f"exhibit prints {rendered:.1%}, the ledger gives {expected:.1%}",
+    )
+
+
+@figure("the corporate block's contribution margin")
+def _an_undefined_margin_is_not_printed_as_zero(e: Evidence) -> Verdict:
+    """No revenue means no rate. Zero percent and no percent are different statements."""
+    table = e.exhibit("channel_contribution")
+    row = table[table[""] == CORPORATE]
+    if row.empty:
+        return Verdict(False, "the exhibit has no corporate row")
+    margin = row.iloc[0]["Contribution margin"]
+    revenue = float(row.iloc[0]["Net revenue"])
+    return Verdict(
+        bool(pd.isna(margin)) if not revenue else not bool(pd.isna(margin)),
+        f"net revenue {e.money(revenue)}, margin rendered as {margin!r}",
+    )
+
+
+CHANNEL_CONTRIBUTION = (
+    _neither_channel_is_the_loss,
+    _the_shift_and_the_loss_both_happened,
+    _the_blended_margin_is_the_blended_margin,
+    _an_undefined_margin_is_not_printed_as_zero,
+)
 ALLOCATION_SENSITIVITY = (
     _the_drivers_reverse_the_ranking,
     framing("Showing the range answers the question a sceptical reader is already forming"),
