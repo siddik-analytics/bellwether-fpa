@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import datetime as dt
 import math
+import textwrap
 from dataclasses import dataclass
 
 import pandas as pd
@@ -709,9 +710,35 @@ def _write_sensitivity(sheet: Sheet, grids: dict[str, pd.DataFrame]) -> dict[str
 #: inherit a number format nor need one.
 NUMERIC_UNITS = (units_mod.MONEY, units_mod.PERCENT, units_mod.COUNT)
 
-#: Exhibit headers wrap rather than overflow. Without this "Borrowing base at trough" runs into
-#: the next column's header and the two read as one word in the exported PDF.
-HEADER_HEIGHT = 30
+#: Column widths on the pack sheet, in characters — the first column carries labels, the rest
+#: carry figures or short prose.
+PACK_WIDTHS = (34, 24, 24, 24, 24, 24)
+
+#: Points per wrapped line at the theme's body size, and the floor for a single-line row.
+LINE_POINTS = 13.5
+MIN_ROW_HEIGHT = 15.0
+
+
+def _wrapped_lines(value, width: int) -> int:
+    """How many lines a cell's text needs at this column width.
+
+    Computed here rather than left to Excel. `text_wrap` asks Excel to auto-fit the row, and it
+    does not always do so for a file it did not write — which left a wrapped three-line cell in
+    a one-line row and ran the scenario table's rows into each other in the exported PDF. An
+    explicit height removes the dependency on that behaviour entirely.
+    """
+    text = "" if value is None else str(value)
+    if not text:
+        return 1
+    return max(1, len(textwrap.wrap(text, width=max(8, width))) or 1)
+
+
+def _fit_row(sheet: Sheet, values, minimum: float = MIN_ROW_HEIGHT) -> None:
+    lines = max(
+        _wrapped_lines(value, PACK_WIDTHS[min(column, len(PACK_WIDTHS) - 1)])
+        for column, value in enumerate(values)
+    )
+    sheet.worksheet.set_row(sheet.row, max(minimum, lines * LINE_POINTS))
 
 
 def _write_exhibit_cell(sheet: Sheet, column: int, value, unit: str) -> None:
@@ -783,13 +810,22 @@ def _write_pack(workbook, sheet: Sheet, sections: list) -> list[str]:
                     else "column_header_left"
                 )
                 sheet.worksheet.write(sheet.row, column, str(header), sheet.formats[style])
-            sheet.worksheet.set_row(sheet.row, HEADER_HEIGHT)
+            _fit_row(sheet, [str(header) for header in table.columns], minimum=30.0)
             sheet.row += 1
             for record in table.itertuples(index=False):
                 for column, header in enumerate(table.columns):
                     _write_exhibit_cell(
                         sheet, column, record[column], exhibit.units.get(header, "")
                     )
+                # Only the text columns wrap, so only they can make a row need more than one
+                # line. A number never does.
+                _fit_row(
+                    sheet,
+                    [
+                        value if exhibit.units.get(header) == units_mod.TEXT else ""
+                        for header, value in zip(table.columns, record, strict=True)
+                    ],
+                )
                 sheet.row += 1
 
             last_column = _column_letter(max(0, len(table.columns) - 1))
@@ -801,8 +837,8 @@ def _write_pack(workbook, sheet: Sheet, sections: list) -> list[str]:
             sheet.row += 2
 
     sheet.worksheet.write(sheet.row, 0, DISCLOSURE, sheet.formats["disclosure"])
-    sheet.worksheet.set_column(0, 0, 34)
-    sheet.worksheet.set_column(1, 5, 24)
+    for column, width in enumerate(PACK_WIDTHS):
+        sheet.worksheet.set_column(column, column, width)
     return names
 
 
