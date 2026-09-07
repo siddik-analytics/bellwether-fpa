@@ -18,10 +18,7 @@ from bellwether.paths import BUILD_DIR, DATA_DIR, POWERBI_DIR, ensure_output_dir
 log = logging.getLogger("bellwether.build")
 
 #: Build stages in dependency order, with the phase that implements each.
-STAGES: tuple[tuple[str, str], ...] = (
-    ("board pack and variance commentary", "phase 6"),
-    ("case study, video and distribution assets", "phase 7"),
-)
+STAGES: tuple[tuple[str, str], ...] = (("case study, video and distribution assets", "phase 7"),)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -56,6 +53,11 @@ def main(argv: list[str] | None = None) -> int:
 
     workbook_path = BUILD_DIR / "northlake-model.xlsx"
     summary = model.build(tables, workbook_path)
+    log.info(
+        "  [x] compose the board pack (%d sections, %d exhibits)",
+        summary["sections"],
+        len(summary["named_ranges"]),
+    )
     log.info("  [x] write the workbook")
     log.info(
         "      %s, %d sheets, %d months", workbook_path.name, summary["sheets"], summary["months"]

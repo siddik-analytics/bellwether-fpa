@@ -28,7 +28,7 @@ def main(argv: list[str] | None = None) -> int:
     log.info("bellwether %s - Excel stage (Windows only)", __version__)
 
     from bellwether.data import generate
-    from bellwether.excel_stage import com, data_tables, reconcile
+    from bellwether.excel_stage import com, data_tables, export, reconcile
     from bellwether.workbook import model
 
     if not com.available():
@@ -78,11 +78,24 @@ def main(argv: list[str] | None = None) -> int:
             log.error("      %s", difference)
         return 1
 
-    for step, phase in (
-        ("export the board pack PDF", "phase 6"),
-        ("export named ranges as PNGs", "phase 7"),
-    ):
-        log.info("  [ ] %s - not yet implemented (%s)", step, phase)
+    written = export.export_all(path, summary["named_ranges"], BUILD_DIR / "exhibits")
+    log.info("  [x] export the board pack PDF")
+    log.info("      %s, %d pages", written["pdf"].name, written["pages"])
+
+    blank = written["blank"]
+    log.info("  [%s] export the exhibits as PNGs", " " if blank else "x")
+    for png in written["png"]:
+        marker = "BLANK" if png in blank else "ok   "
+        log.info("      %s  %s", marker, png.name)
+    if blank:
+        # A correctly sized PNG containing nothing is the failure that most looks like success,
+        # so the stage fails rather than reporting a step it did not complete. Criterion 6.28.
+        log.error(
+            "      %d of %d exhibits exported blank - CopyPicture put nothing on the clipboard",
+            len(blank),
+            len(written["png"]),
+        )
+        return 1
 
     log.info("Excel agrees with the oracle. Nothing in this stage originated a value.")
     return 0

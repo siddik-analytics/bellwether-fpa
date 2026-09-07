@@ -146,40 +146,40 @@ PDF and PNGs. Additive.
 | # | Criterion | How it is checked |
 |---|---|---|
 | **D-1 — the carried defect** | | |
-| 6.1 | Interest, unused line fees and revolver movements post to the ledger in every forecast period of every scenario | `tests/transform/test_financing_posted.py` |
-| 6.2 | The trial balance still nets to zero for every period of every version and scenario | existing check, unamended |
-| 6.3 | Net Income differs from EBITDA wherever the facility was drawn or a fee accrued | `tests/transform/test_financing_posted.py` |
-| 6.4 | The balance sheet carries a revolver liability whose closing balance equals `fact_financing_monthly.revolver_drawn` every month | `tests/transform/test_financing_posted.py` |
-| 6.5 | The cash flow's interest line equals posted interest, and closing cash still ties to balance sheet cash at 0.00 | existing tie, re-run |
-| 6.6 | `financing.py` no longer computes any quantity the ledger also computes | import and call-graph assertion |
-| 6.7 | The covenant probe is re-run and every figure it produces is recorded, including any that moved | `docs/adr/` entry + `samples/_verdicts.csv` regenerated |
-| 6.8 | Every figure quoted in the contract, README, charter and carried exhibits is re-checked against the rebuilt model | script that greps quoted figures and asserts each |
+| 6.1 | Interest, unused line fees and revolver movements post to the ledger in every forecast period of every scenario | `tests/transform/test_financing_posted.py` — 486 postings, every combination |
+| 6.2 | The trial balance still nets to zero for every period of every version and scenario | existing check, unamended — passes because they balance, not because they are absent |
+| 6.3 | Net Income differs from EBITDA wherever the facility was drawn or a fee accrued | `tests/transform/test_financing_posted.py` — differs in 324 of 360 rows, $615,661 |
+| 6.4 | The balance sheet carries a revolver liability whose closing balance equals `fact_financing_monthly.revolver_drawn` every month | `tests/transform/test_financing_posted.py` — ties monthly on a completed grid |
+| 6.5 | The cash flow's interest line equals posted interest, and closing cash still ties to balance sheet cash at 0.00 | `tests/transform/test_financing_posted.py` — interest line ties; cash tie still $0.000000 |
+| 6.6 | `financing.py` no longer computes any quantity the ledger also computes | `tests/transform/test_financing_posted.py` — the schedule's cash column has no consumers (ADR 0023) |
+| 6.7 | The covenant probe is re-run and every figure it produces is recorded, including any that moved | **Re-run: nothing moved.** ADR 0023 explains why — the schedule always priced the debt |
+| 6.8 | Every figure quoted in the contract, README, charter and carried exhibits is re-checked against the rebuilt model | Nothing to propagate; the covenant figures are unchanged in all seven places |
 | **The bridge** | | |
-| 6.9 | A variance decomposes into price, volume, mix and rate effects that sum to the total within 0.01 | `tests/transform/test_bridge.py` |
-| 6.10 | The residual is reported explicitly and is never silently absorbed into a named effect | `tests/transform/test_bridge.py` |
-| 6.11 | Each effect is computed from measured quantities, not inferred by subtraction — except the residual, which is defined as the remainder | `tests/transform/test_bridge.py` |
-| 6.12 | The bridge reproduces a known movement: FY2024 to FY2025 gross margin, decomposed, ties to the reported change | `tests/transform/test_bridge.py` |
+| 6.9 | A variance decomposes into price, volume, mix and rate effects that sum to the total within 0.01 | `tests/transform/test_bridge.py` — effects plus residual equal the movement |
+| 6.10 | The residual is reported explicitly and is never silently absorbed into a named effect | `tests/transform/test_bridge.py` — its own line, material or not |
+| 6.11 | Each effect is computed from measured quantities, not inferred by subtraction — except the residual, which is defined as the remainder | `tests/transform/test_bridge.py` — every effect carries the quantities behind it |
+| 6.12 | The bridge reproduces a known movement: FY2024 to FY2025 gross margin, decomposed, ties to the reported change | `tests/transform/test_bridge.py` — FY2024 to FY2025, the charter's own example |
 | **The commentary** | | |
-| 6.13 | Every number appearing in generated commentary is equal to the semantic layer's value for it | `tests/reporting/test_commentary.py` — parse the numbers back out of the prose |
-| 6.14 | Every causal claim maps to a bridge component that computes it; a claim with no component fails the build | `tests/reporting/test_commentary.py` |
+| 6.13 | Every number appearing in generated commentary is equal to the semantic layer's value for it | `tests/reporting/test_commentary.py` — numbers parsed back out of the prose |
+| 6.14 | Every causal claim maps to a bridge component that computes it; a claim with no component fails the build | `tests/reporting/test_commentary.py` — every claim names a computing effect |
 | 6.15 | An unexplained residual above a stated threshold is named as unexplained, with its size | `tests/reporting/test_commentary.py` |
 | 6.16 | Commentary is deterministic: same data, same sentences | `tests/reporting/test_commentary.py` |
-| 6.17 | No sentence is emitted for a movement below the materiality threshold, and the threshold is stated in the pack | `tests/reporting/test_commentary.py` |
-| 6.18 | Commentary is generated in `transform/`; neither the workbook nor the COM stage composes a sentence | import-graph assertion |
-| 6.19 | Direction words match the sign convention — a favourable cost variance never reads as a shortfall | `tests/reporting/test_commentary.py` |
+| 6.17 | No sentence is emitted for a movement below the materiality threshold, and the threshold is stated in the pack | `tests/reporting/test_commentary.py` + `test_pack.py` — stated under every block |
+| 6.18 | Commentary is generated in `transform/`; neither the workbook nor the COM stage composes a sentence | `tests/reporting/test_commentary.py` — import-graph assertion |
+| 6.19 | Direction words match the sign convention — a favourable cost variance never reads as a shortfall | `tests/reporting/test_commentary.py` — added / cost, matched to sign |
 | **The pack** | | |
-| 6.20 | The pack states a central tension, supports it with numbers, and says what should be done | structural assertion on the composed sections |
-| 6.21 | All three carried exhibits appear | `tests/reporting/test_pack.py` |
-| 6.22 | Every figure in the pack equals the workbook's and Power BI's figure for the same thing | `tests/reporting/test_pack.py` |
+| 6.20 | The pack states a central tension, supports it with numbers, and says what should be done | `tests/reporting/test_pack.py` — position, tension, evidence, decision |
+| 6.21 | All three carried exhibits appear | `tests/reporting/test_pack.py` — C-1, C-2 and C-3 all present |
+| 6.22 | Every figure in the pack equals the workbook's and Power BI's figure for the same thing | Shared source: every figure comes from the same semantic layer the workbook and PBIP read |
 | 6.23 | Every page carries the "illustrative company, synthetic data" note | `tests/reporting/test_pack.py` |
-| 6.24 | No jargon appears that is not defined on the page it appears on | glossary assertion against a term list |
-| 6.25 | The pack is composed headless; deleting the COM stage leaves a complete pack definition | CI on ubuntu |
+| 6.24 | No jargon appears that is not defined on the page it appears on | **Not met** — no glossary term list was built; deferred with 6.28 |
+| 6.25 | The pack is composed headless; deleting the COM stage leaves a complete pack definition | `tests/reporting/test_pack.py` — import-graph assertion, CI on ubuntu |
 | **Export** | | |
-| 6.26 | `ExportAsFixedFormat` produces a PDF with the expected page count | `requires_excel` |
-| 6.27 | Named ranges exist for every exhibit the case study needs | `tests/workbook/` |
-| 6.28 | `CopyPicture` exports each named range to PNG at readable resolution | `requires_excel` |
-| 6.29 | The export stage originates no value and composes no sentence | source assertion over `excel_stage/` |
-| 6.30 | A human has opened the PDF and confirmed it renders | **manual gate**, named as manual — ADR 0022 |
+| 6.26 | `ExportAsFixedFormat` produces a PDF with the expected page count | `tests/excel/test_export.py`, `requires_excel` — 2 pages, 296 KB |
+| 6.27 | Named ranges exist for every exhibit the case study needs | `tests/reporting/test_pack.py` — five named ranges, asserted in the built file |
+| 6.28 | `CopyPicture` exports each named range to PNG at readable resolution | **Not met** — `CopyPicture` returns an empty clipboard, so every PNG exports blank. Tracked by a strict xfail |
+| 6.29 | The export stage originates no value and composes no sentence | `tests/excel/test_export.py` — source assertion over `export.py` |
+| 6.30 | A human has opened the PDF and confirmed it renders | **Manual gate, not yet run** — the PDF exists and no one has opened it |
 
 ---
 

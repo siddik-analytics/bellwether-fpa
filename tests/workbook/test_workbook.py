@@ -243,7 +243,7 @@ def test_generation_is_well_inside_the_time_budget(tables, tmp_path) -> None:
 
 def test_workbook_has_the_expected_sheets(built) -> None:
     path, summary = built
-    assert summary["sheets"] == 9
+    assert summary["sheets"] == 10
     assert summary["months"] == 72
     shared = zipfile.ZipFile(path).read("xl/sharedStrings.xml").decode("utf-8")
     for sheet in (
@@ -253,6 +253,7 @@ def test_workbook_has_the_expected_sheets(built) -> None:
         "Assumptions",
         "Sensitivity",
         "Documentation",
+        "Board pack",
     ):
         assert sheet in shared, sheet
 

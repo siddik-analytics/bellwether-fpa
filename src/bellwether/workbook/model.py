@@ -18,7 +18,7 @@ import pandas as pd
 import xlsxwriter
 
 from bellwether.data import config as C
-from bellwether.transform import expressions, semantic, sensitivity, statements
+from bellwether.transform import expressions, pack, semantic, sensitivity, statements
 from bellwether.workbook import theme as theme_mod
 
 DISCLOSURE = (
@@ -703,6 +703,73 @@ def _write_sensitivity(sheet: Sheet, grids: dict[str, pd.DataFrame]) -> dict[str
     return ranges
 
 
+def _write_pack(workbook, sheet: Sheet, sections: list) -> list[str]:
+    """The board pack's exhibits and commentary, laid out for reading and for export.
+
+    Every figure and sentence here was composed in ``transform/pack.py``. This function decides
+    where they sit on a page and nothing else — the workbook is a renderer, as it is for the
+    statements.
+
+    Each exhibit gets a **named range** so the COM stage can export it as a PNG without knowing
+    the layout (criterion 6.27). Naming the range here rather than computing coordinates in the
+    export is what keeps layout in the layer that owns it.
+    """
+    sheet.title("Board pack", "Composed headless; Excel renders and exports")
+    names: list[str] = []
+
+    for section in sections:
+        sheet.worksheet.write(sheet.row, 0, section.title, sheet.formats["heading"])
+        sheet.row += 1
+        sheet.worksheet.write(sheet.row, 0, section.lead, sheet.formats["note"])
+        sheet.row += 2
+
+        for block in section.blocks:
+            sheet.worksheet.write(sheet.row, 0, block.title, sheet.formats["column_header_left"])
+            sheet.row += 1
+            sheet.worksheet.write(sheet.row, 0, block.prose, sheet.formats["label"])
+            sheet.row += 1
+            # Criterion 6.17: the filter, stated under the block it applied to.
+            sheet.worksheet.write(sheet.row, 0, block.threshold_note, sheet.formats["note"])
+            sheet.row += 2
+
+        for exhibit in section.exhibits:
+            sheet.worksheet.write(sheet.row, 0, exhibit.title, sheet.formats["column_header_left"])
+            sheet.row += 1
+            sheet.worksheet.write(sheet.row, 0, exhibit.why, sheet.formats["note"])
+            sheet.row += 1
+
+            table = exhibit.table
+            first_row = sheet.row
+            for column, header in enumerate(table.columns):
+                sheet.worksheet.write(
+                    sheet.row, column, str(header), sheet.formats["column_header"]
+                )
+            sheet.row += 1
+            for record in table.itertuples(index=False):
+                for column, value in enumerate(record):
+                    if isinstance(value, (int, float)) and not isinstance(value, bool):
+                        style = "percent" if abs(float(value)) <= 1.5 else "money"
+                        sheet.worksheet.write_number(
+                            sheet.row, column, float(value), sheet.formats[style]
+                        )
+                    else:
+                        sheet.worksheet.write(sheet.row, column, str(value), sheet.formats["label"])
+                sheet.row += 1
+
+            last_column = _column_letter(max(0, len(table.columns) - 1))
+            workbook.define_name(
+                exhibit.named_range,
+                f"='Board pack'!$A${first_row + 1}:${last_column}${sheet.row}",
+            )
+            names.append(exhibit.named_range)
+            sheet.row += 2
+
+    sheet.worksheet.write(sheet.row, 0, DISCLOSURE, sheet.formats["disclosure"])
+    sheet.worksheet.set_column(0, 0, 60)
+    sheet.worksheet.set_column(1, 6, 20)
+    return names
+
+
 def build(tables: dict[str, pd.DataFrame], path, theme: theme_mod.Theme | None = None) -> dict:
     """Generate the workbook. Returns a summary for the build log."""
     theme = theme or theme_mod.Theme()
@@ -826,12 +893,22 @@ def build(tables: dict[str, pd.DataFrame], path, theme: theme_mod.Theme | None =
         documentation.row += 1
     documentation.worksheet.set_column(0, 0, 100)
 
+    # The board pack. Composed in transform/, rendered here — criterion 6.25 asserts the
+    # composition survives the workbook and the COM stage being removed.
+    from bellwether.transform import star as star_mod
+
+    schema = star_mod.build_star(tables)
+    sections = pack.compose(tables, schema["fact_gl"])
+    named = _write_pack(workbook, sheet_for("Board pack"), sections)
+
     _write_data_sheet(sheet_for(DATA_SHEET), keys, grid, months)
 
     workbook.close()
     return {
         "sensitivity_ranges": sensitivity_ranges,
-        "sheets": 9,
+        "named_ranges": named,
+        "sections": len(sections),
+        "sheets": 10,
         "months": len(months),
         "scenarios": len(C.SCENARIOS),
         "theme": theme.name,

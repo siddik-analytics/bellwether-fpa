@@ -79,7 +79,16 @@ def available() -> bool:
 
 #: "Call was rejected by callee" and friends. Excel raises these under load and they mean
 #: nothing; treating the first one as a real failure makes the stage flaky for no reason.
-TRANSIENT = ("call was rejected by callee", "server is busy", "rpc_e_", "0x8001010a")
+TRANSIENT = (
+    "call was rejected by callee",
+    "server is busy",
+    "rpc_e_",
+    "0x8001010a",
+    # CopyPicture goes through the Windows clipboard, which any other process can hold for a
+    # moment. The failure is indistinguishable from a real one in the message Excel returns, and
+    # it succeeds on the next attempt — which is what makes it transient rather than a defect.
+    "copypicture method of range class failed",
+)
 
 
 def retry(attempts: int = 5, delay: float = 0.4):
