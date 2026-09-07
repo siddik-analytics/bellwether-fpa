@@ -177,7 +177,7 @@ The generated-not-authored assertions in CI, and the local `requires_powerbi` nu
 | 5.12 | No DAX expression references an account code, account type, department, allocation rule or hardcoded rate | `tests/powerbi/test_generated.py` — greps every account code, type and department |
 | 5.13 | No metric is defined in DAX that does not exist in the semantic layer | `tests/powerbi/test_generated.py` |
 | 5.14 | Channel contribution in Power BI resolves through the same allocation mapping table, with no DAX conditional deciding which cost belongs where | `tests/powerbi/test_generated.py` + `tests/transform/test_star_boundary.py` — ADR 0020 |
-| 5.15 | Key measures reconcile to the oracle within 0.01, **evaluated by Power BI's own engine** | `tests/powerbi/test_xmla_reconciliation.py`, `requires_powerbi` — XMLA against the live instance; skips when Desktop is closed |
+| 5.15 | Key measures reconcile to the oracle within 0.01, **evaluated by Power BI's own engine** | `tests/powerbi/test_xmla_reconciliation.py`, `requires_powerbi` — **passes**: 360 rows, 3 measures, worst delta 0.000000, with a negative control |
 | **Model conventions** | | |
 | 5.16 | PBIP text format only; no `.pbix` or `.pbit` anywhere in the tree | `tests/powerbi/test_generated.py` and the existing pre-commit hook |
 | 5.17 | Version and Scenario are two separate dimensions, never combined and never parallel fact tables — ADR 0007 | `tests/powerbi/test_generated.py` |

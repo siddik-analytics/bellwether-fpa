@@ -45,7 +45,14 @@ def engine_rows() -> pd.DataFrame:
     assert result.get("ok"), result.get("error")
     frame = pd.DataFrame(result["rows"])
     assert not frame.empty, "the engine returned no rows"
-    frame.columns = [c.strip("[]").split("[")[-1] for c in frame.columns]
+    # `fact_metric[Month]` -> `Month`, `[EBITDA]` -> `engine_EBITDA`. The measures are prefixed
+    # because the semantic layer uses the same names, and an unprefixed merge silently suffixes
+    # both sides — which reads as a missing column rather than as the collision it is.
+    renamed = []
+    for column in frame.columns:
+        bare = column.rsplit("[", 1)[-1].rstrip("]")
+        renamed.append(bare if "[" in column and not column.startswith("[") else f"engine_{bare}")
+    frame.columns = renamed
     return frame
 
 
@@ -79,10 +86,13 @@ def test_every_measure_matches_the_oracle(engine_rows) -> None:
 
     worst = {}
     for dax_name, metric in MEASURES.items():
-        column = next(c for c in merged.columns if c.startswith(dax_name))
-        worst[metric] = float((merged[column].astype(float) - merged[metric]).abs().max())
+        engine = merged[f"engine_{dax_name}"].astype(float)
+        worst[metric] = float((engine - merged[metric].astype(float)).abs().max())
     failures = {k: v for k, v in worst.items() if v > TOLERANCE}
     assert not failures, failures
+    print("\n5.15 - Power BI's engine against the oracle, 0.01 tolerance:")
+    for metric, delta in sorted(worst.items()):
+        print(f"  {metric:16s} rows {len(merged):>4}  worst delta {delta:.6f}")
 
 
 def test_the_engine_covers_every_period_and_combination(engine_rows) -> None:
@@ -93,3 +103,30 @@ def test_the_engine_covers_every_period_and_combination(engine_rows) -> None:
     actual = engine_rows.groupby(["Version", "Scenario"]).ngroups
     assert actual == combinations, f"engine {actual} combinations, semantic layer {combinations}"
     assert engine_rows["Month"].nunique() == expected["month"].nunique()
+
+
+def test_the_reconciliation_can_actually_fail(engine_rows) -> None:
+    """The negative control — ADR 0022's first countermeasure, applied here.
+
+    Zero differences across 360 rows is only evidence if this comparison is capable of producing
+    a difference. One engine value is shifted by a cent and the same arithmetic must catch it,
+    at exactly one row.
+    """
+    tables = generate.generate()
+    expected = statements.metric_series(tables["fact_gl"], tables["dim_gl_account"])
+    expected["Month"] = pd.to_datetime(expected["month"])
+
+    tampered = engine_rows.copy()
+    tampered["Month"] = pd.to_datetime(tampered["Month"])
+    tampered.loc[tampered.index[0], "engine_EBITDA"] = (
+        float(tampered.loc[tampered.index[0], "engine_EBITDA"]) + 0.02
+    )
+
+    merged = tampered.merge(
+        expected,
+        left_on=["Month", "Version", "Scenario"],
+        right_on=["Month", "version_name", "scenario_name"],
+        how="inner",
+    )
+    delta = (merged["engine_EBITDA"].astype(float) - merged["EBITDA"].astype(float)).abs()
+    assert (delta > TOLERANCE).sum() == 1, "the comparison did not notice a planted discrepancy"

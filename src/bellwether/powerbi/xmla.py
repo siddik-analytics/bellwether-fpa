@@ -118,7 +118,12 @@ __DAX__
     while ($reader.Read()) {
         $row = [ordered]@{}
         for ($i = 0; $i -lt $reader.FieldCount; $i++) {
-            $row[$columns[$i]] = $reader.GetValue($i)
+            $value = $reader.GetValue($i)
+            # ConvertTo-Json on this runtime renders a DateTime as /Date(1672560000000)/, the
+            # old ASP.NET form, which nothing downstream parses. Emit sortable ISO instead: the
+            # transport should not decide what a date looks like.
+            if ($value -is [datetime]) { $value = $value.ToString('s') }
+            $row[$columns[$i]] = $value
         }
         $rows += $row
     }
