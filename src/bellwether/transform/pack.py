@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 import pandas as pd
 
 from bellwether.data import config as C
-from bellwether.transform import allocation, bridge, commentary, semantic
+from bellwether.transform import allocation, bridge, claims, commentary, semantic
 
 DISCLOSURE = (
     "Northlake, Inc. is an illustrative company. All data is synthetic — no real company, "
@@ -36,6 +36,8 @@ class Exhibit:
     table: pd.DataFrame
     #: The Excel named range this becomes, for PNG export — criterion 6.27.
     named_range: str
+    #: The claims ``why`` makes, each verified against the ledger. See `claims.py`.
+    claims: tuple = ()
 
 
 @dataclass(frozen=True)
@@ -46,6 +48,9 @@ class Section:
     lead: str
     exhibits: list[Exhibit] = field(default_factory=list)
     blocks: list[commentary.Block] = field(default_factory=list)
+    #: The claims ``lead`` makes. The sentence stays hand-written; the claim inside it is a
+    #: predicate `tests/reporting/test_claims.py` evaluates against the data.
+    claims: tuple = ()
 
     @property
     def prose(self) -> str:
@@ -115,6 +120,7 @@ def exhibit_channel_contribution(gl: pd.DataFrame, accounts: pd.DataFrame) -> Ex
         ),
         table=pd.DataFrame(rows),
         named_range="Exhibit_ChannelContribution",
+        claims=claims.CHANNEL_CONTRIBUTION,
     )
 
 
@@ -165,6 +171,7 @@ def exhibit_allocation_sensitivity(
         ),
         table=sensitivity,
         named_range="Exhibit_AllocationSensitivity",
+        claims=claims.ALLOCATION_SENSITIVITY,
     )
 
 
@@ -189,11 +196,12 @@ def exhibit_covenant_trace(tables: dict[str, pd.DataFrame]) -> Exhibit:
         key="covenant_trace",
         title="EBITDA to borrowing base to covenant",
         why=(
-            "The scenario with the highest revenue and the best EBITDA of the three that grow "
+            "Ranked over the whole horizon, the best cumulative EBITDA of the three that grow "
             "is the one that runs out of room. The explanation is entirely in working capital."
         ),
         table=pd.DataFrame(rows).sort_values("Minimum excess availability"),
         named_range="Exhibit_CovenantTrace",
+        claims=claims.COVENANT_TRACE,
     )
 
 
@@ -209,6 +217,7 @@ def exhibit_pl_bridge(bridge_built: bridge.Bridge) -> Exhibit:
         ),
         table=bridge_built.frame(),
         named_range="Exhibit_PLBridge",
+        claims=claims.PL_BRIDGE,
     )
 
 
@@ -232,9 +241,13 @@ def exhibit_scenario_comparison(gl: pd.DataFrame, accounts: pd.DataFrame) -> Exh
     return Exhibit(
         key="scenario_comparison",
         title="Four scenarios, on two axes",
-        why="The only plan that reaches profitability is the one that shrinks.",
+        why=(
+            "The only plan that reaches profitability is the one that grows slowest. It is "
+            "still a larger company in FY2028 than it is today."
+        ),
         table=pd.DataFrame(rows).sort_values(f"FY{final} net revenue", ascending=False),
         named_range="Exhibit_ScenarioComparison",
+        claims=claims.SCENARIO_COMPARISON,
     )
 
 
@@ -246,6 +259,22 @@ NAMED_RANGES = (
     "Exhibit_PLBridge",
     "Exhibit_ScenarioComparison",
 )
+
+
+def evidence(tables: dict[str, pd.DataFrame], star_gl: pd.DataFrame) -> claims.Evidence:
+    """What the pack's hand-written claims are checked against.
+
+    Carries the against-budget bridge because one claim is about that exhibit's own content
+    rather than about the ledger.
+    """
+    accounts = tables["dim_gl_account"]
+    year = max(C.ACTUAL_YEARS)
+    against_budget = bridge.build(
+        "Gross Profit",
+        quantities(star_gl, accounts, "Budget", year),
+        quantities(star_gl, accounts, "Actual", year),
+    )
+    return claims.Evidence(tables, star_gl, bridge=against_budget)
 
 
 def compose(tables: dict[str, pd.DataFrame], star_gl: pd.DataFrame) -> list[Section]:
@@ -272,6 +301,7 @@ def compose(tables: dict[str, pd.DataFrame], star_gl: pd.DataFrame) -> list[Sect
             "wholesale growth story."
         ),
         exhibits=[exhibit_channel_contribution(star_gl, accounts)],
+        claims=claims.POSITION,
         blocks=[
             commentary.block(
                 "Performance against budget",
@@ -293,6 +323,7 @@ def compose(tables: dict[str, pd.DataFrame], star_gl: pd.DataFrame) -> list[Sect
             "directionally, but not one for one."
         ),
         exhibits=[exhibit_allocation_sensitivity(tables, star_gl, accounts)],
+        claims=claims.TENSION,
     )
 
     funding = Section(
@@ -305,6 +336,7 @@ def compose(tables: dict[str, pd.DataFrame], star_gl: pd.DataFrame) -> list[Sect
             exhibit_covenant_trace(tables),
             exhibit_scenario_comparison(star_gl, accounts),
         ],
+        claims=claims.FUNDING,
     )
 
     decision = Section(
@@ -316,6 +348,7 @@ def compose(tables: dict[str, pd.DataFrame], star_gl: pd.DataFrame) -> list[Sect
             "sheet cannot fund, or a smaller company that funds itself."
         ),
         exhibits=[exhibit_pl_bridge(against_budget)],
+        claims=claims.DECISION,
     )
 
     return [position, tension, funding, decision]
