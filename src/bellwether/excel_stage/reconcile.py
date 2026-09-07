@@ -22,49 +22,24 @@ aggregate, because the aggregate is built from the cached values that are correc
 
 from __future__ import annotations
 
-import html
 import pathlib
-import re
-import zipfile
 
 from bellwether.excel_stage import com
+from bellwether.workbook import read
 
 #: Contract §9 and `CLAUDE.md`: workbook values match the oracle within a cent.
 TOLERANCE = 0.01
-
-_SHEET = re.compile(r'<sheet[^>]*name="([^"]+)"[^>]*r:id="([^"]+)"')
-_RELATION = re.compile(r'<Relationship[^>]*Id="([^"]+)"[^>]*Target="([^"]+)"')
-_CELL = re.compile(r'<c r="([A-Z]+\d+)"[^>]*>(?:<f[^>]*>(?:[^<]*)</f>)<v>([^<]*)</v>')
 
 
 def cached_values(path: pathlib.Path) -> dict[tuple[str, str], float]:
     """Every formula cell's cached result, read straight out of the workbook file.
 
     These are the oracle's numbers. Nothing Excel says is involved in producing them, which is
-    what makes the comparison a comparison.
+    what makes the comparison a comparison. The file reading itself lives in `workbook.read`,
+    because reading the artifact back is not a COM concern and the cross-artifact check
+    (criterion 6.22) needs the same reader without an Excel installation.
     """
-    archive = zipfile.ZipFile(path)
-    workbook_xml = archive.read("xl/workbook.xml").decode("utf-8")
-    rels_xml = archive.read("xl/_rels/workbook.xml.rels").decode("utf-8")
-    targets = dict(_RELATION.findall(rels_xml))
-
-    out: dict[tuple[str, str], float] = {}
-    for raw_name, relation in _SHEET.findall(workbook_xml):
-        # Sheet names are XML-escaped in workbook.xml and plain over COM: "P&amp;L" is the
-        # sheet Excel calls "P&L". Comparing the escaped form silently drops the sheet.
-        name = html.unescape(raw_name)
-        target = targets.get(relation, "")
-        member = f"xl/{target.lstrip('/')}" if not target.startswith("xl/") else target
-        if member not in archive.namelist():
-            continue
-        for cell, value in _CELL.findall(archive.read(member).decode("utf-8")):
-            try:
-                out[(name, cell)] = float(value)
-            except ValueError:
-                # A formula returning text — the selection echo the statements carry. Not a
-                # figure, so not part of a numeric reconciliation.
-                continue
-    return out
+    return read.formula_values(path)
 
 
 def reconcile(path: pathlib.Path, tolerance: float = TOLERANCE) -> dict:

@@ -3,15 +3,17 @@
 - **Status:** Accepted
 - **Date:** 2026-09-06
 - **Phase:** 5 (Excel/COM stage and Power BI)
+- **Amended:** 2026-09-06, phase 6 — a sixth instance, and the countermeasure it needed
 
 ## Context
 
-Phase 5 shipped four defects of one kind: tests that passed while verifying nothing, and an
-artifact that was wrong because of what had been left out of it. They were not sloppy, they were
-not skipped, and none of them was found by reading the code. Each was internally consistent and
-externally wrong, and each needed an authority outside the project to expose.
+Phase 5 shipped five defects of one kind: tests that passed while verifying nothing, and an
+artifact that was wrong because of what had been left out of it. Phase 6 added a sixth, where the
+test was never written at all. They were not sloppy, they were not skipped, and none of them was
+found by reading the code. Each was internally consistent and externally wrong, and each needed an
+authority outside the project to expose.
 
-They are worth recording together because they are one defect wearing three costumes.
+They are worth recording together because they are one defect wearing several costumes.
 
 ### 1. The reconciliation compared Excel to itself
 
@@ -107,6 +109,48 @@ fixture needs the shapes, not Microsoft's stylesheet. Excluding it from the *gen
 was wrong, because there the file is a functional dependency rather than reference material. The
 same reasoning was applied to two things that only looked alike.
 
+### 6. Agreement by shared construction — the variant with no test at all
+
+Added in phase 6.
+
+The first five are tests that could not fail. The sixth is the case where **no test was written**,
+because agreement seemed to follow from how the thing was built.
+
+Criterion 6.22 says every figure in the board pack equals the workbook's and Power BI's figure for
+the same thing. It was recorded as met, with this justification:
+
+> Shared source: every figure comes from the same semantic layer the workbook and PBIP read.
+
+That is true, and it is the architecture working as intended, and it is not a test. It is the
+oracle-from-the-system-under-test failure with the test removed: the reason the three artifacts
+agree is a property of the code that generates them, asserted by the person who wrote that code.
+Nothing forced the three to meet, and this is the criterion behind the README's strongest claim.
+
+The failure it cannot see is **staleness**. A workbook built from one run of the generator and a
+Power BI model refreshed from another will disagree in every figure while every by-construction
+argument still holds — each artifact is internally consistent with the code, and the code is
+consistent with itself. The existing checks would all pass. `tests/powerbi/` already reconciled
+the engine against the semantic layer *as it is now*, which is precisely the check a stale
+artifact survives.
+
+The countermeasure is countermeasure 2 applied across artifacts rather than within one:
+**compare built artifacts to each other, not each to the code.** Two legs, each reading files
+rather than calling generators —
+
+| Leg | One side | Other side | Runs |
+|---|---|---|---|
+| pack ↔ workbook | the composed pack | `build/northlake-model.xlsx`, read from the file | headless, in CI |
+| workbook ↔ Power BI | that same workbook file | the engine hosted by Desktop | `requires_powerbi`, local |
+
+Neither leg has Python arithmetic in the middle. `workbook/read.py` reads the workbook's own row
+labels and month headers out of the XML rather than reconstructing the layout, so a row moving is
+a changed key rather than a silently shifted value; `reconcile.cached_values` now delegates to it,
+since reading the artifact back was never a COM concern.
+
+This is also the answer to a fair objection: a by-construction argument is *evidence*, and often
+good evidence. The problem is not that it is weak. The problem is that it is unfalsifiable, so it
+gets stronger as the system gets more complex, which is exactly backwards.
+
 ## Decision
 
 **Name the general form and treat it as a review question, not a discovery:**
@@ -114,7 +158,7 @@ same reasoning was applied to two things that only looked alike.
 > A test whose expected value is derived from the thing under test cannot fail. It measures
 > internal consistency and reports it as correctness.
 
-Every one of the four had this shape. The oracle came from inside:
+Every one of them had this shape. The oracle came from inside:
 
 | Test | Where the expected value came from |
 |---|---|
@@ -123,12 +167,13 @@ Every one of the four had this shape. The oracle came from inside:
 | Report structure | a schema the generator's author defined |
 | The TMDL validator | a grammar the same author assumed |
 | The report shell | a judgement about what could be left out |
+| Pack, workbook and Power BI agreeing | the shared code that generates all three |
 
-The last row is the omission variant. Its oracle was not a wrong value but a wrong *boundary* —
+The fifth row is the omission variant. Its oracle was not a wrong value but a wrong *boundary* —
 the author deciding which parts of the reference mattered, which is the same act of substituting
 internal judgement for an external authority.
 
-**Four countermeasures, all of them now in the repository rather than in this document:**
+**Countermeasures, all of them now in the repository rather than in this document:**
 
 ### 1. A planted-lie negative control
 
