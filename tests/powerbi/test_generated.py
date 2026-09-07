@@ -346,22 +346,26 @@ def test_page_display_names_are_business_language(built) -> None:
     assert tmdl.DRILLTHROUGH_PAGE in names
 
 
-def test_visuals_are_not_generated_and_that_is_deliberate(built) -> None:
-    """The named gap, asserted so it cannot be closed by accident with a guess.
+def test_visual_containers_are_generated_but_not_bound(built) -> None:
+    """The state of 5.27, asserted rather than described.
 
-    Power BI stores a visual at `definition/pages/<page>/visuals/<id>/visual.json`. The fixture
-    is a *blank* report, so this project has no authoritative example of that file, and writing
-    one from imagination is exactly the defect ADR 0022 records — a schema of the author's own
-    design, tested against itself, passing.
+    Visual containers are generated from a Desktop reference (see `test_visual_fixture.py`).
+    Their field bindings are not: every visual in that reference is an unbound placeholder, so
+    the `visual.query` shape is still unknown and writing one would be the defect ADR 0022
+    exists to prevent.
 
-    Criteria 5.27 (drillthrough from every summary visual) and 5.28 (a disclosure textbox on
-    every page) are therefore **not met** and are recorded as not met. Closing the gap needs one
-    saved report from Desktop containing a card and a textbox; then this test changes.
+    So the pages carry real, correctly shaped cards that display nothing, and **5.27 is not
+    met**. That is a worse-looking report than an invented binding would have produced, and a
+    truer one.
     """
     definition = _report_dir(built["dir"])
-    assert not list(definition.rglob("visual.json")), (
-        "visuals appeared without an authoritative example to generate them from"
-    )
+    visuals = list(definition.rglob("visual.json"))
+    assert visuals, "visual containers should be generated"
+    for path in visuals:
+        visual = _json(path)["visual"]
+        assert set(visual) == {"visualType", "drillFilterOtherVisuals"}, (
+            f"{path.parent.name} acquired a binding with no authoritative example behind it"
+        )
 
 
 def test_the_disclosure_is_carried_by_the_model(built) -> None:

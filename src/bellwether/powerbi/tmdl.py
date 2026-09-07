@@ -13,6 +13,7 @@ exactly that.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import pathlib
 import re
@@ -40,6 +41,15 @@ SCHEMAS: dict[str, str] = {
     "page": f"{SCHEMA_BASE}/page/2.1.0/schema.json",
     "versionMetadata": f"{SCHEMA_BASE}/versionMetadata/1.0.0/schema.json",
 }
+
+#: The visual container schema, and the fact that a visual carries exactly these keys. From
+#: `tests/fixtures/powerbi-desktop-visuals/`, where all 24 of Desktop's own visuals share one
+#: shape: `$schema`, `name`, `position`, `visual`.
+VISUAL_SCHEMA = f"{SCHEMA_BASE}/visualContainer/2.12.0/schema.json"
+
+#: `cardVisual`, not `card`. The reference lists both the modern name and 23 others; guessing
+#: the older one would have produced a visual Power BI does not recognise.
+CARD_VISUAL = "cardVisual"
 
 #: Files Desktop writes with **no** `$schema`. Adding one would be inventing a contract, which
 #: is what the previous generator did to two of these three.
@@ -380,6 +390,47 @@ def page_name(display_name: str) -> str:
     return display_name.lower().replace("&", "and").replace(" ", "-")
 
 
+def visual_name(page: str, measure: str) -> str:
+    """A stable twenty-character id, in Desktop's own shape.
+
+    Desktop uses twenty lowercase hex characters. A hash of the page and measure gives the same
+    shape deterministically, which byte-identical regeneration requires and a random id would
+    break on every build.
+    """
+    digest = hashlib.sha256(f"{page}|{measure}".encode()).hexdigest()
+    return digest[:20]
+
+
+def _visual_json(page: str, measure: str, order: int) -> str:
+    """One visual container, in the shape the reference proves.
+
+    **The measure is not bound.** Every visual in the reference is an unbound placeholder, so
+    this project has no authoritative example of a field binding — the `visual.query` shape is
+    still unknown. Emitting a guess is the defect ADR 0022 exists to prevent, so the container is
+    real and correct and the binding is absent. Criterion 5.27 stays open until a reference with
+    a bound field exists.
+    """
+    return (
+        json.dumps(
+            {
+                "$schema": VISUAL_SCHEMA,
+                "name": visual_name(page, measure),
+                "position": {
+                    "x": 40 + (order % 3) * 620,
+                    "y": 120 + (order // 3) * 300,
+                    "z": order,
+                    "height": 280,
+                    "width": 560,
+                    "tabOrder": order,
+                },
+                "visual": {"visualType": CARD_VISUAL, "drillFilterOtherVisuals": True},
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+
+
 def _page_json(display_name: str) -> str:
     return (
         json.dumps(
@@ -427,10 +478,16 @@ def _report_json() -> str:
         json.dumps(
             {
                 "$schema": SCHEMAS["report"],
+                # Desktop's own settings block, copied from the reference rather than
+                # chosen. The theme collection and resource packages are deliberately omitted:
+                # they point at a 99 KB stock theme file this repository does not ship.
                 "settings": {
                     "useStylableVisualContainerHeader": True,
+                    "exportDataMode": "AllowSummarized",
                     "defaultDrillFilterOtherVisuals": True,
                     "allowChangeFilterTypes": True,
+                    "useEnhancedTooltips": True,
+                    "useDefaultAggregateDisplayName": True,
                 },
             },
             indent=2,
@@ -452,12 +509,10 @@ def _version_json() -> str:
 def _write_report(report_dir: pathlib.Path) -> list[str]:
     """Write the PBIR report: settings, version, page order, and one file per page.
 
-    **Visuals are not generated.** Power BI stores each visual as
-    `definition/pages/<page>/visuals/<id>/visual.json`, and the fixture is a *blank* report, so
-    this project has no authoritative example of that file. Inventing one is precisely the defect
-    ADR 0022 records — a schema of the author's own design, tested against itself. The pages are
-    real and correctly shaped; the visuals are a named gap, and closing it needs one saved report
-    from Desktop containing a card and a textbox.
+    Visual containers are generated from the shape a second Desktop reference proves
+    (`tests/fixtures/powerbi-desktop-visuals/`). Their **field bindings are not**: every visual
+    in that reference is an unbound placeholder, so the `visual.query` shape remains unknown and
+    a guess would be the defect ADR 0022 exists to prevent.
     """
     definition = report_dir / "definition"
     pages_dir = definition / "pages"
@@ -469,12 +524,20 @@ def _write_report(report_dir: pathlib.Path) -> list[str]:
     (pages_dir / "pages.json").write_text(
         _pages_json(display_names), encoding="utf-8", newline="\n"
     )
+    measures_for = {name: measures for name, _, measures in PAGES}
     for display_name in display_names:
-        page_dir = pages_dir / page_name(display_name)
+        slug = page_name(display_name)
+        page_dir = pages_dir / slug
         page_dir.mkdir(parents=True, exist_ok=True)
         (page_dir / "page.json").write_text(
             _page_json(display_name), encoding="utf-8", newline="\n"
         )
+        for order, measure in enumerate(measures_for.get(display_name, ())):
+            visual_dir = page_dir / "visuals" / visual_name(slug, measure)
+            visual_dir.mkdir(parents=True, exist_ok=True)
+            (visual_dir / "visual.json").write_text(
+                _visual_json(slug, measure, order), encoding="utf-8", newline="\n"
+            )
     return display_names
 
 
