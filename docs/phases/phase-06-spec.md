@@ -175,7 +175,7 @@ PDF and PNGs. Additive.
 | 6.24 | No jargon appears that is not defined on the page it appears on | **Not met** — no glossary term list was built; deferred with 6.28 |
 | 6.25 | The pack is composed headless; deleting the COM stage leaves a complete pack definition | `tests/reporting/test_pack.py` — import-graph assertion, CI on ubuntu |
 | **Export** | | |
-| 6.26 | `ExportAsFixedFormat` produces a PDF with the expected page count | `tests/excel/test_export.py`, `requires_excel` — 2 pages, 296 KB |
+| 6.26 | `ExportAsFixedFormat` produces a PDF with the expected page count | `tests/excel/test_export.py`, `requires_excel` — 3 pages, 298 KB |
 | 6.27 | Named ranges exist for every exhibit the case study needs | `tests/reporting/test_pack.py` — five named ranges, asserted in the built file |
 | 6.28 | `CopyPicture` exports each named range to PNG at readable resolution | **Not met** — `CopyPicture` returns an empty clipboard, so every PNG exports blank. Tracked by a strict xfail |
 | 6.29 | The export stage originates no value and composes no sentence | `tests/excel/test_export.py` — source assertion over `export.py` |

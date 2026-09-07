@@ -733,6 +733,27 @@ def _wrapped_lines(value, width: int) -> int:
     return max(1, len(textwrap.wrap(text, width=max(8, width))) or 1)
 
 
+#: Breathing room under a wrapped paragraph. Without it the last line of a rationale sits hard
+#: against the header row beneath it, which read as one run-on line in the exported pack.
+PROSE_PADDING = 6.0
+
+
+def _write_prose(sheet: Sheet, text: str, style: str) -> None:
+    """A paragraph, wrapped inside the width of the page rather than overflowing across it.
+
+    Prose was written into column A and left to spill over the empty cells to its right. That
+    works until the row below has content, and then the paragraph's tail and the next row's
+    first cell touch — which is how "working capital.Scenario Peak revolver drawn" reached the
+    PDF. Merging the paragraph across the table's width gives it somewhere to wrap to, and the
+    fitted height gives it somewhere to wrap into.
+    """
+    last = len(PACK_WIDTHS) - 1
+    sheet.worksheet.merge_range(sheet.row, 0, sheet.row, last, text, sheet.formats[style])
+    lines = _wrapped_lines(text, sum(PACK_WIDTHS))
+    sheet.worksheet.set_row(sheet.row, max(MIN_ROW_HEIGHT, lines * LINE_POINTS + PROSE_PADDING))
+    sheet.row += 1
+
+
 def _fit_row(sheet: Sheet, values, minimum: float = MIN_ROW_HEIGHT) -> None:
     lines = max(
         _wrapped_lines(value, PACK_WIDTHS[min(column, len(PACK_WIDTHS) - 1)])
@@ -783,23 +804,21 @@ def _write_pack(workbook, sheet: Sheet, sections: list) -> list[str]:
     for section in sections:
         sheet.worksheet.write(sheet.row, 0, section.title, sheet.formats["heading"])
         sheet.row += 1
-        sheet.worksheet.write(sheet.row, 0, section.lead, sheet.formats["note"])
-        sheet.row += 2
+        _write_prose(sheet, section.lead, "lead")
+        sheet.row += 1
 
         for block in section.blocks:
             sheet.worksheet.write(sheet.row, 0, block.title, sheet.formats["column_header_left"])
             sheet.row += 1
-            sheet.worksheet.write(sheet.row, 0, block.prose, sheet.formats["label"])
-            sheet.row += 1
+            _write_prose(sheet, block.prose, "lead")
             # Criterion 6.17: the filter, stated under the block it applied to.
-            sheet.worksheet.write(sheet.row, 0, block.threshold_note, sheet.formats["note"])
-            sheet.row += 2
+            _write_prose(sheet, block.threshold_note, "note_wrap")
+            sheet.row += 1
 
         for exhibit in section.exhibits:
             sheet.worksheet.write(sheet.row, 0, exhibit.title, sheet.formats["column_header_left"])
             sheet.row += 1
-            sheet.worksheet.write(sheet.row, 0, exhibit.why, sheet.formats["note"])
-            sheet.row += 1
+            _write_prose(sheet, exhibit.why, "note_wrap")
 
             table = exhibit.table
             first_row = sheet.row
@@ -836,7 +855,7 @@ def _write_pack(workbook, sheet: Sheet, sections: list) -> list[str]:
             names.append(exhibit.named_range)
             sheet.row += 2
 
-    sheet.worksheet.write(sheet.row, 0, DISCLOSURE, sheet.formats["disclosure"])
+    _write_prose(sheet, DISCLOSURE, "note_wrap")
     for column, width in enumerate(PACK_WIDTHS):
         sheet.worksheet.set_column(column, column, width)
     return names

@@ -155,6 +155,12 @@ def resolve(workbook, theme: Theme) -> dict[str, object]:
             border_color=theme.rule,
         ),
         "note": fmt(font_size=9, font_color=theme.muted, italic=True),
+        # Paragraphs on the board pack wrap inside the page rather than spilling across
+        # the cells to their right, where they collide with whatever is written below.
+        "note_wrap": fmt(
+            font_size=9, font_color=theme.muted, italic=True, text_wrap=True, valign="top"
+        ),
+        "lead": fmt(text_wrap=True, valign="top"),
         "disclosure": fmt(font_size=9, font_color=theme.muted, italic=True),
         "not_applicable": fmt(font_color=theme.muted, italic=True, align="center"),
         "selector": fmt(
