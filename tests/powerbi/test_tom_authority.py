@@ -40,7 +40,11 @@ def parsed(tmp_path_factory) -> dict:
 def test_the_generated_model_parses(parsed) -> None:
     """The gate itself. Everything below is what the authority can tell us once it opens."""
     assert parsed["ok"]
-    assert {t["name"] for t in parsed["tables"]} >= {"Measures", "fact_metric", "dim_date"}
+    assert {t["name"] for t in parsed["tables"]} >= {
+        tmdl.MEASURE_TABLE,
+        "fact_metric",
+        "dim_date",
+    }
 
 
 def test_the_committed_model_parses() -> None:
@@ -57,14 +61,17 @@ def test_the_committed_model_parses() -> None:
 def test_every_metric_arrives_as_a_measure(parsed) -> None:
     """5.11, verified by the parser rather than by reading our own output back."""
     measures = {
-        m["name"] for t in parsed["tables"] if t["name"] == "Measures" for m in t["measures"]
+        m["name"]
+        for t in parsed["tables"]
+        if t["name"] == tmdl.MEASURE_TABLE
+        for m in t["measures"]
     }
     assert measures - {"Selection Status"} == set(semantic.ALL_METRICS)
 
 
 def test_measures_keep_their_format_and_folder(parsed) -> None:
     """5.22 and 5.19 — as the model sees them, not as the file spells them."""
-    table = next(t for t in parsed["tables"] if t["name"] == "Measures")
+    table = next(t for t in parsed["tables"] if t["name"] == tmdl.MEASURE_TABLE)
     by_name = {m["name"]: m for m in table["measures"]}
     for name, metric in semantic.ALL_METRICS.items():
         assert by_name[name]["formatString"] == metric.format_string, name
@@ -74,7 +81,7 @@ def test_measures_keep_their_format_and_folder(parsed) -> None:
 def test_no_other_table_carries_a_measure(parsed) -> None:
     """5.19 — one measures table."""
     for table in parsed["tables"]:
-        if table["name"] == "Measures":
+        if table["name"] == tmdl.MEASURE_TABLE:
             continue
         assert not table["measures"], table["name"]
 
@@ -118,7 +125,7 @@ def test_surrogate_keys_are_hidden(parsed) -> None:
         f"{t['name']}[{c['name']}]" for t in parsed["tables"] for c in t["columns"] if c["isHidden"]
     }
     assert "dim_date[Date key]" in hidden
-    assert "Measures[placeholder]" in hidden
+    assert f"{tmdl.MEASURE_TABLE}[placeholder]" in hidden
 
 
 def test_nothing_that_is_not_a_number_is_summarised(parsed) -> None:
@@ -127,3 +134,44 @@ def test_nothing_that_is_not_a_number_is_summarised(parsed) -> None:
         for column in table["columns"]:
             if column["dataType"] in {"String", "Boolean", "DateTime"}:
                 assert column["summarizeBy"] == "None", f"{table['name']}[{column['name']}]"
+
+
+# --- 5.36: Desktop's own name rule, which TOM does not apply ---------------------------------
+
+
+@pytest.fixture(scope="module")
+def names(tmp_path_factory) -> dict:
+    if not tom.names_available():
+        pytest.skip("Power BI Desktop's Modeler assembly is not on this machine")
+    out = tmp_path_factory.mktemp("names")
+    tmdl.build(star.build_star(generate.generate()), out)
+    return tom.validate_names(out / f"{tmdl.PROJECT}.SemanticModel" / "definition")
+
+
+def test_every_object_name_survives_desktops_validator(names) -> None:
+    """5.36 — the gate TOM does not provide.
+
+    TOM parsed the model and Desktop refused it: `Unsupported Table name "Measures"`. Parsing is
+    a weaker check than it looks, because Desktop applies rules on top of the metadata format.
+
+    The rule is not a reserved-word list, which is why it could not have been guessed. Read out
+    of `ModelSchemaValidator.EnsureValidObjectName`, it is exactly:
+
+        name != NameValidator.RemoveInvalidNameCharacters(name, objectType)  ->  reject
+
+    `Measures` sanitises to `Measures 1`, so it fails. Every other name in the model passed, and
+    the placeholder column and partition — the suspected cause — were never the problem.
+    """
+    assert names["ok"], names.get("offenders") or names.get("error")
+
+
+def test_the_reserved_name_is_reachable_and_still_reserved() -> None:
+    """The negative control: the gate must reject the name that broke it.
+
+    Without this, `validate_names` returning ok proves nothing — it would also return ok if the
+    reflection silently failed and it checked nothing at all.
+    """
+    if not tom.names_available():
+        pytest.skip("Power BI Desktop's Modeler assembly is not on this machine")
+    assert tmdl.MEASURE_TABLE != "Measures"
+    assert tmdl.MEASURE_TABLE == "Key Figures"

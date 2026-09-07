@@ -254,6 +254,18 @@ def validate_text(text: str, source: str = "<tmdl>") -> list[str]:
                 parent.first_child_line = line.number
             parent.children.append(node)
 
+        # A name containing a **space** must be quoted in a declaration. Narrow on purpose:
+        # hyphens are fine (every relationship name has them and Microsoft's parser accepts
+        # them), so a broader rule would fire on valid files and get relaxed until it was mute.
+        # The trigger was `partition Key Figures = m`, which parses as a name plus a stray token.
+        if kind in {"table", "column", "measure", "partition"} and name:
+            bare = name.split(" = ")[0].strip()
+            if " " in bare and not (bare.startswith("'") and bare.endswith("'")):
+                errors.append(
+                    f"{source} line {line.number}: the name {bare!r} contains a space and must "
+                    "be quoted in a TMDL declaration"
+                )
+
         stack.append(node)
         previous_depth = line.depth
 

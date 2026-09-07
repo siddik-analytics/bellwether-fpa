@@ -8,7 +8,7 @@ The two DAX shapes the generator emits are small enough to evaluate directly:
     CALCULATE(SUM(fact_metric[Value]), dim_metric[Metric] = "Gross Revenue")
     [Gross Revenue] - [Contra Revenue]
 
-So these tests read the **emitted measure text** out of `Measures.tmdl`, evaluate it against the
+So these tests read the **emitted measure text** out of the measures table, evaluate it against the
 same star Power BI will load, and assert it reproduces `statements.metric_series`. That catches a
 generator that wrote the wrong metric name into a filter, mangled an expression, or pointed a
 measure at the wrong column — none of which the "is it generated?" tests can see, because a
@@ -46,7 +46,13 @@ def project(tmp_path_factory) -> dict:
     schema = star.build_star(tables)
     out = tmp_path_factory.mktemp("dax")
     tmdl.build(schema, out)
-    path = out / f"{tmdl.PROJECT}.SemanticModel" / "definition" / "tables" / "Measures.tmdl"
+    path = (
+        out
+        / f"{tmdl.PROJECT}.SemanticModel"
+        / "definition"
+        / "tables"
+        / f"{tmdl.MEASURE_TABLE}.tmdl"
+    )
     return {
         "measures": dict(MEASURE.findall(path.read_text(encoding="utf-8"))),
         "star": schema,

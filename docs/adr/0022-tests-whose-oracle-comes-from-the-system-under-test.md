@@ -117,13 +117,50 @@ make it ignored, which is the same outcome with more noise.
 Every artifact this project generates must have at least one check whose verdict comes from
 outside the project:
 
-| Artifact | External authority | Status |
-|---|---|---|
-| `.xlsx` workbook | Excel, via COM — recalculates and reports | automated, `requires_excel` |
-| TMDL semantic model | **Microsoft's own TMDL parser** (Tabular Object Model) | automated, `requires_tom` |
-| Power BI report | Power BI Desktop — renders the pages | **manual**, criterion 5.30 |
-| DAX measures | Power BI's engine — evaluates them | **manual**, criterion 5.15 |
-| Parquet star | `pyarrow` round trip | automated |
+| Artifact | External authority | Covers | Status |
+|---|---|---|---|
+| `.xlsx` workbook | Excel, via COM | recalculation of every formula | automated, `requires_excel` |
+| TMDL semantic model | TOM — Microsoft's TMDL parser | **the metadata format only** | automated, `requires_tom` |
+| TMDL object names | Desktop's own `NameValidator` | one of Desktop's rules on top | automated, `requires_tom` |
+| Power BI report | Power BI Desktop | rendering the pages | **manual**, criterion 5.30 |
+| DAX measures | Power BI's engine | evaluating them | **manual**, criterion 5.15 |
+| Parquet star | `pyarrow` round trip | serialisation | automated |
+
+### An authority can be real and still not be the whole authority
+
+The TMDL row was moved from manual to automated on the strength of TOM parsing the model, and
+that was **overstated**. Desktop then refused the same model:
+
+```
+Unsupported Table name "Measures" has been found in data model schema.
+```
+
+TOM validates the metadata format. Power BI Desktop applies its own rules **on top** of a model
+that parses. So "the authority accepts it" was true and "Desktop will open it" did not follow,
+and the table above now says what each authority covers rather than only that one exists.
+
+This is the same failure as the other four, one level up: the *scope* of a check was inferred
+from the check itself rather than established from outside it. A gate that is real but partial,
+described as though it were total, buys exactly the false confidence this ADR is about.
+
+**The fix was not another manual round trip**, and that matters, because the reflex after being
+burned is to send everything back to a human. The rule turned out to be readable: Desktop's
+`Microsoft.PowerBI.Modeling.Engine.dll` contains `ModelSchemaValidator.EnsureValidObjectName`,
+whose IL is ten instructions and says
+
+```
+name != NameValidator.RemoveInvalidNameCharacters(name, objectType)  ->  reject
+```
+
+It is not a reserved-word list — it is a sanitiser, and the rejection is the *inequality*.
+`Measures` comes back as `Measures 1`. Calling that method directly over every object in the
+model found exactly one offender and cleared every other name, which no amount of careful
+guessing would have established. It is now `tom.validate_names`, and it runs on every build.
+
+**Prefer an executable authority to a human one**, in this order: run the real component if it
+can be run; read the real rule if it can be read; ask a person only when neither is possible. The
+suspected cause here — the hidden placeholder column and the partition added earlier — was
+plausible, was the obvious thing to send back for a fixture, and was **wrong**.
 
 The second row started as a manual gate and did not have to stay one. The Tabular Object Model
 ships with DAX Studio and Tabular Editor and contains the **same deserializer Power BI Desktop
@@ -146,7 +183,9 @@ not known the rule — which is the entire reason an authority outside the syste
 Two hand-written checkers in sequence, each blind in the same place, are one checker.
 
 Where the authority cannot be automated, the gate is **manual and named as manual**. It is not
-replaced by a proxy that is then described as though it were the real thing.
+replaced by a proxy that is then described as though it were the real thing — and where it *can*
+be automated, what it covers is named too, because a partial gate sold as a total one is the
+same error wearing a lab coat.
 
 ## Rationale
 
@@ -190,6 +229,14 @@ as it is not mistaken for validity. The fix is to state what each check covers, 
 
 Criterion 5.31 (structural TMDL validation) and 5.32 (evaluating the emitted DAX against the star)
 both exist because of this. Neither replaces the manual gate; both narrow what reaches it.
+
+**A checker's silence is evidence only about what it checks.** Two more gaps surfaced the moment
+the table was renamed, both invisible to the project's own validator and both reported instantly
+by Microsoft's parser: a declaration whose name contains a space must be quoted (`partition Key
+Figures = m` parses as a name plus a stray token), and the generator left the old `Measures.tmdl`
+behind on rename, so the model contained both tables and kept failing. Neither was caught by the
+hand-written validator, and the first attempt to add the quoting rule to it was over-strict
+enough to reject valid files — which is how a checker gets relaxed until it is mute.
 
 **Every future generated artifact inherits the fourth countermeasure.** The phase 6 board pack is
 a PDF, and a PDF that this project both writes and reads back is defect 3 again with different

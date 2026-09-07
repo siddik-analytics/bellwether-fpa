@@ -6,7 +6,7 @@ model Model
 
 	annotation __PBI_TimeIntelligenceEnabled = 0
 
-ref table Measures
+ref table 'Key Figures'
 ref table fact_metric
 ref table fact_gl
 ref table dim_date

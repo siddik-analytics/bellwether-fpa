@@ -198,9 +198,10 @@ The generated-not-authored assertions in CI, and the local `requires_powerbi` nu
 | 5.30 | The PBIP project is valid enough to open in Power BI Desktop without error | Model half now automated by 5.33. The **report** half stays manual — Desktop has no CLI |
 | 5.31 | The generated TMDL is structurally valid: tab indentation, legal nesting, and every object property before its first child | `tests/powerbi/test_validate.py` — added after Desktop rejected the first project |
 | 5.32 | The **emitted** DAX text, evaluated against the star, reproduces the semantic layer within 0.01 | `tests/powerbi/test_dax_semantics.py` — not Power BI's engine; see the note there |
-| 5.33 | The semantic model parses under **Microsoft's own TMDL deserializer** (Tabular Object Model), with its conventions read back from the parsed model | `tests/powerbi/test_tom_authority.py`, `requires_tom` — **passes**; found one defect the project's own validator missed |
+| 5.33 | The semantic model parses under **Microsoft's own TMDL deserializer** (Tabular Object Model), with its conventions read back from the parsed model | `tests/powerbi/test_tom_authority.py`, `requires_tom` — **parsing only**; Desktop applies further rules, see 5.36 |
 | 5.34 | Every generated `$schema` and metadata version equals Power BI Desktop's own, and the validator accepts Desktop's TMDL | `tests/powerbi/test_schema_fixture.py` — oracle is `tests/fixtures/powerbi-desktop-blank/`, not a transcribed constant |
 | 5.35 | Every generated visual container matches Power BI Desktop's own shape — schema, key set and visualType vocabulary | `tests/powerbi/test_visual_fixture.py` — oracle is `tests/fixtures/powerbi-desktop-visuals/` |
+| 5.36 | Every object name passes **Power BI Desktop's own `NameValidator`**, not only TMDL parsing | `tests/powerbi/test_tom_authority.py`, `requires_tom` — caught `Measures`, which TOM accepted and Desktop refused |
 
 ---
 

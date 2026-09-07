@@ -23,7 +23,10 @@ import pandas as pd
 from bellwether.transform import expressions, semantic
 
 PROJECT = "northlake"
-MEASURE_TABLE = "Measures"
+#: NOT "Measures". Power BI Desktop rejects that name outright: its own NameValidator sanitises
+#: it to "Measures 1", and ModelSchemaValidator rejects any object whose name differs from its
+#: sanitised form. "Key Figures" is Desktop's own term for this table and passes the same check.
+MEASURE_TABLE = "Key Figures"
 
 #: Where the star lives, relative to the repository root. An absolute path would embed the
 #: machine that generated the project into a committed text file, breaking both portability and
@@ -90,6 +93,21 @@ COLUMN_NAMES: dict[str, str] = {
     "value": "Value",
     "version_name": "Version",
 }
+
+
+def lineage_tag(name: str) -> str:
+    """A lineage tag for a table. Slugged, because a tag with a space in it reads as two."""
+    return "table-" + re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+
+
+def tmdl_name(name: str) -> str:
+    """A TMDL object name, quoted only when it must be.
+
+    An identifier containing anything but letters, digits and underscores has to be quoted in a
+    declaration. `ref table Key Figures` parses as a name followed by a stray token; the
+    authority reported exactly that, at the line, the moment the table was renamed.
+    """
+    return name if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", name) else f"'{name}'"
 
 
 def column_name(physical: str) -> str:
@@ -236,7 +254,7 @@ def _measures_table() -> str:
     # the table it governs, immediately above the declaration.
     lines = [
         VARIANCE_HEADER,
-        f"table {MEASURE_TABLE}",
+        f"table {tmdl_name(MEASURE_TABLE)}",
         f"\tlineageTag: table-{MEASURE_TABLE.lower()}",
         "\tcolumn 'placeholder'",
         "\t\tdataType: string",
@@ -265,7 +283,7 @@ def _measures_table() -> str:
         "\t\tdisplayFolder: Model",
         "\t\tlineageTag: metric-selection-status",
         "",
-        f"\tpartition {MEASURE_TABLE} = m",
+        f"\tpartition {tmdl_name(MEASURE_TABLE)} = m",
         "\t\tmode: import",
         "\t\tsource = let Source = #table(type table [placeholder = text], {}) in Source",
         "",
@@ -308,7 +326,7 @@ def _table_tmdl(name: str, frame) -> str:
         lines.append(f"\t\tlineageTag: {name}-{physical}")
         lines.append("")
 
-    lines.append(f"\tpartition {name} = m")
+    lines.append(f"\tpartition {tmdl_name(name)} = m")
     lines.append("\t\tmode: import")
     lines.append(
         "\t\tsource = let Source = Parquet.Document(File.Contents("
@@ -333,7 +351,7 @@ def _model_tmdl() -> str:
         "",
     ]
     for name in (MEASURE_TABLE, *MODEL_TABLES):
-        lines.append(f"ref table {name}")
+        lines.append(f"ref table {tmdl_name(name)}")
     lines.append("")
     return "\n".join(lines)
 
@@ -548,6 +566,12 @@ def build(star: dict[str, pd.DataFrame], out_dir: pathlib.Path) -> dict:
     report_dir = out_dir / f"{PROJECT}.Report"
     for directory in (tables_dir, report_dir):
         directory.mkdir(parents=True, exist_ok=True)
+
+    # Remove tables from a previous run before writing. Without this a renamed table leaves its
+    # old file behind and the model quietly contains both - which is how the rejected "Measures"
+    # table survived its own rename and kept failing the name gate.
+    for stale in tables_dir.glob("*.tmdl"):
+        stale.unlink()
 
     written = []
     for name in MODEL_TABLES:

@@ -74,6 +74,18 @@ def main(argv: list[str] | None = None) -> int:
         for problem in problems:
             log.error("      %s", problem)
         return 1
+    # Desktop applies rules on top of a model that parses, and one of them is readable and
+    # runnable: its own NameValidator. Skipped where Desktop is not installed - see ADR 0022.
+    from bellwether.powerbi import tom
+
+    if tom.names_available():
+        names = tom.validate_names(POWERBI_DIR / f"{tmdl.PROJECT}.SemanticModel" / "definition")
+        if not names["ok"]:
+            log.error("  [ ] generate the Power BI project - rejected by Desktop's name rule")
+            for offender in names.get("offenders", []):
+                log.error("      %s", offender)
+            return 1
+
     log.info("  [x] generate the Power BI project (PBIP text, structurally validated)")
     log.info(
         "      %d tables, %d measures, %d relationships, %d pages",

@@ -33,7 +33,13 @@ def built(tmp_path_factory) -> dict:
 
 
 def _measures(directory) -> dict[str, str]:
-    path = directory / f"{tmdl.PROJECT}.SemanticModel" / "definition" / "tables" / "Measures.tmdl"
+    path = (
+        directory
+        / f"{tmdl.PROJECT}.SemanticModel"
+        / "definition"
+        / "tables"
+        / f"{tmdl.MEASURE_TABLE}.tmdl"
+    )
     return dict(MEASURE.findall(path.read_text(encoding="utf-8")))
 
 
