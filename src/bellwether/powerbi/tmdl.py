@@ -50,6 +50,21 @@ SCHEMAS: dict[str, str] = {
 #: shape: `$schema`, `name`, `position`, `visual`.
 VISUAL_SCHEMA = f"{SCHEMA_BASE}/visualContainer/2.12.0/schema.json"
 
+#: Fabric git-integration metadata. Every Desktop output has one per artifact; the generator
+#: had none, which is a deviation from the reference with nothing to justify it.
+PLATFORM_SCHEMA = (
+    "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/"
+    "platformProperties/2.0.0/schema.json"
+)
+
+#: Desktop's stock base theme. `report.json` names it under `themeCollection` and points
+#: `resourcePackages` at the file, and **all three references do this** — dropping it was the
+#: other half of the report failing to load. The file is Microsoft's, copied from a Desktop save
+#: because the report definition requires it to be there.
+BASE_THEME = "Fluent2-CY26SU08"
+THEME_PATH = f"BaseThemes/{BASE_THEME}.json"
+THEME_VERSIONS = {"visual": "2.12.0", "report": "3.4.0", "page": "2.3.1"}
+
 #: The textbox visual type, for the synthetic-data note on every page — criterion 5.28.
 TEXTBOX_VISUAL = "textbox"
 
@@ -407,6 +422,30 @@ PAGE_HEIGHT = 1080
 DISCLOSURE_TEXT = "Northlake, Inc. is an illustrative company. All data is synthetic."
 
 
+def logical_id(artifact: str) -> str:
+    """A stable GUID for an artifact.
+
+    Desktop writes a random one. A hash of the artifact name gives the same shape without the
+    randomness, which byte-identical regeneration needs.
+    """
+    digest = hashlib.sha256(f"{PROJECT}|{artifact}".encode()).hexdigest()
+    return f"{digest[:8]}-{digest[8:12]}-{digest[12:16]}-{digest[16:20]}-{digest[20:32]}"
+
+
+def _platform_json(artifact_type: str) -> str:
+    return (
+        json.dumps(
+            {
+                "$schema": PLATFORM_SCHEMA,
+                "metadata": {"type": artifact_type, "displayName": PROJECT},
+                "config": {"version": "2.0", "logicalId": logical_id(artifact_type)},
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+
+
 def page_name(display_name: str) -> str:
     """A stable folder name for a page.
 
@@ -618,9 +657,34 @@ def _report_json() -> str:
         json.dumps(
             {
                 "$schema": SCHEMAS["report"],
-                # Desktop's own settings block, copied from the reference rather than
-                # chosen. The theme collection and resource packages are deliberately omitted:
-                # they point at a 99 KB stock theme file this repository does not ship.
+                # The theme was omitted once, on the grounds that the file was Microsoft's and
+                # large. Every Desktop reference carries all three of these keys, and a report
+                # definition naming no base theme is a shape none of them produce - so the
+                # omission was a deviation with nothing behind it, and the theme file ships.
+                "themeCollection": {
+                    "baseTheme": {
+                        "name": BASE_THEME,
+                        "reportVersionAtImport": THEME_VERSIONS,
+                        "type": "SharedResources",
+                    }
+                },
+                "objects": {
+                    "section": [
+                        {
+                            "properties": {
+                                "verticalAlignment": {"expr": {"Literal": {"Value": "'Top'"}}}
+                            }
+                        }
+                    ]
+                },
+                "resourcePackages": [
+                    {
+                        "name": "SharedResources",
+                        "type": "SharedResources",
+                        "items": [{"name": BASE_THEME, "path": THEME_PATH, "type": "BaseTheme"}],
+                    }
+                ],
+                # Desktop's own settings block, copied from the reference rather than chosen.
                 "settings": {
                     "useStylableVisualContainerHeader": True,
                     "exportDataMode": "AllowSummarized",
@@ -644,6 +708,24 @@ def _version_json() -> str:
         )
         + "\n"
     )
+
+
+def _write_theme(report_dir: pathlib.Path) -> None:
+    """Copy Desktop's stock base theme into the report's static resources.
+
+    Sourced from the blank Desktop reference rather than authored. `report.json` names it and
+    `resourcePackages` points at this path, so a report without the file is a dangling reference.
+    """
+    destination = report_dir / "StaticResources" / "SharedResources" / THEME_PATH
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    source = (
+        pathlib.Path(__file__).resolve().parents[3]
+        / "tests"
+        / "fixtures"
+        / "powerbi-desktop-theme"
+        / f"{BASE_THEME}.json"
+    )
+    destination.write_bytes(source.read_bytes())
 
 
 def _write_report(report_dir: pathlib.Path) -> list[str]:
@@ -726,6 +808,11 @@ def build(star: dict[str, pd.DataFrame], out_dir: pathlib.Path) -> dict:
         newline="\n",
     )
     pages = _write_report(report_dir)
+    (report_dir / ".platform").write_text(_platform_json("Report"), encoding="utf-8", newline="\n")
+    (out_dir / f"{PROJECT}.SemanticModel" / ".platform").write_text(
+        _platform_json("SemanticModel"), encoding="utf-8", newline="\n"
+    )
+    _write_theme(report_dir)
     (report_dir / "definition.pbir").write_text(
         json.dumps(
             # No $schema: Desktop writes none here, and adding one invents a contract.

@@ -152,3 +152,55 @@ def test_the_validator_accepts_desktops_own_tmdl(relative) -> None:
     """
     text = (FIXTURE / relative).read_text(encoding="utf-8")
     assert not validate.validate_text(text, relative)
+
+
+# --- the report shell, key for key against Desktop's own -----------------------------------
+
+
+def test_report_json_matches_a_blank_desktop_project(built) -> None:
+    """The report failed to load with `themeCollection`, `objects` and `resourcePackages`
+    dropped — they were removed on the grounds that the theme file was Microsoft's and large.
+
+    Every Desktop reference carries all three. Removing something every real output has is the
+    same error as inventing something none of them have, and it is harder to notice because the
+    result looks tidier. So the whole shell is now asserted against the blank project rather
+    than assembled from judgement.
+    """
+    expected = json.loads(
+        (FIXTURE / "northlake.Report" / "definition" / "report.json").read_text(
+            encoding="utf-8-sig"
+        )
+    )
+    actual = json.loads(
+        (built / "northlake.Report" / "definition" / "report.json").read_text(encoding="utf-8")
+    )
+    for key in ("$schema", "themeCollection", "objects", "resourcePackages", "settings"):
+        assert actual.get(key) == expected.get(key), key
+
+
+def test_the_base_theme_file_is_present_and_referenced(built) -> None:
+    """A resourcePackages entry pointing at a file that is not there is a dangling reference."""
+    report = json.loads(
+        (built / "northlake.Report" / "definition" / "report.json").read_text(encoding="utf-8")
+    )
+    item = report["resourcePackages"][0]["items"][0]
+    theme = built / "northlake.Report" / "StaticResources" / "SharedResources" / item["path"]
+    assert theme.is_file(), theme
+    assert json.loads(theme.read_text(encoding="utf-8-sig")), "the theme file is not valid JSON"
+
+
+def test_every_artifact_has_a_platform_file(built) -> None:
+    """Fabric git-integration metadata. Every Desktop output has one per artifact; we had none."""
+    for artifact, kind in (
+        ("northlake.Report", "Report"),
+        ("northlake.SemanticModel", "SemanticModel"),
+    ):
+        path = built / artifact / ".platform"
+        assert path.is_file(), path
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        reference = json.loads((FIXTURE / artifact / ".platform").read_text(encoding="utf-8-sig"))
+        assert doc["$schema"] == reference["$schema"]
+        assert sorted(doc) == sorted(reference)
+        assert sorted(doc["metadata"]) == sorted(reference["metadata"])
+        assert sorted(doc["config"]) == sorted(reference["config"])
+        assert doc["metadata"]["type"] == kind

@@ -53,6 +53,9 @@ desktop.ini
 # Power BI Desktop's working files, written whenever the generated project is opened.
 # .pbi/ holds a DPAPI-encrypted securityBindingsSignature (machine-bound credential material)
 # and cache.abf (a binary). Neither belongs in a repository strangers clone.
+#
+# StaticResources is NOT excluded: the generator writes the base theme there and report.json
+# points at it, so ignoring it would commit a dangling reference. Only what Desktop adds on
+# top - a registered custom theme - would be unwanted, and nothing here creates one.
 powerbi/**/.pbi/
-powerbi/**/StaticResources/
 powerbi/**/*.abf
