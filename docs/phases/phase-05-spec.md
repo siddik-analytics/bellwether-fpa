@@ -177,7 +177,7 @@ The generated-not-authored assertions in CI, and the local `requires_powerbi` nu
 | 5.12 | No DAX expression references an account code, account type, department, allocation rule or hardcoded rate | `tests/powerbi/test_generated.py` — greps every account code, type and department |
 | 5.13 | No metric is defined in DAX that does not exist in the semantic layer | `tests/powerbi/test_generated.py` |
 | 5.14 | Channel contribution in Power BI resolves through the same allocation mapping table, with no DAX conditional deciding which cost belongs where | `tests/powerbi/test_generated.py` + `tests/transform/test_star_boundary.py` — ADR 0020 |
-| 5.15 | Key measures reconcile to the oracle within 0.01 | `tests/powerbi/test_generated.py`, `requires_powerbi`, local only — **not claimed as CI**. Not yet run; needs Power BI Desktop |
+| 5.15 | Key measures reconcile to the oracle within 0.01, **evaluated by Power BI's own engine** | `tests/powerbi/test_xmla_reconciliation.py`, `requires_powerbi` — XMLA against the live instance; skips when Desktop is closed |
 | **Model conventions** | | |
 | 5.16 | PBIP text format only; no `.pbix` or `.pbit` anywhere in the tree | `tests/powerbi/test_generated.py` and the existing pre-commit hook |
 | 5.17 | Version and Scenario are two separate dimensions, never combined and never parallel fact tables — ADR 0007 | `tests/powerbi/test_generated.py` |
@@ -195,7 +195,7 @@ The generated-not-authored assertions in CI, and the local `requires_powerbi` nu
 | 5.28 | Every page carries the "illustrative company, synthetic data" note | `tests/powerbi/test_bound_fixture.py` — a real textbox on every page, plus the model description |
 | **Build** | | |
 | 5.29 | `python -m bellwether.build` regenerates the TMDL; a hand-edited measure fails the build | `tests/powerbi/test_generated.py` + the CI clean-tree step |
-| 5.30 | The PBIP project is valid enough to open in Power BI Desktop without error | Model half now automated by 5.33. The **report** half stays manual — Desktop has no CLI |
+| 5.30 | The PBIP project is valid enough to open in Power BI Desktop without error | **Met** — opens in Desktop, five pages, all visuals rendering |
 | 5.31 | The generated TMDL is structurally valid: tab indentation, legal nesting, and every object property before its first child | `tests/powerbi/test_validate.py` — added after Desktop rejected the first project |
 | 5.32 | The **emitted** DAX text, evaluated against the star, reproduces the semantic layer within 0.01 | `tests/powerbi/test_dax_semantics.py` — not Power BI's engine; see the note there |
 | 5.33 | The semantic model parses under **Microsoft's own TMDL deserializer** (Tabular Object Model), with its conventions read back from the parsed model | `tests/powerbi/test_tom_authority.py`, `requires_tom` — **parsing only**; Desktop applies further rules, see 5.36 |

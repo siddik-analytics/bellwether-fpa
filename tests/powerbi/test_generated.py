@@ -12,7 +12,6 @@ from __future__ import annotations
 import json
 import re
 
-import pandas as pd
 import pytest
 
 from bellwether.data import generate
@@ -401,27 +400,6 @@ def test_no_absolute_path_is_committed(built) -> None:
 # --- the numeric check, local only ------------------------------------------------
 
 
-@pytest.mark.requires_powerbi
-def test_key_measures_reconcile_to_the_oracle(built) -> None:
-    """5.15 — run manually at the phase gate. Never a CI guarantee.
-
-    Requires an export of the measures from Power BI Desktop at month x version x scenario
-    grain, saved beside the project. Skipped rather than failed when absent, because a missing
-    manual export is not a defect in the model.
-    """
-    export = POWERBI_DIR / "verification" / "measure-export.csv"
-    if not export.exists():
-        pytest.skip(f"no Power BI export at {export}; see docs/phases/phase-05-spec.md")
-
-    exported = pd.read_csv(export)
-    tables = generate.generate()
-    from bellwether.transform import statements
-
-    expected = statements.metric_series(tables["fact_gl"], tables["dim_gl_account"])
-    merged = exported.merge(
-        expected, on=["month", "version_name", "scenario_name"], suffixes=("_pbi", "_oracle")
-    )
-    assert not merged.empty, "the export does not share a grain with the semantic layer"
-    for metric in ("Net Revenue", "EBITDA"):
-        delta = (merged[f"{metric}_pbi"] - merged[f"{metric}_oracle"]).abs().max()
-        assert delta < 0.01, f"{metric} differs by {delta}"
+# 5.15 lives in `test_xmla_reconciliation.py` now. The spec called for exporting a table visual
+# to CSV; querying Desktop's own Analysis Services instance over XMLA is the same criterion done
+# better, because a visual export reads a rendering and a DAX query reads the engine.

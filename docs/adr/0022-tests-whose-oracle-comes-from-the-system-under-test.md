@@ -6,7 +6,8 @@
 
 ## Context
 
-Phase 5 shipped three tests that passed while verifying nothing. They were not sloppy, they were
+Phase 5 shipped four defects of one kind: tests that passed while verifying nothing, and an
+artifact that was wrong because of what had been left out of it. They were not sloppy, they were
 not skipped, and none of them was found by reading the code. Each was internally consistent and
 externally wrong, and each needed an authority outside the project to expose.
 
@@ -63,6 +64,49 @@ A checker with a wrong grammar is worse than no checker: it trains the reader to
 output, and it would have been "fixed" by relaxing it until the noise stopped — which is exactly
 how a validator ends up validating nothing.
 
+### 5. The omission variant — and this one was the cause
+
+The four above are all cases of **inventing** something: a schema, a comparison, a grammar. The
+fifth is its mirror image, and it is the one that actually stopped Power BI Desktop from opening
+the report.
+
+`report.json` was generated without `themeCollection`, `objects` and `resourcePackages`, and
+neither artifact had a `.platform` file. Every one of the three Desktop references carries all
+four. The reasoning at the time was recorded in the code and sounded like care:
+
+> The theme collection and resource packages are deliberately omitted: they point at a 99 KB
+> stock theme file this repository does not ship.
+
+Every clause of that is true. Declining to redistribute 99 KB of Microsoft's content is a
+defensible instinct in a repository that bans committed binaries. And it produced **an artifact
+Desktop had never seen** — a report definition naming no base theme, which is a shape none of the
+references produce and which failed to load with a dialog carrying no detail at all.
+
+Restoring all four fixed it. `report.json` is now byte-equivalent in every key to what Desktop
+writes for a blank project, and the project opens with all five pages rendering.
+
+**Removing what every reference carries is the same defect as inventing what none carry.** The
+oracle is still the author's judgement rather than an external authority; the only difference is
+the direction. And the omission is *harder to catch*, for three reasons:
+
+- **It looks like restraint.** Inventing a schema URL feels like a guess while writing it.
+  Dropping a file feels like discipline, and the justification writes itself.
+- **The result is tidier**, so it survives review. A reviewer sees a smaller, cleaner
+  `report.json` and has no reason to ask what is missing — nothing is there to look wrong.
+- **Nothing points at it.** An invented value is present and can be compared to something. An
+  absent key is not in the diff unless the diff is run the other way round, against the
+  reference, asking what *it* has that we lack. That comparison was not being made.
+
+The countermeasure is a direction, not a new check: **diff both ways.** Countermeasure 2 says to
+parse the written artifact rather than re-derive it; this adds that comparing generated to
+reference catches inventions, and comparing reference to generated catches omissions. Only the
+second finds this class, and it is now how the report shell is tested.
+
+There is a quieter lesson about scope. Excluding the theme from the *fixtures* was right — a
+fixture needs the shapes, not Microsoft's stylesheet. Excluding it from the *generated artifact*
+was wrong, because there the file is a functional dependency rather than reference material. The
+same reasoning was applied to two things that only looked alike.
+
 ## Decision
 
 **Name the general form and treat it as a review question, not a discovery:**
@@ -78,6 +122,11 @@ Every one of the four had this shape. The oracle came from inside:
 | Byte-identical TMDL | the same generator, run twice |
 | Report structure | a schema the generator's author defined |
 | The TMDL validator | a grammar the same author assumed |
+| The report shell | a judgement about what could be left out |
+
+The last row is the omission variant. Its oracle was not a wrong value but a wrong *boundary* —
+the author deciding which parts of the reference mattered, which is the same act of substituting
+internal judgement for an external authority.
 
 **Four countermeasures, all of them now in the repository rather than in this document:**
 
@@ -100,6 +149,10 @@ measure text back out of `Measures.tmdl` rather than calling `measure_dax()` aga
 
 The rule: **if a test can obtain the expected value by running the code under test, it will, and
 it must be denied the opportunity.** Reading the artifact is the denial.
+
+And **diff in both directions.** Generated-against-reference catches what was invented;
+reference-against-generated catches what was dropped. The second direction is the one nobody runs
+by default, and it is the only one that finds a missing file.
 
 ### 3. Validate the validator against known-good input
 
