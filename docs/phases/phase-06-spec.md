@@ -170,7 +170,7 @@ PDF and PNGs. Additive.
 | **The pack** | | |
 | 6.20 | The pack states a central tension, supports it with numbers, and says what should be done | `tests/reporting/test_pack.py` — position, tension, evidence, decision |
 | 6.21 | All three carried exhibits appear | `tests/reporting/test_pack.py` — C-1, C-2 and C-3 all present |
-| 6.22 | Every figure in the pack equals the workbook's and Power BI's figure for the same thing | Shared source: every figure comes from the same semantic layer the workbook and PBIP read |
+| 6.22 | Every figure in the pack equals the workbook's and Power BI's figure for the same thing | `tests/reporting/test_pack_against_workbook.py` (pack against the built workbook, headless) and `tests/powerbi/test_workbook_against_engine.py` (that workbook file against Power BI's engine). Was argued by shared construction — ADR 0022, instance 6 |
 | 6.23 | Every page carries the "illustrative company, synthetic data" note | `tests/reporting/test_pack.py` |
 | 6.24 | No jargon appears that is not defined on the page it appears on | **Not met** — no glossary term list was built; deferred with 6.28 |
 | 6.25 | The pack is composed headless; deleting the COM stage leaves a complete pack definition | `tests/reporting/test_pack.py` — import-graph assertion, CI on ubuntu |
@@ -311,3 +311,27 @@ stage is already open; what is written around them is distribution work.
 
 No new financial logic outside `transform/`. A figure or a sentence the pack needs that the
 semantic layer cannot produce is a gap in the semantic layer, and the fix goes there.
+
+---
+
+## Added after the phase report
+
+Two of the three items the phase-6 report flagged as newly problematic were closed rather than
+carried. Both are recorded here because they became acceptance criteria after the table above was
+written.
+
+| # | Criterion | How it is checked |
+|---|---|---|
+| 6.31 | Every factual sentence in the pack's hand-written prose is covered by a claim, and every claim holds against the data | `tests/reporting/test_claims.py` — 21 predicates, 2 framing sentences, coverage asserted both ways |
+| 6.32 | A sentence carrying a digit or a quantifier cannot be recorded as unverifiable framing | `tests/reporting/test_claims.py` — the lint that closes the smuggling route |
+| 6.33 | Every claim is shown capable of failing under a named perturbation of the data | `tests/reporting/test_claims.py` — `FALSIFIERS`, one entry per claim, parametrised |
+| 6.34 | The pack's figures equal the built workbook's, read out of the file | `tests/reporting/test_pack_against_workbook.py` — headless, runs in CI |
+| 6.35 | The built workbook's figures equal Power BI's engine's, at month x version x scenario | `tests/powerbi/test_workbook_against_engine.py` — `requires_powerbi`, with a negative control |
+
+ADR 0024 records the decision behind 6.31 to 6.33, including the two false sentences it found on
+its first run. ADR 0022 records 6.34 and 6.35 as the sixth instance of its pattern: agreement that
+followed from shared construction, asserted by the author of that construction, with no test that
+could have failed.
+
+6.24 and 6.28 remain not met. The PNG export is left as it stands — an export that detects its own
+blank output and fails honestly is correct handling of a defect that has not been solved.
