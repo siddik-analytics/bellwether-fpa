@@ -94,7 +94,7 @@ build/          artifacts — gitignored except at release tags
 
 ## Phases
 
-Current phase: **5**.
+Current phase: **6**.
 
 | Phase | Output | Tag |
 |---|---|---|
