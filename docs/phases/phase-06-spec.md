@@ -179,7 +179,7 @@ PDF and PNGs. Additive.
 | 6.27 | Named ranges exist for every exhibit the case study needs | `tests/reporting/test_pack.py` — five named ranges, asserted in the built file |
 | 6.28 | `CopyPicture` exports each named range to PNG at readable resolution | **Not met** — `CopyPicture` returns an empty clipboard, so every PNG exports blank. Tracked by a strict xfail |
 | 6.29 | The export stage originates no value and composes no sentence | `tests/excel/test_export.py` — source assertion over `export.py` |
-| 6.30 | A human has opened the PDF and confirmed it renders | **Manual gate, not yet run** — the PDF exists and no one has opened it |
+| 6.30 | A human has opened the PDF and confirmed it renders | **Met** — read end to end on 2026-09-06 and confirmed to work as a board pack |
 
 ---
 
@@ -333,5 +333,13 @@ its first run. ADR 0022 records 6.34 and 6.35 as the sixth instance of its patte
 followed from shared construction, asserted by the author of that construction, with no test that
 could have failed.
 
-6.24 and 6.28 remain not met. The PNG export is left as it stands — an export that detects its own
-blank output and fails honestly is correct handling of a defect that has not been solved.
+6.24 and 6.28 remain not met at the tag. The PNG export is left as it stands — an export that
+detects its own blank output and fails honestly is correct handling of a defect that has not been
+solved, and the exhibits will be captured by hand for phase 7. 6.24 has no glossary term list to
+check against and was not built.
+
+6.30 was met on the fourth read. The first three found defects the tests could not: percent
+formats on dollar columns, a margin hard-coded to zero, prose overflowing into the row beneath it,
+and one variance argued twice. Everything that read wrong on the page is now either fixed or
+carried as a claim, and the three figures that moved out of tables and into sentences are checked
+by `tests/reporting/test_claims.py` rather than by whoever last read the PDF.
