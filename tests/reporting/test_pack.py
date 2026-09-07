@@ -50,11 +50,17 @@ def test_every_exhibit_says_why_it_earns_space(sections) -> None:
             assert not exhibit.table.empty, exhibit.key
 
 
-def test_the_commentary_is_attached_to_the_position(sections) -> None:
-    position = sections[0]
-    assert len(position.blocks) == 2
-    titles = {b.title for b in position.blocks}
-    assert titles == {"Performance against budget", "Year on year"}
+def test_each_comparison_is_commented_on_once(sections) -> None:
+    """One variance, one framing. The against-budget movement was narrated in Position and again
+    as a bridge exhibit three sections later, which read as two findings rather than one."""
+    titles = [b.title for section in sections for b in section.blocks]
+    assert len(titles) == len(set(titles)), f"a comparison is commented on twice: {titles}"
+    by_section = {s.title: [b.title for b in s.blocks] for s in sections}
+    assert by_section["Position"] == ["Year on year"]
+    # The budget commentary sits with the bridge that names its two causes.
+    assert by_section["What follows"] == ["Performance against budget"]
+    bridge_exhibit = next(e for s in sections for e in s.exhibits if e.key == "pl_bridge")
+    assert bridge_exhibit in [e for s in sections if s.title == "What follows" for e in s.exhibits]
 
 
 def test_the_threshold_is_stated_under_every_block(sections) -> None:

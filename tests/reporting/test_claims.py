@@ -224,7 +224,6 @@ FALSIFIERS = {
     ),
     "Both show up here as named causes rather than as a single unexplained variance": "no bridge",
     "The only plan that reaches profitability is the one that grows slowest": "scenarios swapped",
-    "Neither channel is the loss": "no corporate block",
     "A brand that shifted toward wholesale and posted a loss": "no corporate block",
     "FY2025 total contribution margin": "the total margin is hard-coded to zero",
     "the corporate block's contribution margin": "an undefined margin prints as zero",

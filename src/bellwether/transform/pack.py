@@ -125,10 +125,12 @@ def exhibit_channel_contribution(gl: pd.DataFrame, accounts: pd.DataFrame) -> Ex
     )
     return Exhibit(
         key="channel_contribution",
-        title="Both channels contribute; the loss is the corporate block",
+        # Titles label; leads and rationales claim. A title that asserts is a claim nothing
+        # checks, and it read as the third statement of the same finding.
+        title=f"Channel contribution, FY{year}",
         why=(
-            "A brand that shifted toward wholesale and posted a loss looks like a brand whose "
-            "wholesale margin does not cover its costs. Neither channel is the loss."
+            "A brand that shifted toward wholesale and posted a loss invites the opposite "
+            "conclusion, so contribution is shown per channel rather than asserted."
         ),
         table=pd.DataFrame(rows),
         named_range="Exhibit_ChannelContribution",
@@ -359,18 +361,14 @@ def compose(tables: dict[str, pd.DataFrame], star_gl: pd.DataFrame) -> list[Sect
             f"{commentary.money(C.EQUITY_RAISE)} in June 2024, at roughly breakeven, on a "
             "wholesale growth story."
         ),
-        exhibits=[exhibit_channel_contribution(star_gl, accounts)],
         claims=claims.POSITION,
+        # The against-budget commentary used to sit here as well, framed differently from the
+        # bridge exhibit that names the same two causes. One variance, stated once, where the
+        # evidence for it is.
         blocks=[
             commentary.block(
-                "Performance against budget",
-                against_budget,
-                f"FY{year} gross profit",
-                "budget",
-            ),
-            commentary.block(
                 "Year on year", year_on_year, f"FY{year} gross profit", f"FY{year - 1}"
-            ),
+            )
         ],
     )
 
@@ -381,7 +379,13 @@ def compose(tables: dict[str, pd.DataFrame], star_gl: pd.DataFrame) -> list[Sect
             "is a corporate cost base that was built for wholesale and grew with it — "
             "directionally, but not one for one."
         ),
-        exhibits=[exhibit_allocation_sensitivity(tables, star_gl, accounts)],
+        # The contribution table moved here from Position: the lead makes the claim and the
+        # table is the evidence for it, so they belong on the same page rather than three
+        # sections apart with the finding stated in both.
+        exhibits=[
+            exhibit_channel_contribution(star_gl, accounts),
+            exhibit_allocation_sensitivity(tables, star_gl, accounts),
+        ],
         claims=claims.TENSION,
     )
 
@@ -408,6 +412,14 @@ def compose(tables: dict[str, pd.DataFrame], star_gl: pd.DataFrame) -> list[Sect
         ),
         exhibits=[exhibit_pl_bridge(against_budget)],
         claims=claims.DECISION,
+        blocks=[
+            commentary.block(
+                "Performance against budget",
+                against_budget,
+                f"FY{year} gross profit",
+                "budget",
+            )
+        ],
     )
 
     return [position, tension, funding, decision]

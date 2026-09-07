@@ -549,11 +549,6 @@ def _the_budget_predates_both_events(e: Evidence) -> Verdict:
     )
 
 
-@verified("Neither channel is the loss")
-def _neither_channel_is_the_loss(e: Evidence) -> Verdict:
-    return _both_channels_contribute.check(e)
-
-
 @figure("FY2025 total contribution margin")
 def _the_blended_margin_is_the_blended_margin(e: Evidence) -> Verdict:
     """The headline table's total row, against the ledger.
@@ -591,7 +586,6 @@ def _an_undefined_margin_is_not_printed_as_zero(e: Evidence) -> Verdict:
 
 
 CHANNEL_CONTRIBUTION = (
-    _neither_channel_is_the_loss,
     _the_shift_and_the_loss_both_happened,
     _the_blended_margin_is_the_blended_margin,
     _an_undefined_margin_is_not_printed_as_zero,
